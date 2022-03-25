@@ -11,6 +11,12 @@ curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | 
 ln -s ~/.dotfiles/zsh/zshrc.symlink ~/.zshrc
 ```
 
+Symlink theme
+
+```
+ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
+```
+
 Symlink your private files
 
 ```
