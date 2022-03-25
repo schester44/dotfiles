@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Install binaries
+
+brew install postgresql
+brew install fzf
+brew install jq
+
+# Install Apps
+
+
