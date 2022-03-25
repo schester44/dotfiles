@@ -1,0 +1,21 @@
+SPACESHIP_PROMPT_ORDER=(time user host dir node package git docker venv line_sep jobs exit_code char)
+
+SPACESHIP_TIME_SHOW=true
+SPACESHIP_TIME_COLOR=black
+SPACESHIP_TIME_PREFIX=''
+SPACESHIP_CHAR_COLOR_SUCCESS=black
+SPACESHIP_CHAR_SUFFIX=' '
+SPACESHIP_USER_PREFIX="" # remove `with` before username
+SPACESHIP_USER_SUFFIX="" # remove space before host
+SPACESHIP_DIR_PREFIX='' # disable directory prefix, cause it's not the first section
+SPACESHIP_DIR_TRUNC='1' # show only last directory
+SPACESHIP_GIT_SYMBOL=""
+SPACESHIP_GIT_BRANCH_PREFIX=""
+SPACESHIP_GIT_PREFIX="git:("
+SPACESHIP_GIT_SUFFIX=")"
+SPACESHIP_NODE_PREFIX=""
+SPACESHIP_PACKAGE_PREFIX=""
+SPACESHIP_PACKAGE_COLOR="black"
+SPACESHIP_DOCKER_PREFIX="docker:("
+SPACESHIP_DOCKER_SUFFIX=") "
+SPACESHIP_DOCKER_SYMBOL=""
