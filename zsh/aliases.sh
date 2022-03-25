@@ -1,3 +1,5 @@
+#!/bin/bash
+
 alias ww="cd ~/work"
 
 # Networking

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 SPACESHIP_PROMPT_ORDER=(time user host dir node package git docker venv line_sep jobs exit_code char)
 
 SPACESHIP_TIME_SHOW=true
