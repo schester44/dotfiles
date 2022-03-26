@@ -12,7 +12,7 @@ git clone https://github.com/schester44/dotfiles ~/.dotfiles
 
 ### Setup Homebrew
 1. Install Homebrew: [https://brew.sh](https://brew.sh)
-2. Install import apps from Homebrew section
+2. Install apps from [Homebrew section](https://github.com/schester44/dotfiles/tree/master/homebrew)
 
 ### Setup [ZSH](https://github.com/schester44/dotfiles/tree/master/zsh)
 
