@@ -1,3 +1,3 @@
-source $DOTFILES/macos/accessories.sh
-source $DOTFILES/macos/finder.sh
-source $DOTFILES/macos/dock.sh
+source $DOTFILES/macos/accessories
+source $DOTFILES/macos/finder
+source $DOTFILES/macos/dock
