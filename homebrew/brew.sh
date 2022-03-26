@@ -21,6 +21,8 @@ brew install --cask iTerm2
 brew install --cask postman
 brew install --cask visual-studio-code
 brew install --cask tableplus
+brew install yarn
+brew install cmake
 
 # Launchd configuration
 brew services start postgresql
