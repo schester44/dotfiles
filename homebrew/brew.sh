@@ -15,6 +15,7 @@ brew install --cask firefox-developer-edition
 brew install --cask google-chrome
 brew install --cask spotify
 brew install --cask bitwarden
+brew install --cask raycast
 
 ## Dev apps
 brew install --cask iTerm2
