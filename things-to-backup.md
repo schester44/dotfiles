@@ -8,3 +8,5 @@ a guide to backup/move everything to a new laptop
 - ~/work
   - ensure important directories are commited and pushed
 - ~/.ssh
+
+- VSCode tasks
