@@ -32,4 +32,7 @@ git clone https://github.com/schester44/dotfiles ~/.dotfiles
 - Dock: Uncheck "Show recent applications in Dock"
 - Trackpad: Tap to click
 - Raycast: Appearance: Check "Hide Raycast icon in the menu bar"
-
+- Syncthing
+  - Start syncthing
+  - add device to other devices (+Add Remote Device)
+  - Symlink .ssh directory
