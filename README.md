@@ -16,10 +16,20 @@ git clone https://github.com/schester44/dotfiles ~/.dotfiles
 
 ### Setup [ZSH](https://github.com/schester44/dotfiles/tree/master/zsh)
 
-
 ### Setup [Git](https://github.com/schester44/dotfiles/tree/master/git)
 
 ### Setup [Raycast](https://github.com/schester44/dotfiles/tree/master/raycast)
 
 ### Setup Other Apps
 - [Launch VSCode from the command line](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line)
+
+
+
+### System
+- install fonts from fonts.zip
+- System Preferences
+- Dock: Automatically hide and show dock
+- Dock: Uncheck "Show recent applications in Dock"
+- Trackpad: Tap to click
+- Raycast: Appearance: Check "Hide Raycast icon in the menu bar"
+

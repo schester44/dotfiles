@@ -24,6 +24,7 @@ brew install --cask visual-studio-code
 brew install --cask tableplus
 brew install yarn
 brew install cmake
+brew install nvm
 
 # Launchd configuration
 brew services start postgresql
