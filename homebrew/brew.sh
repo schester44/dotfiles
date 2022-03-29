@@ -37,6 +37,18 @@ brew install yarn
 brew install cmake
 brew install nvm
 
+# Dev dependencies
+
+# The following are for node-canvas
+# Ref: https://www.npmjs.com/package/canvas
+brew install pkg-config
+brew install cairo
+brew install pango
+brew install libpng
+brew install jpeg
+brew install giflib
+brewl install librsvg
+
 # Launchd configuration
 brew services start postgresql
 
