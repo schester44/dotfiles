@@ -19,6 +19,4 @@ ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/the
 
 Symlink your private files
 
-```
-ln -s ~/SomeSelfHostedDropboxAlternative/.ssh ~/.ssh
-```
+Use syncthing to symlink your .ssh directory to ~/.ssh
