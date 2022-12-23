@@ -1,3 +1,6 @@
 [user]
 	name = Steve Chester
 	email = schester44@gmail.com
+[alias]
+	upstream = !git push -u origin HEAD
+	recent = branch --sort=-committerdate --format=\"%(committerdate:relative)%09%(refname:short)\"
