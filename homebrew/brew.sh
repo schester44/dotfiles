@@ -5,6 +5,7 @@
 brew install postgresql
 brew install fzf
 brew install jq
+brew install kubectl
 
 # Install Apps
 
