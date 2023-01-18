@@ -1,0 +1,2 @@
+# enable key repeating in VSCode
+defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
