@@ -6,8 +6,8 @@ git config --global alias.recent 'branch --sort=-committerdate --format="%(commi
 
 alias gpoh="git push origin head"
 alias git-rm-branches="git-date | awk '{print $3}' | sed -e "s/^refs\/heads\///" | awk '$0 !~ /dev|master/' | xargs git branch -D"
-alias gcd="git checkout dev"
-alias gmd="git merge dev"
+alias gcm="git checkout main"
+alias gmm="git merge main"
 alias gs="git status"
-alias gpod="git pull origin dev"
+alias gpm="git pull origin main"
 alias glast="git checkout @{-1}"
