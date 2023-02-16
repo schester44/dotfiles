@@ -1,5 +1,7 @@
 #!/bin/bash
 
+brew analytics off
+
 # Install binaries
 
 brew install postgresql
