@@ -30,3 +30,5 @@ do
 	source $file
 done
 
+
+alias prdb="prdb.sh"
