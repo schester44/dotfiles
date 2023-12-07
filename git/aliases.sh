@@ -2,13 +2,7 @@
 
 
 git_set_upstream() {
-    if [ $# -ne 1 ]; then
-        echo "Usage: $0 <branch>"
-        return 1
-    fi
-
-    local remote="$1"
-    local branch="$2"
+    local branch=$(git branch --show-current)
 
     git branch --set-upstream-to="origin/$branch" "$branch"
 }
@@ -25,3 +19,4 @@ alias gmm="git merge main"
 alias gs="git status"
 alias gpm="git pull origin main"
 alias glast="git checkout @{-1}"
+alias g="lazygit"
