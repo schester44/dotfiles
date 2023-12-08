@@ -20,12 +20,21 @@ vim.opt.rtp:prepend(lazypath)
 -- [[ Configure Plugins ]]
 
 require('lazy').setup({
+  { "chentoast/marks.nvim" },
+  {
+    "lalitmee/cobalt2.nvim",
+    dependencies = { "tjdevries/colorbuddy.nvim" },
+    init = function()
+      require("colorbuddy").colorscheme("cobalt2")
+    end,
+  },
+  'christoomey/vim-tmux-navigator',
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
 
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
-  
+
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
   {
@@ -44,15 +53,6 @@ require('lazy').setup({
       'folke/neodev.nvim',
     },
   },
-
-  {
-    "lalitmee/cobalt2.nvim",
-    dependencies = { "tjdevries/colorbuddy.nvim" },
-    init = function()
-    	require("colorbuddy").colorscheme("cobalt2")
-    end,
-  },
-
   {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
@@ -73,7 +73,7 @@ require('lazy').setup({
 
   {
     'lewis6991/gitsigns.nvim',
-     opts = {
+    opts = {
       -- See `:help gitsigns.txt`
       signs = {
         add = { text = '+' },
@@ -94,7 +94,7 @@ require('lazy').setup({
     },
   },
 
-   {
+  {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
     -- See `:help lualine.txt`
@@ -109,8 +109,8 @@ require('lazy').setup({
   },
 
   { 'prettier/vim-prettier' },
-  
-  { 
+
+  {
     -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
   },
@@ -118,7 +118,7 @@ require('lazy').setup({
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
 
-   -- Fuzzy Finder (files, lsp, etc)
+  -- Fuzzy Finder (files, lsp, etc)
   {
     'nvim-telescope/telescope.nvim',
     branch = '0.1.x',
@@ -147,59 +147,11 @@ require('lazy').setup({
     },
     build = ':TSUpdate',
   },
-
-    {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    config = function()
-      require("copilot").setup({
-        panel = {
-          enabled = true,
-          auto_refresh = false,
-          keymap = {
-            jump_prev = "[[",
-            jump_next = "]]",
-            accept = "<CR>",
-            refresh = "gr",
-            open = "<S-CR>"
-          },
-          layout = {
-            position = "bottom", -- | top | left | right
-            ratio = 0.4
-          },
-        },
-        suggestion = {
-          enabled = true,
-          auto_trigger = true,
-          debounce = 75,
-          keymap = {
-            accept = "<C-CR>",
-            accept_word = false,
-            accept_line = false,
-            next = "<C-n>",
-            prev = "<C-N>",
-            dismiss = "<C-x>",
-          },
-        },
-        filetypes = {
-          yaml = false,
-          markdown = false,
-          help = false,
-          gitcommit = false,
-          gitrebase = false,
-          hgcommit = false,
-          svn = false,
-          cvs = false,
-          ["."] = false,
-        },
-        copilot_node_command = 'node', -- Node.js version must be > 16.x
-        server_opts_overrides = {},
-      })
-    end,
-  },
 }, {})
 
+require("marks").setup({
+  builtin_marks = { ".", "<", ">", "^", "a", "b", "c" },
+})
 
 vim.wo.number = true
 
@@ -248,6 +200,9 @@ vim.keymap.set("n", "<leader>sv", ":vsplit<Return><C-w>w", { noremap = true, sil
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
+-- Format on save
+vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
+vim.cmd [[autocmd BufWritePre *.tsx,*.ts,*.js,*.html,*.css  Prettier]]
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
@@ -260,11 +215,14 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
-require('colorbuddy').colorscheme('cobalt2')
-
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
+  pickers = {
+    find_files = {
+      hidden = true
+    }
+  },
   defaults = {
     mappings = {
       i = {
@@ -413,6 +371,12 @@ local on_attach = function(_, bufnr)
   end, { desc = 'Format current buffer with LSP' })
 end
 
+-- mason-lspconfig requires that these setup functions are called in this order
+-- before setting up the servers.
+require('mason').setup()
+require('mason-lspconfig').setup()
+
+
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
 --
@@ -428,7 +392,9 @@ local servers = {
   -- rust_analyzer = {},
   -- tsserver = {},
   -- html = { filetypes = { 'html', 'twig', 'hbs'} },
-
+  tsserver = {},
+  html = {},
+  eslint = {},
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -436,6 +402,9 @@ local servers = {
     },
   },
 }
+
+-- Theme
+require('colorbuddy').colorscheme('cobalt2')
 
 -- Setup neovim lua configuration
 require('neodev').setup()

@@ -30,7 +30,6 @@ do
 	source $file
 done
 
-
 alias prdb="prdb.sh"
 
 # heroku autocomplete setup

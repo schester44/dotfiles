@@ -6,6 +6,7 @@ alias ww="cd ~/work"
 alias pubip='curl ipv4.icanhazip.com'
 alias ip="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
 
+
 # Yarn
 alias yst="yarn start:test"
 alias ys="yarn start"
@@ -15,3 +16,10 @@ alias yt="yarn test"
 function kport {
 lsof -i :"$1" |awk 'NR > 1 {print $2}' |xargs kill -15
 }
+
+alias n="nvim"
+
+# Tmux
+alias tls="tmux list-sessions"
+alias tas="tmux attach-session -t"
+alias tmuxkill="tmux kill-server"
