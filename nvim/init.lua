@@ -1,4 +1,4 @@
-require "options"
+require("options")
 require "lazy-config"
 require "keymaps"
 require "telescope-config"
