@@ -5,12 +5,17 @@ window:
   padding:
     x: 4
     y: 4
-  # remove title bar
-  decorations: "Buttonless"
   opacity: 0.95
 
+shell:
+  program: /bin/zsh
+  args:
+    - -l
+    - -c
+    - "tmux attach || tmux"
+
 font:
-  size: 13
+  size: 14
   normal:
     family: "Fira Mono"
   bold:
@@ -20,6 +25,9 @@ font:
   bold_italic:
     family: "Fira Mono"
 
+cursor:
+  unfocused_hollow: true
+
 # Enable ligatures if your font supports them
 draw_bold_text_with_bright_colors: true  # Enable bright color support
 use_thin_strokes: true  # Enable thin strokes for bold text
@@ -27,8 +35,6 @@ font_features:
   - "calt"  # Contextual Alternates (ligatures)
   - "liga"  # Standard Ligatures
   - "clig"  # Contextual Ligatures
-
-
 
 # Colors (Cobalt2)
 colors:

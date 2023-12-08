@@ -395,6 +395,7 @@ local servers = {
   tsserver = {},
   html = {},
   eslint = {},
+  yamlls = {},
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
