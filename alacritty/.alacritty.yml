@@ -17,13 +17,13 @@ shell:
 font:
   size: 14
   normal:
-    family: "Fira Mono"
+    family: "FiraMono Nerd Font"
   bold:
-    family: "Fira Mono"
+    family: "FiraMono Nerd Font"
   italic:
-    family: "Fira Mono"
+    family: "FiraMono Nerd Font"
   bold_italic:
-    family: "Fira Mono"
+    family: "FiraMono Nerd Font"
 
 cursor:
   unfocused_hollow: true
