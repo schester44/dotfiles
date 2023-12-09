@@ -1,5 +1,7 @@
 # Nvim
 
+
+# Install
 ```
-ln -s ~/.dotfiles/nvim ~/.config/nvim
-```
+sh ./install.sh
+``

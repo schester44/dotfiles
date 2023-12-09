@@ -1,15 +1,15 @@
 require("options")
-require "lazy-config"
-require "keymaps"
-require "telescope-config"
-require "lsp-config"
-require "cmp-config"
-require "whichkey-config"
+require("lazy-config")
+require("whichkey-config")
+require("keymaps")
+require("telescope-config")
+require("lsp-config")
+require("cmp-config")
 
 require("nvim-tree").setup()
 
-require("marks").setup({
-  builtin_marks = { ".", "<", ">", "^", "a", "b", "c" },
+ require("marks").setup({
+   builtin_marks = { ".", "<", ">", "^", "a", "b", "c" },
 })
 
 -- Format on save

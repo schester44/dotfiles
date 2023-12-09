@@ -1,5 +1,6 @@
 local plugins = {
-  { "folke/which-key.nvim" },
+  { "tpope/vim-surround" },
+  { "folke/which-key.nvim", opts = {} },
   {
     "nvim-tree/nvim-tree.lua",
     lazy = true,
@@ -52,37 +53,13 @@ local plugins = {
       'rafamadriz/friendly-snippets',
     },
   },
-
-  {
-    'lewis6991/gitsigns.nvim',
-    opts = {
-      -- See `:help gitsigns.txt`
-      signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
-      },
-      on_attach = function(bufnr)
-        vim.keymap.set('n', '<leader>gN', require('gitsigns').prev_hunk,
-          { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
-        vim.keymap.set('n', '<leader>gn', require('gitsigns').next_hunk, { buffer = bufnr, desc = '[G]o to [N]ext Hunk' })
-        vim.keymap.set('n', '<leader>gp', require('gitsigns').preview_hunk,
-          { buffer = bufnr, desc = '[G]it [P]review Hunk' })
-        vim.keymap.set('n', '<leader>gh', require('gitsigns').reset_hunk,
-          { buffer = bufnr, desc = 'Reset [G]it [H]unk' })
-      end,
-    },
-  },
-
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
     -- See `:help lualine.txt`
     opts = {
       options = {
-        icons_enabled = false,
+        icons_enabled = true,
         theme = 'dracula',
         component_separators = '|',
         section_separators = '',

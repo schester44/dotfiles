@@ -5,6 +5,9 @@ vim.opt.termguicolors = true
 
 vim.wo.number = true
 
+-- lualine shows the current mode
+vim.opt.showmode = false
+
 -- enable mouse mode
 vim.o.mouse = 'a'
 

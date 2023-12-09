@@ -19,7 +19,7 @@ require('nvim-treesitter.configs').setup {
   textobjects = {
     select = {
       enable = true,
-      lookahead = true,   -- Automatically jump forward to textobj, similar to targets.vim
+      lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
       keymaps = {
         -- You can use the capture groups defined in textobjects.scm
         ['aa'] = '@parameter.outer',
@@ -32,7 +32,7 @@ require('nvim-treesitter.configs').setup {
     },
     move = {
       enable = true,
-      set_jumps = true,   -- whether to set jumps in the jumplist
+      set_jumps = true, -- whether to set jumps in the jumplist
       goto_next_start = {
         [']m'] = '@function.outer',
         [']]'] = '@class.outer',
@@ -62,8 +62,24 @@ require('nvim-treesitter.configs').setup {
   },
 }
 
+
+
 -- [[ Configure LSP ]]
---  This function gets run when an LSP connects to a particular buffer.
+
+local servers = {
+  tsserver = {},
+  yamlls = {},
+  html = { filetypes = { 'html', 'twig', 'hbs' } },
+
+  lua_ls = {
+    Lua = {
+      diagnostics = { globals = { 'vim' } },
+      workspace = { checkThirdParty = false },
+      telemetry = { enable = false },
+    },
+  },
+}
+
 local on_attach = function(_, bufnr)
   local nmap = function(keys, func, desc)
     if desc then
@@ -101,7 +117,28 @@ local on_attach = function(_, bufnr)
   end, { desc = 'Format current buffer with LSP' })
 end
 
--- mason-lspconfig requires that these setup functions are called in this order
--- before setting up the servers.
+
+-- this should be called before mason-lspconfig
 require('mason').setup()
-require('mason-lspconfig').setup()
+
+-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
+-- Ensure the servers above are installed
+local mason_lspconfig = require 'mason-lspconfig'
+
+mason_lspconfig.setup {
+  ensure_installed = vim.tbl_keys(servers),
+}
+
+mason_lspconfig.setup_handlers {
+  function(server_name)
+    require('lspconfig')[server_name].setup {
+      capabilities = capabilities,
+      on_attach = on_attach,
+      settings = servers[server_name],
+      filetypes = (servers[server_name] or {}).filetypes,
+    }
+  end
+}
