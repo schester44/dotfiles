@@ -73,3 +73,17 @@
 .sidebar .title-label {
   opacity: 0;
 }
+
+/* moves the sidebar titlebar to the bottom */
+#workbench\.parts\.sidebar {
+  display: flex;
+  flex-direction: column;
+}
+
+#workbench\.parts\.sidebar .title {
+  order: 1;
+}
+
+#workbench\.parts\.sidebar .explorer-viewlet {
+  padding-top: 12px;
+}
