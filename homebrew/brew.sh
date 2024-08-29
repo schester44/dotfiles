@@ -39,6 +39,7 @@ brew install heroku
 brew install yarn
 brew install cmake
 brew install nvm
+brew install jordanbaird-ice
 
 # Dev dependencies
 

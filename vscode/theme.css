@@ -1,16 +1,8 @@
-/* 1PX modified tab identifier   */
-.monaco-workbench
-  .part.editor
-  > .content
-  .editor-group-container
-  > .title
-  .tabs-container
-  > .tab.dirty-border-top
-  > .tab-border-top-container {
-  height: 1px;
-}
-
-/* make the status bar scm icon yellow when there are pending changes */
+/* 
+ - makes the status bar scm icon yellow when there are pending changes.
+ - highlights the current vim command
+ */
+#vscodevim\.vim\.showcmd,
 #Gruntfuggly\.activitusbar:not(
     [aria-label="source-control-view-icon, Source Control"]
   ) {
@@ -18,6 +10,73 @@
   border-radius: 4px;
   height: 18px;
   margin-top: 5px;
+}
+
+/* workbench scrollbar, hide until hover  */
+.monaco-workbench .scrollbar.vertical .slider {
+  max-width: 6px !important;
+  border-radius: 25px;
+  opacity: 0;
+}
+
+.monaco-workbench .scrollbar.vertical .slider:hover {
+  opacity: 1;
+}
+
+.explorer-folders-view .monaco-list-row:hover {
+  background: var(--vscode-sideBar-background) !important;
+}
+
+.explorer-folders-view .monaco-icon-label::before {
+  filter: sepia(100%) hue-rotate(190deg) saturate(500%) grayscale(60%)
+    brightness(0.8);
+  opacity: 0.5;
+  transition: all 0.5s;
+}
+
+.explorer-folders-view .monaco-list-row:hover .monaco-icon-label::before,
+.explorer-folders-view .monaco-list-row.selected .monaco-icon-label::before,
+.explorer-folders-view .monaco-list-row.focused .monaco-icon-label::before {
+  filter: none;
+  opacity: 1;
+}
+
+/* sidebar background gradient */
+#workbench\.parts\.sidebar .title {
+  background: var(--vscode-sideBar-background) !important;
+}
+
+#workbench\.parts\.sidebar {
+  --vscode-sideBar-background: linear-gradient(
+    90deg,
+    #1c2e41 0%,
+    #1c2e41 90%,
+    #1a2a3d 100%
+  ) !important;
+
+  --vscode-sideBarSectionHeader-background: var(
+    --vscode-sideBar-background
+  ) !important;
+
+  --vscode-sideBarStickyScroll-background: linear-gradient(
+    90deg,
+    #1c2e41 0%,
+    #1c2e41 90%,
+    #1a2a3d 100%
+  ) !important;
+
+  background: var(--vscode-sideBar-background) !important;
+}
+
+.monaco-tree-sticky-container {
+  background-color: #1c2e41;
+  background: var(--vscode-sideBar-background) !important;
+  box-shadow: 0px 1px 20px 0px rgba(23, 38, 55, 1);
+}
+
+.monaco-workbench .scrollbar.horizontal .slider {
+  max-height: 6px !important;
+  border-radius: 25px;
 }
 
 #Gruntfuggly\.activitusbar:not(
@@ -36,6 +95,7 @@
   color: #ffc600 !important;
 }
 
+#vscodevim\.vim\.showcmd,
 #Gruntfuggly\.activitusbar:not(
     [aria-label="source-control-view-icon, Source Control"]
   )
@@ -51,6 +111,7 @@
   color: #18232c !important;
 }
 
+#asvetliakov\.vscode-neovim\.vscode-neovim-status[aria-label="-- INSERT --"],
 /* Change the VISUAL and INSERT vim labels */
 #vscodevim\.vim\.primary[aria-label="-- INSERT --"] {
   background: #fb94ff18 !important;
@@ -61,6 +122,7 @@
   opacity: 0.7;
 }
 
+#asvetliakov\.vscode-neovim\.vscode-neovim-status[aria-label^="-- VISUAL --"],
 #vscodevim\.vim\.primary[aria-label="-- VISUAL --"] {
   background: #ffc60022 !important;
   border-radius: 4px;
@@ -80,10 +142,144 @@
   flex-direction: column;
 }
 
-#workbench\.parts\.sidebar .title {
+#workbench\.parts\.sidebar > .title {
   order: 1;
 }
 
 #workbench\.parts\.sidebar .explorer-viewlet {
   padding-top: 12px;
+  height: calc(100% - 12px);
+}
+
+.pane-header.expanded[aria-label="Source Control Section"]
+  .codicon-view-pane-container-expanded {
+  display: none;
+}
+
+.pane-header.expanded[aria-label="Source Control Section"] {
+  height: 30px;
+}
+/* SCM Header icons */
+.pane-header.expanded[aria-label="Source Control Section"] .action-label {
+  font-size: 14px;
+  color: #506170;
+}
+
+.pane-header.expanded[aria-label="Source Control Section"] .action-label:hover {
+  color: #bbbbbb;
+}
+
+.pane-header.expanded[aria-label="Source Control Section"] .title {
+  display: none;
+}
+
+.pane-header.expanded[aria-label="Source Control Section"] .actions {
+  display: block !important;
+}
+
+/* Icons in the sidebar */
+#workbench\.parts\.sidebar .actions-container .action-label {
+  opacity: 0.5;
+}
+
+#workbench\.parts\.sidebar .actions-container .action-label:hover {
+  opacity: 1;
+}
+
+/* Workbench menu options "terminal, problems, test results, debug console" */
+#workbench\.parts\.panel .has-composite-bar {
+  opacity: 0.5;
+}
+
+#workbench\.parts\.panel .has-composite-bar:hover {
+  opacity: 1;
+}
+
+/* Styling for single tab */
+.editor-group-top .title-border-bottom {
+  background-color: #1c2e41 !important;
+}
+
+.editor-group-top .title-border-bottom.dirty .single-tab .label-name {
+  color: #bb99ff !important;
+}
+
+.action-toolbar-container {
+  position: fixed !important;
+}
+
+/* WINDOWED_TAB_POSITION tab position when not full screen*/
+.inline-title-bar:not(.statusbar-editor-top):not(.statusbar-top)
+  .monaco-workbench.mac.no-activity-bar:not(.sidebar-right).nosidebar:not(
+    .fullscreen
+  )
+  .part.editor
+  > .content
+  .editor-group-container
+  > .title:not(.tabs) {
+  padding-left: 0px !important;
+}
+
+.inline-title-bar:not(.statusbar-editor-top):not(.statusbar-top)
+  .monaco-workbench.mac.no-activity-bar:not(.sidebar-right).nosidebar:not(
+    .fullscreen
+  )
+  .part.editor
+  > .content
+  .editor-group-container
+  > .title:not(.tabs)
+  .title-label {
+  transition: padding-left 0.2s;
+}
+
+.inline-title-bar:not(.statusbar-editor-top):not(.statusbar-top)
+  .monaco-workbench.mac.no-activity-bar:not(.sidebar-right).nosidebar:not(
+    .fullscreen
+  )
+  .part.editor
+  > .content
+  .editor-group-container
+  > .title:not(.tabs)
+  .title-label:hover {
+  padding-left: 68px !important;
+}
+
+/** END WINDOWED_TAB_POSITION */
+
+/* splash page when no files are open */
+.editor-group-watermark .letterpress {
+  display: none !important;
+}
+
+.editor-group-watermark .shortcuts {
+  display: none !important;
+}
+
+.editor-group-watermark:after {
+  content: "$";
+  font-weight: 900;
+  font-size: 400px;
+  color: #172637;
+  transform: rotate(-15deg);
+}
+
+.quick-input-widget {
+  top: 10px !important;
+  box-shadow: 0px 1px 4px 1px rgba(18, 30, 43, 1) !important;
+  padding-bottom: 12px;
+}
+
+.quick-input-widget input,
+.quick-input-widget .monaco-inputbox {
+  background: #1c2e41 !important;
+  border: none !important;
+  border-radius: 6px;
+}
+
+.quick-input-widget input {
+  padding: 8px !important;
+}
+
+.quick-input-widget .monaco-inputbox {
+  margin-bottom: 8px;
 }

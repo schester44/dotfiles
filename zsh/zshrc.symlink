@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
@@ -6,7 +13,9 @@ export DOTFILES=$dotfiles
 export ZSH_CUSTOM=$DOTFILES/zsh/custom
 
 # ZSH Settings
-ZSH_THEME="spaceship"
+# ZSH_THEME="spaceship"
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
 plugins=(git history-substring-search zsh-autosuggestions)
 
 # Load theme settings
@@ -30,7 +39,7 @@ do
 	source $file
 done
 
-alias prdb="prdb.sh"
-
 # heroku autocomplete setup
 HEROKU_AC_ZSH_SETUP_PATH=/Users/schester/Library/Caches/heroku/autocomplete/zsh_setup && test -f $HEROKU_AC_ZSH_SETUP_PATH && source $HEROKU_AC_ZSH_SETUP_PATH;
+
+[[ ! -f $DOTFILES/zsh/.p10k.zsh ]] || source $DOTFILES/zsh/.p10k.zsh

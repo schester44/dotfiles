@@ -11,15 +11,13 @@ alias ip="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0
 alias yst="yarn start:test"
 alias ys="yarn start"
 alias yt="yarn test"
+alias rel="sh ~/my-releases.sh"
+
 
 # Misc
 function kport {
 lsof -i :"$1" |awk 'NR > 1 {print $2}' |xargs kill -15
 }
 
-alias n="nvim"
-
-# Tmux
-alias tls="tmux list-sessions"
-alias tas="tmux attach-session -t"
-alias tmuxkill="tmux kill-server"
+# Random
+alias prdb="prdb.sh"
