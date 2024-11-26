@@ -12,14 +12,30 @@
   margin-top: 5px;
 }
 
-/* workbench scrollbar, hide until hover  */
-.monaco-workbench .scrollbar.vertical .slider {
-  max-width: 6px !important;
-  border-radius: 25px;
-  opacity: 0;
+.breadcrumbs-control .label-name,
+.breadcrumbs {
+  font-family: "Geist Mono" !important;
 }
 
-.monaco-workbench .scrollbar.vertical .slider:hover {
+.breadcrumbs .label-container > div {
+  border-radius: 4px;
+}
+
+.monaco-icon-label
+  > .monaco-icon-label-container
+  > .monaco-icon-name-container
+  > .label-name {
+  font-style: normal;
+}
+
+.monaco-workbench .scrollbar.vertical .slider {
+  border-radius: 2px;
+  opacity: 0;
+  background-color: rgba(21, 37, 56, 0.9);
+}
+
+.monaco-workbench .scrollbar.vertical:hover .slider,
+.monaco-workbench .scrollbar.vertical {
   opacity: 1;
 }
 
@@ -261,6 +277,7 @@
   font-size: 400px;
   color: #172637;
   transform: rotate(-15deg);
+  animation: flutter 4s infinite linear;
 }
 
 .quick-input-widget {
