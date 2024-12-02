@@ -14,16 +14,17 @@ return { -- Autocompletion
         end
         return 'make install_jsregexp'
       end)(),
+
       dependencies = {
         -- `friendly-snippets` contains a variety of premade snippets.
         --    See the README about individual language/framework/plugin snippets:
         --    https://github.com/rafamadriz/friendly-snippets
-        -- {
-        --   'rafamadriz/friendly-snippets',
-        --   config = function()
-        --     require('luasnip.loaders.from_vscode').lazy_load()
-        --   end,
-        -- },
+        {
+          'rafamadriz/friendly-snippets',
+          config = function()
+            require('luasnip.loaders.from_vscode').lazy_load()
+          end,
+        },
       },
     },
     'saadparwaiz1/cmp_luasnip',
@@ -40,11 +41,48 @@ return { -- Autocompletion
     local luasnip = require 'luasnip'
     luasnip.config.setup {}
 
+    local copilot_suggestion = require 'copilot.suggestion'
+
+    local lspkind = require 'lspkind'
+
     cmp.setup {
+      experimental = {
+        ghost_text = true,
+      },
       snippet = {
         expand = function(args)
           luasnip.lsp_expand(args.body)
         end,
+      },
+      window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
+      },
+
+      formatting = {
+        fields = { 'abbr', 'kind', 'menu' },
+        expandable_indicator = true,
+        format = lspkind.cmp_format {
+          mode = 'symbol', -- show only symbol annotations
+          symbol_map = {
+            Copilot = '',
+          },
+          maxwidth = {
+            -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+            -- can also be a function to dynamically calculate max width such as
+            -- menu = function() return math.floor(0.45 * vim.o.columns) end,
+            menu = 50, -- leading text (labelDetails)
+            abbr = 50, -- actual suggestion item
+          },
+          ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+          show_labelDetails = true, -- show labelDetails in menu. Disabled by default
+
+          -- The function below will be called before any actual modifications from lspkind
+          -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
+          before = function(entry, vim_item)
+            return vim_item
+          end,
+        },
       },
       completion = { completeopt = 'menu,menuone,noinsert' },
 
@@ -58,8 +96,20 @@ return { -- Autocompletion
         -- Select the [p]revious item
         ['<C-k>'] = cmp.mapping.select_prev_item(),
 
+        ['<Tab>'] = vim.schedule_wrap(function(fallback)
+          if cmp.visible() then
+            cmp.confirm { select = true } -- Confirm the currently selected nvim-cmp item
+          elseif luasnip.expand_or_jumpable() then
+            luasnip.expand_or_jump()
+          elseif copilot_suggestion.is_visible() then
+            copilot_suggestion.accept() -- Accept the Copilot suggestion
+          else
+            fallback() -- Default tab behavior
+          end
+        end),
+
         -- Scroll the documentation window [d]own / [u]p
-        ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
 
         -- Accept ([y]es) the completion.
@@ -102,6 +152,7 @@ return { -- Autocompletion
         --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
       },
       sources = {
+        { name = 'copilot' },
         {
           name = 'lazydev',
           -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
