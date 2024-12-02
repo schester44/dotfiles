@@ -5,6 +5,7 @@ return {
   branch = '0.1.x',
   dependencies = {
     'nvim-lua/plenary.nvim',
+    'BurntSushi/ripgrep',
     { -- If encountering errors, see telescope-fzf-native README for installation instructions
       'nvim-telescope/telescope-fzf-native.nvim',
 
@@ -55,7 +56,9 @@ return {
       --   },
       -- },
       pickers = {
-        find_files = { hidden = true },
+
+        -- switch to filename_first when it becomes available
+        find_files = { hidden = true, path_display = { 'smart' } },
       },
       extensions = {
         ['ui-select'] = {
@@ -79,8 +82,15 @@ return {
     vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
     vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
     vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-    vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = '[ ] Find existing [B]uffers' })
+    vim.keymap.set('n', '<leader>,', builtin.buffers, { desc = 'Find existing Buffers' })
     vim.keymap.set('n', '<leader>fm', builtin.marks, { desc = '[F]ind [M]arks' })
+
+    -- Search Workspace Symbols
+    vim.keymap.set('n', '<leader>sws', builtin.lsp_workspace_symbols, { desc = '[S]earch [W]orkspace [S]ymbols' })
+    vim.keymap.set('n', '<leader>ss', builtin.lsp_document_symbols, { desc = '[S]earch [S]ymbols' })
+
+    --Git
+    vim.keymap.set('n', '<leader>gb', builtin.git_branches, { desc = 'Git Branches' })
 
     -- Slightly advanced example of overriding default behavior and theme
     vim.keymap.set('n', '<leader>/', function()
