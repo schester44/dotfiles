@@ -5,7 +5,11 @@ local Group = require('cobalt44.utils').Group
 Group.new('Type', colors.yellow, nil, nil)
 Group.new('StorageClass', colors.light_orange, nil, nil)
 Group.new('Structure', colors.dark_blue, nil, styles.italic)
-Group.new('Comment', colors.dark_blue, nil, styles.italic)
+
+-- Comment controls copilot suggestions
+Group.new('Comment', colors.light_grey, nil, styles.italic)
+
+Group.new('@lsp.type.comment', colors.dark_blue, nil, styles.italic)
 Group.new('Conditional', colors.dark_orange, nil, nil)
 Group.new('Constant', colors.light_green, nil, nil)
 Group.new('Character', colors.dark_pink, nil, nil)

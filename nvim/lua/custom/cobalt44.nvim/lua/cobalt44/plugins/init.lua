@@ -1,49 +1,44 @@
--- ╭──────────────────────────────────────────────────────────╮
--- │          Copyright (c) 2022-present Lalit Kumar          │
--- │                       License: MIT                       │
--- ╰──────────────────────────────────────────────────────────╯
-
-require("cobalt44/plugins/barbar")
-require("cobalt44/plugins/barbecue")
-require("cobalt44/plugins/bqf")
-require("cobalt44/plugins/bufferline")
-require("cobalt44/plugins/coc")
-require("cobalt44/plugins/dashboard")
-require("cobalt44/plugins/diffview")
-require("cobalt44/plugins/eyeliner")
-require("cobalt44/plugins/fidget")
-require("cobalt44/plugins/flash")
-require("cobalt44/plugins/fzf-lua")
-require("cobalt44/plugins/gitgutter")
-require("cobalt44/plugins/gitsigns")
-require("cobalt44/plugins/hop")
-require("cobalt44/plugins/indent-blankline")
-require("cobalt44/plugins/indentmini")
-require("cobalt44/plugins/leap")
-require("cobalt44/plugins/lightspeed")
-require("cobalt44/plugins/lir")
-require("cobalt44/plugins/lualine")
-require("cobalt44/plugins/marks")
-require("cobalt44/plugins/neo-tree")
-require("cobalt44/plugins/neogit")
-require("cobalt44/plugins/noice")
-require("cobalt44/plugins/notify")
-require("cobalt44/plugins/nvim-cmp")
-require("cobalt44/plugins/nvim-fFHighlight")
-require("cobalt44/plugins/nvim-hlslens")
-require("cobalt44/plugins/nvim-lsp")
-require("cobalt44/plugins/nvim-navic")
-require("cobalt44/plugins/nvim-tree")
-require("cobalt44/plugins/nvim-treesitter")
-require("cobalt44/plugins/nvim-ts-rainbow")
-require("cobalt44/plugins/octo")
-require("cobalt44/plugins/package-info")
-require("cobalt44/plugins/packer")
-require("cobalt44/plugins/quick-scope")
-require("cobalt44/plugins/reach")
-require("cobalt44/plugins/startify")
-require("cobalt44/plugins/symbols-outline")
-require("cobalt44/plugins/telescope")
-require("cobalt44/plugins/trouble")
-require("cobalt44/plugins/which-key")
-require("cobalt44/plugins/yanky")
+require 'cobalt44/plugins/barbar'
+require 'cobalt44/plugins/barbecue'
+require 'cobalt44/plugins/bqf'
+require 'cobalt44/plugins/bufferline'
+require 'cobalt44/plugins/coc'
+require 'cobalt44/plugins/dashboard'
+require 'cobalt44/plugins/diffview'
+require 'cobalt44/plugins/eyeliner'
+require 'cobalt44/plugins/fidget'
+require 'cobalt44/plugins/flash'
+require 'cobalt44/plugins/fzf-lua'
+require 'cobalt44/plugins/gitgutter'
+require 'cobalt44/plugins/gitsigns'
+require 'cobalt44/plugins/hop'
+require 'cobalt44/plugins/indent-blankline'
+require 'cobalt44/plugins/indentmini'
+require 'cobalt44/plugins/leap'
+require 'cobalt44/plugins/lightspeed'
+require 'cobalt44/plugins/lir'
+require 'cobalt44/plugins/lualine'
+require 'cobalt44/plugins/marks'
+require 'cobalt44/plugins/neo-tree'
+require 'cobalt44/plugins/neogit'
+require 'cobalt44/plugins/noice'
+require 'cobalt44/plugins/notify'
+require 'cobalt44/plugins/nvim-cmp'
+require 'cobalt44/plugins/nvim-fFHighlight'
+require 'cobalt44/plugins/nvim-hlslens'
+require 'cobalt44/plugins/nvim-lsp'
+require 'cobalt44/plugins/nvim-navic'
+require 'cobalt44/plugins/nvim-tree'
+require 'cobalt44/plugins/nvim-treesitter'
+require 'cobalt44/plugins/nvim-ts-rainbow'
+require 'cobalt44/plugins/octo'
+require 'cobalt44/plugins/package-info'
+require 'cobalt44/plugins/packer'
+require 'cobalt44/plugins/quick-scope'
+require 'cobalt44/plugins/reach'
+require 'cobalt44/plugins/startify'
+require 'cobalt44/plugins/symbols-outline'
+require 'cobalt44/plugins/telescope'
+require 'cobalt44/plugins/trouble'
+require 'cobalt44/plugins/which-key'
+require 'cobalt44/plugins/yanky'
