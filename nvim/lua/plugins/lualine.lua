@@ -46,10 +46,7 @@ return {
       sections = {
         lualine_a = {
           {
-            'mode',
-            fmt = function()
-              return '▊'
-            end,
+            'filename',
           },
         },
         lualine_b = { 'branch', 'diff', 'diagnostics' },
