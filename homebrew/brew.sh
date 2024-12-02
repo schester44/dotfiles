@@ -26,12 +26,13 @@ brew install --cask syncthing
 brew install --cask rocket
 
 ## Dev apps
-brew install --cask iTerm2
 brew install --cask postman
-brew install --cask visual-studio-code
 brew install --cask tableplus
 brew install --cask imageoptim
 brew install --cask proxyman
+
+brew install neovim
+brew install wezterm
 
 brew tap heroku/brew
 

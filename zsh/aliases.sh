@@ -28,8 +28,6 @@ alias ls="eza --icons=always"
 eval "$(zoxide init zsh)"
 alias cd="z"
 
-
-
 prodcon() {
     if [[ "$1" == "--log" ]]; then
         # Log output to a file with a timestamped filename
