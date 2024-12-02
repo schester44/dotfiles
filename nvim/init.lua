@@ -1,4 +1,5 @@
 require 'vim-options'
+require 'vim-config'
 require 'keymaps'
 
 -- [[ Basic Autocommands ]]
