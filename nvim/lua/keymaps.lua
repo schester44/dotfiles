@@ -48,7 +48,10 @@ vim.keymap.set('v', '<leader>p', '"+p', { desc = 'Paste from system clipboard' }
 vim.keymap.set('v', '<leader>P', '"+P', { desc = 'Paste from system clipboard' })
 
 -- Git
-vim.keymap.set('n', '<leader>gs', '<cmd>:Gstatus<CR>', { desc = 'Git status' })
+vim.keymap.set('n', '<leader>go', '<cmd>:GBrowse<CR>', { desc = 'Git browse' })
+-- TODO: line selection doesn't work.
+vim.keymap.set('v', '<leader>go', '<cmd>:GBrowse<CR>', { desc = 'Git browse' })
+vim.keymap.set('n', '<leader>gs', '<cmd>:GStatus<CR>', { desc = 'Git status' })
 vim.keymap.set('n', '<leader>gcm', '<cmd>:Git checkout main<CR>', { desc = 'Git checkout main' })
 vim.keymap.set('n', '<leader>gco', ':Git checkout ', { desc = 'Git checkout' })
 vim.keymap.set('n', '<leader>gcb', ':Git checkout -b ', { desc = 'Git checkout -b' })
@@ -90,3 +93,7 @@ vim.keymap.set('n', '<D-v>', '"+P', { desc = 'Paste from system clipboard in nor
 vim.keymap.set('v', '<D-v>', '"+P', { desc = 'Paste from system clipboard in visual mode' }) -- Cmd+V in visual mode
 vim.keymap.set('i', '<D-v>', '<C-r>+', { desc = 'Paste from system clipboard in insert mode' }) -- Cmd+V in insert mode
 vim.keymap.set('v', '<D-x>', '"+d', { desc = 'Cut to system clipboard' }) -- Cmd+x
+
+-- Toggle Git Blame
+vim.keymap.set('n', '<leader>tg', '<cmd>:GitBlameToggle<CR>', { desc = '[T]oggle [G]it Blame' })
+vim.keymap.set('n', '<leader>tc', '<cmd>:TSContextToggle<CR>', { desc = '[T]oggle [C]ontext' })
