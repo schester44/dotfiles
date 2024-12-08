@@ -2,7 +2,6 @@ return {
   'onsails/lspkind.nvim',
   'easymotion/vim-easymotion',
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
-  { 'tris203/precognition.nvim', opts = {} }, -- assists with discovering motions
   {
     'sphamba/smear-cursor.nvim',
     opts = {
