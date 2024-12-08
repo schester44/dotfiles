@@ -1,6 +1,9 @@
 local colors = require('cobalt44.utils').colors
 local Group = require('cobalt44.utils').Group
 
+-- Sidebar border
+Group.new('NeoTreeWinSeparator', colors.cobalt_sidebar, nil, nil)
+
 Group.new('NeoTreeBufferNumber', colors.dark_pink, nil, nil)
 Group.new('NeoTreeDimText', colors.light_grey, nil, nil)
 Group.new('NeoTreeDirectoryIcon', colors.dark_orange, nil, nil)

@@ -155,4 +155,6 @@ Group.new('@text.reference', colors.blue, nil, nil)
 --  treesitter-context
 --------------------------------------------------------------------------------
 Group.new('TreesitterContext', nil, colors.cursor_line, nil)
-Group.new('TreesitterContextLineNumber', colors.blue, colors.cursor_line, nil)
+Group.new('TreesitterContextLineNumber', colors.grey, colors.cursor_line, nil)
+Group.new('TreesitterContextSeparator', nil, colors.cursor_line, nil)
+Group.new('TreesitterContextBottom', nil, colors.cursor_line, nil)

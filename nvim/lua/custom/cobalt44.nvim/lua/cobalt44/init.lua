@@ -54,6 +54,7 @@ Color.new('pale_pink', palette.pale_pink)
 Color.new('dirty_pink', palette.dirty_pink)
 Color.new('cursor_line', palette.cursor_line)
 Color.new('cursor_hover', palette.cursor_hover)
+Color.new('dim_blue', palette.dim_blue)
 -- }}}
 --------------------------------------------------------------------------------
 
