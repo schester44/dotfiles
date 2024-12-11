@@ -53,12 +53,24 @@ return {
               'filename',
               path = 1,
               file_status = false,
-              padding = 0,
+              padding = { left = 1, right = 0 },
               fmt = function(str)
-                local name = str:match '([^/]+)$' -- Extract the file name
-                local relnotail = str:gsub(name, '') -- Remove the file name from the relative path
+                if str == nil or not str or str == '' then
+                  return ''
+                end
 
-                return '%#StatusOther#' .. relnotail
+                if not str:find '/' then
+                  return ''
+                end
+
+                local name = str:match '([^/]+)$' -- Extract the file name
+                if name == nil then
+                  return ''
+                end
+
+                local relnotail = str:gsub('/' .. name .. '$', '') -- Remove the filename at the end
+
+                return '%#StatusOther#' .. relnotail .. '/'
               end,
             },
             {
@@ -66,6 +78,10 @@ return {
               path = 1,
               padding = 0,
               fmt = function(str)
+                if str == nil or not str or str == '' then
+                  return ''
+                end
+
                 local fullpath = str -- `str` contains the full file path
                 local name = fullpath:match '([^/]+)$' -- Extract the file name
 
@@ -76,7 +92,9 @@ return {
           lualine_b = {
             'diagnostics',
           },
-          lualine_c = { { git_blame.get_current_blame_text, cond = git_blame.is_blame_text_available } },
+          lualine_c = {
+            { git_blame.get_current_blame_text, cond = git_blame.is_blame_text_available },
+          },
           lualine_x = {},
           lualine_y = { 'branch', 'diff' },
           lualine_z = { { 'filetype', colored = false } },
