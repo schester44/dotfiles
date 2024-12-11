@@ -97,3 +97,10 @@ vim.keymap.set('v', '<D-x>', '"+d', { desc = 'Cut to system clipboard' }) -- Cmd
 -- Toggle Git Blame
 vim.keymap.set('n', '<leader>tg', '<cmd>:GitBlameToggle<CR>', { desc = '[T]oggle [G]it Blame' })
 vim.keymap.set('n', '<leader>tc', '<cmd>:TSContextToggle<CR>', { desc = '[T]oggle [C]ontext' })
+
+-- Dismiss Noice Notifications
+vim.keymap.set('n', '<leader>nd', '<cmd>:Noice dismiss<CR>', { desc = '[N]oice [D]ismiss' })
+vim.keymap.set('n', '<leader>nl', '<cmd>:Noice last<CR>', { desc = '[N]oice [L]ast Message' })
+
+-- Make "U" the opposite of "u"
+vim.keymap.set('n', 'U', '<C-r>', { desc = 'Redo' })

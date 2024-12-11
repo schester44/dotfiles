@@ -35,9 +35,9 @@ Group.new('Normal', colors.white, colors.cobalt_bg, nil)
 Group.new('NormalFloat', colors.white, colors.cobalt_sidebar, nil)
 Group.new('NormalMode', colors.black, colors.yellow, nil)
 Group.new('NormalNC', colors.white, colors.cobalt_bg, nil)
-Group.new('PMenu', colors.light_grey, colors.yellow, nil)
+Group.new('PMenu', colors.white, colors.cobalt_sidebar, nil)
 Group.new('PMenuSBar', nil, colors.dark_grey, nil)
-Group.new('PMenuSel', colors.black, colors.yellow, nil)
+Group.new('PMenuSel', colors.yellow, colors.cobalt_bg, nil)
 Group.new('PMenuThumb', nil, colors.lightest_grey, nil)
 Group.new('Question', colors.green, nil, nil)
 Group.new('QuickFixLine', nil, colors.cursor_hover, nil)
@@ -68,3 +68,9 @@ Group.new('healthError', colors.red:light(), nil, nil)
 Group.new('healthSuccess', colors.green, nil, nil)
 Group.new('healthWarning', colors.light_yellow, nil, nil)
 Group.new('qfLineNr', colors.light_grey, colors.cobalt_bg, nil)
+
+-- Noice
+Group.new('NoiceCmdlinePopup', nil, colors.cobalt_sidebar, nil)
+
+-- EasyMotion
+Group.new('EasyMotionTarget', colors.yellow, colors.cobalt_bg, styles.bold)
