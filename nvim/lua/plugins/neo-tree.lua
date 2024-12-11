@@ -15,7 +15,7 @@ return {
   },
   opts = {
 
-    default_component_configs = { indent = { with_markers = false, indent_size = 1 } },
+    default_component_configs = { indent = { with_markers = false, indent_size = 1, with_expanders = true } },
     filesystem = {
       filtered_items = { hidden = true, hide_dotfiles = false, hide_by_name = {} },
       follow_current_file = {
