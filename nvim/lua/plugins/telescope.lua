@@ -55,7 +55,10 @@ return {
           layout_strategy = 'vertical',
           show_line = false,
         },
-        find_files = { hidden = true },
+        find_files = {
+          hidden = true,
+          file_ignore_patterns = { '%.git/', '%.git$' }, -- Ignore .git directories and files
+        },
       },
       extensions = {
         ['ui-select'] = {
