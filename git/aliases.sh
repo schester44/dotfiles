@@ -14,7 +14,7 @@ git config --global alias.ml 'merge @{-1}'
 
 alias gpsu="git_set_upstream"
 alias gpoh="git push origin head"
-alias git-rm-branches="git-date | awk '{print $3}' | sed -e "s/^refs\/heads\///" | awk '$0 !~ /dev|master/' | xargs git branch -D"
+alias git-rm-branches="git-date | awk '{print $3}' | sed -e "s/^refs\/heads\///" | awk '$0 !~ /dev|main/' | xargs git branch -D"
 alias gcm="git checkout main"
 alias gmm="git merge main"
 alias gml="git merge @{-1}"

@@ -9,9 +9,13 @@ return {
     require('noice').setup {
       cmdline = {
         view = 'cmdline_popup', -- Default style
+        wrap = true,
         format = {
           cmdline = { icon = '❯' },
         },
+      },
+      notify = {
+        wrap = true,
       },
     }
   end,

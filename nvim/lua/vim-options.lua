@@ -70,3 +70,8 @@ vim.opt.cursorline = false
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
+
+vim.bo.expandtab = true -- Use spaces
+vim.bo.shiftwidth = 2 -- Indent by 2 spaces
+vim.bo.softtabstop = 2 -- Tab inserts 2 spaces
+vim.bo.tabstop = 2 -- Tab width is 2 spaces

@@ -96,13 +96,16 @@ return { -- Autocompletion
         -- Select the [p]revious item
         ['<C-k>'] = cmp.mapping.select_prev_item(),
 
+        -- this is similar to '<C-l>, just seeing which one sticks
         ['<Tab>'] = vim.schedule_wrap(function(fallback)
           if cmp.visible() then
-            cmp.confirm { select = true } -- Confirm the currently selected nvim-cmp item
+            cmp.mapping.confirm { select = true } -- Confirm the currently selected nvim-cmp item
           elseif luasnip.expand_or_jumpable() then
             luasnip.expand_or_jump()
           elseif copilot_suggestion.is_visible() then
             copilot_suggestion.accept() -- Accept the Copilot suggestion
+          elseif luasnip.expand_or_locally_jumpable() then -- move to the right of the snippet
+            luasnip.expand_or_jump()
           else
             fallback() -- Default tab behavior
           end
@@ -112,17 +115,8 @@ return { -- Autocompletion
         ['<C-b>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
 
-        -- Accept ([y]es) the completion.
-        --  This will auto-import if your LSP supports it.
-        --  This will expand snippets if the LSP sent a snippet.
-        -- ['<C-y>'] = cmp.mapping.confirm { select = true },
-
-        -- If you prefer more traditional completion keymaps,
-        -- you can uncomment the following lines
-        -- ['<CR>'] = cmp.mapping.confirm { select = true },
+        -- Exit the completion
         ['<C-e>'] = cmp.mapping.abort(),
-        -- ['<Tab>'] = cmp.mapping.select_next_item(),
-        --  ['<S-Tab>'] = cmp.mapping.select_prev_item(),
 
         -- Manually trigger a completion from nvim-cmp.
         --  Generally you don't need this, because nvim-cmp will display
@@ -137,6 +131,7 @@ return { -- Autocompletion
         --
         -- <c-l> will move you to the right of each of the expansion locations.
         -- <c-h> is similar, except moving you backwards.
+        -- <Tab> is used to navigate between the placeholders.
         ['<C-l>'] = cmp.mapping(function()
           if luasnip.expand_or_locally_jumpable() then
             luasnip.expand_or_jump()
@@ -147,9 +142,6 @@ return { -- Autocompletion
             luasnip.jump(-1)
           end
         end, { 'i', 's' }),
-
-        -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
-        --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
       },
       sources = {
         { name = 'copilot' },
