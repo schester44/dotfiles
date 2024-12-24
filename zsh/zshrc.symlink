@@ -31,11 +31,23 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 
+
+
 # Load aliases
 typeset -U my_aliases
 my_aliases=($DOTFILES/**/aliases.sh)
 
 for file in ${my_aliases}
+do
+	source $file
+done
+
+
+# Load functions
+typeset -U my_functions
+my_functions=($DOTFILES/zsh/functions/**)
+
+for file in ${my_functions}
 do
 	source $file
 done
