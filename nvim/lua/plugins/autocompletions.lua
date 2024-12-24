@@ -22,6 +22,7 @@ return { -- Autocompletion
         {
           'rafamadriz/friendly-snippets',
           config = function()
+            require('luasnip').filetype_extend('typescript', { 'javascript' })
             require('luasnip.loaders.from_vscode').lazy_load()
           end,
         },
@@ -44,6 +45,7 @@ return { -- Autocompletion
     local copilot_suggestion = require 'copilot.suggestion'
 
     local lspkind = require 'lspkind'
+    local compare = require 'cmp.config.compare'
 
     cmp.setup {
       experimental = {
@@ -60,9 +62,10 @@ return { -- Autocompletion
       },
 
       formatting = {
-        fields = { 'abbr', 'kind', 'menu' },
+        fields = { 'kind', 'abbr', 'menu' },
         expandable_indicator = true,
         format = lspkind.cmp_format {
+          preset = 'codicons',
           mode = 'symbol', -- show only symbol annotations
           symbol_map = {
             Copilot = '',
@@ -71,7 +74,7 @@ return { -- Autocompletion
             -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
             -- can also be a function to dynamically calculate max width such as
             -- menu = function() return math.floor(0.45 * vim.o.columns) end,
-            menu = 50, -- leading text (labelDetails)
+            menu = 30, -- leading text (labelDetails)
             abbr = 50, -- actual suggestion item
           },
           ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
@@ -80,11 +83,29 @@ return { -- Autocompletion
           -- The function below will be called before any actual modifications from lspkind
           -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
           before = function(entry, vim_item)
+            -- Append source and details for `nvim_lsp` suggestions
+            if entry.source.name == 'nvim_lsp' and entry.completion_item.detail then
+              vim_item.menu = string.format('%s %s', vim_item.menu or '', entry.completion_item.detail)
+            end
+
             return vim_item
           end,
         },
       },
       completion = { completeopt = 'menu,menuone,noinsert' },
+
+      sorting = {
+        priority_weight = 1.0,
+        comparators = {
+
+          compare.locality,
+          compare.recently_used,
+          compare.score, -- based on :  score = score + ((#sources - (source_index - 1)) * sorting.priority_weight)
+          compare.offset,
+          compare.exact,
+          compare.order,
+        },
+      },
 
       -- For an understanding of why these mappings were
       -- chosen, you will need to read `:help ins-completion`
@@ -99,7 +120,7 @@ return { -- Autocompletion
         -- this is similar to '<C-l>, just seeing which one sticks
         ['<Tab>'] = vim.schedule_wrap(function(fallback)
           if cmp.visible() then
-            cmp.mapping.confirm { select = true } -- Confirm the currently selected nvim-cmp item
+            cmp.confirm { select = true } -- Confirm the currently selected nvim-cmp item
           elseif luasnip.expand_or_jumpable() then
             luasnip.expand_or_jump()
           elseif copilot_suggestion.is_visible() then
@@ -144,15 +165,16 @@ return { -- Autocompletion
         end, { 'i', 's' }),
       },
       sources = {
-        { name = 'copilot' },
+        { name = 'copilot', priority = 1200 },
+        { name = 'luasnip', priority = 1300 },
+        { name = 'nvim_lsp', priority = 900 },
+        { name = 'path', priority = 800 },
         {
           name = 'lazydev',
+          priority = 700,
           -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
           group_index = 0,
         },
-        { name = 'nvim_lsp' },
-        { name = 'luasnip' },
-        { name = 'path' },
       },
     }
   end,
