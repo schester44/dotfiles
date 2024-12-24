@@ -2,8 +2,9 @@ local colors = require('cobalt44.utils').colors
 local styles = require('cobalt44.utils').styles
 local Group = require('cobalt44.utils').Group
 
-Group.new('DiagnosticFloatingError', colors.white, colors.cobalt_bg, nil)
+Group.new('MiniStarterHeader', colors.cobalt_sidebar, nil, nil)
 
+Group.new('DiagnosticFloatingError', colors.white, colors.cobalt_sidebar, nil)
 Group.new('ColorColumn', nil, colors.cursor_line, nil)
 Group.new('CommandMode', colors.black, colors.darker_blue, nil)
 Group.new('Conceal', colors.dark_grey, nil, nil)
@@ -31,13 +32,14 @@ Group.new('MatchWord', colors.white, colors.dark_purple, styles.bold)
 Group.new('ModeMsg', colors.white, nil, styles.bold)
 Group.new('MoreMsg', colors.blue, nil, nil)
 Group.new('NonText', colors.dark_grey, colors.cobalt_bg, nil)
+-- Controls the background color of the editor
 Group.new('Normal', colors.white, colors.cobalt_bg, nil)
 Group.new('NormalFloat', colors.white, colors.cobalt_sidebar, nil)
 Group.new('NormalMode', colors.black, colors.yellow, nil)
 Group.new('NormalNC', colors.white, colors.cobalt_bg, nil)
 Group.new('PMenu', colors.white, colors.cobalt_sidebar, nil)
 Group.new('PMenuSBar', nil, colors.dark_grey, nil)
-Group.new('PMenuSel', colors.yellow, colors.cobalt_bg, nil)
+Group.new('PMenuSel', colors.yellow, colors.cobalt_sidebar, nil)
 Group.new('PMenuThumb', nil, colors.lightest_grey, nil)
 Group.new('Question', colors.green, nil, nil)
 Group.new('QuickFixLine', nil, colors.cursor_hover, nil)
