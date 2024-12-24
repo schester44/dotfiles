@@ -1,3 +1,4 @@
+--
 -- [[ My Basic Keymaps ]] --
 vim.keymap.set('i', 'jj', '<Esc>')
 
@@ -6,9 +7,12 @@ vim.keymap.set('i', 'jj', '<Esc>')
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
-vim.keymap.set('n', '<leader>ld', vim.diagnostic.open_float, { desc = 'Open floating [L]sp [D]iagnostic message' })
-vim.keymap.set('n', '<leader>ll', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+-- For other diagnostic commands, see trouble.lua
+vim.keymap.set('n', '<leader>xm', vim.diagnostic.open_float, { desc = 'Open floating [L]sp [D]iagnostic message' })
+
+-- Go to next and previous diagnostic
+vim.keymap.set('n', '<leader>dn', vim.diagnostic.goto_next, { desc = 'Go to [N]ext diagnostic' })
+vim.keymap.set('n', '<leader>dp', vim.diagnostic.goto_prev, { desc = 'Go to [P]revious diagnostic' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -77,9 +81,8 @@ vim.keymap.set('n', '<M-k>', ':m .-2<CR>==', { desc = 'Move line up' })
 vim.keymap.set('v', '<M-j>', ":m '>+1<CR>gv=gv", { desc = 'Move selected lines down' })
 vim.keymap.set('v', '<M-k>', ":m '<-2<CR>gv=gv", { desc = 'Move selected lines up' })
 
--- Split windows easily
-vim.keymap.set('n', '<leader>w-', '<cmd>:split<CR>', { desc = 'Split window horizontally' })
-vim.keymap.set('n', '<leader>w|', '<cmd>:vsplit<CR>', { desc = 'Split window vertically' })
+-- Save with <leader>w
+vim.keymap.set('n', '<leader>w', '<cmd>:w<CR>', { desc = '[W]rite' })
 
 -- File Copy Path
 vim.keymap.set('n', '<leader>fcp', '<cmd>let @+=expand("%:p")<CR>', { desc = 'Copy file path to clipboard' })

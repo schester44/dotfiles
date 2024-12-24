@@ -17,3 +17,27 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
+
+-- Autocmd to toggle line numbers when entering or leaving the command-line mode
+-- So that I can see absolute numbers when using cmd to run commands
+vim.api.nvim_create_autocmd('CmdlineEnter', {
+  pattern = ':',
+  callback = function()
+    vim.o.relativenumber = false -- Disable relative numbers
+  end,
+})
+
+vim.api.nvim_create_autocmd('CmdlineLeave', {
+  pattern = ':',
+  callback = function()
+    vim.o.relativenumber = true -- Enable relative numbers
+  end,
+})
+
+-- Diagnostic Signs
+local symbols = { Error = '󰅙', Info = '󰋼', Hint = '󰌵', Warn = '' }
+
+for name, icon in pairs(symbols) do
+  local hl = 'DiagnosticSign' .. name
+  vim.fn.sign_define(hl, { text = icon, numhl = hl, texthl = hl })
+end
