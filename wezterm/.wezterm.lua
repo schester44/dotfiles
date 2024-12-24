@@ -24,4 +24,20 @@ config.window_padding = {
 }
 
 config.window_background_opacity = 0.95
+
+config.keys = {
+	-- Fuzzy find tmux sessions using cmd+k
+	{
+		key = "k",
+		mods = "CMD",
+		action = wezterm.action.SendString("\x01\x54"),
+	},
+	-- Open new tmux window using cmd+t
+	{
+		key = "t",
+		mods = "CMD",
+		action = wezterm.action.SendString("\x01c"),
+	},
+}
+
 return config
