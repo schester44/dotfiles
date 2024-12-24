@@ -1,5 +1,4 @@
 return {
-  --der> Fuzzy Finder (files, lsp, etc)
   {
     'schester44/multigrep.nvim',
     dev = true,
