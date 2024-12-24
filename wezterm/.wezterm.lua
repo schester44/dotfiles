@@ -25,6 +25,16 @@ config.window_padding = {
 
 config.window_background_opacity = 0.95
 
+-- @param num number
+-- return { key = string, mods = string, action = wezterm.action }
+local function map_cmd_num(num)
+	return {
+		key = num,
+		mods = "CMD",
+		action = wezterm.action.SendString("\x01" .. num),
+	}
+end
+
 config.keys = {
 	-- Fuzzy find tmux sessions using cmd+k
 	{
@@ -38,6 +48,15 @@ config.keys = {
 		mods = "CMD",
 		action = wezterm.action.SendString("\x01c"),
 	},
+	map_cmd_num("1"),
+	map_cmd_num("2"),
+	map_cmd_num("3"),
+	map_cmd_num("4"),
+	map_cmd_num("5"),
+	map_cmd_num("6"),
+	map_cmd_num("7"),
+	map_cmd_num("8"),
+	map_cmd_num("9"),
 }
 
 return config
