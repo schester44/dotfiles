@@ -14,8 +14,19 @@ return {
     { '<leader>oe', ':Neotree toggle<CR>', desc = '[O]pen [E]xplorer', silent = true },
   },
   opts = {
-
-    default_component_configs = { indent = { with_markers = false, indent_size = 1, with_expanders = true } },
+    close_if_last_window = true,
+    default_component_configs = {
+      git_status = {
+        symbols = {
+          added = '✚',
+          untracked = '✚',
+          staged = '✓',
+          unstaged = '',
+          modified = '',
+        },
+      },
+      indent = { with_markers = false, indent_size = 1, with_expanders = true },
+    },
     filesystem = {
       filtered_items = { hidden = true, hide_dotfiles = false, hide_by_name = {} },
       follow_current_file = {
