@@ -5,9 +5,12 @@ return {
       mappings = {
         'react',
 
+        --- TODO: This doesnt work when currently on the .spec file
         -- Obie component patterns
         {
           pattern = '/src/(.*)/.*.tsx$',
+
+          -- TODO: add support for .spec and .test that are ts files
           target = '/src/%1/\\(*.container.tsx\\|*.queries.ts\\|*.mutations.ts\\|*.test.tsx\\|*.styles.tsx\\|*.styles.ts\\|index.ts\\|index.tsx\\)',
         },
       },
