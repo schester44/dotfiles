@@ -11,7 +11,7 @@ config.default_cursor_style = "BlinkingBar"
 
 config.font = wezterm.font("Operator Mono Lig", { weight = 345 })
 config.font_size = 14
-config.line_height = 1.1
+config.line_height = 1
 
 config.enable_tab_bar = false
 
