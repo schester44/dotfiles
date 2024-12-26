@@ -131,10 +131,19 @@ return { -- Autocompletion
             fallback() -- Default tab behavior
           end
         end),
-
-        -- Scroll the documentation window [d]own / [u]p
-        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        -- Trigger snippet-only completion
+        ['<C-s>'] = cmp.mapping(function()
+          cmp.complete {
+            config = {
+              sources = {
+                { name = 'luasnip' }, -- Only snippets
+              },
+            },
+          }
+        end, { 'i', 's' }), -- Available in insert and select mode
+        -- Scroll the documentation window
+        ['<C-[>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-]>'] = cmp.mapping.scroll_docs(4),
 
         -- Exit the completion
         ['<C-e>'] = cmp.mapping.abort(),
@@ -166,7 +175,7 @@ return { -- Autocompletion
       },
       sources = {
         { name = 'copilot', priority = 1200 },
-        { name = 'luasnip', priority = 1300 },
+        -- { name = 'luasnip', priority = 1300 },
         { name = 'nvim_lsp', priority = 900 },
         { name = 'path', priority = 800 },
         {
