@@ -1,4 +1,4 @@
-return { -- Autocompletion
+return {
   'hrsh7th/nvim-cmp',
   event = 'InsertEnter',
   dependencies = {
@@ -47,6 +47,20 @@ return { -- Autocompletion
     local lspkind = require 'lspkind'
     local compare = require 'cmp.config.compare'
 
+    -- If can prefix with index for each completion item, i can select with <number><tab>
+    -- local select_by_index = function(index)
+    --   return function()
+    --     local selected_index = cmp.get_selected_index()
+    --     local count = index
+    --
+    --     if selected_index > 0 then
+    --       count = index - selected_index
+    --     end
+    --
+    --     cmp.select_next_item { count = count }
+    --   end
+    -- end
+
     cmp.setup {
       experimental = {
         ghost_text = true,
@@ -84,6 +98,7 @@ return { -- Autocompletion
           -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
           before = function(entry, vim_item)
             -- Append source and details for `nvim_lsp` suggestions
+
             if entry.source.name == 'nvim_lsp' and entry.completion_item.detail then
               vim_item.menu = string.format('%s %s', vim_item.menu or '', entry.completion_item.detail)
             end
@@ -112,12 +127,11 @@ return { -- Autocompletion
       --
       -- No, but seriously. Please read `:help ins-completion`, it is really good!
       mapping = cmp.mapping.preset.insert {
-        -- Select the [n]ext item
+        -- Select the next item
         ['<C-j>'] = cmp.mapping.select_next_item(),
-        -- Select the [p]revious item
+        -- Select the previous item
         ['<C-k>'] = cmp.mapping.select_prev_item(),
 
-        -- this is similar to '<C-l>, just seeing which one sticks
         ['<Tab>'] = vim.schedule_wrap(function(fallback)
           if cmp.visible() then
             cmp.confirm { select = true } -- Confirm the currently selected nvim-cmp item
@@ -141,12 +155,12 @@ return { -- Autocompletion
             },
           }
         end, { 'i', 's' }), -- Available in insert and select mode
-        -- Scroll the documentation window
         ['<C-[>'] = cmp.mapping.scroll_docs(-4),
         ['<C-]>'] = cmp.mapping.scroll_docs(4),
 
         -- Exit the completion
         ['<C-e>'] = cmp.mapping.abort(),
+        ['<Esc>'] = cmp.mapping.abort(),
 
         -- Manually trigger a completion from nvim-cmp.
         --  Generally you don't need this, because nvim-cmp will display

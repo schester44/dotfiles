@@ -1,8 +1,9 @@
 local plugins = require 'lib/plugins'
 
-require 'vim-options'
-require 'vim-config'
-require 'keymaps'
+require 'config'
+require 'config.options'
+require 'config.autocmds'
+require 'config.keymaps'
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
