@@ -37,17 +37,9 @@ end
 
 config.keys = {
 	-- Fuzzy find tmux sessions using cmd+k
-	{
-		key = "k",
-		mods = "CMD",
-		action = wezterm.action.SendString("\x01\x54"),
-	},
+	map_cmd_num("\x54"),
 	-- Open new tmux window using cmd+t
-	{
-		key = "t",
-		mods = "CMD",
-		action = wezterm.action.SendString("\x01c"),
-	},
+	map_cmd_num("c"),
 	map_cmd_num("1"),
 	map_cmd_num("2"),
 	map_cmd_num("3"),
