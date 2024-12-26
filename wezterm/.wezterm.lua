@@ -40,6 +40,7 @@ config.keys = {
 	map_cmd_num("\x54"),
 	-- Open new tmux window using cmd+t
 	map_cmd_num("c"),
+	-- Open tmux windows 1-9 using cmd+1-9
 	map_cmd_num("1"),
 	map_cmd_num("2"),
 	map_cmd_num("3"),
