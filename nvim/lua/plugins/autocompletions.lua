@@ -160,7 +160,7 @@ return {
 
         -- Exit the completion
         ['<C-e>'] = cmp.mapping.abort(),
-        ['<Esc>'] = cmp.mapping.abort(),
+        -- ['<Esc>'] = cmp.mapping.abort(),
 
         -- Manually trigger a completion from nvim-cmp.
         --  Generally you don't need this, because nvim-cmp will display
