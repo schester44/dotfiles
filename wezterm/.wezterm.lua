@@ -6,11 +6,13 @@ config.color_scheme = "Cobalt2"
 
 config.colors = {
 	background = "#1C2E41",
+	cursor_fg = "#122739", -- Matches Neovim's 'Cursor' fg
 }
 
 config.default_cursor_style = "BlinkingBar"
 
-config.font = wezterm.font("Operator Mono Lig", { weight = 345 })
+-- weight = 345 for a lighter weight.
+config.font = wezterm.font("Operator Mono Lig", { weight = 400 })
 config.font_size = 14
 
 config.enable_tab_bar = false
