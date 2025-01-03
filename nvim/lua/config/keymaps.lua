@@ -54,7 +54,8 @@ set('v', '<leader>P', '"+P', { desc = 'Paste from system clipboard' })
 set('n', '<leader>go', '<cmd>:GBrowse<CR>', { desc = 'Git browse' })
 -- TODO: line selection doesn't work.
 set('v', '<leader>go', '<cmd>:GBrowse<CR>', { desc = 'Git browse' })
-set('n', '<leader>gs', '<cmd>:GStatus<CR>', { desc = 'Git status' })
+set('n', '<leader>gs', '<cmd>:G<CR>', { desc = 'Git status' })
+set('n', '<leader>gC', '<cmd>:Gwrite<CR>', { desc = 'Git commit' })
 set('n', '<leader>gcm', '<cmd>:Git checkout main<CR>', { desc = 'Git checkout main' })
 set('n', '<leader>gco', ':Git checkout ', { desc = 'Git checkout' })
 set('n', '<leader>gcb', ':Git checkout -b ', { desc = 'Git checkout -b' })
@@ -99,6 +100,22 @@ set('v', '<D-x>', '"+d', { desc = 'Cut to system clipboard' }) -- Cmd+x
 -- Toggle Git Blame
 set('n', '<leader>tg', '<cmd>:GitBlameToggle<CR>', { desc = '[T]oggle [G]it Blame' })
 set('n', '<leader>tc', '<cmd>:TSContextToggle<CR>', { desc = '[T]oggle [C]ontext' })
+-- copilot
+set('n', '<leader>tc', function()
+  local copilot = require 'copilot.command'
+
+  if not vim.g.copilot_disabled then
+    copilot.disable()
+    vim.g.copilot_disabled = true
+  else
+    copilot.enable()
+    vim.g.copilot_disabled = false
+  end
+
+  vim.defer_fn(function()
+    vim.cmd 'Copilot status'
+  end, 1000)
+end, { desc = '[T]oggle [C]opilot' })
 
 -- Dismiss Noice Notifications
 set('n', '<leader>nd', '<cmd>:Noice dismiss<CR>', { desc = '[N]oice [D]ismiss' })
