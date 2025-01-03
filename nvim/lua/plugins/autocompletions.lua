@@ -61,6 +61,15 @@ return {
     --   end
     -- end
 
+    local has_words_before = function()
+      if vim.api.nvim_buf_get_option(0, 'buftype') == 'prompt' then
+        return false
+      end
+      local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+      print(line, col)
+      return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match '^%s*$' == nil
+    end
+
     cmp.setup {
       experimental = {
         ghost_text = true,
@@ -112,7 +121,6 @@ return {
       sorting = {
         priority_weight = 1.0,
         comparators = {
-
           compare.locality,
           compare.recently_used,
           compare.score, -- based on :  score = score + ((#sources - (source_index - 1)) * sorting.priority_weight)
@@ -122,10 +130,7 @@ return {
         },
       },
 
-      -- For an understanding of why these mappings were
-      -- chosen, you will need to read `:help ins-completion`
-      --
-      -- No, but seriously. Please read `:help ins-completion`, it is really good!
+      -- `:help ins-completion`
       mapping = cmp.mapping.preset.insert {
         -- Select the next item
         ['<C-j>'] = cmp.mapping.select_next_item(),
@@ -133,11 +138,9 @@ return {
         ['<C-k>'] = cmp.mapping.select_prev_item(),
 
         ['<Tab>'] = vim.schedule_wrap(function(fallback)
-          if cmp.visible() then
+          if cmp.visible() and has_words_before() then
             cmp.confirm { select = true } -- Confirm the currently selected nvim-cmp item
-          elseif luasnip.expand_or_jumpable() then
-            luasnip.expand_or_jump()
-          elseif copilot_suggestion.is_visible() then
+          elseif copilot_suggestion.is_visible() and has_words_before() then
             copilot_suggestion.accept() -- Accept the Copilot suggestion
           elseif luasnip.expand_or_locally_jumpable() then -- move to the right of the snippet
             luasnip.expand_or_jump()
@@ -145,6 +148,15 @@ return {
             fallback() -- Default tab behavior
           end
         end),
+        ['<S-Tab>'] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_prev_item()
+          elseif luasnip.expand_or_locally_jumpable(-1) then
+            luasnip.jump(-1)
+          else
+            fallback()
+          end
+        end, { 'i', 's' }),
         -- Trigger snippet-only completion
         ['<C-s>'] = cmp.mapping(function()
           cmp.complete {
@@ -154,13 +166,14 @@ return {
               },
             },
           }
+          assert(cmp.visible(), 'No snippets available')
         end, { 'i', 's' }), -- Available in insert and select mode
         ['<C-[>'] = cmp.mapping.scroll_docs(-4),
         ['<C-]>'] = cmp.mapping.scroll_docs(4),
 
         -- Exit the completion
         ['<C-e>'] = cmp.mapping.abort(),
-        -- ['<Esc>'] = cmp.mapping.abort(),
+        ['<Esc>'] = cmp.mapping.abort(),
 
         -- Manually trigger a completion from nvim-cmp.
         --  Generally you don't need this, because nvim-cmp will display
@@ -188,7 +201,10 @@ return {
         end, { 'i', 's' }),
       },
       sources = {
-        { name = 'copilot', priority = 1200 },
+        {
+          name = 'copilot',
+          priority = 1200,
+        },
         -- { name = 'luasnip', priority = 1300 },
         { name = 'nvim_lsp', priority = 900 },
         { name = 'path', priority = 800 },
