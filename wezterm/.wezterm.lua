@@ -12,8 +12,13 @@ config.colors = {
 config.default_cursor_style = "BlinkingBar"
 
 -- weight = 345 for a lighter weight.
-config.font = wezterm.font("Operator Mono Lig", { weight = 400 })
+config.font = wezterm.font_with_fallback({
+	{ family = "Operator Mono Lig", weight = 400 },
+	{ family = "JetBrainsMono Nerd Font" },
+})
+
 config.font_size = 14
+config.cell_width = 1
 
 config.enable_tab_bar = false
 
@@ -21,7 +26,7 @@ config.window_decorations = "RESIZE"
 config.window_padding = {
 	left = 0,
 	right = 0,
-	top = 0,
+	top = 4,
 	bottom = 0,
 }
 
