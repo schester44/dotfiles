@@ -30,6 +30,7 @@ local colors = {
   light_orange = '#FF9D00',
   yellow = '#FFC600',
   light_yellow = '#F2ED7F',
+  tainted_yellow = '#454A33',
   -- }}}
   --------------------------------------------------------------------------------
 
