@@ -11,10 +11,6 @@ set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 -- For other diagnostic commands, see trouble.lua
 set('n', '<leader>xm', vim.diagnostic.open_float, { desc = 'Open floating [L]sp [D]iagnostic message' })
 
--- Go to next and previous diagnostic
-set('n', '<leader>dn', vim.diagnostic.goto_next, { desc = 'Go to [N]ext diagnostic' })
-set('n', '<leader>dp', vim.diagnostic.goto_prev, { desc = 'Go to [P]revious diagnostic' })
-
 set('n', '<leader>lr', '<cmd>LspRestart<CR>', { desc = '[L]sp [R]estart' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier

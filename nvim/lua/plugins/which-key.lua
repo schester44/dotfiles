@@ -57,15 +57,13 @@ return { -- Useful plugin to show you pending keybinds.
     -- Document existing key chains
     spec = {
       { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
-      { '<leader>d', group = '[D]ocument' },
       { '<leader>g', group = '[G]it' },
       { '<leader>l', group = '[L]SP' },
-      { '<leader>m', group = '[M]isc' },
       { '<leader>r', group = '[R]ename' },
       { '<leader>s', group = '[S]earch' },
       { '<leader>f', group = '[F]ile' },
       { '<leader>t', group = '[T]oggle / [T]est' },
-      { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+      { '<leader>h', group = '[H]arpoon', mode = { 'n', 'v' } },
     },
   },
 }

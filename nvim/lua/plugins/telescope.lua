@@ -87,8 +87,7 @@ return {
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
       vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[F]ind [F]iles' })
-      vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
-      vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
+      vim.keymap.set('n', '<leader>scw', builtin.grep_string, { desc = '[S]earch [C]urrent [W]ord' })
       -- See custom/plugins for multigrep using "sg". Allows for searching filenames
       vim.keymap.set('n', '<leader>sG', builtin.live_grep, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
@@ -98,8 +97,8 @@ return {
       vim.keymap.set('n', '<leader>fm', builtin.marks, { desc = '[F]ind [M]arks' })
 
       -- Search Workspace Symbols
-      vim.keymap.set('n', '<leader>sws', builtin.lsp_workspace_symbols, { desc = '[S]earch [W]orkspace [S]ymbols' })
-      vim.keymap.set('n', '<leader>ss', builtin.lsp_document_symbols, { desc = '[S]earch [S]ymbols' })
+      vim.keymap.set('n', '<leader>ssw', builtin.lsp_workspace_symbols, { desc = '[S]earch [S]ymbols in [W]orkspace' })
+      vim.keymap.set('n', '<leader>ssd', builtin.lsp_document_symbols, { desc = '[S]earch [S]ymbols in [D]ocument' })
 
       --Git
       vim.keymap.set('n', '<leader>gb', builtin.git_branches, { desc = 'Git Branches' })
