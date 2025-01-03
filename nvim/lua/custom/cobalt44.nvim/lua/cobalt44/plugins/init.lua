@@ -1,5 +1,4 @@
 require 'cobalt44/plugins/barbar'
-require 'cobalt44/plugins/barbecue'
 require 'cobalt44/plugins/bqf'
 require 'cobalt44/plugins/bufferline'
 require 'cobalt44/plugins/coc'
