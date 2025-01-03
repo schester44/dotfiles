@@ -20,7 +20,7 @@ status_background_color=$bg
 
 # remove administrative debris (session name, hostname, time) in status bar
 # add icon when prefix is pressedbg
-tmux set-option -g status-left "#{?client_prefix,#[bg=${green}]#[fg=${bg}] ${session_icon}  , ${session_icon}  }#[bg=${bg}]#[fg=${fg}] #S"
+tmux set-option -g status-left "#{?client_prefix,#[bg=${green}]#[fg=${bg}] ${session_icon} , ${session_icon} }#[bg=${bg}]#[fg=${fg}] #S"
 
 tmux set-option -g status-right ''
 tmux set-option -g status-style "fg=${fg},bg=${bg}"
@@ -33,4 +33,4 @@ tmux set-option -g pane-border-lines "double"
 
 tmux set-window-option -g window-status-activity-style "underscore,fg=#828bb8,bg=${bg}"
 tmux set-window-option -g window-status-separator " "
-tmux set-window-option -g window-status-current-format "#[fg=${status_background_color}]#[bg=${bg}]${left_separator:?}#[fg=${white}]#[bg=${status_background_color}] ${inactive_window_icon} #[fg=${yellow},bold,bg=${status_background_color}]#I:#W #[fg=${status_background_color}]#[bg=${bg}]${right_separator:?}#[none]"
+tmux set-window-option -g window-status-current-format "#[fg=${status_background_color}]#[bg=${bg}]${left_separator:?}#[fg=${white}]#[bg=${status_background_color}] ${inactive_window_icon}#[fg=${yellow},bold,bg=${status_background_color}]#I:#W#[fg=${status_background_color}]#[bg=${bg}]${right_separator:?}#[none]"
