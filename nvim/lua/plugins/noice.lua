@@ -8,14 +8,15 @@ return {
   config = function()
     require('noice').setup {
       presets = { lsp_doc_border = true },
-      routes = {
-        {
-          view = 'notify',
-          filter = { event = 'msg_showmode' },
-        },
-      },
+      -- show macro recording message in toast
+      -- routes = {
+      --   {
+      --     view = 'notify',
+      --     filter = { event = 'msg_showmode' },
+      --   },
+      -- },
       cmdline = {
-        view = 'cmdline_popup', -- Default style
+        view = 'cmdline_popup',
         wrap = true,
         format = {
           cmdline = { icon = '❯' },
