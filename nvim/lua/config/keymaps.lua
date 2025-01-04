@@ -36,8 +36,6 @@ set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
-set('n', '<A-j>', ':m .+1<CR>==', { desc = 'Move the current line down' })
-
 -- Copy to clipboard
 set('v', '<leader>y', '"+y', { desc = 'Copy selected text to system clipboard' })
 set('n', '<leader>Y', '"+yg_', { desc = 'Copy to the end of line to system clipboard' })
@@ -74,12 +72,6 @@ set('n', '<leader>bn', '<cmd>:bprevious<CR>', { desc = 'Go to previous buffer' }
 set('n', '<leader>bd', '<cmd>:bd<CR>', { desc = 'Close buffer' })
 -- Close All Buffers
 set('n', '<leader>bD', '<cmd>:bufdo bd<CR>', { desc = 'Close all buffers' })
-
--- Move lines with Option + j/k
-set('n', '<M-j>', ':m .+1<CR>==', { desc = 'Move line down' })
-set('n', '<M-k>', ':m .-2<CR>==', { desc = 'Move line up' })
-set('v', '<M-j>', ":m '>+1<CR>gv=gv", { desc = 'Move selected lines down' })
-set('v', '<M-k>', ":m '<-2<CR>gv=gv", { desc = 'Move selected lines up' })
 
 -- Save with <leader>w
 set('n', '<leader>w', '<cmd>:w<CR>', { desc = '[W]rite' })
