@@ -1,39 +1,76 @@
-local colors = {
-  blue = '#80a0ff',
-  cyan = '#9BFAFB',
-  black = '#080808',
-  white = '#c6c6c6',
-  red = '#ff5189',
-  violet = '#FF68B8',
-  grey = '#303030',
-  bg = '#1C2E41',
-  yellow = '#FFC600',
-  dim_blue = '#506171',
-}
-
-local theme = {
-  normal = {
-    a = { fg = colors.white, bg = colors.bg },
-    b = { fg = colors.white, bg = colors.bg },
-    c = { fg = colors.blue },
-    z = { fg = colors.dim_blue, bg = colors.bg },
-  },
-
-  insert = { a = { fg = colors.violet, bg = colors.bg } },
-  visual = { a = { fg = colors.yellow, bg = colors.bg } },
-  replace = { a = { fg = colors.red, bg = colors.bg } },
-
-  inactive = {
-    a = { fg = colors.white, bg = colors.black },
-    b = { fg = colors.white, bg = colors.black },
-    c = { fg = colors.white },
-  },
-}
-
 local git_blame = require 'gitblame'
+
+vim.g.should_show_full_filepath = false
+vim.keymap.set('n', '<leader>tp', '<cmd>lua vim.g.should_show_full_filepath = not vim.g.should_show_full_filepath<CR>', { desc = '[T]oggle File [P]ath' })
 
 -- This disables showing of the blame text next to the cursor
 vim.g.gitblame_display_virtual_text = 0
+
+-- adds a border for inactive windows
+vim.opt.fillchars = {
+  stl = ' ',
+  stlnc = '─',
+}
+
+local get_theme = function()
+  local palette = require 'cobalt44.palette'
+
+  local colors = {
+    fg_bright = palette.lighter_grey,
+    fg_dim = palette.dim_blue,
+    red = palette.red,
+    violet = palette.light_pink,
+    bg = palette.cobalt_bg,
+    yellow = palette.yellow,
+  }
+
+  local active_theme = { fg = colors.fg_dim, bg = colors.bg }
+  local inactive_theme = { fg = colors.fg_dim, bg = colors.bg }
+
+  return {
+    normal = {
+      a = active_theme,
+      b = { fg = colors.fg_bright, bg = colors.bg },
+      c = active_theme,
+      x = active_theme,
+      y = active_theme,
+      z = active_theme,
+    },
+
+    insert = { a = { fg = colors.violet, bg = colors.bg } },
+    visual = { a = { fg = colors.yellow, bg = colors.bg } },
+    replace = { a = { fg = colors.red, bg = colors.bg } },
+
+    inactive = {
+      a = inactive_theme,
+      b = inactive_theme,
+      c = inactive_theme,
+      x = inactive_theme,
+      y = inactive_theme,
+      z = inactive_theme,
+    },
+  }
+end
+
+local function copilot_status()
+  local c = require 'copilot.client'
+  local ok = not c.is_disabled() and c.buf_is_attached(vim.api.nvim_get_current_buf())
+
+  if not ok then
+    return ''
+  end
+
+  return ''
+end
+
+local macro_recording = function()
+  local reg = vim.fn.reg_recording()
+  if reg == '' then
+    return ''
+  end
+
+  return '%#LualineRecording# Recording @' .. reg
+end
 
 return {
   {
@@ -41,6 +78,7 @@ return {
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     event = 'VeryLazy',
     config = function()
+      local theme = get_theme()
       require('lualine').setup {
         options = {
           theme = theme,
@@ -49,63 +87,42 @@ return {
         },
         sections = {
           lualine_a = {
+            macro_recording,
             {
               'filename',
               path = 1,
-              file_status = false,
-              padding = { left = 1, right = 0 },
-              fmt = function(str)
-                if str == nil or not str or str == '' then
-                  return ''
+              fmt = function(name)
+                if vim.g.should_show_full_filepath then
+                  return name
                 end
 
-                if not str:find '/' then
-                  return ''
-                end
-
-                local name = str:match '([^/]+)$' -- Extract the file name
-                if name == nil then
-                  return ''
-                end
-
-                local relnotail = str:gsub('/' .. name .. '$', '') -- Remove the filename at the end
-
-                return '%#StatusOther#' .. relnotail .. '/'
-              end,
-            },
-            {
-              'filename',
-              path = 1,
-              padding = 0,
-              fmt = function(str)
-                if str == nil or not str or str == '' then
-                  return ''
-                end
-
-                local fullpath = str -- `str` contains the full file path
-                local name = fullpath:match '([^/]+)$' -- Extract the file name
-
-                return name
+                return vim.fn.fnamemodify(name, ':t')
               end,
             },
           },
           lualine_b = {
             'diagnostics',
+            { git_blame.get_current_blame_text, cond = git_blame.is_blame_text_available },
           },
           lualine_c = {
-            { git_blame.get_current_blame_text, cond = git_blame.is_blame_text_available },
+            -- '%=', - to center a section
           },
           lualine_x = {},
           lualine_y = { 'branch', 'diff' },
-          lualine_z = { { 'filetype', colored = false } },
+          lualine_z = { copilot_status, { 'filetype', colored = false } },
         },
         inactive_sections = {
-          lualine_a = {},
-          lualine_b = {},
-          lualine_c = { 'filename' },
+          lualine_a = {
+            {
+              'filename',
+              path = 1,
+            },
+          },
+          lualine_b = { 'diagnostics' },
+          lualine_c = {},
           lualine_x = {},
-          lualine_y = {},
-          lualine_z = {},
+          lualine_y = { 'branch', 'diff' },
+          lualine_z = { { 'filetype', colored = false } },
         },
         tabline = {},
         extensions = {},
