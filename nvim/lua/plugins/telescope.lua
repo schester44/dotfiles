@@ -57,9 +57,17 @@ return {
 
       -- [[ Configure Telescope ]]
       -- See `:help telescope` and `:help telescope.setup()`
+
+      local ui = require 'lib.ui'
+
       require('telescope').setup {
         defaults = {
           layout_strategy = 'vertical',
+          borderchars = {
+            prompt = ui.border_chars_outer_thin_telescope,
+            results = ui.border_chars_outer_thin_telescope,
+            preview = ui.border_chars_outer_thin_telescope,
+          },
         },
         pickers = {
           lsp_references = {

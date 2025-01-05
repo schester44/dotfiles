@@ -1,5 +1,6 @@
 local git_blame = require 'gitblame'
 
+vim.keymap.set('n', '<leader>tp', '<cmd>lua vim.g.should_show_full_filepath = not vim.g.should_show_full_filepath<CR>', { desc = '[T]oggle File [P]ath' })
 vim.g.should_show_full_filepath = false
 vim.keymap.set('n', '<leader>tp', '<cmd>lua vim.g.should_show_full_filepath = not vim.g.should_show_full_filepath<CR>', { desc = '[T]oggle File [P]ath' })
 
@@ -65,6 +66,7 @@ end
 
 local macro_recording = function()
   local reg = vim.fn.reg_recording()
+
   if reg == '' then
     return ''
   end

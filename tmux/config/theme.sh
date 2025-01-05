@@ -7,7 +7,7 @@ session_icon=""
 green="#5EFF78"
 yellow="#FFC400"
 light_yellow="#454A33"
-bg="#172637"
+bg="#0F1F2E"
 fg="#9C9C9D"
 white="#ffffff"
 

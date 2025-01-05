@@ -63,6 +63,7 @@ return {
       --    That is to say, every time a new file is opened that is associated with
       --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
       --    function will be executed to configure the current buffer
+
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
@@ -75,11 +76,6 @@ return {
             mode = mode or 'n'
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
-
-          -- Adds a border to the buf.hover window
-          vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
-            border = 'rounded', -- Add rounded borders to the hover window
-          })
 
           -- Show type info
           vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = event.buf, desc = 'Show Hover' })
