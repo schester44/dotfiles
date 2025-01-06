@@ -64,10 +64,9 @@ set('n', '<leader>gP', '<cmd>:Git push origin HEAD<CR>', { desc = 'Git push orig
 set('n', '<leader>gl', '<cmd>:Git pull<CR>', { desc = 'Git pull' })
 
 -- Buffers
--- Go to last buffer
 set('n', '<leader><Tab>', '<cmd>:b#<CR>', { desc = 'Go to last buffer' })
-set('n', '<leader>bp', '<cmd>:bnext<CR>', { desc = 'Go to next buffer' })
-set('n', '<leader>bn', '<cmd>:bprevious<CR>', { desc = 'Go to previous buffer' })
+set('n', ']b', '<cmd>:bnext<CR>', { desc = 'Jump to the next buffer' })
+set('n', '[b', '<cmd>:bprevious<CR>', { desc = 'Jump to the previous buffer' })
 -- Close buffer
 set('n', '<leader>bd', '<cmd>:bd<CR>', { desc = 'Close buffer' })
 -- Close All Buffers
