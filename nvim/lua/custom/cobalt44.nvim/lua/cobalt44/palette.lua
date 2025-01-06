@@ -6,7 +6,7 @@
 
 local colors = {
   cobalt_bg = '#1C2E41',
-  cobalt_sidebar = '#0F1F2E',
+  cobalt_sidebar = '#15232D',
   dim_blue = '#506171',
   --------------------------------------------------------------------------------
   --  NOTE: black, white and grey {{{
