@@ -6,6 +6,7 @@ return {
     'antoinemadec/FixCursorHold.nvim',
     'nvim-treesitter/nvim-treesitter',
     'marilari88/neotest-vitest',
+    'adrigzr/neotest-mocha',
   },
   config = function()
     -- Keymaps
@@ -46,10 +47,18 @@ return {
     end, { desc = '[T]est [O]utput' })
 
     --- Adapters
+    ---@diagnostic disable-next-line: missing-fields
     require('neotest').setup {
       adapters = {
+        require 'neotest-mocha' {
+          command = 'yarn test:unfiltered:fast',
+          cwd = function()
+            -- TODO: This is incorrect shouldn't be hardcoded, did it like this so I can run api tests from anywhere
+            return '/Users/schester/work/risk-management/api'
+          end,
+        },
         require 'neotest-vitest' {
-          -- TODO: This shouldn't be hardcoded
+          -- TODO: This is incorrect shouldn't be hardcoded, did it like this so I can run web-client tests from anywhere
           cwd = function()
             return '/Users/schester/work/risk-management/web-client'
           end,
