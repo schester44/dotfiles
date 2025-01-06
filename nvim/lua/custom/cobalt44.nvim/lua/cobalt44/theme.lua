@@ -34,7 +34,7 @@ Group.new('MoreMsg', colors.blue, nil, nil)
 Group.new('NonText', colors.dark_grey, colors.cobalt_bg, nil)
 -- Controls the background color of the editor
 Group.new('Normal', colors.white, colors.cobalt_bg, nil)
--- Controls the background color of autocomplete popup and oil.nvim, among others
+-- Controls the background color of autocomplete popup and oil.nvim, whichkey, among others
 Group.new('NormalFloat', colors.white, colors.cobalt_bg, nil)
 Group.new('NormalMode', colors.black, colors.yellow, nil)
 Group.new('NormalNC', colors.white, colors.cobalt_bg, nil)
