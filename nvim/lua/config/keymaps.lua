@@ -114,3 +114,6 @@ set('n', '<leader>nl', '<cmd>:Noice last<CR>', { desc = '[N]oice [L]ast Message'
 
 -- Make "U" the opposite of "u"
 set('n', 'U', '<C-r>', { desc = 'Redo' })
+
+-- Exit terminal with <esc><esc>
+set('t', '<esc><esc>', '<C-\\><C-n>')
