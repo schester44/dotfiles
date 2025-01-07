@@ -32,7 +32,7 @@ return {
 
     vim.keymap.set('n', '<leader>twsn', function()
       require('neotest').watch.stop()
-    end, { desc = 'Run [T]est [W]atch [S]top [N]earess' })
+    end, { desc = 'Run [T]est [W]atch [S]top [N]earest' })
 
     vim.keymap.set('n', '<leader>twsf', function()
       require('neotest').watch.stop(vim.fn.expand '%')
@@ -52,6 +52,9 @@ return {
       adapters = {
         require 'neotest-mocha' {
           command = 'yarn test:unfiltered:fast',
+          filter_dir = function(name, rel_path, root)
+            print(name, rel_path, root)
+          end,
           cwd = function()
             -- TODO: This is incorrect shouldn't be hardcoded, did it like this so I can run api tests from anywhere
             return '/Users/schester/work/risk-management/api'

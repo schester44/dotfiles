@@ -27,8 +27,8 @@ tmux set-option -g status-style "fg=${fg},bg=${bg}"
 tmux set-option -g status-left-length 80
 tmux set-option -g status-justify centre
 
-tmux set-option -g pane-active-border-style "bg=default,fg=${fg}"
-tmux set-option -g pane-border-style "bg=default,fg=colour245"
+tmux set-option -g pane-active-border-style "bg=default,fg=${green}"
+tmux set-option -g pane-border-style "bg=default,fg=#15232D"
 tmux set-option -g pane-border-lines "double"
 
 tmux set-window-option -g window-status-activity-style "underscore,fg=#828bb8,bg=${bg}"
