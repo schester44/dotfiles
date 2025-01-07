@@ -58,7 +58,7 @@ local function copilot_status()
   local ok = not c.is_disabled() and c.buf_is_attached(vim.api.nvim_get_current_buf())
 
   if not ok then
-    return ''
+    return '%#LualineCopilotOffline#'
   end
 
   return ''
