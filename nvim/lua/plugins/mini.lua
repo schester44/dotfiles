@@ -24,9 +24,15 @@ return { -- Collectindent plugins/modules
     --  - ci'  - [C]hange [I]nside [']quote
     local ai = require 'mini.ai'
 
-    ai.setup { n_lines = 500, custom_textobjects = {
-      f = ai.gen_spec.treesitter({ a = '@function.outer', i = '@function.inner' }, {}),
-    } }
+    ai.setup {
+      n_lines = 500,
+      custom_textobjects = {
+        f = ai.gen_spec.treesitter({ a = '@function.outer', i = '@function.inner' }, {}),
+        c = ai.gen_spec.treesitter({ a = '@class.outer', i = '@class.inner' }, {}),
+        a = ai.gen_spec.treesitter({ a = '@parameter.outer', i = '@parameter.inner' }, {}),
+        p = ai.gen_spec.treesitter({ a = '@parameter.list', i = '@parameter.list' }, {}),
+      },
+    }
 
     require('mini.move').setup()
     -- Add/delete/replace surroundings (brackets, quotes, etc.)
