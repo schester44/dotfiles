@@ -46,6 +46,7 @@ return {
 
     local lspkind = require 'lspkind'
     local compare = require 'cmp.config.compare'
+    local icons = require('lib.icons').icons
 
     -- If can prefix with index for each completion item, i can select with <number><tab>
     -- local select_by_index = function(index)
@@ -91,7 +92,7 @@ return {
           preset = 'codicons',
           mode = 'symbol', -- show only symbol annotations
           symbol_map = {
-            Copilot = '',
+            Copilot = icons.kinds.CopilotOnline,
           },
           maxwidth = {
             -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)

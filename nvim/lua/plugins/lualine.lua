@@ -55,13 +55,14 @@ end
 
 local function copilot_status()
   local c = require 'copilot.client'
+  local icons = require 'lib.icons'
   local ok = not c.is_disabled() and c.buf_is_attached(vim.api.nvim_get_current_buf())
 
   if not ok then
-    return '%#LualineCopilotOffline#'
+    return '%#LualineCopilotOffline#' .. icons.icons.kinds.CopilotOffline
   end
 
-  return ''
+  return icons.icons.kinds.CopilotOnline
 end
 
 local macro_recording = function()
