@@ -31,8 +31,9 @@ return {
     end, { desc = 'Run [T]est [W]atch [N]earest' })
 
     vim.keymap.set('n', '<leader>twsn', function()
+      ---@diagnostic disable-next-line: missing-parameter
       require('neotest').watch.stop()
-    end, { desc = 'Run [T]est [W]atch [S]top [N]earest' })
+    end, { desc = '[T]est [W]atch [S]top [N]earest' })
 
     vim.keymap.set('n', '<leader>twsf', function()
       require('neotest').watch.stop(vim.fn.expand '%')
@@ -47,25 +48,32 @@ return {
     end, { desc = '[T]est [O]utput' })
 
     --- Adapters
+    local neotest = require 'neotest'
+
     ---@diagnostic disable-next-line: missing-fields
-    require('neotest').setup {
-      adapters = {
-        require 'neotest-mocha' {
-          command = 'yarn test:unfiltered:fast',
-          filter_dir = function(name, rel_path, root)
-            print(name, rel_path, root)
-          end,
-          cwd = function()
-            -- TODO: This is incorrect shouldn't be hardcoded, did it like this so I can run api tests from anywhere
-            return '/Users/schester/work/risk-management/api'
-          end,
+    neotest.setup {
+      projects = {
+        ['/Users/schester/work/risk-management/api'] = {
+          default_strategy = 'integrated',
+          discovery = { enabled = true, concurrent = 0 },
+          running = { concurrent = false },
+          adapters = {
+            require 'neotest-mocha' {
+              command = 'yarn test:unfiltered:fast',
+              cwd = '/Users/schester/work/risk-management/api',
+            },
+          },
         },
-        require 'neotest-vitest' {
-          -- TODO: This is incorrect shouldn't be hardcoded, did it like this so I can run web-client tests from anywhere
-          cwd = function()
-            return '/Users/schester/work/risk-management/web-client'
-          end,
-          vitestCommand = 'yarn test', -- Uses `npx vitest` to run tests
+        ['/Users/schester/work/risk-management/web-client'] = {
+          default_strategy = 'integrated',
+          discovery = { enabled = true, concurrent = 0 },
+          running = { concurrent = true },
+          adapters = {
+            require 'neotest-vitest' {
+              vitestCommand = 'yarn test',
+              cwd = '/Users/schester/work/risk-management/web-client',
+            },
+          },
         },
       },
     }
