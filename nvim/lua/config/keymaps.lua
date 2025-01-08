@@ -74,6 +74,10 @@ set('n', '<leader>bD', '<cmd>:bufdo bd<CR>', { desc = 'Close all buffers' })
 
 -- Save with <leader>w
 set('n', '<leader>w', '<cmd>:w<CR>', { desc = '[W]rite' })
+-- Quit with <leader>q
+set('n', '<leader>q', '<cmd>:q<CR>', { desc = '[Q]uit' })
+-- Quit without saving
+set('n', '<leader>Q', '<cmd>:q!<CR>', { desc = '[Q]uit Hard' })
 
 -- File Copy Path
 set('n', '<leader>fcp', '<cmd>let @+=expand("%:p")<CR>', { desc = 'Copy file path to clipboard' })
