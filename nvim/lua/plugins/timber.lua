@@ -26,5 +26,11 @@ return {
       },
       log_marker = '🪵',
     }
+    vim.keymap.set('n', 'gll', function()
+      return require('timber.actions').insert_log { position = 'below', operator = true } .. '_'
+    end, {
+      desc = '[G]o [L]og: Insert below log statements the current line',
+      expr = true,
+    })
   end,
 }
