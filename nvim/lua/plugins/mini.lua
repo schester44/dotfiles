@@ -4,18 +4,10 @@ return { -- Collectindent plugins/modules
   config = function()
     -- Dashboard
 
-    local header = [[
-   ▄█    █▄       ▄████████  ▄█        ▄█        ▄██████▄  
-  ███    ███     ███    ███ ███       ███       ███    ███ 
-  ███    ███     ███    █▀  ███       ███       ███    ███ 
- ▄███▄▄▄▄███▄▄  ▄███▄▄▄     ███       ███       ███    ███ 
-▀▀███▀▀▀▀███▀  ▀▀███▀▀▀     ███       ███       ███    ███ 
-  ███    ███     ███    █▄  ███       ███       ███    ███ 
-  ███    ███     ███    ███ ███▌    ▄ ███▌    ▄ ███    ███ 
-  ███    █▀      ██████████ █████▄▄██ █████▄▄██  ▀██████▀  
-]]
+    local header = [[]]
+    local footer = [[NEOVIM]]
 
-    require('mini.starter').setup { header = header, footer = '' }
+    require('mini.starter').setup { header = header, footer = footer }
     -- Better Around/Inside textobjects
     --
     -- Examples:
