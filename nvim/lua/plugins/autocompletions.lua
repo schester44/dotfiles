@@ -1,3 +1,5 @@
+local snippets_dir = '~/.dotfiles/nvim/snippets'
+
 return {
   'hrsh7th/nvim-cmp',
   event = 'InsertEnter',
@@ -16,16 +18,25 @@ return {
       end)(),
 
       dependencies = {
-        -- `friendly-snippets` contains a variety of premade snippets.
-        --    See the README about individual language/framework/plugin snippets:
-        --    https://github.com/rafamadriz/friendly-snippets
         {
-          'rafamadriz/friendly-snippets',
+          'chrisgrieser/nvim-scissors',
+          dependencies = 'nvim-telescope/telescope.nvim',
+          opts = {
+            snippetDir = snippets_dir,
+          },
           config = function()
-            require('luasnip').filetype_extend('typescript', { 'javascript' })
-            require('luasnip.loaders.from_vscode').lazy_load()
+            require('luasnip.loaders.from_vscode').lazy_load {
+              paths = snippets_dir,
+            }
           end,
         },
+        -- {
+        --   'rafamadriz/friendly-snippets',
+        --   config = function()
+        --     require('luasnip').filetype_extend('typescript', { 'javascript' })
+        --     require('luasnip.loaders.from_vscode').lazy_load()
+        --   end,
+        -- },
       },
     },
     'saadparwaiz1/cmp_luasnip',
@@ -202,11 +213,11 @@ return {
         end, { 'i', 's' }),
       },
       sources = {
+        { name = 'luasnip', priority = 1300 },
         {
           name = 'copilot',
           priority = 1200,
         },
-        -- { name = 'luasnip', priority = 1300 },
         { name = 'nvim_lsp', priority = 900 },
         { name = 'path', priority = 800 },
         {

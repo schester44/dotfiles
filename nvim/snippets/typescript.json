@@ -1,0 +1,1 @@
+{"it":{"body":["it(\"${1}\", async () => {","  $0","})"],"prefix":"it"},"describe":{"body":["describe(\"${1}\", () => {","  it(\"${2}\", async () => {","    $0","  })","})"],"prefix":"describe"}}
