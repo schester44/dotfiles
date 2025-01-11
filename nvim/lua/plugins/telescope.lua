@@ -62,13 +62,7 @@ return {
 
       require('telescope').setup {
         defaults = {
-          layout_strategy = vim.o.lines > 40 and 'horizontal' or 'vertical',
-          layout_config = {
-            horizontal = {
-              prompt_position = 'top',
-            },
-          },
-          sorting_strategy = vim.o.lines > 40 and 'ascending' or 'descending',
+          layout_strategy = 'vertical',
           borderchars = {
             prompt = ui.border_chars_outer_thin_telescope,
             results = ui.border_chars_outer_thin_telescope,
