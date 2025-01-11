@@ -5,7 +5,7 @@ return { -- Collectindent plugins/modules
     -- Dashboard
 
     local header = [[]]
-    local footer = [[NEOVIM]]
+    local footer = [[]]
 
     require('mini.starter').setup { header = header, footer = footer }
     -- Better Around/Inside textobjects
