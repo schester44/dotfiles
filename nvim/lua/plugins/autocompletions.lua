@@ -28,12 +28,13 @@ return {
             require('luasnip.loaders.from_vscode').lazy_load {
               paths = snippets_dir,
             }
+            require('luasnip').filetype_extend('typescript', { 'javascript' })
+            require('luasnip').filetype_extend('typescriptreact', { 'javascript' })
           end,
         },
         -- {
-        --   'rafamadriz/friendly-snippets',
         --   config = function()
-        --     require('luasnip').filetype_extend('typescript', { 'javascript' })
+        --   'rafamadriz/friendly-snippets',
         --     require('luasnip.loaders.from_vscode').lazy_load()
         --   end,
         -- },
