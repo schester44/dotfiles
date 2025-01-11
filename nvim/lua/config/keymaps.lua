@@ -13,6 +13,14 @@ set('n', '<leader>xm', vim.diagnostic.open_float, { desc = 'Open floating [L]sp 
 
 set('n', '<leader>lr', '<cmd>LspRestart<CR>', { desc = '[L]sp [R]estart' })
 
+-- Quickfix list
+set('n', '[q', '<cmd>cnext<CR>', { desc = 'Next Quickfix Item' })
+set('n', ']q', '<cmd>cprev<CR>', { desc = 'Previous Quickfix Item' })
+
+set('n', '<leader>oq', function()
+  require('quicker').toggle()
+end, { desc = '[O]pen [Q]uickfix' })
+
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
