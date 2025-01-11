@@ -77,3 +77,16 @@ Group.new('NoiceCmdlinePopup', nil, colors.cobalt_bg, nil)
 
 -- EasyMotion
 Group.new('EasyMotionTarget', colors.yellow, colors.cobalt_bg, styles.bold)
+
+-- CSS
+Group.new('@property.css', colors.lighter_green, nil, nil)
+Group.new('@function.css', colors.orange, nil, nil)
+Group.new('@string.css', colors.light_yellow, nil, nil)
+Group.new('@number.css', colors.light_yellow, nil, nil)
+Group.new('@number.float.css', colors.light_yellow, nil, nil)
+Group.new('@variable.css', colors.light_blue, nil, nil)
+Group.new('@attribute.css', colors.green, nil, nil)
+Group.new('@constant.css', colors.light_orange, nil, nil)
+Group.new('@type.css', colors.light_orange, nil, nil)
+Group.new('@keyword.operator.css', colors.green, nil, nil)
+Group.new('@tag.attribute.css', colors.green, nil, nil)

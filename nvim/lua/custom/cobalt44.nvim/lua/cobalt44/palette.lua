@@ -29,7 +29,7 @@ local colors = {
   dark_orange = '#FF9A00',
   light_orange = '#FF9D00',
   yellow = '#FFC600',
-  light_yellow = '#F2ED7F',
+  light_yellow = '#FFEE80',
   tainted_yellow = '#454A33',
   -- }}}
   --------------------------------------------------------------------------------
