@@ -15,4 +15,10 @@ M.top_left_corner_thin = '🭽'
 M.border_chars_outer_thin_telescope = { '▔', '▕', '▁', '▏', '🭽', '🭾', '🭿', '🭼' }
 M.border_chars_outer_thick_telescope = { '▀', '▐', '▄', '▌', '▛', '▜', '▟', '▙' }
 
+-- @param {string} hl
+-- @param {string} str
+M.hl_str = function(hl, str)
+  return '%#' .. hl .. '#' .. str .. '%*'
+end
+
 return M
