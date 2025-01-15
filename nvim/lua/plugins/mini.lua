@@ -1,13 +1,39 @@
-return { -- Collectindent plugins/modules
+local setup_starter = function()
+  local header = [[]]
+  local footer = [[]]
+
+  local items = nil
+
+  local is_vault = vim.fn.expand('%:p:h'):match '/vaults'
+
+  local starter = require 'mini.starter'
+
+  if is_vault then
+    local name_of_vault = vim.fn.expand '%:p:h:t'
+    items = { {
+      action = 'edit' .. ' ' .. vim.fn.expand '%:p:h' .. '/index.md',
+      name = 'index.md',
+      section = name_of_vault,
+    } }
+  else
+    items = {
+      starter.sections.recent_files(10, true, false),
+    }
+  end
+
+  starter.setup {
+    header = header,
+    footer = footer,
+    items = items,
+  }
+end
+
+return {
   'echasnovski/mini.nvim',
   dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects' },
   config = function()
-    -- Dashboard
+    setup_starter()
 
-    local header = [[]]
-    local footer = [[]]
-
-    require('mini.starter').setup { header = header, footer = footer }
     -- Better Around/Inside textobjects
     --
     -- Examples:
@@ -33,7 +59,5 @@ return { -- Collectindent plugins/modules
     -- - sd'   - [S]urround [D]elete [']quotes
     -- - sr)'  - [S]urround [R]eplace [)] [']
     require('mini.surround').setup()
-    -- ... and there is more!
-    --  Check out: https://github.com/echasnovski/mini.nvim
   end,
 }
