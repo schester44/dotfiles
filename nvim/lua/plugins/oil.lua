@@ -10,6 +10,10 @@ return {
         end,
       },
       float = { padding = 2, max_width = 120, max_height = 0 },
+      keymaps = {
+        ['<C-v>'] = { 'actions.select', opts = { vertical = true } },
+        ['<C-x>'] = { 'actions.select', opts = { horizontal = true } },
+      },
     }
 
     vim.keymap.set('n', '-', '<CMD>Oil --float<CR>', { desc = 'Open parent directory' })
