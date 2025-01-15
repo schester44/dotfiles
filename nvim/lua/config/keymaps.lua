@@ -17,9 +17,9 @@ set('n', '<leader>lr', '<cmd>LspRestart<CR>', { desc = '[L]sp [R]estart' })
 set('n', '[q', '<cmd>cnext<CR>', { desc = 'Next Quickfix Item' })
 set('n', ']q', '<cmd>cprev<CR>', { desc = 'Previous Quickfix Item' })
 
-set('n', '<leader>oq', function()
+set('n', '<leader>tq', function()
   require('quicker').toggle()
-end, { desc = '[O]pen [Q]uickfix' })
+end, { desc = '[T]oggle [Q]uickfix' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which

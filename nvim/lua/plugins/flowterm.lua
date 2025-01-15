@@ -5,7 +5,7 @@ return {
     config = function()
       local flowterm = require 'flowterm'
 
-      vim.keymap.set({ 'n', 't' }, '<leader>ot', flowterm.toggle_terminal, { desc = '[O]pen [T]erminal' })
+      vim.keymap.set({ 'n', 't' }, '<leader>tt', flowterm.toggle_terminal, { desc = '[T]oggle [T]erminal' })
     end,
   },
 }

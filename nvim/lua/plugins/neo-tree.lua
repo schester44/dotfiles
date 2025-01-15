@@ -11,7 +11,7 @@ return {
   },
   cmd = 'Neotree',
   keys = {
-    { '<leader>oe', ':Neotree toggle<CR>', desc = '[O]pen [E]xplorer', silent = true },
+    { '<leader>te', ':Neotree toggle<CR>', desc = '[T]oggle [E]xplorer', silent = true },
   },
   opts = {
     close_if_last_window = true,
