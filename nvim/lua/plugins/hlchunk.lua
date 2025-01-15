@@ -1,6 +1,5 @@
 return {
   'shellRaining/hlchunk.nvim',
-  event = { 'BufReadPre', 'BufNewFile' },
   config = function()
     require('hlchunk').setup {
       chunk = {
@@ -26,7 +25,7 @@ return {
         delay = 0,
       },
       line_num = {
-        enable = true,
+        enable = false,
         style = '#9E9EFF',
         priority = 10,
         use_treesitter = true,

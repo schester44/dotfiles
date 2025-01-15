@@ -17,16 +17,6 @@ local user_config = {
     theme_palette.cobalt_bg_light,
     theme_palette.cobalt_bg_light,
     theme_palette.cobalt_bg_light,
-    -- theme_palette.dark_grey,
-    -- theme_palette.grey,
-    -- theme_palette.light_grey,
-    -- theme_palette.lighter_grey,
-    -- theme_palette.cobalt_bg_dark,
-    -- theme_palette.light_pink,
-    -- theme_palette.light_green,
-    -- theme_palette.orange,
-    -- theme_palette.cobalt_bg_light,
-    -- theme_palette.blue,
   },
 }
 
@@ -39,7 +29,7 @@ for i, color in ipairs(user_config.colors) do
   end
 end
 
-vim.api.nvim_set_hl(0, 'FoldClosed', { fg = theme_palette.lighter_grey })
+vim.api.nvim_set_hl(0, 'FoldClosed', { fg = theme_palette.blue })
 
 statuscolumn.number = function()
   local uncolored_text = '%#LineNr#'
@@ -48,19 +38,6 @@ statuscolumn.number = function()
 end
 
 vim.o.foldnestmax = #user_config.colors
-
-statuscolumn.signs = function()
-  local signs = vim.fn.sign_getplaced(vim.api.nvim_get_current_buf(), {
-    lnum = vim.v.lnum,
-    group = '*',
-  })
-
-  if #signs > 0 and #signs[1].signs > 0 then
-    return '%s'
-  end
-
-  return statuscolumn.border()
-end
 
 statuscolumn.render = function()
   local text = ''
@@ -74,11 +51,9 @@ statuscolumn.render = function()
   text = table.concat {
     '%=',
     statuscolumn.number(),
-    ' ',
-    statuscolumn.signs(),
-    statuscolumn.folds(),
-    ' ',
-    statuscolumn.border(),
+    '  ',
+    '%s',
+    statuscolumn.pretty_folds(),
   }
 
   return text
@@ -88,7 +63,7 @@ statuscolumn.border = function()
   return '%#FoldColumn#│'
 end
 
-statuscolumn.folds = function()
+statuscolumn.pretty_folds = function()
   local win = vim.g.statusline_winid
   local wp = C.find_window_by_handle(win, error)
   local opts = { win = win }
@@ -105,8 +80,8 @@ statuscolumn.folds = function()
     fold = {
       width = C.compute_foldcolumn(wp, 0),
       open = '╭',
-      close = '',
-      sep = '│',
+      close = '%=',
+      sep = '╎',
       eofold = '╰',
     },
   }
