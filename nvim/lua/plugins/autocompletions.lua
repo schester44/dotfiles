@@ -4,7 +4,6 @@ return {
   'hrsh7th/nvim-cmp',
   event = 'InsertEnter',
   dependencies = {
-    -- Snippet Engine & its associated nvim-cmp source
     {
       'L3MON4D3/LuaSnip',
       build = (function()
@@ -32,14 +31,9 @@ return {
             require('luasnip').filetype_extend('typescriptreact', { 'javascript' })
           end,
         },
-        -- {
-        --   config = function()
-        --   'rafamadriz/friendly-snippets',
-        --     require('luasnip.loaders.from_vscode').lazy_load()
-        --   end,
-        -- },
       },
     },
+    'onsails/lspkind.nvim',
     'saadparwaiz1/cmp_luasnip',
 
     -- Adds other completion capabilities.
