@@ -2,7 +2,7 @@ local colors = require('cobalt44.utils').colors
 local Group = require('cobalt44.utils').Group
 
 -- Sidebar border
-Group.new('NeoTreeWinSeparator', colors.cobalt_sidebar, nil, nil)
+Group.new('NeoTreeWinSeparator', colors.cobalt_bg_dark, nil, nil)
 
 Group.new('NeoTreeBufferNumber', colors.dark_pink, nil, nil)
 Group.new('NeoTreeDimText', colors.light_grey, nil, nil)
@@ -24,7 +24,7 @@ Group.new('NeoTreeGitStaged', colors.green, nil, nil)
 Group.new('NeoTreeGitUnstaged', colors.blue, nil, nil)
 Group.new('NeoTreeGitUntracked', colors.light_green, nil, nil)
 Group.new('NeoTreeIndentMarker', colors.light_grey, nil, nil)
-Group.new('NeoTreeNormal', colors.white, colors.cobalt_sidebar, nil)
+Group.new('NeoTreeNormal', colors.white, colors.cobalt_bg_dark, nil)
 Group.new('NeoTreeRootName', colors.yellow, nil, nil)
 Group.new('NeoTreeSymbolicLinkTarget', colors.light_pink, nil, nil)
 Group.new('NeoTreeTitleBar', colors.blue, colors.cursor_line, nil)

@@ -27,7 +27,7 @@ return {
       },
       line_num = {
         enable = true,
-        style = '#9E9E9E',
+        style = '#9E9EFF',
         priority = 10,
         use_treesitter = true,
       },

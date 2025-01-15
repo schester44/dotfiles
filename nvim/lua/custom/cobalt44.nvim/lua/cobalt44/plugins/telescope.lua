@@ -5,10 +5,10 @@ local styles = require('cobalt44.utils').styles
 --------------------------------------------------------------------------------
 --  NOTE: general {{{
 --------------------------------------------------------------------------------
-Group.new('TelescopeBorder', colors.cobalt_bg, colors.cobalt_sidebar, nil)
+Group.new('TelescopeBorder', colors.cobalt_bg, colors.cobalt_bg_dark, nil)
 Group.new('TelescopeMatching', colors.yellow, nil, nil)
 Group.new('TelescopeMultiSelection', colors.dark_pink, nil, nil)
-Group.new('TelescopeNormal', colors.white, colors.cobalt_sidebar, nil)
+Group.new('TelescopeNormal', colors.white, colors.cobalt_bg_dark, nil)
 Group.new('TelescopeSelection', colors.yellow, colors.cursor_hover, nil)
 Group.new('TelescopeSelectionCaret', colors.yellow, colors.cursor_hover, nil)
 -- }}}
@@ -17,8 +17,8 @@ Group.new('TelescopeSelectionCaret', colors.yellow, colors.cursor_hover, nil)
 --------------------------------------------------------------------------------
 --  NOTE: prompt {{{
 --------------------------------------------------------------------------------
-Group.new('TelescopePrompt', colors.yellow, colors.cobalt_sidebar, nil)
-Group.new('TelescopePromptBorder', colors.cobalt_bg, colors.cobalt_sidebar, nil)
+Group.new('TelescopePrompt', colors.yellow, colors.cobalt_bg_dark, nil)
+Group.new('TelescopePromptBorder', colors.cobalt_bg, colors.cobalt_bg_dark, nil)
 Group.new('TelescopePromptCounter', colors.light_grey, nil, nil)
 Group.new('TelescopePromptPrefix', colors.dark_orange, nil, nil)
 Group.new('TelescopePromptTitle', colors.light_pink, colors.cobalt_bg, nil)
@@ -28,7 +28,7 @@ Group.new('TelescopePromptTitle', colors.light_pink, colors.cobalt_bg, nil)
 --------------------------------------------------------------------------------
 --  NOTE: preview {{{
 --------------------------------------------------------------------------------
-Group.new('TelescopePreviewBorder', colors.cobalt_bg, colors.cobalt_sidebar, nil)
+Group.new('TelescopePreviewBorder', colors.cobalt_bg, colors.cobalt_bg_dark, nil)
 Group.new('TelescopePreviewTitle', colors.yellow, colors.cobalt_bg, nil)
 -- }}}
 --------------------------------------------------------------------------------
@@ -36,14 +36,14 @@ Group.new('TelescopePreviewTitle', colors.yellow, colors.cobalt_bg, nil)
 --------------------------------------------------------------------------------
 --  NOTE: results {{{
 --------------------------------------------------------------------------------
-Group.new('TelescopeResultsBorder', colors.cobalt_bg, colors.cobalt_sidebar, nil)
+Group.new('TelescopeResultsBorder', colors.cobalt_bg, colors.cobalt_bg_dark, nil)
 Group.new('TelescopeResultsClass', colors.purple, nil, styles.italic)
 Group.new('TelescopeResultsConstant', colors.light_grey, nil, styles.italic)
 Group.new('TelescopeResultsField', colors.light_blue, nil, styles.italic)
 Group.new('TelescopeResultsFunction', colors.light_pink, nil, styles.italic)
 Group.new('TelescopeResultsIdentifier', colors.light_yellow, nil, styles.italic)
 Group.new('TelescopeResultsMethod', colors.yellow, nil, styles.italic)
-Group.new('TelescopeResultsNormal', colors.white, colors.cobalt_sidebar, nil)
+Group.new('TelescopeResultsNormal', colors.white, colors.cobalt_bg_dark, nil)
 Group.new('TelescopeResultsNumber', colors.dark_pink, nil, nil)
 Group.new('TelescopeResultsOperator', colors.light_blue, nil, styles.italic)
 Group.new('TelescopeResultsSpecialComment', colors.blue, nil, styles.italic)

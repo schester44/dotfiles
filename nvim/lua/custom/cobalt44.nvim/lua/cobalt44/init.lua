@@ -9,8 +9,10 @@ local palette = require 'cobalt44.palette'
 --------------------------------------------------------------------------------
 --  NOTE: colors {{{
 --------------------------------------------------------------------------------
+Color.new('cobalt_bg_light', palette.cobalt_bg_light)
+Color.new('cobalt_bg_dark', palette.cobalt_bg_dark)
+Color.new('cobalt_bg', palette.cobalt_bg)
 
-Color.new('cobalt_sidebar', palette.cobalt_sidebar)
 Color.new('light_blue_green', palette.light_blue_green)
 Color.new('black', palette.black)
 Color.new('darkest_grey', palette.darkest_grey)
@@ -34,7 +36,6 @@ Color.new('lightest_green', palette.lightest_green)
 Color.new('dark_purple', palette.dark_purple)
 Color.new('purple', palette.purple)
 Color.new('light_purple', palette.light_purple)
-Color.new('cobalt_bg', palette.cobalt_bg)
 Color.new('darkest_blue', palette.darkest_blue)
 Color.new('darker_blue', palette.darker_blue)
 Color.new('dark_blue', palette.dark_blue)
