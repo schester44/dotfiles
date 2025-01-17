@@ -5,6 +5,43 @@
 --
 local Color = require('cobalt44.utils').Color
 local palette = require 'cobalt44.palette'
+local M = {}
+
+-- Convert a hex color (e.g., "#162F43") to RGB
+local function hex_to_rgb(hex)
+  hex = hex:gsub('#', '')
+  return tonumber(hex:sub(1, 2), 16), tonumber(hex:sub(3, 4), 16), tonumber(hex:sub(5, 6), 16)
+end
+
+-- Convert RGB values to a hex color
+local function rgb_to_hex(r, g, b)
+  return string.format('#%02X%02X%02X', r, g, b)
+end
+
+-- Blend two colors (foreground and background) with a given alpha value
+function M.blend(fg, bg, alpha)
+  local r1, g1, b1 = hex_to_rgb(fg)
+  local r2, g2, b2 = hex_to_rgb(bg)
+
+  -- Perform alpha blending
+  local r = math.floor((alpha * r1) + ((1 - alpha) * r2))
+  local g = math.floor((alpha * g1) + ((1 - alpha) * g2))
+  local b = math.floor((alpha * b1) + ((1 - alpha) * b2))
+
+  return rgb_to_hex(r, g, b)
+end
+
+-- Adjust the transparency of a color by blending it with a base color
+function M.adjust_transparency(hex_color, background, alpha)
+  return M.blend(hex_color, background, alpha)
+end
+
+Color.new('light_orange_bg', M.adjust_transparency(palette.light_orange, palette.cobalt_bg, 0.1))
+Color.new('light_purple_bg', M.adjust_transparency(palette.purple, palette.cobalt_bg, 0.1))
+Color.new('light_green_bg', M.adjust_transparency(palette.light_green, palette.cobalt_bg, 0.1))
+Color.new('light_blue_bg', M.adjust_transparency(palette.light_blue, palette.cobalt_bg, 0.1))
+Color.new('light_pink_bg', M.adjust_transparency(palette.light_pink, palette.cobalt_bg, 0.1))
+Color.new('light_yellow_bg', M.adjust_transparency(palette.light_yellow, palette.cobalt_bg, 0.1))
 
 --------------------------------------------------------------------------------
 --  NOTE: colors {{{

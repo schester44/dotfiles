@@ -4,7 +4,6 @@ local Group = require('cobalt44.utils').Group
 
 Group.new('MiniStarterHeader', colors.cobalt_bg_dark, nil, nil)
 
-Group.new('DiagnosticFloatingError', colors.white, colors.cobalt_bg_dark, nil)
 Group.new('ColorColumn', nil, colors.cursor_line, nil)
 Group.new('CommandMode', colors.black, colors.darker_blue, nil)
 Group.new('Conceal', colors.dark_grey, nil, nil)
@@ -24,18 +23,20 @@ Group.new('FloatBorder', colors.darker_blue, colors.blue, nil)
 Group.new('FloatTitle', colors.yellow, colors.darker_blue, nil)
 Group.new('FoldColumn', colors.cobalt_bg_light, colors.cobalt_bg, nil)
 -- Folded text/background
-Group.new('Folded', colors.light_grey, colors.cobalt_bg_light, styles.italic)
+Group.new('Folded', nil, colors.cobalt_bg, styles.italic)
+Group.new('MoreMsg', colors.cobalt_bg_dark, colors.light_yellow, nil)
+Group.new('FoldedCorners', colors.light_yellow, colors.cobalt_bg_light, nil)
+
 Group.new('IncSearch', colors.black, colors.yellow, styles.NONE)
 Group.new('InsertMode', colors.black, colors.dirty_blue, nil)
 Group.new('LineNr', colors.dim_blue, colors.cobalt_bg, styles.NONE)
 Group.new('MatchParen', colors.white, colors.dark_purple, styles.bold)
 Group.new('MatchWord', colors.white, colors.dark_purple, styles.bold)
 Group.new('ModeMsg', colors.white, nil, styles.bold)
-Group.new('MoreMsg', colors.blue, nil, nil)
 Group.new('NonText', colors.dark_grey, colors.cobalt_bg, nil)
 -- Controls the background color of the editor
 Group.new('Normal', colors.white, colors.cobalt_bg, nil)
--- Controls the background color of autocomplete popup and oil.nvim, whichkey, among others
+-- Controls the background color of autocomplete popup and oil.nvim, whichkey, floating windows, etc
 Group.new('NormalFloat', colors.white, colors.cobalt_bg, nil)
 Group.new('NormalMode', colors.black, colors.yellow, nil)
 Group.new('NormalNC', colors.white, colors.cobalt_bg, nil)
@@ -91,3 +92,15 @@ Group.new('@constant.css', colors.light_orange, nil, nil)
 Group.new('@type.css', colors.light_orange, nil, nil)
 Group.new('@keyword.operator.css', colors.green, nil, nil)
 Group.new('@tag.attribute.css', colors.green, nil, nil)
+
+Group.new('UfoFoldedBg', nil, colors.cobalt_bg_light, nil)
+
+vim.api.nvim_set_hl(0, 'Folded', { link = 'UfoFoldedBg' })
+
+-- Markdown -- for some reason putting these in languages/markdown doesn't work unless u change the import order in init.lua. Guessing they're getting overwrriten by something
+Group.new('Headline4', colors.yellow, colors.light_orange_bg, styles.bold)
+Group.new('Headline1', colors.light_green, colors.light_green_bg, styles.bold)
+Group.new('Headline5', colors.purple, colors.light_purple_bg, styles.bold)
+Group.new('Headline3', colors.lightest_pink, colors.light_pink_bg, styles.bold)
+Group.new('Headline2', colors.light_blue, colors.light_blue_bg, styles.bold)
+Group.new('Headline6', colors.light_yellow, colors.light_yellow_bg, styles.bold)

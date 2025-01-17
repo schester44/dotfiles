@@ -1,13 +1,12 @@
-local colors = require("cobalt44.utils").colors
-local Group = require("cobalt44.utils").Group
+local colors = require('cobalt44.utils').colors
+local Group = require('cobalt44.utils').Group
+local styles = require('cobalt44.utils').styles
 
-Group.new("markdownCode", colors.dark_blue, nil, nil)
-Group.new("markdownCodeBlock", colors.dark_blue, nil, nil)
-Group.new("markdownH1", colors.yellow, nil, nil)
-Group.new("markdownH2", colors.yellow, nil, nil)
-Group.new("markdownH3", colors.yellow, nil, nil)
-Group.new("markdownH4", colors.yellow, nil, nil)
-Group.new("markdownH5", colors.yellow, nil, nil)
-Group.new("markdownH6", colors.yellow, nil, nil)
-Group.new("markdownHeadingDelimiter", colors.dark_orange, nil, nil)
-Group.new("markdownLinkText", colors.dark_blue, nil, nil)
+Group.new('CodeBlock', nil, colors.cobalt_bg_dark, nil)
+
+Group.new('Headline4', colors.yellow, colors.light_orange_bg, styles.bold)
+Group.new('Headline1', colors.light_green, colors.light_green_bg, styles.bold)
+Group.new('Headline5', colors.purple, colors.light_purple_bg, styles.bold)
+Group.new('Headline3', colors.lightest_pink, colors.light_pink_bg, styles.bold)
+Group.new('Headline2', colors.light_blue, colors.light_blue_bg, styles.bold)
+Group.new('Headline6', colors.light_yellow, colors.light_yellow_bg, styles.bold)
