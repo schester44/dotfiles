@@ -9,7 +9,9 @@ set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
 -- For other diagnostic commands, see trouble.lua
-set('n', '<leader>xm', vim.diagnostic.open_float, { desc = 'Open floating [L]sp [D]iagnostic message' })
+set('n', '<leader>xm', function()
+  vim.diagnostic.open_float { border = 'rounded' }
+end, { desc = 'Open floating [L]sp [D]iagnostic message' })
 
 set('n', '<leader>lr', '<cmd>LspRestart<CR>', { desc = '[L]sp [R]estart' })
 
