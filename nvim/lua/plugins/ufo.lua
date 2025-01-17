@@ -4,9 +4,11 @@ local handler = function(virtText, lnum, endLnum, width, truncate)
   local sufWidth = vim.fn.strdisplaywidth(suffix)
   local targetWidth = width - sufWidth
   local curWidth = 0
+
   for _, chunk in ipairs(virtText) do
     local chunkText = chunk[1]
     local chunkWidth = vim.fn.strdisplaywidth(chunkText)
+
     if targetWidth > curWidth + chunkWidth then
       table.insert(newVirtText, chunk)
     else
@@ -22,7 +24,11 @@ local handler = function(virtText, lnum, endLnum, width, truncate)
     end
     curWidth = curWidth + chunkWidth
   end
+
+  table.insert(newVirtText, { ' ', 'FoldedCorners' })
   table.insert(newVirtText, { suffix, 'MoreMsg' })
+  table.insert(newVirtText, { '', 'FoldedCorners' })
+
   return newVirtText
 end
 
