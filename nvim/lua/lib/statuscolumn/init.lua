@@ -8,15 +8,15 @@ local theme_palette = require 'cobalt44.palette'
 
 local user_config = {
   colors = {
-    theme_palette.cobalt_bg_light,
-    theme_palette.cobalt_bg_light,
-    theme_palette.cobalt_bg_light,
-    theme_palette.cobalt_bg_light,
-    theme_palette.cobalt_bg_light,
-    theme_palette.cobalt_bg_light,
-    theme_palette.cobalt_bg_light,
-    theme_palette.cobalt_bg_light,
-    theme_palette.cobalt_bg_light,
+    theme_palette.dim_blue,
+    theme_palette.dim_blue,
+    theme_palette.dim_blue,
+    theme_palette.dim_blue,
+    theme_palette.dim_blue,
+    theme_palette.dim_blue,
+    theme_palette.dim_blue,
+    theme_palette.dim_blue,
+    theme_palette.dim_blue,
   },
 }
 
@@ -29,12 +29,15 @@ for i, color in ipairs(user_config.colors) do
   end
 end
 
-vim.api.nvim_set_hl(0, 'FoldClosed', { fg = theme_palette.blue })
+vim.api.nvim_set_hl(0, 'FoldClosed', { fg = theme_palette.purple })
 
 statuscolumn.number = function()
+  local is_cmd_open = vim.fn.mode() == 'c'
+
   local uncolored_text = '%#LineNr#'
   local colored_text = '%#CursorLineNr#'
-  return vim.v.relnum == 0 and colored_text .. vim.v.lnum or uncolored_text .. vim.v.relnum
+
+  return vim.v.relnum == 0 and colored_text .. vim.v.lnum or uncolored_text .. (is_cmd_open and vim.v.lnum or vim.v.relnum)
 end
 
 vim.o.foldnestmax = #user_config.colors
@@ -81,7 +84,7 @@ statuscolumn.pretty_folds = function()
       width = C.compute_foldcolumn(wp, 0),
       open = '╭',
       close = '%=',
-      sep = '╎',
+      sep = '│',
       eofold = '╰',
     },
   }
