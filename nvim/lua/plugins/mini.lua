@@ -52,6 +52,7 @@ return {
       },
     }
 
+    -- Move lines
     require('mini.move').setup()
     -- Add/delete/replace surroundings (brackets, quotes, etc.)
     --

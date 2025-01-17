@@ -10,40 +10,40 @@ return {
   },
   config = function()
     -- Keymaps
-    vim.keymap.set('n', '<leader>tf', function()
+    vim.keymap.set('n', '<leader>Tf', function()
       require('neotest').run.run(vim.fn.expand '%')
     end, { desc = 'Run [T]est [F]ile' })
 
-    vim.keymap.set('n', '<leader>tl', function()
+    vim.keymap.set('n', '<leader>Tl', function()
       require('neotest').run.run_last()
     end, { desc = 'Run Last Test' })
 
-    vim.keymap.set('n', '<leader>tn', function()
+    vim.keymap.set('n', '<leader>Tn', function()
       require('neotest').run.run()
     end, { desc = 'Run [T]est [N]earest' })
 
-    vim.keymap.set('n', '<leader>twf', function()
+    vim.keymap.set('n', '<leader>Twf', function()
       require('neotest').watch.watch(vim.fn.expand '%')
     end, { desc = 'Run [T]est [W]atch [F]ile' })
 
-    vim.keymap.set('n', '<leader>twn', function()
+    vim.keymap.set('n', '<leader>Twn', function()
       require('neotest').watch.watch()
     end, { desc = 'Run [T]est [W]atch [N]earest' })
 
-    vim.keymap.set('n', '<leader>twsn', function()
+    vim.keymap.set('n', '<leader>Twsn', function()
       ---@diagnostic disable-next-line: missing-parameter
       require('neotest').watch.stop()
     end, { desc = '[T]est [W]atch [S]top [N]earest' })
 
-    vim.keymap.set('n', '<leader>twsf', function()
+    vim.keymap.set('n', '<leader>Twsf', function()
       require('neotest').watch.stop(vim.fn.expand '%')
     end, { desc = '[T]est [W]atch [S]top [F]ile' })
 
-    vim.keymap.set('n', '<leader>ts', function()
+    vim.keymap.set('n', '<leader>Ts', function()
       require('neotest').summary.toggle()
     end, { desc = '[T]est [S]ummary' })
 
-    vim.keymap.set('n', '<leader>to', function()
+    vim.keymap.set('n', '<leader>To', function()
       require('neotest').output_panel.toggle()
     end, { desc = '[T]est [O]utput' })
 
