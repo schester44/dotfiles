@@ -62,13 +62,13 @@ autocmd('CmdlineLeave', {
   end,
 })
 
-local target_directory = '/Users/schester/work/risk-management'
-local script_path = target_directory .. '/setup-scripts/sync-environments.sh'
-
-if vim.fn.getcwd() == target_directory then
-  vim.api.nvim_create_user_command('EnvSync', function()
-    print(vim.fn.system(script_path))
-  end, { desc = 'Sync infisical environment' })
-
-  vim.keymap.set('n', '<leader>es', '<CMD>EnvSync<CR>', { desc = '[E]nvironment [S]ync' })
-end
+autocmd({ 'BufLeave', 'QuitPre' }, {
+  desc = 'Autosave vault notes',
+  pattern = '*.md',
+  callback = function()
+    local filepath = vim.fn.expand '%:p'
+    if filepath:find(vim.fn.expand '~/vaults/') then
+      vim.cmd 'silent! write'
+    end
+  end,
+})
