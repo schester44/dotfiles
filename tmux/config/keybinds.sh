@@ -13,9 +13,8 @@ tmux bind-key C-a send-prefix
 # https://github.com/joshmedeski/sesh
 # This key is mapped to cmd+k via Wezterm
 
-
 # split panes using | and -
-tmux bind-key | split-window -h -c "#{pane_current_path}"
+tmux bind-key '|' split-window -h -c "#{pane_current_path}"
 tmux bind-key - split-window -v -c "#{pane_current_path}"
 tmux unbind '"'
 tmux unbind %
@@ -34,4 +33,3 @@ tmux bind-key h select-pane -L
 tmux bind-key l select-pane -R
 tmux bind-key j select-pane -D
 tmux bind-key k select-pane -U
-
