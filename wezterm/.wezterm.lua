@@ -22,6 +22,16 @@ config.cell_width = 1
 
 config.enable_tab_bar = false
 
+config.background = {
+	{ source = { File = "/Users/schester/Pictures/mono_dark_distortion_1.jpeg" } },
+	{
+		source = { Color = "#162F43" },
+		width = "100%",
+		height = "100%",
+		opacity = 0.95,
+	},
+}
+
 config.window_decorations = "RESIZE"
 config.window_padding = {
 	left = 0,
@@ -29,8 +39,6 @@ config.window_padding = {
 	top = 4,
 	bottom = 0,
 }
-
-config.window_background_opacity = 0.95
 
 -- @param num number
 -- return { key = string, mods = string, action = wezterm.action }
