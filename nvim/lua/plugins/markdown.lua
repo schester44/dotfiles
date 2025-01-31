@@ -12,6 +12,25 @@ local oneOnOneTemplate = [[
 
 return {
   {
+    'MeanderingProgrammer/render-markdown.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
+    ---@module 'render-markdown'
+    ---@type render.md.UserConfig
+    opts = {
+      link = { wiki = { icon = '󰎛 ' } },
+      heading = {
+        render_modes = { 'n', 'i' },
+        border = true,
+        border_virtual = true,
+        position = 'inline',
+        signs = { '' },
+        icons = { '󰎤 ', '󰎧 ', '󰎪 ', '󰎭 ', '󰎱 ', '󰎳 ' },
+        backgrounds = { 'Headline1', 'Headline2', 'Headline3', 'Headline4', 'Headline5', 'Headline6' },
+        foregrounds = { 'Headline1', 'Headline2', 'Headline3', 'Headline4', 'Headline5', 'Headline6' },
+      },
+    },
+  },
+  {
     'epwalsh/obsidian.nvim',
     version = '*', -- recommended, use latest release instead of latest commit
     lazy = true,
@@ -45,6 +64,7 @@ return {
       vim.keymap.set('n', '<leader>od', '<CMD>ObsidianDailies<CR>', { desc = '[O]bsidian [D]aily Note' })
 
       require('obsidian').setup {
+        ui = { enable = false },
         workspaces = {
           {
             name = 'work',
