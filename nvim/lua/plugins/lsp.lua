@@ -11,6 +11,11 @@ return {
       },
     },
   },
+  {
+    'pmizio/typescript-tools.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
+    opts = {},
+  },
   { 'Bilal2453/luvit-meta', lazy = true },
   -- {
   --   'pmizio/typescript-tools.nvim',
@@ -79,8 +84,6 @@ return {
           -- Show type info
           vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = event.buf, desc = 'Show Hover' })
 
-          -- Jump to the definition of the word under your cursor.
-          --  This is where a variable was first declared, or where a function is defined, etc.
           --  To jump back, press <C-t>.
           map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
 
@@ -178,7 +181,7 @@ return {
         -- But for many setups, the LSP (`tsserver`) will work just fine
         -- tsserver = {},
         --
-        ts_ls = {},
+        -- ts_ls = {},
 
         lua_ls = {
           -- cmd = {...},
