@@ -75,6 +75,13 @@ local macro_recording = function()
   return '%#LualineRecording# Recording @' .. reg
 end
 
+local buffer_modified = function()
+  if vim.bo.modified then
+    return '%#LualineFileModified#[+]'
+  end
+  return ''
+end
+
 return {
   {
     'nvim-lualine/lualine.nvim',
@@ -90,10 +97,13 @@ return {
         },
         sections = {
           lualine_a = {
+
+            buffer_modified,
             macro_recording,
             {
               'filename',
               path = 1,
+              file_status = false,
               fmt = function(name)
                 if vim.g.should_show_full_filepath then
                   return name
@@ -112,7 +122,7 @@ return {
           },
           lualine_x = {},
           lualine_y = { 'branch', 'diff' },
-          lualine_z = { copilot_status, { 'filetype', colored = false } },
+          lualine_z = { copilot_status },
         },
         inactive_sections = {
           lualine_a = {
@@ -125,7 +135,7 @@ return {
           lualine_c = {},
           lualine_x = {},
           lualine_y = { 'branch', 'diff' },
-          lualine_z = { { 'filetype', colored = false } },
+          lualine_z = {},
         },
         tabline = {},
         extensions = {},
