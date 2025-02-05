@@ -1,0 +1,50 @@
+local ui = require 'lib.ui'
+
+-- return {
+--   'folke/snacks.nvim',
+--   priority = 1000,
+--   lazy = false,
+--   ---@type snacks.Config
+--   opts = {
+--     -- your configuration comes here
+--     -- or leave it empty to use the default settings
+--     -- refer to the configuration section below
+--     picker = {
+--       enabled = true,
+--       layout = {
+--         reverse = true,
+--         layout = {
+--           box = 'vertical',
+--           backdrop = false,
+--           width = 0.8,
+--           height = 0.8,
+--           border = 'none',
+--           {
+--             win = 'preview',
+--             title = '{preview:Preview}',
+--             border = ui.border_chars_outer_thin,
+--             title_pos = 'center',
+--           },
+--           { win = 'list', title = ' Results ', title_pos = 'center', border = ui.border_chars_outer_thin },
+--           { win = 'input', height = 1, border = ui.border_chars_outer_thin, title = '{title} {live} {flags}', title_pos = 'center' },
+--         },
+--       },
+--       formatters = {
+--         file = {
+--           filename_first = false, -- display filename before the file path
+--           truncate = 100,
+--         },
+--       },
+--     },
+--   },
+--   keys = {
+--     {
+--       '<leader>fF',
+--       function()
+--         Snacks.picker.smart { title = 'Find File' }
+--       end,
+--       desc = '[F]ind [F]ile',
+--     },
+--   },
+-- }
+return {}
