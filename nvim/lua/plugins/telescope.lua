@@ -62,21 +62,13 @@ return {
 
       require('telescope').setup {
         defaults = {
+
+          winblend = 10,
           layout_strategy = 'vertical',
           borderchars = {
             prompt = ui.border_chars_outer_thin_telescope,
             results = ui.border_chars_outer_thin_telescope,
             preview = ui.border_chars_outer_thin_telescope,
-          },
-        },
-        pickers = {
-          lsp_references = {
-            layout_strategy = 'vertical',
-            show_line = false,
-          },
-          find_files = {
-            hidden = true,
-            file_ignore_patterns = { '%.git/', '%.git$' }, -- Ignore .git directories and files
           },
         },
         extensions = {
@@ -87,15 +79,14 @@ return {
       }
 
       -- Enable Telescope extensions if they are installed
-      pcall(require('telescope').load_extension, 'fzf')
-      pcall(require('telescope').load_extension, 'ui-select')
+      require('telescope').load_extension 'fzf'
+      require('telescope').load_extension 'ui-select'
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
       vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[F]ind [F]iles' })
-      vim.keymap.set('n', '<leader>scw', builtin.grep_string, { desc = '[S]earch [C]urrent [W]ord' })
       -- See custom/plugins for multigrep using "sg". Allows for searching filenames
       vim.keymap.set('n', '<leader>sG', builtin.live_grep, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
