@@ -3,7 +3,7 @@ local styles = require('cobalt44.utils').styles
 local Group = require('cobalt44.utils').Group
 
 -- diagnostics
-Group.new('DiagnosticError', colors.red:light(), nil, nil)
+Group.new('DiagnosticError', colors.muted_red, nil, nil)
 Group.new('DiagnosticHint', colors.light_pink, nil, nil)
 Group.new('DiagnosticInfo', colors.light_blue, nil, nil)
 Group.new('DiagnosticUnderlineError', colors.red:light(), nil, styles.underline)
