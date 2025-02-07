@@ -104,7 +104,6 @@ set('v', '<D-x>', '"+d', { desc = 'Cut to system clipboard' }) -- Cmd+x
 
 -- Toggle Git Blame
 set('n', '<leader>tg', '<cmd>:GitBlameToggle<CR>', { desc = '[T]oggle [G]it Blame' })
-set('n', '<leader>tc', '<cmd>:TSContextToggle<CR>', { desc = '[T]oggle [C]ontext' })
 -- copilot
 set('n', '<leader>tc', function()
   local copilot = require 'copilot.command'
@@ -124,7 +123,6 @@ end, { desc = '[T]oggle [C]opilot' })
 
 -- Dismiss Noice Notifications
 set('n', '<leader>nd', '<cmd>:Noice dismiss<CR>', { desc = '[N]oice [D]ismiss' })
-set('n', '<leader>nl', '<cmd>:Noice last<CR>', { desc = '[N]oice [L]ast Message' })
 
 -- Make "U" the opposite of "u"
 set('n', 'U', '<C-r>', { desc = 'Redo' })

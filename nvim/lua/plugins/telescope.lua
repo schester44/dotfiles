@@ -94,10 +94,8 @@ return {
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader>,', builtin.buffers, { desc = 'Find existing Buffers' })
       vim.keymap.set('n', '<leader>fm', builtin.marks, { desc = '[F]ind [M]arks' })
-
-      -- Search Workspace Symbols
-      vim.keymap.set('n', '<leader>ssw', builtin.lsp_workspace_symbols, { desc = '[S]earch [S]ymbols in [W]orkspace' })
-      vim.keymap.set('n', '<leader>ssd', builtin.lsp_document_symbols, { desc = '[S]earch [S]ymbols in [D]ocument' })
+      vim.keymap.set('n', '<leader>sS', builtin.lsp_workspace_symbols, { desc = '[S]earch [S]ymbols in [W]orkspace' })
+      vim.keymap.set('n', '<leader>ss', builtin.lsp_document_symbols, { desc = '[S]earch [S]ymbols in [D]ocument' })
 
       --Git
       vim.keymap.set('n', '<leader>gb', builtin.git_branches, { desc = 'Git Branches' })
