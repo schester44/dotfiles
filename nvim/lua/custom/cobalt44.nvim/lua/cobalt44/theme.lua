@@ -76,6 +76,7 @@ Group.new('qfLineNr', colors.light_grey, colors.cobalt_bg, nil)
 
 -- Noice
 Group.new('NoiceCmdlinePopup', nil, colors.cobalt_bg, nil)
+Group.new('NotifyBackground', nil, colors.cobalt_bg, nil)
 
 -- EasyMotion
 Group.new('EasyMotionTarget', colors.yellow, colors.cobalt_bg, styles.bold)
@@ -96,11 +97,3 @@ Group.new('@tag.attribute.css', colors.green, nil, nil)
 Group.new('UfoFoldedBg', nil, colors.cobalt_bg_light, nil)
 
 vim.api.nvim_set_hl(0, 'Folded', { link = 'UfoFoldedBg' })
-
--- Markdown -- for some reason putting these in languages/markdown doesn't work unless u change the import order in init.lua. Guessing they're getting overwrriten by something
-Group.new('Headline4', colors.yellow, colors.light_orange_bg, styles.bold)
-Group.new('Headline1', colors.light_green, colors.light_green_bg, styles.bold)
-Group.new('Headline5', colors.purple, colors.light_purple_bg, styles.bold)
-Group.new('Headline3', colors.lightest_pink, colors.light_pink_bg, styles.bold)
-Group.new('Headline2', colors.light_blue, colors.light_blue_bg, styles.bold)
-Group.new('Headline6', colors.light_yellow, colors.light_yellow_bg, styles.bold)

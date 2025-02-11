@@ -85,7 +85,7 @@ end
 return {
   {
     'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    dependencies = { 'nvim-tree/nvim-web-devicons', 'folke/snacks.nvim' },
     event = 'VeryLazy',
     config = function()
       local theme = get_theme()
@@ -120,7 +120,9 @@ return {
           lualine_c = {
             -- '%=', - to center a section
           },
-          lualine_x = {},
+          lualine_x = {
+            Snacks.profiler.status(),
+          },
           lualine_y = { 'branch', 'diff' },
           lualine_z = { copilot_status },
         },
