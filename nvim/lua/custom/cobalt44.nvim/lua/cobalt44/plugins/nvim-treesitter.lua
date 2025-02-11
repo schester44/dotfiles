@@ -81,7 +81,7 @@ Group.new('@type.builtin', colors.light_blue_green, nil, nil)
 
 Group.new('@attribute', colors.yellow, nil, nil)
 Group.new('@field', colors.light_blue, nil, styles.italic)
-Group.new('@property', colors.light_blue, nil, styles.italic)
+Group.new('@property', colors.light_blue, nil, nil)
 
 -- }}}
 --------------------------------------------------------------------------------
