@@ -62,7 +62,6 @@ return {
 
       require('telescope').setup {
         defaults = {
-
           winblend = 10,
           layout_strategy = 'vertical',
           borderchars = {
@@ -87,7 +86,7 @@ return {
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
       vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[F]ind [F]iles' })
-      -- See custom/plugins for multigrep using "sg". Allows for searching filenames
+      -- See custom/plugins for multigrep using "sg". Allows for searching with filenames
       vim.keymap.set('n', '<leader>sG', builtin.live_grep, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
@@ -96,15 +95,12 @@ return {
       vim.keymap.set('n', '<leader>fm', builtin.marks, { desc = '[F]ind [M]arks' })
       vim.keymap.set('n', '<leader>sS', builtin.lsp_workspace_symbols, { desc = '[S]earch [S]ymbols in [W]orkspace' })
       vim.keymap.set('n', '<leader>ss', builtin.lsp_document_symbols, { desc = '[S]earch [S]ymbols in [D]ocument' })
-
-      --Git
-      vim.keymap.set('n', '<leader>gb', builtin.git_branches, { desc = 'Git Branches' })
+      vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch [W]ord under cursor' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
         -- You can pass additional configuration to Telescope to change the theme, layout, etc.
         builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-          winblend = 10,
           previewer = false,
         })
       end, { desc = '[/] Fuzzily search in current buffer' })

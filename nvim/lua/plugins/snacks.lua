@@ -2,7 +2,7 @@ return {
   {
     'folke/snacks.nvim',
     config = function()
-      require('snacks').setup()
+      require('snacks').setup {}
       -- Toggle the profiler
       Snacks.toggle.profiler():map '<leader>pp'
       -- Toggle the profiler highlights
