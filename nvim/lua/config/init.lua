@@ -3,6 +3,7 @@ require 'config.autocmds'
 require 'config.keymaps'
 require 'config.lazy'
 require 'config.cmds'
+
 -- Diagnostic Signs
 local symbols = { Error = '󰅙', Info = '󰋼', Hint = '󰌵', Warn = '' }
 
