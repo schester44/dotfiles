@@ -72,4 +72,4 @@ vim.opt.conceallevel = 2 -- Conceal text
 
 -- If you are going to use the 2nd method
 vim.o.statuscolumn = "%!v:lua.require('lib/statuscolumn').render()"
-vim.opt.numberwidth = 7
+vim.opt.numberwidth = 4

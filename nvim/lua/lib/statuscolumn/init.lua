@@ -54,9 +54,8 @@ statuscolumn.render = function()
   text = table.concat {
     '%=',
     statuscolumn.number(),
-    '  ',
+    ' ',
     '%s',
-    statuscolumn.pretty_folds(),
   }
 
   return text
