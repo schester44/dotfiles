@@ -22,6 +22,10 @@ return {
       require('neotest').run.run()
     end, { desc = 'Run [T]est [N]earest' })
 
+    vim.keymap.set('n', '<leader>Ts', function()
+      require('neotest').run.stop()
+    end, { desc = '[T]est [S]top' })
+
     vim.keymap.set('n', '<leader>Twf', function()
       require('neotest').watch.watch(vim.fn.expand '%')
     end, { desc = 'Run [T]est [W]atch [F]ile' })
@@ -39,9 +43,9 @@ return {
       require('neotest').watch.stop(vim.fn.expand '%')
     end, { desc = '[T]est [W]atch [S]top [F]ile' })
 
-    vim.keymap.set('n', '<leader>Ts', function()
+    vim.keymap.set('n', '<leader>TO', function()
       require('neotest').summary.toggle()
-    end, { desc = '[T]est [S]ummary' })
+    end, { desc = '[T]est Summary [O]utput' })
 
     vim.keymap.set('n', '<leader>To', function()
       require('neotest').output_panel.toggle()

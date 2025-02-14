@@ -143,11 +143,11 @@ return {
         ['<C-j>'] = cmp.mapping.select_next_item(),
         -- Select the previous item
         ['<C-k>'] = cmp.mapping.select_prev_item(),
-
+        -- Force indentation when pressing Ctrl + Tab
         ['<Tab>'] = vim.schedule_wrap(function(fallback)
           if cmp.visible() and has_words_before() then
             cmp.confirm { select = true } -- Confirm the currently selected nvim-cmp item
-          elseif copilot_suggestion.is_visible() and has_words_before() then
+          elseif copilot_suggestion.is_visible() then
             copilot_suggestion.accept() -- Accept the Copilot suggestion
           elseif luasnip.expand_or_locally_jumpable() then -- move to the right of the snippet
             luasnip.expand_or_jump()
@@ -156,6 +156,7 @@ return {
           end
         end),
         ['<S-Tab>'] = cmp.mapping(function(fallback)
+          -- TODO: make S-Tab work as indentation.
           if cmp.visible() then
             cmp.select_prev_item()
           elseif luasnip.expand_or_locally_jumpable(-1) then

@@ -70,6 +70,11 @@ return {
             preview = ui.border_chars_outer_thin_telescope,
           },
         },
+        pickers = {
+          lsp_references = {
+            show_line = false, -- Disable inline code preview in results
+          },
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
