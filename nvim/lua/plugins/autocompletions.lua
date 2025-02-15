@@ -87,8 +87,14 @@ return {
         end,
       },
       window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
+        completion = {
+          border = 'none',
+          winhighlight = 'Normal:CmpNormal',
+        },
+        documentation = {
+          border = 'rounded',
+          winhighlight = 'Normal:CmpDocNormal',
+        },
       },
 
       formatting = {

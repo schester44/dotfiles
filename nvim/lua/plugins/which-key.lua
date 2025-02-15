@@ -1,27 +1,22 @@
--- NOTE: Plugins can also be configured to run Lua code when they are loaded.
---
--- This is often very useful to both group configuration, as well as handle
--- lazy loading plugins that don't need to be loaded immediately at startup.
---
--- For example, in the following configuration, we use:
---  event = 'VimEnter'
---
--- which loads which-key before all the UI elements are loaded. Events can be
--- normal autocommands events (`:help autocmd-events`).
---
--- Then, because we use the `config` key, the configuration only runs
--- after the plugin has been loaded:
---  config = function() ... end
+local icons = {
+  code = '',
+  diagnostics = '',
+  file = '',
+  git = '󰊢',
+  image = '',
+  note = '',
+  search = '',
+  test = '󰱑',
+  text = '󰊄',
+  toggle = '',
+}
 
-return { -- Useful plugin to show you pending keybinds.
+return {
   'folke/which-key.nvim',
-  event = 'VimEnter', -- Sets the loading event to 'VimEnter'
+  event = 'VimEnter',
   opts = {
     icons = {
-      -- set icon mappings to true if you have a Nerd Font
       mappings = vim.g.have_nerd_font,
-      -- If you are using a Nerd Font: set icons.keys to an empty table which will use the
-      -- default whick-key.nvim defined Nerd Font icons, otherwise define a string table
       keys = vim.g.have_nerd_font and {} or {
         Up = '<Up> ',
         Down = '<Down> ',
@@ -53,21 +48,29 @@ return { -- Useful plugin to show you pending keybinds.
         F12 = '<F12>',
       },
     },
-
-    -- Document existing key chains
     spec = {
-      { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
-      { '<leader>g', group = '[G]it' },
-      { '<leader>l', group = '[L]SP' },
-      { '<leader>s', group = '[S]earch' },
-      { '<leader>f', group = '[F]ile' },
-      { '<leader>b', group = '[B]uffer' },
-      { '<leader>t', group = '[T]oggle' },
-      { '<leader>T', group = '[T]est' },
-      { '<leader>o', group = '[O]bsidian' },
-      { '<leader>n', group = '[N]oice' },
-      { '<leader>x', group = 'Trouble' },
-      { '<leader>h', group = '[H]arpoon', mode = { 'n', 'v' } },
+      { '<leader>i', desc = 'Paste image from clipboard', icon = { icon = icons.image, color = 'blue' } },
+      { '<leader>p', desc = 'Paste from system clipboard', icon = { icon = icons.text, color = 'blue' } },
+      { '<leader>Y', desc = 'Copy to end of line to system clipboard', icon = { icon = icons.text, color = 'blue' } },
+      { '<leader>y', desc = 'Copy to system clipboard', icon = { icon = icons.text, color = 'blue' } },
+      { '<leader>q', desc = 'Quit', icon = { icon = icons.file, color = 'red' } },
+      { '<leader>w', desc = 'Write', icon = { icon = icons.file, color = 'red' } },
+
+      { '<leader><tab>', desc = 'Goto last buffer', icon = { icon = icons.file, color = 'yellow' } },
+      { '<leader>,', desc = 'Open Buffers', icon = { icon = icons.file, color = 'yellow' } },
+      { '<leader><space>', desc = 'Find Files', icon = { icon = icons.file, color = 'yellow' } },
+
+      { '<leader>c', group = 'Code', mode = { 'n', 'x' }, icon = { icon = icons.code, color = 'yellow' } },
+      { '<leader>g', group = 'Git', icon = { icon = icons.git, color = 'yellow' } },
+      { '<leader>l', group = 'LSP', icon = { icon = icons.code, color = 'yellow' } },
+      { '<leader>s', group = 'Search', icon = { icon = icons.search, color = 'yellow' } },
+      { '<leader>f', group = 'File', icon = { icon = icons.file, color = 'yellow' } },
+      { '<leader>b', group = 'Buffer', icon = { icon = icons.file, color = 'yellow' } },
+      { '<leader>t', group = 'Toggle', icon = { icon = icons.file, color = 'yellow' } },
+      { '<leader>T', group = 'Test', icon = { icon = icons.test, color = 'yellow' } },
+      { '<leader>o', group = 'Obsidian', icon = { icon = icons.note, color = 'yellow' } },
+      { '<leader>n', group = 'Noice', icon = { icon = icons.note, color = 'yellow' } },
+      { '<leader>x', group = 'Trouble', icon = { icon = icons.diagnostics, color = 'yellow' } },
     },
   },
 }

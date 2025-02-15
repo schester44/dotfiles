@@ -6,6 +6,27 @@ return {
         picker = {
           ui_select = true,
           layouts = {
+            default = {
+              layout = {
+                box = 'horizontal',
+                width = 0.8,
+                min_width = 120,
+                height = 0.8,
+                {
+                  box = 'vertical',
+                  border = 'rounded',
+                  title = '{title} {live} {flags}',
+                  { win = 'input', height = 2, border = 'bottom' },
+                  { win = 'list', border = 'none' },
+                },
+                {
+                  win = 'preview',
+                  title = '{preview}',
+                  border = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', '▏' },
+                  width = 0.5,
+                },
+              },
+            },
             select = {
               preview = false,
               layout = {
@@ -36,7 +57,7 @@ return {
       {
         '<leader><space>',
         function()
-          Snacks.picker.smart()
+          Snacks.picker.smart { title = 'Find Files' }
         end,
         desc = 'Find Files',
       },
@@ -45,7 +66,23 @@ return {
         '<leader>,',
         function()
           -- TODO: Simplify layout, dont need complete layout but want it centered.
-          Snacks.picker.buffers()
+          Snacks.picker.buffers {
+            layout = {
+              layout = {
+                box = 'vertical',
+                width = 0.3,
+                min_width = 80,
+                height = 0.3,
+                {
+                  box = 'vertical',
+                  border = 'rounded',
+                  title = '{title} {live} {flags}',
+                  { win = 'input', height = 2, border = 'bottom' },
+                  { win = 'list', border = 'none' },
+                },
+              },
+            },
+          }
         end,
         desc = 'Buffers',
       },
@@ -66,7 +103,7 @@ return {
       },
 
       {
-        '<leader>fm',
+        '<leader>sm',
         function()
           Snacks.picker.marks()
         end,
@@ -79,6 +116,14 @@ return {
           Snacks.picker.help()
         end,
         desc = 'Help',
+      },
+
+      {
+        '<leader>sH',
+        function()
+          Snacks.picker.highlights()
+        end,
+        desc = 'Highlights',
       },
 
       {
