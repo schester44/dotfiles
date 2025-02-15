@@ -1,4 +1,3 @@
-require 'cobalt44/plugins/dashboard'
 require 'cobalt44/plugins/diffview'
 require 'cobalt44/plugins/fidget'
 require 'cobalt44/plugins/flash'
