@@ -22,7 +22,7 @@ Group.new('ErrorMsg', colors.red:light(), nil, nil)
 Group.new('FloatBorder', colors.cobalt_bg_dark, colors.cobalt_bg_dark, nil)
 Group.new('FloatTitle', colors.yellow, colors.darker_blue, nil)
 Group.new('FoldColumn', colors.cobalt_bg_light, colors.cobalt_bg, nil)
--- Folded text/background
+-- Folded text/backgroun
 Group.new('Folded', nil, colors.cobalt_bg, styles.italic)
 Group.new('MoreMsg', colors.cobalt_bg_dark, colors.light_yellow, nil)
 Group.new('FoldedCorners', colors.light_yellow, colors.cobalt_bg_light, nil)
@@ -38,12 +38,13 @@ Group.new('NonText', colors.dark_grey, nil, nil)
 Group.new('Normal', colors.white, colors.cobalt_bg, nil)
 
 -- Controls the background color of autocomplete popup and oil.nvim, whichkey, floating windows, etc
-Group.new('NormalFloat', colors.white, colors.cobalt_bg_light, nil)
+Group.new('NormalFloat', colors.white, colors.cobalt_bg_dark, nil)
 Group.new('NormalMode', colors.black, colors.yellow, nil)
 Group.new('NormalNC', colors.white, colors.cobalt_bg, nil)
 
-Group.new('CmpNormal', colors.white, colors.cobalt_bg_light, nil)
-Group.new('CmpDocNormal', colors.white, colors.cobalt_bg_light, nil)
+Group.new('CmpNormal', colors.white, colors.cobalt_bg_dark, nil)
+Group.new('CmpCursorLine', colors.light_yellow, colors.cobalt_bg, nil)
+Group.new('CmpDocNormal', colors.white, colors.cobalt_bg_dark, nil)
 
 Group.new('PMenu', colors.white, colors.cobalt_bg, nil)
 Group.new('PMenuSBar', nil, colors.cobalt_bg, nil)

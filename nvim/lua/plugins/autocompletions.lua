@@ -88,12 +88,12 @@ return {
       },
       window = {
         completion = {
-          border = 'none',
-          winhighlight = 'Normal:CmpNormal',
+          border = 'rounded',
+          winhighlight = 'Normal:CmpNormal,CursorLine:CmpCursorLine',
         },
         documentation = {
           border = 'rounded',
-          winhighlight = 'Normal:CmpDocNormal',
+          winhighlight = 'Normal:CmpDocNormal,CursorLine:CmpCursorLine',
         },
       },
 
