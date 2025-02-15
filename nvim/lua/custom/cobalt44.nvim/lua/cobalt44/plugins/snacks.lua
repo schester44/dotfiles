@@ -15,5 +15,7 @@ Group.new('SnacksPickerPreviewTitle', colors.yellow, colors.cobalt_bg, nil)
 
 Group.new('SnacksPickerList', colors.white, colors.cobalt_bg_dark, nil)
 Group.new('SnacksPickerListBorder', colors.cobalt_bg, colors.cobalt_bg_dark, nil)
-Group.new('SnacksPickerListCursorLine', colors.yellow, colors.cobalt_bg, nil)
+Group.new('SnacksPickerListCursorLine', colors.light_yellow, colors.cobalt_bg, nil)
 Group.new('SnacksPickerListTitle', colors.yellow, colors.cobalt_bg, nil)
+
+Group.new('SnacksPickerDir', colors.light_grey, nil, nil)

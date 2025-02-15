@@ -85,7 +85,18 @@ Group.new('qfLineNr', colors.light_grey, colors.cobalt_bg, nil)
 
 -- Noice
 Group.new('NoiceCmdlinePopup', nil, colors.cobalt_bg_dark, nil)
-Group.new('NoiceCmdlinePopupBorder', nil, nil, nil)
+
+Group.new('NoiceCmdlineIcon', colors.purple, nil, nil)
+Group.new('NoiceCmdlinePopupTitleSearch', colors.light_yellow, colors.cobalt_bg, nil)
+Group.new('NoiceCmdlinePopupTitleLua', colors.light_blue, colors.cobalt_bg, nil)
+Group.new('NoiceCmdlinePopupTitleInput', colors.light_blue, colors.cobalt_bg, nil)
+Group.new('NoiceCmdlinePopupTitleHelp', colors.purple, colors.cobalt_bg, nil)
+
+Group.new('NoiceCmdlinePopupBorderSearch', colors.cobalt_bg_dark, colors.cobalt_bg_dark, nil)
+Group.new('NoiceCmdlinePopupBorderLua', colors.cobalt_bg_dark, colors.cobalt_bg_dark, nil)
+Group.new('NoiceCmdlinePopupBorderCmdline', colors.cobalt_bg_dark, colors.cobalt_bg_dark, nil)
+Group.new('NoiceCmdlinePopupBorderHelp', colors.cobalt_bg_dark, colors.cobalt_bg_dark, nil)
+
 Group.new('NotifyBackground', nil, colors.cobalt_bg, nil)
 
 -- EasyMotion
