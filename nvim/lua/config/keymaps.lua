@@ -47,16 +47,10 @@ set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- Copy to clipboard
-set('v', '<leader>y', '"+y', { desc = 'Copy selected text to system clipboard' })
+set({ 'v', 'n' }, '<leader>y', '"+y', { desc = 'Copy selected text to system clipboard' })
 set('n', '<leader>Y', '"+yg_', { desc = 'Copy to the end of line to system clipboard' })
-set('n', '<leader>y', '"+y', { desc = 'Copy the current line to system clipboard' })
-set('n', '<leader>yy', '"+yy', { desc = 'Copy the current line to system clipboard' })
-
 -- Paste from clipboard
-set('n', '<leader>p', '"+p', { desc = 'Paste from system clipboard' })
-set('n', '<leader>P', '"+P', { desc = 'Paste from system clipboard' })
-set('v', '<leader>p', '"+p', { desc = 'Paste from system clipboard' })
-set('v', '<leader>P', '"+P', { desc = 'Paste from system clipboard' })
+set({ 'n', 'v' }, '<leader>p', '"+p', { desc = 'Paste from system clipboard' })
 
 -- Git
 set('n', '<leader>go', '<cmd>:GBrowse<CR>', { desc = 'Git browse' })
@@ -82,12 +76,8 @@ set('n', '<leader>bd', '<cmd>:bd<CR>', { desc = 'Close buffer' })
 -- Close All Buffers
 set('n', '<leader>bD', '<cmd>:bufdo bd<CR>', { desc = 'Close all buffers' })
 
--- Save with <leader>w
-set('n', '<leader>w', '<cmd>:w<CR>', { desc = '[W]rite' })
--- Quit with <leader>q
-set('n', '<leader>q', '<cmd>:q<CR>', { desc = '[Q]uit' })
--- Quit without saving
-set('n', '<leader>Q', '<cmd>:q!<CR>', { desc = '[Q]uit Hard' })
+set('n', '<leader>w', '<cmd>:w<CR>', { desc = 'Write' })
+set('n', '<leader>q', '<cmd>:q<CR>', { desc = 'Quit' })
 
 -- File Copy Path
 set('n', '<leader>fcp', '<cmd>let @+=expand("%:p")<CR>', { desc = 'Copy file path to clipboard' })
