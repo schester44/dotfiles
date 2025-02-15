@@ -1,3 +1,4 @@
+local ui = require 'lib.ui'
 return {
   'stevearc/oil.nvim',
   dependencies = { { 'echasnovski/mini.icons', opts = {} } },
@@ -9,7 +10,8 @@ return {
           return name == '.git' or name == '.DS_Store'
         end,
       },
-      float = { padding = 2, max_width = 120, max_height = 0 },
+      float = { padding = 2, max_width = 120, max_height = 50, border = ui.border_chars_outer_thin },
+
       keymaps = {
         ['<C-v>'] = { 'actions.select', opts = { vertical = true } },
         ['<C-x>'] = { 'actions.select', opts = { horizontal = true } },
