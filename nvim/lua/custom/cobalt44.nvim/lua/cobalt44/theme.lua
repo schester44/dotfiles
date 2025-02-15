@@ -19,7 +19,7 @@ Group.new('DiffDelete', colors.red, nil, nil)
 Group.new('DiffText', colors.white, nil, nil)
 Group.new('Directory', colors.blue, nil, nil)
 Group.new('ErrorMsg', colors.red:light(), nil, nil)
-Group.new('FloatBorder', colors.darker_blue, colors.blue, nil)
+Group.new('FloatBorder', colors.cobalt_bg_dark, colors.cobalt_bg_dark, nil)
 Group.new('FloatTitle', colors.yellow, colors.darker_blue, nil)
 Group.new('FoldColumn', colors.cobalt_bg_light, colors.cobalt_bg, nil)
 -- Folded text/background
@@ -36,14 +36,22 @@ Group.new('ModeMsg', colors.white, nil, styles.bold)
 Group.new('NonText', colors.dark_grey, colors.cobalt_bg, nil)
 -- Controls the background color of the editor
 Group.new('Normal', colors.white, colors.cobalt_bg, nil)
+
 -- Controls the background color of autocomplete popup and oil.nvim, whichkey, floating windows, etc
-Group.new('NormalFloat', colors.white, colors.cobalt_bg, nil)
+Group.new('NormalFloat', colors.white, colors.cobalt_bg_dark, nil)
 Group.new('NormalMode', colors.black, colors.yellow, nil)
 Group.new('NormalNC', colors.white, colors.cobalt_bg, nil)
-Group.new('PMenu', colors.white, colors.cobalt_bg_dark, nil)
-Group.new('PMenuSBar', nil, colors.dark_grey, nil)
-Group.new('PMenuSel', colors.yellow, colors.cobalt_bg_dark, nil)
-Group.new('PMenuThumb', nil, colors.lightest_grey, nil)
+
+Group.new('CmpNormal', colors.white, colors.cobalt_bg_dark, nil)
+Group.new('CmpDocNormal', colors.white, colors.cobalt_bg_dark, nil)
+
+Group.new('PMenu', colors.white, colors.cobalt_bg, nil)
+Group.new('PMenuSBar', nil, colors.cobalt_bg, nil)
+
+Group.new('PMenuSel', colors.yellow, colors.light_pink, nil)
+Group.new('PmenuSel', colors.yellow, colors.light_pink, nil)
+Group.new('PMenuThumb', nil, colors.light_pink, nil)
+
 Group.new('Question', colors.green, nil, nil)
 Group.new('QuickFixLine', nil, colors.cursor_hover, nil)
 Group.new('ReplacelMode', colors.black, colors.dark_pink, nil)
@@ -75,7 +83,8 @@ Group.new('healthWarning', colors.light_yellow, nil, nil)
 Group.new('qfLineNr', colors.light_grey, colors.cobalt_bg, nil)
 
 -- Noice
-Group.new('NoiceCmdlinePopup', nil, colors.cobalt_bg, nil)
+Group.new('NoiceCmdlinePopup', nil, colors.cobalt_bg_dark, nil)
+Group.new('NoiceCmdlinePopupBorder', nil, nil, nil)
 Group.new('NotifyBackground', nil, colors.cobalt_bg, nil)
 
 -- EasyMotion
