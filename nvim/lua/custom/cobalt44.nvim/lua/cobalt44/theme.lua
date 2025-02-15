@@ -33,17 +33,17 @@ Group.new('LineNr', colors.dim_blue, colors.cobalt_bg, styles.NONE)
 Group.new('MatchParen', colors.white, colors.dark_purple, styles.bold)
 Group.new('MatchWord', colors.white, colors.dark_purple, styles.bold)
 Group.new('ModeMsg', colors.white, nil, styles.bold)
-Group.new('NonText', colors.dark_grey, colors.cobalt_bg, nil)
+Group.new('NonText', colors.dark_grey, nil, nil)
 -- Controls the background color of the editor
 Group.new('Normal', colors.white, colors.cobalt_bg, nil)
 
 -- Controls the background color of autocomplete popup and oil.nvim, whichkey, floating windows, etc
-Group.new('NormalFloat', colors.white, colors.cobalt_bg_dark, nil)
+Group.new('NormalFloat', colors.white, colors.cobalt_bg_light, nil)
 Group.new('NormalMode', colors.black, colors.yellow, nil)
 Group.new('NormalNC', colors.white, colors.cobalt_bg, nil)
 
-Group.new('CmpNormal', colors.white, colors.cobalt_bg_dark, nil)
-Group.new('CmpDocNormal', colors.white, colors.cobalt_bg_dark, nil)
+Group.new('CmpNormal', colors.white, colors.cobalt_bg_light, nil)
+Group.new('CmpDocNormal', colors.white, colors.cobalt_bg_light, nil)
 
 Group.new('PMenu', colors.white, colors.cobalt_bg, nil)
 Group.new('PMenuSBar', nil, colors.cobalt_bg, nil)
