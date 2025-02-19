@@ -1,18 +1,5 @@
 local git_blame = require 'gitblame'
 
-vim.keymap.set('n', '<leader>tp', '<cmd>lua vim.g.should_show_full_filepath = not vim.g.should_show_full_filepath<CR>', { desc = '[T]oggle File [P]ath' })
-vim.g.should_show_full_filepath = false
-vim.keymap.set('n', '<leader>tp', '<cmd>lua vim.g.should_show_full_filepath = not vim.g.should_show_full_filepath<CR>', { desc = '[T]oggle File [P]ath' })
-
--- This disables showing of the blame text next to the cursor
-vim.g.gitblame_display_virtual_text = 0
-
--- adds a border for inactive windows
-vim.opt.fillchars = {
-  stl = ' ',
-  stlnc = '─',
-}
-
 local get_theme = function()
   local palette = require 'cobalt44.palette'
 
@@ -25,8 +12,8 @@ local get_theme = function()
     yellow = palette.yellow,
   }
 
-  local active_theme = { fg = colors.fg_dim, bg = colors.bg }
-  local inactive_theme = { fg = colors.fg_dim, bg = colors.bg }
+  local active_theme = { fg = colors.fg_dim, bg = nil }
+  local inactive_theme = { fg = colors.fg_dim, bg = nil }
 
   return {
     normal = {
@@ -88,10 +75,22 @@ return {
     dependencies = { 'nvim-tree/nvim-web-devicons', 'folke/snacks.nvim' },
     event = 'VeryLazy',
     config = function()
-      local theme = get_theme()
+      -- This disables showing of the blame text next to the cursor
+      vim.g.gitblame_display_virtual_text = 0
+
+      -- adds a border for inactive windows
+      vim.opt.fillchars = {
+        stl = ' ',
+        stlnc = '─',
+      }
+
+      vim.keymap.set('n', '<leader>tp', '<cmd>lua vim.g.should_show_full_filepath = not vim.g.should_show_full_filepath<CR>', { desc = '[T]oggle File [P]ath' })
+      vim.g.should_show_full_filepath = false
+      vim.keymap.set('n', '<leader>tp', '<cmd>lua vim.g.should_show_full_filepath = not vim.g.should_show_full_filepath<CR>', { desc = '[T]oggle File [P]ath' })
+
       require('lualine').setup {
         options = {
-          theme = theme,
+          theme = get_theme(),
           component_separators = '',
           section_separators = { left = '', right = '' },
         },
