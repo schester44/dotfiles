@@ -13,7 +13,7 @@ config.default_cursor_style = "BlinkingBar"
 
 -- weight = 345 for a lighter weight.
 config.font = wezterm.font_with_fallback({
-	{ family = "Operator Mono Lig", weight = 400 },
+	{ family = "Operator Mono Lig", weight = 500 },
 	{ family = "JetBrainsMono Nerd Font" },
 })
 
