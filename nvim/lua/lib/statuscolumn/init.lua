@@ -45,12 +45,6 @@ vim.o.foldnestmax = #user_config.colors
 statuscolumn.render = function()
   local text = ''
 
-  local win = vim.g.statusline_winid
-
-  if vim.api.nvim_get_current_win() ~= win then
-    return text
-  end
-
   text = table.concat {
     '%=',
     statuscolumn.number(),
