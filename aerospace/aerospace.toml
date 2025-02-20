@@ -14,10 +14,10 @@ exec-on-workspace-change = [
 [gaps]
     inner.horizontal = 8
     inner.vertical = 8
-    outer.left = 8
-    outer.bottom = 8
-    outer.top =  [{monitor.'^built-in retina display$' = 10 }, 44]
-    outer.right = 8
+    outer.left = 12
+    outer.bottom = 12
+    outer.top =  [{monitor.'^built-in retina display$' = 10 }, 40]
+    outer.right = 12
 
 [mode.main.binding]
     alt-tab = 'workspace-back-and-forth'
@@ -38,6 +38,12 @@ exec-on-workspace-change = [
     alt-5 = 'workspace 5'
     alt-p = 'workspace P'
     alt-s = 'workspace S'
+
+    # TODO: Why are these causing a flash? Looks like its trying to re-position the windows
+    alt-shift-h = ['focus --boundaries-action stop left']
+    alt-shift-j = ['focus --boundaries-action stop down']
+    alt-shift-k = ['focus --boundaries-action stop up']
+    alt-shift-l = ['focus --boundaries-action stop right']
 
     alt-shift-1 = 'move-node-to-workspace 1'
     alt-shift-2 = 'move-node-to-workspace 2'
