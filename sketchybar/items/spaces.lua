@@ -69,6 +69,7 @@ local function addWorkspaceItem(workspaceName)
 		background = {
 			color = colors.bg1,
 		},
+		click_script = "aerospace workspace " .. workspaceName,
 	})
 
 	sbar.add("item", spaceName .. ".padding", {

@@ -8,7 +8,7 @@ sbar.bar({
 	y_offset = 4,
 	padding_right = config.dimensions.bar.x_padding,
 	padding_left = config.dimensions.bar.x_padding,
-	margin = 12,
+	margin = 0,
 	blur_radius = 0,
 	topmost = "window",
 })
