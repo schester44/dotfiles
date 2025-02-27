@@ -3,11 +3,9 @@
 session_icon=""
 
 green="#5EFF78"
-yellow="#FFC400"
 light_yellow="#FFEE80"
 cobalt_bg="#162D40"
 fg="#9C9C9D"
-white="#ffffff"
 
 active_window_icon=" "
 left_separator=""
@@ -16,7 +14,6 @@ right_separator=""
 status_background_color=$light_yellow
 bg="default"
 
-# remove administrative debris (session name, hostname, time) in status bar
 # add icon when prefix is pressedbg
 tmux set-option -g status-left "#{?client_prefix,#[bg=${green}]#[fg=${bg}] ${session_icon} , ${session_icon} }#[bg=${bg}]#[fg=${fg}] #S"
 

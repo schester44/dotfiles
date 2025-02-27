@@ -10,8 +10,8 @@ local currentWorkspaceWatcher = sbar.add("item", {
 })
 
 local spaceConfigs = {
-	["1"] = { icon = icons.chrome, name = "Browser", bg_color = colors.green },
-	["2"] = { icon = icons.terminal, name = "WezTerm", bg_color = colors.yellow },
+	["1"] = { icon = icons.terminal, name = "Terminal", bg_color = colors.yellow },
+	["2"] = { icon = icons.chrome, name = "Browser", bg_color = colors.green },
 	["3"] = { icon = icons.db, name = "Database", bg_color = colors.yellow },
 	["4"] = { icon = icons.utils, name = "Utils", bg_color = colors.red },
 	["5"] = { icon = icons.chatgpt, name = "ChatGPT", bg_color = colors.blue },

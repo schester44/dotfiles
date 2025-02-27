@@ -39,12 +39,6 @@ exec-on-workspace-change = [
     alt-p = 'workspace P'
     alt-s = 'workspace S'
 
-    # TODO: Why are these causing a flash? Looks like its trying to re-position the windows
-    alt-shift-h = ['focus --boundaries-action stop left']
-    alt-shift-j = ['focus --boundaries-action stop down']
-    alt-shift-k = ['focus --boundaries-action stop up']
-    alt-shift-l = ['focus --boundaries-action stop right']
-
     alt-shift-1 = 'move-node-to-workspace 1'
     alt-shift-2 = 'move-node-to-workspace 2'
     alt-shift-3 = 'move-node-to-workspace 4'
@@ -52,6 +46,21 @@ exec-on-workspace-change = [
     alt-shift-5 = 'move-node-to-workspace 5'
     alt-shift-p = 'move-node-to-workspace P'
     alt-shift-s = 'move-node-to-workspace S'
+
+
+    alt-o = 'workspace prev'
+    alt-i = 'workspace next'
+
+    ctrl-alt-h = 'focus left'
+    ctrl-alt-j = 'focus down'
+    ctrl-alt-k = 'focus up'
+    ctrl-alt-l = 'focus right'
+
+    # See: https://nikitabobko.github.io/AeroSpace/commands#move
+    alt-shift-h = 'move left'
+    alt-shift-j = 'move down'
+    alt-shift-k = 'move up'
+    alt-shift-l = 'move right'
 
 [mode.alt.binding]
     esc = [
@@ -78,10 +87,11 @@ exec-on-workspace-change = [
     slash = 'layout tiles horizontal vertical'
     comma = 'layout accordion horizontal vertical'
 
-    h = ['focus --boundaries-action stop left']
-    j = ['focus --boundaries-action stop down']
-    k = ['focus --boundaries-action stop up']
-    l = ['focus --boundaries-action stop right']
+
+    h = 'focus left'
+    j = 'focus down'
+    k = 'focus up'
+    l = 'focus right'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#move
     shift-h = 'move left'
@@ -96,14 +106,14 @@ exec-on-workspace-change = [
     shift-equal = 'resize smart +128'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
-    u = 'workspace prev'
+    o = 'workspace prev'
     i = 'workspace next'
 
     shift-u = 'move-node-to-workspace prev'
     shift-i = 'move-node-to-workspace next'
 
-    1 = 'workspace 1' # Browser
-    2 = 'workspace 2' # Terminal
+    1 = 'workspace 1' # Terminal
+    2 = 'workspace 2' # Browser
     3 = 'workspace 3' # Database
     4 = 'workspace 4' # Utils
     5 = 'workspace 5' # ChatGPT
