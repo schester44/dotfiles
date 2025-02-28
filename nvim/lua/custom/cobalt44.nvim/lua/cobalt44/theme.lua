@@ -43,15 +43,16 @@ Group.new('NormalMode', colors.black, colors.yellow, nil)
 Group.new('NormalNC', colors.white, colors.cobalt_bg, nil)
 
 Group.new('CmpNormal', colors.white, colors.cobalt_bg_dark, nil)
+-- Controls the color of the selected item
+
 Group.new('CmpCursorLine', colors.light_yellow, colors.cobalt_bg, nil)
 Group.new('CmpDocNormal', colors.white, colors.cobalt_bg_dark, nil)
 
 Group.new('PMenu', colors.white, colors.cobalt_bg, nil)
 Group.new('PMenuSBar', nil, colors.cobalt_bg, nil)
 
-Group.new('PMenuSel', colors.yellow, colors.light_pink, nil)
-Group.new('PmenuSel', colors.yellow, colors.light_pink, nil)
-Group.new('PMenuThumb', nil, colors.light_pink, nil)
+Group.new('PmenuSel', colors.yellow, colors.cobalt_bg_dark, nil)
+Group.new('PMenuThumb', nil, colors.cobalt_bg_dark, nil)
 
 Group.new('Question', colors.green, nil, nil)
 Group.new('QuickFixLine', nil, colors.cursor_hover, nil)
