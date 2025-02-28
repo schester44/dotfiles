@@ -53,19 +53,15 @@ set('n', '<leader>Y', '"+yg_', { desc = 'Copy to the end of line to system clipb
 set({ 'n', 'v' }, '<leader>p', '"+p', { desc = 'Paste from system clipboard' })
 
 -- Git
-set('n', '<leader>go', '<cmd>:GBrowse<CR>', { desc = 'Git browse' })
--- TODO: line selection doesn't work.
-set('v', '<leader>go', '<cmd>:GBrowse<CR>', { desc = 'Git browse' })
+set({ 'n', 'v' }, '<leader>go', '<cmd>:GBrowse<CR>', { desc = 'Git browse' })
 set('n', '<leader>gs', '<cmd>:G<CR>', { desc = 'Git status' })
-set('n', '<leader>gC', '<cmd>:Gwrite<CR>', { desc = 'Git commit' })
 set('n', '<leader>gcm', '<cmd>:Git checkout main<CR>', { desc = 'Git checkout main' })
-set('n', '<leader>gco', ':Git checkout ', { desc = 'Git checkout' })
-set('n', '<leader>gcb', ':Git checkout -b ', { desc = 'Git checkout -b' })
+set('n', '<leader>gcc', ':Git checkout ', { desc = 'Git checkout' })
+set('n', '<leader>gcn', ':Git checkout -b ', { desc = 'Git checkout -b' })
 set('n', '<leader>gcl', '<cmd>:Git checkout @{-1}<CR>', { desc = 'Git checkout last' })
-set('n', '<leader>gmm', '<cmd>:Git merge main<CR>', { desc = 'Git merge main' })
-set('n', '<leader>gpm', '<cmd>:Git pull origin main<CR>', { desc = 'Git pull origin main' })
+set('n', '<leader>gp', '<cmd>:Git pull<CR>', { desc = 'Git pull' })
+set('n', '<leader>gM', '<cmd>:Git pull origin main<CR>', { desc = 'Git pull origin main' })
 set('n', '<leader>gP', '<cmd>:Git push origin HEAD<CR>', { desc = 'Git push origin HEAD' })
-set('n', '<leader>gl', '<cmd>:Git pull<CR>', { desc = 'Git pull' })
 
 -- Buffers
 set('n', '<leader><Tab>', '<cmd>:b#<CR>', { desc = 'Go to last buffer' })
