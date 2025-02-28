@@ -64,6 +64,7 @@ set('n', '<leader>gM', '<cmd>:Git pull origin main<CR>', { desc = 'Git pull orig
 set('n', '<leader>gP', '<cmd>:Git push origin HEAD<CR>', { desc = 'Git push origin HEAD' })
 set('n', '<leader>gl', '<cmd>:0Gclog<CR>', { desc = 'Git log' })
 set('n', '<leader>gd', '<cmd>:Gdiff<CR>', { desc = 'Git diff' })
+set('n', '<leader>gb', '<cmd>:Git blame<CR>', { desc = 'Git diff' })
 
 -- Buffers
 set('n', '<leader><Tab>', '<cmd>:b#<CR>', { desc = 'Go to last buffer' })
@@ -90,8 +91,6 @@ set('v', '<D-v>', '"+P', { desc = 'Paste from system clipboard in visual mode' }
 set('i', '<D-v>', '<C-r>+', { desc = 'Paste from system clipboard in insert mode' }) -- Cmd+V in insert mode
 set('v', '<D-x>', '"+d', { desc = 'Cut to system clipboard' }) -- Cmd+x
 
--- Toggle Git Blame
-set('n', '<leader>tg', '<cmd>:GitBlameToggle<CR>', { desc = '[T]oggle [G]it Blame' })
 -- copilot
 set('n', '<leader>tc', function()
   local copilot = require 'copilot.command'

@@ -1,5 +1,3 @@
-local git_blame = require 'gitblame'
-
 local get_theme = function()
   local palette = require 'cobalt44.palette'
 
@@ -114,7 +112,6 @@ return {
           },
           lualine_b = {
             'diagnostics',
-            { git_blame.get_current_blame_text, cond = git_blame.is_blame_text_available },
           },
           lualine_c = {
             -- '%=', - to center a section
