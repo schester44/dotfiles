@@ -62,6 +62,8 @@ set('n', '<leader>gcl', '<cmd>:Git checkout @{-1}<CR>', { desc = 'Git checkout l
 set('n', '<leader>gp', '<cmd>:Git pull<CR>', { desc = 'Git pull' })
 set('n', '<leader>gM', '<cmd>:Git pull origin main<CR>', { desc = 'Git pull origin main' })
 set('n', '<leader>gP', '<cmd>:Git push origin HEAD<CR>', { desc = 'Git push origin HEAD' })
+set('n', '<leader>gl', '<cmd>:0Gclog<CR>', { desc = 'Git log' })
+set('n', '<leader>gd', '<cmd>:Gdiff<CR>', { desc = 'Git diff' })
 
 -- Buffers
 set('n', '<leader><Tab>', '<cmd>:b#<CR>', { desc = 'Go to last buffer' })
