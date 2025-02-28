@@ -1,3 +1,4 @@
+local ui = require 'lib.ui'
 local snippets_dir = '~/.dotfiles/nvim/snippets'
 
 return {
@@ -68,19 +69,7 @@ return {
     --   end
     -- end
 
-    local has_words_before = function()
-      if vim.api.nvim_buf_get_option(0, 'buftype') == 'prompt' then
-        return false
-      end
-      local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-      print(line, col)
-      return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match '^%s*$' == nil
-    end
-
     cmp.setup {
-      experimental = {
-        ghost_text = true,
-      },
       snippet = {
         expand = function(args)
           luasnip.lsp_expand(args.body)
@@ -88,11 +77,11 @@ return {
       },
       window = {
         completion = {
-          border = 'rounded',
+          border = ui.border_chars_outer_thin,
           winhighlight = 'Normal:CmpNormal,CursorLine:CmpCursorLine',
         },
         documentation = {
-          border = 'rounded',
+          border = ui.border_chars_outer_thin,
           winhighlight = 'Normal:CmpDocNormal,CursorLine:CmpCursorLine',
         },
       },
@@ -142,7 +131,6 @@ return {
           compare.order,
         },
       },
-
       -- `:help ins-completion`
       mapping = cmp.mapping.preset.insert {
         -- Select the next item
@@ -150,23 +138,20 @@ return {
         -- Select the previous item
         ['<C-k>'] = cmp.mapping.select_prev_item(),
         -- Force indentation when pressing Ctrl + Tab
-        ['<Tab>'] = vim.schedule_wrap(function(fallback)
-          if cmp.visible() and has_words_before() then
+        ['<CR>'] = vim.schedule_wrap(function(fallback)
+          if cmp.visible() then
             cmp.confirm { select = true } -- Confirm the currently selected nvim-cmp item
-          elseif copilot_suggestion.is_visible() then
-            copilot_suggestion.accept() -- Accept the Copilot suggestion
+          -- elseif copilot_suggestion.is_visible() then
+          --   copilot_suggestion.accept() -- Accept the Copilot suggestion
           elseif luasnip.expand_or_locally_jumpable() then -- move to the right of the snippet
             luasnip.expand_or_jump()
           else
             fallback() -- Default tab behavior
           end
         end),
-        ['<S-Tab>'] = cmp.mapping(function(fallback)
-          -- TODO: make S-Tab work as indentation.
-          if cmp.visible() then
-            cmp.select_prev_item()
-          elseif luasnip.expand_or_locally_jumpable(-1) then
-            luasnip.jump(-1)
+        ['<Tab>'] = cmp.mapping(function(fallback)
+          if copilot_suggestion.is_visible() then
+            copilot_suggestion.accept()
           else
             fallback()
           end
@@ -192,7 +177,8 @@ return {
         -- Manually trigger a completion from nvim-cmp.
         --  Generally you don't need this, because nvim-cmp will display
         --  completions whenever it has completion options available.
-        ['<C-Space>'] = cmp.mapping.complete {},
+        -- TODO Doesn't work with Aerospace ALT mode keybind
+        -- ['<C-Space>'] = cmp.mapping.complete {},
 
         -- Think of <c-l> as moving to the right of your snippet expansion.
         --  So if you have a snippet that's like:
