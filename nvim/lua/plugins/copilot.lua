@@ -3,19 +3,17 @@ return {
     'zbirenbaum/copilot.lua',
     event = 'InsertEnter',
     config = function()
-      vim.api.nvim_set_hl(0, 'CopilotSuggestion', { fg = '#555555', bg = '#ff0000', italic = true })
-      vim.api.nvim_set_hl(0, 'CopilotAnnotation', { fg = '#555555', bg = '#ff0000', italic = true })
+      local palette = require 'cobalt44.palette'
+
+      vim.api.nvim_set_hl(0, 'CopilotSuggestion', { fg = palette.grey, bg = nil })
+      vim.api.nvim_set_hl(0, 'CopilotAnnotation', { fg = palette.grey, bg = nil })
 
       require('copilot').setup {
-        suggestion = { enabled = false },
-        panel = { enabled = false },
+        suggestion = { enabled = true, auto_trigger = true },
+        panel = { enabled = true, keymap = {
+          open = '<M-0>',
+        } },
       }
-    end,
-  },
-  {
-    'zbirenbaum/copilot-cmp',
-    config = function()
-      require('copilot_cmp').setup()
     end,
   },
 }
