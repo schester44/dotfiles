@@ -63,6 +63,13 @@ return {
         winhighlight = 'NormalFloat:LspHover,FloatBorder:LspHoverBorder',
       })
 
+      -- Disabling virtual text seemed to improve performance
+      -- vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+      --   underline = true,
+      --   virtual_text = false,
+      --   update_in_insert = false,
+      -- })
+
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
@@ -138,14 +145,19 @@ return {
             })
           end
 
+          local k = require 'lib.keymaps'
           -- The following code creates a keymap to toggle inlay hints in your
           -- code, if the language server you are using supports them
           --
           -- This may be unwanted, since they displace some of your code
           if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
-            map('<leader>th', function()
-              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
-            end, '[T]oggle Inlay [H]ints')
+            k.set_toggle_keymap {
+              keys = 'h',
+              cmd = function()
+                vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
+              end,
+              desc = 'Inlay Hints',
+            }
           end
         end,
       })

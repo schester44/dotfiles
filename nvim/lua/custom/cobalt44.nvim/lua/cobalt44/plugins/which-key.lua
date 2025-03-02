@@ -2,6 +2,7 @@ local colors = require('cobalt44.utils').colors
 local Group = require('cobalt44.utils').Group
 
 Group.new('whichkey', colors.dark_pink, nil, nil)
+Group.new('WhichKeyTitle', colors.light_pink, nil, nil)
 Group.new('WhichKeyDesc', colors.yellow, nil, nil)
 Group.new('WhichKeyFloat', colors.blue, nil, nil)
 Group.new('WhichKeyGroup', colors.lighter_grey, nil, nil)

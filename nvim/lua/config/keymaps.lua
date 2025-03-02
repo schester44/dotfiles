@@ -1,4 +1,5 @@
 local set = vim.keymap.set
+local k = require 'lib.keymaps'
 
 -- Exit with jj
 set('i', 'jj', '<Esc>')
@@ -19,9 +20,13 @@ set('n', '<leader>lr', '<cmd>LspRestart<CR>', { desc = '[L]sp [R]estart' })
 set('n', '[q', '<cmd>cnext<CR>', { desc = 'Next Quickfix Item' })
 set('n', ']q', '<cmd>cprev<CR>', { desc = 'Previous Quickfix Item' })
 
-set('n', '<leader>tq', function()
-  require('quicker').toggle()
-end, { desc = '[T]oggle [Q]uickfix' })
+k.set_toggle_keymap {
+  keys = 'q',
+  desc = 'Quickfix',
+  cmd = function()
+    require('quicker').toggle()
+  end,
+}
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -91,22 +96,25 @@ set('v', '<D-v>', '"+P', { desc = 'Paste from system clipboard in visual mode' }
 set('i', '<D-v>', '<C-r>+', { desc = 'Paste from system clipboard in insert mode' }) -- Cmd+V in insert mode
 set('v', '<D-x>', '"+d', { desc = 'Cut to system clipboard' }) -- Cmd+x
 
--- copilot
-set('n', '<leader>tc', function()
-  local copilot = require 'copilot.command'
+k.set_toggle_keymap {
+  keys = 'c',
+  desc = 'Copilot',
+  cmd = function()
+    local copilot = require 'copilot.command'
 
-  if not vim.g.copilot_disabled then
-    copilot.disable()
-    vim.g.copilot_disabled = true
-  else
-    copilot.enable()
-    vim.g.copilot_disabled = false
-  end
+    if not vim.g.copilot_disabled then
+      copilot.disable()
+      vim.g.copilot_disabled = true
+    else
+      copilot.enable()
+      vim.g.copilot_disabled = false
+    end
 
-  vim.defer_fn(function()
-    vim.cmd 'Copilot status'
-  end, 1000)
-end, { desc = '[T]oggle [C]opilot' })
+    vim.defer_fn(function()
+      vim.cmd 'Copilot status'
+    end, 1000)
+  end,
+}
 
 -- Dismiss Noice Notifications
 set('n', '<leader>nd', '<cmd>:Noice dismiss<CR>', { desc = '[N]oice [D]ismiss' })

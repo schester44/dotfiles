@@ -4,14 +4,23 @@ return {
     dev = true,
     config = function()
       local flowterm = require 'flowterm'
+      local k = require 'lib.keymaps'
 
-      vim.keymap.set({ 'n', 't' }, '<leader>ts', function()
-        flowterm.toggle_floating_win()
-      end, { desc = '[T]oggle [S]cratchpad' })
+      k.set_toggle_keymap {
+        keys = 't',
+        cmd = function()
+          flowterm.toggle_floating_win 'terminal'
+        end,
+        desc = 'Terminal',
+      }
 
-      vim.keymap.set({ 'n', 't' }, '<leader>tt', function()
-        flowterm.toggle_floating_win 'terminal'
-      end, { desc = '[T]oggle [T]erminal' })
+      k.set_toggle_keymap {
+        keys = 's',
+        cmd = function()
+          flowterm.toggle_floating_win()
+        end,
+        desc = 'Scratchpad',
+      }
     end,
   },
 }

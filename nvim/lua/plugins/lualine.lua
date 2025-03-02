@@ -73,18 +73,13 @@ return {
     dependencies = { 'nvim-tree/nvim-web-devicons', 'folke/snacks.nvim' },
     event = 'VeryLazy',
     config = function()
-      -- This disables showing of the blame text next to the cursor
-      vim.g.gitblame_display_virtual_text = 0
-
       -- adds a border for inactive windows
       vim.opt.fillchars = {
         stl = ' ',
         stlnc = '─',
       }
 
-      vim.keymap.set('n', '<leader>tp', '<cmd>lua vim.g.should_show_full_filepath = not vim.g.should_show_full_filepath<CR>', { desc = '[T]oggle File [P]ath' })
-      vim.g.should_show_full_filepath = false
-      vim.keymap.set('n', '<leader>tp', '<cmd>lua vim.g.should_show_full_filepath = not vim.g.should_show_full_filepath<CR>', { desc = '[T]oggle File [P]ath' })
+      local codecompanion = require 'lib.statusline.codecompanion'
 
       require('lualine').setup {
         options = {
@@ -102,10 +97,6 @@ return {
               path = 1,
               file_status = false,
               fmt = function(name)
-                if vim.g.should_show_full_filepath then
-                  return name
-                end
-
                 return vim.fn.fnamemodify(name, ':t')
               end,
             },
@@ -120,7 +111,7 @@ return {
             Snacks.profiler.status(),
           },
           lualine_y = { 'branch', 'diff' },
-          lualine_z = { copilot_status },
+          lualine_z = { copilot_status, codecompanion },
         },
         inactive_sections = {
           lualine_a = {
