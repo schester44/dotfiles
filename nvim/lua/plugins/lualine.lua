@@ -110,7 +110,7 @@ return {
           lualine_x = {
             Snacks.profiler.status(),
           },
-          lualine_y = { 'branch', 'diff' },
+          lualine_y = { 'branch' },
           lualine_z = { copilot_status, codecompanion },
         },
         inactive_sections = {
@@ -123,11 +123,9 @@ return {
           lualine_b = { 'diagnostics' },
           lualine_c = {},
           lualine_x = {},
-          lualine_y = { 'branch', 'diff' },
+          lualine_y = { 'branch' },
           lualine_z = {},
         },
-        tabline = {},
-        extensions = {},
       }
     end,
   },
