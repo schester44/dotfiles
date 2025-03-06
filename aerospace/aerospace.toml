@@ -41,7 +41,7 @@ exec-on-workspace-change = [
 
     alt-shift-1 = 'move-node-to-workspace 1'
     alt-shift-2 = 'move-node-to-workspace 2'
-    alt-shift-3 = 'move-node-to-workspace 4'
+    alt-shift-3 = 'move-node-to-workspace 3'
     alt-shift-4 = 'move-node-to-workspace 4'
     alt-shift-5 = 'move-node-to-workspace 5'
     alt-shift-p = 'move-node-to-workspace P'
@@ -61,6 +61,9 @@ exec-on-workspace-change = [
     alt-shift-j = 'move down'
     alt-shift-k = 'move up'
     alt-shift-l = 'move right'
+
+    alt-shift-slash = 'layout tiles horizontal vertical'
+    alt-shift-comma = 'layout accordion horizontal vertical'
 
 [mode.alt.binding]
     esc = [
