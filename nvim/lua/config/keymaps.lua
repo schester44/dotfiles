@@ -69,19 +69,31 @@ set('n', '<leader>gM', '<cmd>:Git pull origin main<CR>', { desc = 'Git pull orig
 set('n', '<leader>gP', '<cmd>:Git push origin HEAD<CR>', { desc = 'Git push origin HEAD' })
 set('n', '<leader>gl', '<cmd>:0Gclog<CR>', { desc = 'Git log' })
 set('n', '<leader>gd', '<cmd>:Gdiff<CR>', { desc = 'Git diff' })
-set('n', '<leader>gb', '<cmd>:Git blame<CR>', { desc = 'Git diff' })
+set('n', '<leader>gB', '<cmd>:Git blame<CR>', { desc = 'Git blame' })
+set('n', '<leader>gb', function()
+  Snacks.picker.git_log_line()
+end, { desc = 'Git blame line' })
 
 -- Buffers
 set('n', '<leader><Tab>', '<cmd>:b#<CR>', { desc = 'Go to last buffer' })
-set('n', ']b', '<cmd>:bnext<CR>', { desc = 'Jump to the next buffer' })
-set('n', '[b', '<cmd>:bprevious<CR>', { desc = 'Jump to the previous buffer' })
--- Close buffer
-set('n', '<leader>bd', '<cmd>:bd<CR>', { desc = 'Close buffer' })
--- Close All Buffers
-set('n', '<leader>bD', '<cmd>:bufdo bd<CR>', { desc = 'Close all buffers' })
+set('n', ']b', '<cmd>:bnext<CR>', { desc = 'Next buffer' })
+set('n', '[b', '<cmd>:bprevious<CR>', { desc = 'Previous buffer' })
+set('n', '<S-l>', '<cmd>:bnext<CR>', { desc = 'Next buffer' })
+set('n', '<S-h>', '<cmd>:bprevious<CR>', { desc = 'Previous buffer' })
+
+set('n', '<leader>bd', function()
+  Snacks.bufdelete()
+end, { desc = 'Delete Buffer' })
+
+set('n', '<leader>bo', function()
+  Snacks.bufdelete.other()
+end, { desc = 'Delete Other Buffers' })
+
+set('n', '<leader>bD', '<cmd>:bd<cr>', { desc = 'Delete Buffer and Window' })
 
 set('n', '<leader>w', '<cmd>:w<CR>', { desc = 'Write' })
 set('n', '<leader>q', '<cmd>:q<CR>', { desc = 'Quit' })
+set('n', '<leader>qq', '<cmd>qa<CR>', { desc = 'Quit All' })
 
 -- File Copy Path
 set('n', '<leader>fcp', '<cmd>let @+=expand("%:p")<CR>', { desc = 'Copy file path to clipboard' })
