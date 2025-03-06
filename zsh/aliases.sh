@@ -15,13 +15,13 @@ alias ytu="yarn test:unfiltered:fast --watch --watch-files src"
 
 # Misc
 function kport {
-lsof -i :"$1" |awk 'NR > 1 {print $2}' |xargs kill -15
+  lsof -i :"$1" | awk 'NR > 1 {print $2}' | xargs kill -15
 }
 
 # Random
 alias prdb="prdb.sh"
 alias e="nvim"
-
+alias pst="npx playwright show-trace"
 
 alias ls="eza --icons=always"
 
