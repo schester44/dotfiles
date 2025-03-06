@@ -31,13 +31,6 @@ autocmd('BufWinEnter', {
   end,
 })
 
-autocmd('BufWritePre', {
-  desc = 'Fix all eslint issues on save',
-  pattern = { '*.tsx', '*.ts', '*.jsx', '*.js' },
-  command = 'silent! EslintFixAll',
-  group = augroup('MyAutocmdsJavaScripFormatting', {}),
-})
-
 autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = augroup('kickstart-highlight-yank', { clear = true }),

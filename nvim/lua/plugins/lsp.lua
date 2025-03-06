@@ -1,10 +1,11 @@
+---@diagnostic disable: unused-local
 return {
   { 'Bilal2453/luvit-meta', lazy = true },
-  {
-    'pmizio/typescript-tools.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
-    opts = {},
-  },
+  -- {
+  --   'pmizio/typescript-tools.nvim',
+  --   dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
+  --   opts = {},
+  -- },
   {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
@@ -191,7 +192,7 @@ return {
         -- But for many setups, the LSP (`tsserver`) will work just fine
         -- tsserver = {},
         --
-        -- ts_ls = {},
+        ts_ls = {},
 
         lua_ls = {
           -- cmd = {...},
@@ -239,10 +240,23 @@ return {
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for tsserver)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+
             require('lspconfig')[server_name].setup(server)
           end,
         },
       }
+
+      -- require('lspconfig').eslint.setup {
+      --   flags = {
+      --     debounce_text_changes = 500,
+      --   },
+      --   on_attach = function(client, bufnr)
+      --     vim.api.nvim_create_autocmd('BufWritePre', {
+      --       buffer = bufnr,
+      --       command = 'EslintFixAll',
+      --     })
+      --   end,
+      -- }
     end,
   },
 }
