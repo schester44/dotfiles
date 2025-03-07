@@ -42,6 +42,9 @@ Group.new('NormalFloat', colors.white, colors.cobalt_bg_dark, nil)
 Group.new('NormalMode', colors.black, colors.yellow, nil)
 Group.new('NormalNC', colors.white, colors.cobalt_bg, nil)
 
+Group.new('LazyGitFloat', nil, colors.cobalt_bg_dark, nil)
+Group.new('LazyGitBorder', colors.cobalt_bg_dark, colors.cobalt_bg_dark, nil)
+
 Group.new('CmpNormal', colors.white, colors.cobalt_bg_dark, nil)
 -- Controls the color of the selected item
 
