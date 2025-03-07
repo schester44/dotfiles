@@ -53,7 +53,18 @@ return {
     }
 
     -- Move lines
-    require('mini.move').setup()
+    require('mini.move').setup {
+      mappings = {
+        left = '<C-h>',
+        right = '<C-l>',
+        down = '<C-j>',
+        up = '<C-k>',
+        line_left = '<C-h>',
+        line_right = '<C-l>',
+        line_down = '<C-j>',
+        line_up = '<C-k>',
+      },
+    }
     -- Add/delete/replace surroundings (brackets, quotes, etc.)
     --
     -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
