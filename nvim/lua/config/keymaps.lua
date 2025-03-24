@@ -127,9 +127,6 @@ k.set_toggle_keymap {
   end,
 }
 
--- Dismiss Noice Notifications
-set('n', '<leader>nd', '<cmd>:Noice dismiss<CR>', { desc = '[N]oice [D]ismiss' })
-
 -- Make "U" the opposite of "u"
 set('n', 'U', '<C-r>', { desc = 'Redo' })
 

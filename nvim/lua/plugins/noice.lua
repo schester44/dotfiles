@@ -7,6 +7,12 @@ return {
     'rcarriga/nvim-notify',
   },
   config = function()
+    -- Dismiss Noice Notifications
+    vim.keymap.set('n', '<leader>nd', '<cmd>:Noice dismiss<CR>', { desc = 'Noice Dismiss' })
+    vim.keymap.set('n', '<leader>nh', function()
+      require('noice').cmd 'history'
+    end, { desc = 'Noice History' })
+
     ---@diagnostic disable-next-line: missing-fields
     require('noice').setup {
       routes = {
