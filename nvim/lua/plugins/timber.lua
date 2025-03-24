@@ -11,10 +11,10 @@ return {
       log_templates = {
         default = {
           lua = [[print("%log_marker %log_target", %log_target)]],
-          javascript = [[console.log("%log_marker", {"%log_target": %log_target})]],
-          typescript = [[console.log("%log_marker", {"%log_target": %log_target})]],
-          jsx = [[console.log("%log_marker", {"%log_target": %log_target})]],
-          tsx = [[console.log("%log_marker", {"%log_target": %log_target})]],
+          javascript = [[console.log("%log_marker %log_target", %log_target)]],
+          typescript = [[console.log("%log_marker %log_target", %log_target)]],
+          jsx = [[console.log("%log_marker %log_target", %log_target)]],
+          tsx = [[console.log("%log_marker %log_target", %log_target)]],
         },
         plain = {
           javascript = [[console.log("%log_marker", %insert_cursor)]],
