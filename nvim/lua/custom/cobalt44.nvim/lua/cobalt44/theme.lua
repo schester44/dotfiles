@@ -67,8 +67,8 @@ Group.new('SpellBad', colors.red, nil, styles.underline)
 Group.new('SpellCap', nil, colors.darkest_blue, styles.underline)
 Group.new('SpellLocal', nil, colors.darkest_green, styles.underline)
 Group.new('SpellRare', nil, colors.aubergine, styles.underline)
-Group.new('StatusLine', colors.yellow, colors.cursor_line, nil)
 Group.new('StatusLineNC', colors.white, colors.cursor_line, nil)
+Group.new('StatusLine', colors.yellow, colors.cursor_line, nil)
 Group.new('TabLine', colors.yellow, colors.cursor_hover, nil)
 Group.new('TabLineFill', colors.light_grey, nil, nil)
 Group.new('TabLineSel', colors.white, colors.cobalt_bg, styles.bold)
@@ -86,6 +86,8 @@ Group.new('healthError', colors.red:light(), nil, nil)
 Group.new('healthSuccess', colors.green, nil, nil)
 Group.new('healthWarning', colors.light_yellow, nil, nil)
 Group.new('qfLineNr', colors.light_grey, colors.cobalt_bg, nil)
+
+Group.new('WinSeparator', colors.cobalt_bg_light, nil, nil)
 
 -- Noice
 Group.new('NoiceCmdlinePopup', nil, colors.cobalt_bg_dark, nil)
