@@ -46,6 +46,7 @@ set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 --  Use CTRL+<hjkl> to switch between windows
 --
 --  See `:help wincmd` for a list of all window commands
+--  These conflict with move.mini
 set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
@@ -78,8 +79,6 @@ end, { desc = 'Git blame line' })
 set('n', '<leader><Tab>', '<cmd>:b#<CR>', { desc = 'Go to last buffer' })
 set('n', ']b', '<cmd>:bnext<CR>', { desc = 'Next buffer' })
 set('n', '[b', '<cmd>:bprevious<CR>', { desc = 'Previous buffer' })
-set('n', '<S-l>', '<cmd>:bnext<CR>', { desc = 'Next buffer' })
-set('n', '<S-h>', '<cmd>:bprevious<CR>', { desc = 'Previous buffer' })
 
 set('n', '<leader>bd', function()
   Snacks.bufdelete()
