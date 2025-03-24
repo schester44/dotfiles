@@ -55,14 +55,16 @@ return {
     -- Move lines
     require('mini.move').setup {
       mappings = {
-        left = '<C-h>',
-        right = '<C-l>',
-        down = '<C-j>',
-        up = '<C-k>',
-        line_left = '<C-h>',
-        line_right = '<C-l>',
-        line_down = '<C-j>',
-        line_up = '<C-k>',
+        -- visual mode
+        left = '<S-h>',
+        right = '<S-l>',
+        down = '<S-j>',
+        up = '<S-k>',
+        -- normal mode
+        line_left = '<S-h>',
+        line_right = '<S-l>',
+        line_down = '<S-j>',
+        line_up = '<S-k>',
       },
     }
     -- Add/delete/replace surroundings (brackets, quotes, etc.)

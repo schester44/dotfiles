@@ -46,7 +46,7 @@ exec-on-workspace-change = [
     alt-i = 'workspace prev'
     alt-o = 'workspace next'
 
-    alt-shift-enter = 'fullscreen'
+    alt-enter = 'fullscreen'
 
     alt-h = 'focus left'
     alt-j = 'focus down'
@@ -58,19 +58,18 @@ exec-on-workspace-change = [
     alt-ctrl-k = 'move up'
     alt-ctrl-l = 'move right'
 
-
-    alt-shift-h = ['join-with left']
-    alt-shift-j = ['join-with down']
-    alt-shift-k = ['join-with up']
-    alt-shift-l = ['join-with right']
+    alt-shift-h = 'join-with left'
+    alt-shift-j = 'join-with down'
+    alt-shift-k = 'join-with up'
+    alt-shift-l = 'join-with right'
 
     alt-minus = 'resize smart -64'
     alt-equal = 'resize smart +64'
     alt-shift-minus = 'resize smart -128'
     alt-shift-equal = 'resize smart +128'
 
-    alt-shift-slash = 'layout tiles horizontal vertical'
-    alt-shift-comma = 'layout accordion horizontal vertical'
+    alt-slash = 'layout tiles horizontal vertical'
+    alt-comma = 'layout accordion horizontal vertical'
 
 [mode.alt.binding]
     esc = [

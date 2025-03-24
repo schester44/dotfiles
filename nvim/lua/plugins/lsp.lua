@@ -80,7 +80,7 @@ return {
           end
 
           -- Show type info
-          vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = event.buf, desc = 'Show Hover' })
+          vim.keymap.set('n', 'gk', vim.lsp.buf.hover, { buffer = event.buf, desc = 'Show Hover' })
 
           --  To jump back, press <C-t>.
           map('gd', function()
@@ -246,17 +246,17 @@ return {
         },
       }
 
-      -- require('lspconfig').eslint.setup {
-      --   flags = {
-      --     debounce_text_changes = 500,
-      --   },
-      --   on_attach = function(client, bufnr)
-      --     vim.api.nvim_create_autocmd('BufWritePre', {
-      --       buffer = bufnr,
-      --       command = 'EslintFixAll',
-      --     })
-      --   end,
-      -- }
+      require('lspconfig').eslint.setup {
+        flags = {
+          debounce_text_changes = 500,
+        },
+        on_attach = function(client, bufnr)
+          vim.api.nvim_create_autocmd('BufWritePre', {
+            buffer = bufnr,
+            command = 'EslintFixAll',
+          })
+        end,
+      }
     end,
   },
 }
