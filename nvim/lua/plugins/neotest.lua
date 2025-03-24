@@ -104,16 +104,22 @@ return {
       desc = 'Output',
     }
 
+    local mochaAdapter = require 'neotest-mocha' {
+      command = 'yarn test:unfiltered:fast',
+      cwd = '/Users/schester/work/risk-management/api',
+    }
+
+    mochaAdapter.filter_dir = function(name, rel_path, root)
+      return string.match(rel_path, 'api')
+    end
+
     ---@diagnostic disable-next-line: missing-fields
     n.setup {
       consumers = {
         playwright = require('neotest-playwright.consumers').consumers,
       },
       adapters = {
-        require 'neotest-mocha' {
-          command = 'yarn test:unfiltered:fast',
-          cwd = '/Users/schester/work/risk-management/api',
-        },
+        mochaAdapter,
         require 'neotest-vitest' {
           vitestCommand = 'yarn test',
           cwd = '/Users/schester/work/risk-management/web-client',
@@ -123,10 +129,9 @@ return {
             env = { NODE_ENV = 'test' },
             persist_project_selection = true,
             enable_dynamic_test_discovery = true,
-            -- filter_dir = function(name, rel_path)
-            --   print(name, rel_path)
-            --   return string.match(rel_path, 'playwright') and string.match(rel_path, 'test%.ts')
-            -- end,
+            filter_dir = function(name, rel_path)
+              return string.match(rel_path, 'playwright')
+            end,
           },
         },
       },
