@@ -71,9 +71,6 @@ set('n', '<leader>gb', function()
   Snacks.picker.git_log_line()
 end, { desc = 'Git blame line' })
 
--- Buffers
-set('n', '<leader><Tab>', '<cmd>:b#<CR>', { desc = 'Go to last buffer' })
-
 set('n', '<leader>bd', function()
   Snacks.bufdelete()
 end, { desc = 'Delete Buffer' })

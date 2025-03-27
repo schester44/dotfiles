@@ -174,7 +174,7 @@ return {
         function()
           Snacks.profiler.scratch()
         end,
-        desc = 'Profiler Scratch Bufer',
+        desc = 'Profiler Scratch Buffer',
       },
     },
   },
