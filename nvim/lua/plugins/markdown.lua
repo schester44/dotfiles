@@ -13,6 +13,7 @@ local oneOnOneTemplate = [[
 return {
   {
     'MeanderingProgrammer/render-markdown.nvim',
+    cond = not vim.g.vscode,
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
     ft = { 'markdown', 'codecompanion' },
     ---@module 'render-markdown'
@@ -33,6 +34,7 @@ return {
   },
   {
     'epwalsh/obsidian.nvim',
+    cond = not vim.g.vscode,
     version = '*', -- recommended, use latest release instead of latest commit
     lazy = true,
     ft = 'markdown',
@@ -57,7 +59,12 @@ return {
           '11header',
           fmt(
             oneOnOneTemplate,
-            { a = ls.insert_node(1, 'Write your topics'), b = ls.insert_node(2, 'Write your notes'), date = ls.text_node(os.date '%Y-%m-%d') }
+            {
+              a = ls.insert_node(1, 'Write your topics'),
+              b = ls.insert_node(2, 'Write your notes'),
+              date = ls.text_node(
+                os.date '%Y-%m-%d')
+            }
           )
         ),
       })

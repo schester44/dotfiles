@@ -4,6 +4,7 @@ local snippets_dir = '~/.dotfiles/nvim/snippets'
 return {
   'hrsh7th/nvim-cmp',
   event = 'InsertEnter',
+  cond = not vim.g.vscode,
   dependencies = {
     {
       'L3MON4D3/LuaSnip',
@@ -99,10 +100,10 @@ return {
             -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
             -- can also be a function to dynamically calculate max width such as
             -- menu = function() return math.floor(0.45 * vim.o.columns) end,
-            menu = 30, -- leading text (labelDetails)
-            abbr = 50, -- actual suggestion item
+            menu = 30,              -- leading text (labelDetails)
+            abbr = 50,              -- actual suggestion item
           },
-          ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+          ellipsis_char = '...',    -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
           show_labelDetails = true, -- show labelDetails in menu. Disabled by default
 
           -- The function below will be called before any actual modifications from lspkind
@@ -141,8 +142,8 @@ return {
         ['<CR>'] = vim.schedule_wrap(function(fallback)
           if cmp.visible() then
             cmp.confirm { select = true } -- Confirm the currently selected nvim-cmp item
-          -- elseif copilot_suggestion.is_visible() then
-          --   copilot_suggestion.accept() -- Accept the Copilot suggestion
+            -- elseif copilot_suggestion.is_visible() then
+            --   copilot_suggestion.accept() -- Accept the Copilot suggestion
           elseif luasnip.expand_or_locally_jumpable() then -- move to the right of the snippet
             luasnip.expand_or_jump()
           else
@@ -201,13 +202,13 @@ return {
         end, { 'i', 's' }),
       },
       sources = {
-        { name = 'luasnip', priority = 1300 },
+        { name = 'luasnip',  priority = 1300 },
         {
           name = 'copilot',
           priority = 1200,
         },
         { name = 'nvim_lsp', priority = 900 },
-        { name = 'path', priority = 800 },
+        { name = 'path',     priority = 800 },
         {
           name = 'lazydev',
           priority = 700,

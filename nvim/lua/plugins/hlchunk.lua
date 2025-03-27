@@ -1,5 +1,6 @@
 return {
   'shellRaining/hlchunk.nvim',
+  cond = not vim.g.vscode,
   config = function()
     require('hlchunk').setup {
       chunk = {

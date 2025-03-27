@@ -1,6 +1,8 @@
 local ui = require 'lib.ui'
+
 return {
   'stevearc/oil.nvim',
+  cond = not vim.g.vscode,
   dependencies = { { 'echasnovski/mini.icons', opts = {} } },
   config = function()
     require('oil').setup {

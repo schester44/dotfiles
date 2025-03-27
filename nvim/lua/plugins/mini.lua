@@ -32,8 +32,9 @@ return {
   'echasnovski/mini.nvim',
   dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects' },
   config = function()
-    setup_starter()
-
+    if not vim.g.vscode then
+      setup_starter()
+    end
     -- Better Around/Inside textobjects
     --
     -- Examples:

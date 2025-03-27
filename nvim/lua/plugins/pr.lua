@@ -1,6 +1,7 @@
 return {
   {
     'fredrikaverpil/pr.nvim',
+    cond = not vim.g.vscode,
     lazy = true,
     version = '*',
     ---@type PR.Config

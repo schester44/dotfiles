@@ -2,6 +2,7 @@ return {
   {
     'zbirenbaum/copilot.lua',
     event = 'InsertEnter',
+    cond = not vim.g.vscode,
     config = function()
       local palette = require 'cobalt44.palette'
 

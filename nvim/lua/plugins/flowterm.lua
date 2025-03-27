@@ -2,6 +2,7 @@ return {
   {
     'schester44/flowterm.nvim',
     dev = true,
+    cond = not vim.g.vscode,
     config = function()
       local flowterm = require 'flowterm'
       local k = require 'lib.keymaps'

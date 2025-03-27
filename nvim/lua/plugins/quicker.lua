@@ -1,6 +1,7 @@
 return {
   'stevearc/quicker.nvim',
   event = 'FileType qf',
+  cond = not vim.g.vscode,
   config = function()
     require('quicker').setup {
       keys = {

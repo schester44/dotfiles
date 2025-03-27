@@ -1,1 +1,5 @@
-return { 'xiyaowong/transparent.nvim', opts = {} }
+return {
+  cond = not vim.g.vscode,
+  'xiyaowong/transparent.nvim',
+  opts = {}
+}

@@ -1,6 +1,6 @@
 ---@diagnostic disable: unused-local
 return {
-  { 'Bilal2453/luvit-meta', lazy = true },
+  { 'Bilal2453/luvit-meta', lazy = true, cond = not vim.g.vscode },
   -- {
   --   'pmizio/typescript-tools.nvim',
   --   dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
@@ -9,6 +9,7 @@ return {
   {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
+    cond = not vim.g.vscode,
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
       { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants

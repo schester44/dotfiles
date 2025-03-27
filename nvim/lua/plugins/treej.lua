@@ -1,4 +1,5 @@
 return {
+  cond = not vim.g.vscode,
   'Wansmer/treesj',
   dependencies = { 'nvim-treesitter/nvim-treesitter' }, -- if you install parsers with `nvim-treesitter`
   config = function()
