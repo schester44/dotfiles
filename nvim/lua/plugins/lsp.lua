@@ -64,13 +64,6 @@ return {
         winhighlight = 'NormalFloat:LspHover,FloatBorder:LspHoverBorder',
       })
 
-      -- Disabling virtual text seemed to improve performance
-      -- vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-      --   underline = true,
-      --   virtual_text = false,
-      --   update_in_insert = false,
-      -- })
-
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
@@ -123,6 +116,7 @@ return {
           --
           -- When you move your cursor, the highlights will be cleared (the second autocommand).
           local client = vim.lsp.get_client_by_id(event.data.client_id)
+
           if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
             local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
             vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
@@ -147,8 +141,8 @@ return {
           end
 
           local k = require 'lib.keymaps'
-          -- The following code creates a keymap to toggle inlay hints in your
           -- code, if the language server you are using supports them
+          -- The following code creates a keymap to toggle inlay hints in your
           --
           -- This may be unwanted, since they displace some of your code
           if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then

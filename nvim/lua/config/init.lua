@@ -1,13 +1,9 @@
-require 'config.options'
-require 'config.autocmds'
-require 'config.keymaps'
-require 'config.lazy'
-require 'config.cmds'
-
--- Diagnostic Signs
-local symbols = { Error = '󰅙', Info = '󰋼', Hint = '󰌵', Warn = '' }
-
-for name, icon in pairs(symbols) do
-  local hl = 'DiagnosticSign' .. name
-  vim.fn.sign_define(hl, { text = icon, numhl = hl, texthl = hl })
+if vim.g.vscode then
+  require 'config.vscode'
+else
+  require 'config.options'
+  require 'config.autocmds'
+  require 'config.keymaps'
+  require 'config.lazy'
+  require 'config.cmds'
 end

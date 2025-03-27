@@ -1,6 +1,7 @@
 return {
   {
     'folke/snacks.nvim',
+    cond = not vim.g.vscode,
     config = function()
       require('snacks').setup {
         picker = {
@@ -16,8 +17,8 @@ return {
                   box = 'vertical',
                   border = 'rounded',
                   title = '{title} {live} {flags}',
-                  { win = 'input', height = 2, border = 'bottom' },
-                  { win = 'list', border = 'none' },
+                  { win = 'input', height = 2,     border = 'bottom' },
+                  { win = 'list',  border = 'none' },
                 },
                 {
                   win = 'preview',
@@ -39,9 +40,9 @@ return {
                 border = require('lib.ui').border_chars_outer_thin,
                 title = '{title}',
                 title_pos = 'center',
-                { win = 'input', height = 2, border = 'none' },
-                { win = 'list', border = 'none' },
-                { win = 'preview', title = '{preview}', height = 0.4, border = 'top' },
+                { win = 'input',   height = 2,          border = 'none' },
+                { win = 'list',    border = 'none' },
+                { win = 'preview', title = '{preview}', height = 0.4,   border = 'top' },
               },
             },
           },
@@ -77,8 +78,8 @@ return {
                   box = 'vertical',
                   border = 'rounded',
                   title = '{title} {live} {flags}',
-                  { win = 'input', height = 2, border = 'bottom' },
-                  { win = 'list', border = 'none' },
+                  { win = 'input', height = 2,     border = 'bottom' },
+                  { win = 'list',  border = 'none' },
                 },
               },
             },

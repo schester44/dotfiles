@@ -58,18 +58,43 @@ vim.opt.listchars = { tab = '· ', trail = '·', nbsp = '␣' }
 vim.opt.inccommand = 'split'
 
 -- Show which line your cursor is on
+-- this is needed for the status column color
 vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
-vim.bo.expandtab = true -- Use spaces
-vim.bo.shiftwidth = 2 -- Indent by 2 spaces
-vim.bo.softtabstop = 2 -- Tab inserts 2 spaces
-vim.bo.tabstop = 2 -- Tab width is 2 spaces
+vim.bo.expandtab = true  -- Use spaces
+vim.bo.shiftwidth = 2    -- Indent by 2 spaces
+vim.bo.softtabstop = 2   -- Tab inserts 2 spaces
+vim.bo.tabstop = 2       -- Tab width is 2 spaces
 
 vim.opt.conceallevel = 2 -- Conceal text
 
--- If you are going to use the 2nd method
-vim.o.statuscolumn = "%!v:lua.require('lib/statuscolumn').render()"
 vim.opt.numberwidth = 4
+
+vim.o.statuscolumn = "%!v:lua.require('lib/statuscolumn').render()"
+
+vim.diagnostic.config {
+  virtual_text = false,
+  signs = {
+    numhl = {
+      [vim.diagnostic.severity.ERROR] = 'DiagnosticSignError',
+      [vim.diagnostic.severity.WARN] = 'DiagnosticSignWarn',
+      [vim.diagnostic.severity.INFO] = 'DiagnosticSignInfo',
+      [vim.diagnostic.severity.HINT] = 'DiagnosticSignHint',
+    },
+    linehl = {
+      [vim.diagnostic.severity.ERROR] = 'DiagnosticSignError',
+      [vim.diagnostic.severity.WARN] = 'DiagnosticSignWarn',
+      [vim.diagnostic.severity.INFO] = 'DiagnosticSignInfo',
+      [vim.diagnostic.severity.HINT] = 'DiagnosticSignHint',
+    },
+    text = {
+      [vim.diagnostic.severity.ERROR] = '󰅙',
+      [vim.diagnostic.severity.WARN] = '',
+      [vim.diagnostic.severity.INFO] = '󰋼',
+      [vim.diagnostic.severity.HINT] = '󰌵',
+    },
+  },
+}

@@ -16,10 +16,6 @@ end, { desc = 'Open floating [L]sp [D]iagnostic message' })
 
 set('n', '<leader>lr', '<cmd>LspRestart<CR>', { desc = '[L]sp [R]estart' })
 
--- Quickfix list
-set('n', '[q', '<cmd>cnext<CR>', { desc = 'Next Quickfix Item' })
-set('n', ']q', '<cmd>cprev<CR>', { desc = 'Previous Quickfix Item' })
-
 k.set_toggle_keymap {
   keys = 'q',
   desc = 'Quickfix',
@@ -77,8 +73,6 @@ end, { desc = 'Git blame line' })
 
 -- Buffers
 set('n', '<leader><Tab>', '<cmd>:b#<CR>', { desc = 'Go to last buffer' })
-set('n', ']b', '<cmd>:bnext<CR>', { desc = 'Next buffer' })
-set('n', '[b', '<cmd>:bprevious<CR>', { desc = 'Previous buffer' })
 
 set('n', '<leader>bd', function()
   Snacks.bufdelete()
@@ -99,13 +93,6 @@ set('n', '<leader>fcp', '<cmd>let @+=expand("%:p")<CR>', { desc = 'Copy file pat
 -- File Open in Finder
 set('n', '<leader>fof', '<cmd>silent !open %:p:h<CR>', { desc = 'Open file in Finder' })
 
--- TODO: These don't work, possible an issue with Wezterm or something else?
--- Global copy/paste to system clipboard
-set('v', '<D-c>', '"+y', { desc = 'Copy to system clipboard' }) -- Cmd+C
-set('n', '<D-v>', '"+P', { desc = 'Paste from system clipboard in normal mode' }) -- Cmd+V in normal mode
-set('v', '<D-v>', '"+P', { desc = 'Paste from system clipboard in visual mode' }) -- Cmd+V in visual mode
-set('i', '<D-v>', '<C-r>+', { desc = 'Paste from system clipboard in insert mode' }) -- Cmd+V in insert mode
-set('v', '<D-x>', '"+d', { desc = 'Cut to system clipboard' }) -- Cmd+x
 
 k.set_toggle_keymap {
   keys = 'c',
