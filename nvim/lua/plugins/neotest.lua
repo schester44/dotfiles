@@ -110,7 +110,7 @@ return {
       cwd = '/Users/schester/work/risk-management/api',
     }
 
-    mochaAdapter.filter_dir = function(name, rel_path, root)
+    mochaAdapter.filter_dir = function(name, rel_path)
       return string.match(rel_path, 'api')
     end
 
@@ -130,9 +130,10 @@ return {
             env = { NODE_ENV = 'test' },
             persist_project_selection = true,
             enable_dynamic_test_discovery = true,
-            filter_dir = function(name, rel_path)
-              return string.match(rel_path, 'playwright')
-            end,
+            -- ---@diagnostic disable-next-line: unused-local
+            -- filter_dir = function(name, rel_path)
+            --   return string.match(rel_path, 'playwright')
+            -- end,
           },
         },
       },

@@ -8,6 +8,7 @@ local colors = {
   cobalt_bg = '#1C2E41',
   cobalt_bg_dark = '#15232D',
   cobalt_bg_light = '#2A3C51',
+  cobalt_bg_lighter = '#3E4F62',
   dim_blue = '#506171',
   --------------------------------------------------------------------------------
   --  NOTE: black, white and grey {{{

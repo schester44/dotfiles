@@ -64,10 +64,10 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
-vim.bo.expandtab = true  -- Use spaces
-vim.bo.shiftwidth = 2    -- Indent by 2 spaces
-vim.bo.softtabstop = 2   -- Tab inserts 2 spaces
-vim.bo.tabstop = 2       -- Tab width is 2 spaces
+vim.bo.expandtab = true -- Use spaces
+vim.bo.shiftwidth = 2 -- Indent by 2 spaces
+vim.bo.softtabstop = 2 -- Tab inserts 2 spaces
+vim.bo.tabstop = 2 -- Tab width is 2 spaces
 
 vim.opt.conceallevel = 2 -- Conceal text
 
@@ -75,26 +75,41 @@ vim.opt.numberwidth = 4
 
 vim.o.statuscolumn = "%!v:lua.require('lib/statuscolumn').render()"
 
+local diag_icons = {
+  error = '󰅙',
+  warn = '',
+  info = '󰋼',
+  hint = '󰌵',
+}
+
 vim.diagnostic.config {
-  virtual_text = false,
-  signs = {
-    numhl = {
-      [vim.diagnostic.severity.ERROR] = 'DiagnosticSignError',
-      [vim.diagnostic.severity.WARN] = 'DiagnosticSignWarn',
-      [vim.diagnostic.severity.INFO] = 'DiagnosticSignInfo',
-      [vim.diagnostic.severity.HINT] = 'DiagnosticSignHint',
+  virtual_lines = {
+    enabled = true,
+    current_line = true,
+    severity = {
+      min = vim.diagnostic.severity.ERROR,
     },
+  },
+  virtual_text = {
+    enabled = true,
+    current_line = true,
+    severity = {
+      min = vim.diagnostic.severity.HINT,
+      max = vim.diagnostic.severity.WARN,
+    },
+  },
+  signs = {
     linehl = {
-      [vim.diagnostic.severity.ERROR] = 'DiagnosticSignError',
-      [vim.diagnostic.severity.WARN] = 'DiagnosticSignWarn',
-      [vim.diagnostic.severity.INFO] = 'DiagnosticSignInfo',
-      [vim.diagnostic.severity.HINT] = 'DiagnosticSignHint',
+      [vim.diagnostic.severity.ERROR] = 'DiagnosticLineError',
+      [vim.diagnostic.severity.WARN] = 'DiagnosticLineWarn',
+      [vim.diagnostic.severity.INFO] = 'DiagnosticLineInfo',
+      [vim.diagnostic.severity.HINT] = 'DiagnosticLineHint',
     },
     text = {
-      [vim.diagnostic.severity.ERROR] = '󰅙',
-      [vim.diagnostic.severity.WARN] = '',
-      [vim.diagnostic.severity.INFO] = '󰋼',
-      [vim.diagnostic.severity.HINT] = '󰌵',
+      [vim.diagnostic.severity.ERROR] = diag_icons.error,
+      [vim.diagnostic.severity.WARN] = diag_icons.warn,
+      [vim.diagnostic.severity.INFO] = diag_icons.info,
+      [vim.diagnostic.severity.HINT] = diag_icons.hint,
     },
   },
 }

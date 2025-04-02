@@ -47,6 +47,7 @@ Color.new('light_yellow_bg', M.adjust_transparency(palette.light_yellow, palette
 --  NOTE: colors {{{
 --------------------------------------------------------------------------------
 Color.new('cobalt_bg_light', palette.cobalt_bg_light)
+Color.new('cobalt_bg_lighter', palette.cobalt_bg_lighter)
 Color.new('cobalt_bg_dark', palette.cobalt_bg_dark)
 Color.new('cobalt_bg', palette.cobalt_bg)
 
