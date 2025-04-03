@@ -1,3 +1,5 @@
+local tools = require 'lib.tools'
+
 local get_theme = function()
   local palette = require 'cobalt44.palette'
 
@@ -44,7 +46,7 @@ local function copilot_status()
   local ok = not c.is_disabled() and c.buf_is_attached(vim.api.nvim_get_current_buf())
 
   if not ok then
-    return '%#LualineCopilotOffline#' .. icons.icons.kinds.CopilotOffline
+    return tools.hl_str('LualineCopilotOffline', icons.icons.kinds.CopilotOffline)
   end
 
   return icons.icons.kinds.CopilotOnline
@@ -57,12 +59,12 @@ local macro_recording = function()
     return ''
   end
 
-  return '%#LualineRecording# Recording @' .. reg
+  return tools.hl_str('LualineRecording', ' Recording @' .. reg)
 end
 
 local buffer_modified = function()
   if vim.bo.modified then
-    return '%#LualineFileModified#[+]'
+    return tools.hl_str('LualineFileModified', '[+]')
   end
   return ''
 end
@@ -88,17 +90,21 @@ return {
           component_separators = '',
           section_separators = { left = '', right = '' },
         },
+        extensions = { 'trouble' },
         sections = {
           lualine_a = {
-
-            buffer_modified,
+            { buffer_modified, padding = 0 },
             macro_recording,
             {
               'filename',
               path = 1,
               file_status = false,
               fmt = function(name)
-                return vim.fn.fnamemodify(name, ':t')
+                local fname = vim.fn.fnamemodify(name, ':t')
+                local path = vim.fn.fnamemodify(name, ':p:h')
+
+                return (path ~= '' and tools.hl_str('LualinePath', vim.fn.fnamemodify(path, ':t') .. '/') or '')
+                  .. tools.hl_str(vim.bo.modified and 'LualineFilenameModified' or 'LualineFilename', fname)
               end,
             },
           },
@@ -119,6 +125,7 @@ return {
             {
               'filename',
               path = 1,
+              file_status = false,
             },
           },
           lualine_b = { 'diagnostics' },

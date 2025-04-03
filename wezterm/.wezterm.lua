@@ -6,8 +6,6 @@ local keymaps = require("keymaps")
 
 local config = wezterm.config_builder()
 
-config.default_cwd = "/Users/schester/.dotfiles"
-
 theme.apply(config)
 window.apply(config)
 keymaps.apply(config)
