@@ -25,8 +25,8 @@ local function split_nav(resize_or_move, key)
 		action = w.action_callback(function(win, pane)
 			if is_vim(pane) then
 				-- pass the keys through to vim/nvim
+				-- FIXME: panes aren't resized in neovim using META
 				win:perform_action({
-					-- FIXME: Meta is taken by Aerospace, can't resize panes
 					SendKey = { key = key, mods = resize_or_move == "resize" and "META" or "CTRL" },
 				}, pane)
 			else
@@ -39,8 +39,6 @@ local function split_nav(resize_or_move, key)
 		end),
 	}
 end
-
--- TODO: Implement sketchybar chip that shows leader key is active.. or something in terminal
 
 M.apply = function(config)
 	local wezterm = require("wezterm")

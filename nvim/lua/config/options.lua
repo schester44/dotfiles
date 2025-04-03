@@ -83,6 +83,7 @@ local diag_icons = {
 }
 
 vim.diagnostic.config {
+  update_in_insert = false,
   virtual_lines = {
     enabled = true,
     current_line = true,

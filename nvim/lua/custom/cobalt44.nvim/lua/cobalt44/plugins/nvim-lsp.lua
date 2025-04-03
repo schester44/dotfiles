@@ -8,6 +8,7 @@ Group.new('DiagnosticError', colors.muted_red, nil, nil)
 Group.new('DiagnosticHint', colors.light_pink, nil, nil)
 Group.new('DiagnosticInfo', colors.light_blue, nil, nil)
 Group.new('DiagnosticWarn', colors.light_yellow, nil, nil)
+Group.new('DiagnosticUnnecessary', nil, nil, nil)
 
 Group.new('DiagnosticLineError', nil, nil, nil)
 Group.new('DiagnosticLineHint', nil, nil, nil)
