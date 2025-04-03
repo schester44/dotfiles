@@ -12,9 +12,11 @@ M.apply = function(config)
 		bottom = 0,
 	}
 
+	config.tab_max_width = 64
 	config.use_fancy_tab_bar = false
 	config.hide_tab_bar_if_only_one_tab = false
 	config.tab_bar_at_bottom = true
+	config.show_new_tab_button_in_tab_bar = false
 
 	config.status_update_interval = 1000
 
