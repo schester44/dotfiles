@@ -75,12 +75,19 @@ vim.opt.numberwidth = 4
 
 vim.o.statuscolumn = "%!v:lua.require('lib/statuscolumn').render()"
 
-local diag_icons = {
-  error = '󰅙',
-  warn = '',
-  info = '󰋼',
-  hint = '󰌵',
+local icons = require 'lib.icons'
+local diag_icons = icons.diagnostics
+
+local S = vim.diagnostic.severity
+
+local lsp_signs = {
+  [S.ERROR] = { name = 'Error', sym = diag_icons.error },
+  [S.WARN] = { name = 'Warn', sym = diag_icons.warn },
+  [S.INFO] = { name = 'Info', sym = diag_icons.info },
+  [S.HINT] = { name = 'Hint', sym = diag_icons.hint },
 }
+
+local cur_border = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
 
 vim.diagnostic.config {
   update_in_insert = false,
@@ -98,6 +105,21 @@ vim.diagnostic.config {
       min = vim.diagnostic.severity.HINT,
       max = vim.diagnostic.severity.WARN,
     },
+  },
+
+  float = {
+    header = ' ',
+    border = table.concat(cur_border, ''),
+    source = 'if_many',
+    title = icons.icons.diagnostics .. ' Diagnostics ',
+    prefix = function(diag)
+      local lsp_sym = lsp_signs[diag.severity].sym
+      local prefix = string.format(' %s  ', lsp_sym)
+
+      local severity = vim.diagnostic.severity[diag.severity]
+      local diag_hl_name = severity:sub(1, 1) .. severity:sub(2):lower()
+      return prefix, 'Diagnostic' .. diag_hl_name:gsub('^%l', string.upper)
+    end,
   },
   signs = {
     linehl = {

@@ -80,6 +80,7 @@ return {
       vim.opt.fillchars = {
         stl = ' ',
         stlnc = '─',
+        diff = '╱',
       }
 
       local codecompanion = require 'lib.statusline.codecompanion'

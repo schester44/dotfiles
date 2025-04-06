@@ -1,4 +1,5 @@
 local ui = require 'lib.ui'
+
 return {
   'folke/noice.nvim',
   cond = not vim.g.vscode,
