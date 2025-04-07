@@ -39,6 +39,7 @@ end
 Color.new('light_orange_bg', M.adjust_transparency(palette.light_orange, palette.cobalt_bg, 0.1))
 Color.new('light_purple_bg', M.adjust_transparency(palette.purple, palette.cobalt_bg, 0.1))
 Color.new('light_green_bg', M.adjust_transparency(palette.light_green, palette.cobalt_bg, 0.1))
+Color.new('light_red_bg', '#663E46')
 Color.new('light_blue_bg', M.adjust_transparency(palette.light_blue, palette.cobalt_bg, 0.1))
 Color.new('light_pink_bg', M.adjust_transparency(palette.light_pink, palette.cobalt_bg, 0.1))
 Color.new('light_yellow_bg', M.adjust_transparency(palette.light_yellow, palette.cobalt_bg, 0.1))

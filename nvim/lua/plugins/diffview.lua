@@ -12,13 +12,7 @@ return {
     }
 
     require('diffview').setup {
-      enhance_diff_hl = true, -- Adds highlights for diff hunks
-      use_icons = true, -- Requires nvim-web-devicons
-      view = {
-        default = {
-          layout = 'diff2_horizontal', -- Use the diff2 layout by default
-        },
-      },
+      enhanced_diff_hl = true,
     }
   end,
 }

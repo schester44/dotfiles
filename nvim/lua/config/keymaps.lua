@@ -65,7 +65,15 @@ set('n', '<leader>gp', '<cmd>:Git pull<CR>', { desc = 'Git pull' })
 set('n', '<leader>gM', '<cmd>:Git pull origin main<CR>', { desc = 'Git pull origin main' })
 set('n', '<leader>gP', '<cmd>:Git push origin HEAD<CR>', { desc = 'Git push origin HEAD' })
 set('n', '<leader>gl', '<cmd>:0Gclog<CR>', { desc = 'Git log' })
-set('n', '<leader>gd', '<cmd>:Gdiff<CR>', { desc = 'Git diff' })
+set('n', '<leader>gd', '<cmd>:DiffviewOpen<CR>', { desc = 'Git diff' })
+set('n', '<leader>gd', function()
+  if next(require('diffview.lib').views) == nil then
+    vim.cmd 'DiffviewOpen'
+  else
+    -- If diffview is already open, close it
+    vim.cmd 'DiffviewClose'
+  end
+end, { desc = 'Git diff' })
 set('n', '<leader>gB', '<cmd>:Git blame<CR>', { desc = 'Git blame' })
 set('n', '<leader>gb', function()
   Snacks.picker.git_log_line()
@@ -89,7 +97,6 @@ set('n', '<leader>qq', '<cmd>qa<CR>', { desc = 'Quit All' })
 set('n', '<leader>fcp', '<cmd>let @+=expand("%:p")<CR>', { desc = 'Copy file path to clipboard' })
 -- File Open in Finder
 set('n', '<leader>fof', '<cmd>silent !open %:p:h<CR>', { desc = 'Open file in Finder' })
-
 
 k.set_toggle_keymap {
   keys = 'c',
