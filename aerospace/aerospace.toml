@@ -46,7 +46,7 @@ exec-on-workspace-change = [
     alt-i = 'workspace prev'
     alt-o = 'workspace next'
 
-    alt-enter = 'fullscreen'
+    alt-enter = ['fullscreen', 'exec-and-forget sketchybar --trigger fullscreen']
 
     alt-h = 'focus left'
     alt-j = 'focus down'

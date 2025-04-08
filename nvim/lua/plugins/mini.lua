@@ -53,6 +53,8 @@ return {
       },
     }
 
+    require('mini.bufremove').setup()
+
     -- Move lines
     require('mini.move').setup {
       mappings = {

@@ -4,6 +4,7 @@ M.items = {
 	CLOCK = "clock",
 	SPACES = "spaces",
 	AEROSPACE_MODE = "aerospace_mode",
+	AEROSPACE_FULLSCREEN = "aerospace_fullscreen",
 	-- this needs to match the name of the app
 	DOTTT = "Dottt",
 }
@@ -18,6 +19,7 @@ M.events = {
 	UPDATE_WINDOWS = "update_windows",
 	SEND_MODE = "send_mode",
 	HIDE_MODE = "hide_mode",
+	FULLSCREEN = "fullscreen",
 }
 
 M.aerospace = {
