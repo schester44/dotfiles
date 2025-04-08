@@ -93,6 +93,9 @@ set('n', '<leader>w', '<cmd>:w<CR>', { desc = 'Write' })
 set('n', '<leader>q', '<cmd>:q<CR>', { desc = 'Quit' })
 set('n', '<leader>qq', '<cmd>qa<CR>', { desc = 'Quit All' })
 
+set('n', ']b', '<cmd>BuffyCycleNext<CR>', { desc = 'Next Buffer' })
+set('n', '[b', '<cmd>BuffyCyclePrev<CR>', { desc = 'Prev Buffer' })
+
 -- File Copy Path
 set('n', '<leader>fcp', '<cmd>let @+=expand("%:p")<CR>', { desc = 'Copy file path to clipboard' })
 -- File Open in Finder
