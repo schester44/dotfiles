@@ -29,7 +29,7 @@ M.apply = function(config)
 	wezterm.on("format-tab-title", function(tab)
 		local is_zoomed = tab.active_pane.is_zoomed
 
-		local title = tab.tab_title and tab.tab_title ~= "" and tab.tab_title or "Tab" .. tab.tab_index
+		local title = tab.tab_title and tab.tab_title ~= "" and tab.tab_title or "Tab" .. tab.tab_index + 1
 
 		local elements = {
 			{ Background = { Color = is_zoomed and theme.alert or theme.background } },
@@ -43,17 +43,11 @@ M.apply = function(config)
 			table.insert(elements, {
 				Foreground = { Color = theme.alert },
 			})
-
-			table.insert(elements, {
-				Text = " " .. wezterm.nerdfonts.oct_zoom_in,
-			})
-
-			table.insert(elements, {
-				Foreground = { Color = tab.is_active and theme.foreground_highlight or theme.foreground_muted },
-			})
 		end
 
-		table.insert(elements, { Text = " " .. tab.tab_index .. ":" .. title })
+		table.insert(elements, { Text = " " .. wezterm.nerdfonts["md_numeric_" .. tab.tab_index + 1 .. "_box"] .. " " })
+
+		table.insert(elements, { Text = title .. " " })
 
 		return elements
 	end)
@@ -75,12 +69,7 @@ M.apply = function(config)
 			},
 			{ Foreground = { Color = theme.foreground } },
 			{
-				Text = " "
-					.. wezterm.nerdfonts.fa_terminal
-					.. " "
-					.. window:active_workspace()
-					.. " "
-					.. wezterm.nerdfonts.cod_chevron_right,
+				Text = " " .. wezterm.nerdfonts.fa_terminal .. " " .. window:active_workspace() .. " ",
 			},
 		}))
 	end)
