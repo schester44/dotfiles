@@ -1,6 +1,7 @@
 local M = {}
+local theme = require("theme").theme
 
-M.apply = function(config)
+function M.apply(config)
 	local wezterm = require("wezterm")
 	local act = wezterm.action
 	local split_nav = require("keymaps.utils").split_nav
@@ -21,6 +22,7 @@ M.apply = function(config)
 				one_shot = false,
 			}),
 		},
+		{ key = "d", mods = "LEADER", action = wezterm.action.ShowDebugOverlay },
 		-- Create a new workspace with a random name and switch to it
 		{
 			key = "n",
@@ -28,8 +30,8 @@ M.apply = function(config)
 			action = act.PromptInputLine({
 				description = wezterm.format({
 					{ Attribute = { Intensity = "Bold" } },
-					{ Foreground = { AnsiColor = "Fuchsia" } },
-					{ Text = "Enter name for new workspace" },
+					{ Foreground = { Color = theme.alert } },
+					{ Text = " Enter name for new workspace" },
 				}),
 				action = wezterm.action_callback(function(window, pane, line)
 					if line then
@@ -79,8 +81,8 @@ M.apply = function(config)
 			action = act.PromptInputLine({
 				description = wezterm.format({
 					{ Attribute = { Intensity = "Bold" } },
-					{ Foreground = { AnsiColor = "Blue" } },
-					{ Text = "New tab name:" },
+					{ Foreground = { Color = theme.alert } },
+					{ Text = " New tab name:" },
 				}),
 				action = wezterm.action_callback(function(window, pane, line)
 					if line then
@@ -114,8 +116,8 @@ M.apply = function(config)
 			action = act.PromptInputLine({
 				description = wezterm.format({
 					{ Attribute = { Intensity = "Bold" } },
-					{ Foreground = { AnsiColor = "Blue" } },
-					{ Text = "Rename workspace name:" },
+					{ Foreground = { Color = theme.alert } },
+					{ Text = " Rename workspace name:" },
 				}),
 				action = wezterm.action_callback(function(window, pane, line)
 					if line then

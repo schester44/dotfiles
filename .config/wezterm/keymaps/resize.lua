@@ -1,6 +1,6 @@
 local M = {}
 
-M.apply = function(config, name)
+function M.apply(config, name)
 	local act = require("wezterm").action
 
 	config.key_tables = config.key_tables or {}

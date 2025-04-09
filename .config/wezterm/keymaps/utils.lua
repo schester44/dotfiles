@@ -16,7 +16,7 @@ local direction_keys = {
 	l = "Right",
 }
 
-M.split_nav = function(resize_or_move, key)
+function M.split_nav(resize_or_move, key)
 	local w = require("wezterm")
 
 	return {
