@@ -1,5 +1,13 @@
 ---@diagnostic disable: unused-local
 return {
+  {
+    'Sebastian-Nielsen/better-type-hover',
+    config = function()
+      require('better-type-hover').setup {
+        openTypeDocKeymap = 'gy',
+      }
+    end,
+  },
   { 'Bilal2453/luvit-meta', lazy = true, cond = not vim.g.vscode },
   -- {
   --   'pmizio/typescript-tools.nvim',

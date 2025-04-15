@@ -100,10 +100,10 @@ return {
             -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
             -- can also be a function to dynamically calculate max width such as
             -- menu = function() return math.floor(0.45 * vim.o.columns) end,
-            menu = 30,              -- leading text (labelDetails)
-            abbr = 50,              -- actual suggestion item
+            menu = 30, -- leading text (labelDetails)
+            abbr = 50, -- actual suggestion item
           },
-          ellipsis_char = '...',    -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+          ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
           show_labelDetails = true, -- show labelDetails in menu. Disabled by default
 
           -- The function below will be called before any actual modifications from lspkind
@@ -158,7 +158,7 @@ return {
           end
         end, { 'i', 's' }),
         -- Trigger snippet-only completion
-        ['<C-s>'] = cmp.mapping(function()
+        ['<C-s>'] = cmp.mapping(function(fallback)
           cmp.complete {
             config = {
               sources = {
@@ -166,7 +166,9 @@ return {
               },
             },
           }
-          assert(cmp.visible(), 'No snippets available')
+          if not cmp.visible() then
+            fallback() -- Fallback to other keymaps if no snippets are available
+          end
         end, { 'i', 's' }), -- Available in insert and select mode
         ['<C-[>'] = cmp.mapping.scroll_docs(-4),
         ['<C-]>'] = cmp.mapping.scroll_docs(4),
@@ -202,13 +204,13 @@ return {
         end, { 'i', 's' }),
       },
       sources = {
-        { name = 'luasnip',  priority = 1300 },
+        { name = 'luasnip', priority = 1300 },
         {
           name = 'copilot',
           priority = 1200,
         },
         { name = 'nvim_lsp', priority = 900 },
-        { name = 'path',     priority = 800 },
+        { name = 'path', priority = 800 },
         {
           name = 'lazydev',
           priority = 700,

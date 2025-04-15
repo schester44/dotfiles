@@ -127,13 +127,13 @@ return {
         },
         require('neotest-playwright').adapter {
           options = {
-            env = { NODE_ENV = 'test' },
+            env = { NODE_ENV = 'test', E2E = 'true' },
             persist_project_selection = true,
             enable_dynamic_test_discovery = true,
             -- ---@diagnostic disable-next-line: unused-local
-            -- filter_dir = function(name, rel_path)
-            --   return string.match(rel_path, 'playwright')
-            -- end,
+            filter_dir = function(name, rel_path)
+              return string.match(rel_path, 'playwright')
+            end,
           },
         },
       },
