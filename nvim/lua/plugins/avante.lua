@@ -27,16 +27,16 @@ return {
       require('avante').setup {
         -- these are provided by mcphub
         disabled_tools = {
-          'list_files',
-          'search_files',
-          'read_file',
-          'create_file',
-          'rename_file',
-          'delete_file',
-          'create_dir',
-          'rename_dir',
-          'delete_dir',
-          'bash',
+          -- 'list_files',
+          -- 'search_files',
+          -- 'read_file',
+          -- 'create_file',
+          -- 'rename_file',
+          -- 'delete_file',
+          -- 'create_dir',
+          -- 'rename_dir',
+          -- 'delete_dir',
+          -- 'bash',
         },
         behaviour = {
           -- try disabling cursor_planning_mode if you have issues

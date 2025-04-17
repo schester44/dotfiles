@@ -46,10 +46,10 @@ local function copilot_status()
   local ok = not c.is_disabled() and c.buf_is_attached(vim.api.nvim_get_current_buf())
 
   if not ok then
-    return tools.hl_str('LualineCopilotOffline', icons.icons.kinds.CopilotOffline)
+    return tools.hl_str('LualineCopilotOffline', icons.kinds.CopilotOffline)
   end
 
-  return icons.icons.kinds.CopilotOnline
+  return icons.kinds.CopilotOnline
 end
 
 local macro_recording = function()
@@ -88,6 +88,7 @@ return {
       require('lualine').setup {
         options = {
           theme = get_theme(),
+          always_show_tabline = false,
           component_separators = '',
           section_separators = { left = '', right = '' },
         },

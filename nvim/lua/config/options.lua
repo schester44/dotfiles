@@ -111,7 +111,7 @@ vim.diagnostic.config {
     header = ' ',
     border = table.concat(cur_border, ''),
     source = 'if_many',
-    title = icons.icons.diagnostics .. ' Diagnostics ',
+    title = icons.diagnostics.warn .. ' Diagnostics ',
     prefix = function(diag)
       local lsp_sym = lsp_signs[diag.severity].sym
       local prefix = string.format(' %s  ', lsp_sym)
