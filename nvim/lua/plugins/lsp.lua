@@ -4,7 +4,7 @@ return {
     'Sebastian-Nielsen/better-type-hover',
     config = function()
       require('better-type-hover').setup {
-        openTypeDocKeymap = 'gy',
+        openTypeDocKeymap = 'gk',
       }
     end,
   },
@@ -80,9 +80,6 @@ return {
             mode = mode or 'n'
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
-
-          -- Show type info
-          vim.keymap.set('n', 'gk', vim.lsp.buf.hover, { buffer = event.buf, desc = 'Show Hover' })
 
           --  To jump back, press <C-t>.
           map('gd', function()
