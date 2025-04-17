@@ -19,7 +19,7 @@ Group.new('DiffDelete', colors.red, nil, nil)
 Group.new('DiffText', colors.white, nil, nil)
 Group.new('Directory', colors.blue, nil, nil)
 Group.new('ErrorMsg', colors.red:light(), nil, nil)
-Group.new('FloatBorder', colors.cobalt_bg, colors.cobalt_bg_dark, nil)
+Group.new('FloatBorder', colors.cobalt_bg_dark, colors.cobalt_bg_dark, nil)
 Group.new('FloatTitle', colors.light_blue, colors.cobalt_bg, nil)
 Group.new('FoldColumn', colors.cobalt_bg_light, colors.cobalt_bg, nil)
 -- Folded text/backgroun
