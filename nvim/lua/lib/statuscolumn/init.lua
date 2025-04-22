@@ -1,6 +1,7 @@
 local ffi = require 'lib.statuscolumn.ffidef'
 local C = ffi.C
 local error = ffi.new 'Error'
+local ui = require 'lib.ui'
 
 local statuscolumn = {}
 
@@ -34,10 +35,11 @@ vim.api.nvim_set_hl(0, 'FoldClosed', { fg = theme_palette.purple })
 statuscolumn.number = function()
   local is_cmd_open = vim.fn.mode() == 'c'
 
-  local uncolored_text = '%#LineNr#'
-  local colored_text = '%#CursorLineNr#'
+  if vim.v.relnum == 0 then
+    return ui.hl_str('CursorLineNr', vim.v.lnum)
+  end
 
-  return vim.v.relnum == 0 and colored_text .. vim.v.lnum or uncolored_text .. (is_cmd_open and vim.v.lnum or vim.v.relnum)
+  return is_cmd_open and vim.v.lnum or vim.v.relnum
 end
 
 vim.o.foldnestmax = #user_config.colors
@@ -48,15 +50,31 @@ statuscolumn.render = function()
   text = table.concat {
     '%=',
     statuscolumn.number(),
-    ' ',
+    statuscolumn.folds(),
     '%s',
+    statuscolumn.border(),
   }
 
   return text
 end
 
 statuscolumn.border = function()
-  return '%#FoldColumn#│'
+  return ui.hl_str('FoldColumn', '│')
+end
+
+statuscolumn.folds = function()
+  local line = vim.v.lnum
+  local fold = vim.fn.foldlevel(line)
+  local is_folded = vim.fn.foldclosed(line) ~= -1
+  local is_fold_start = vim.fn.foldlevel(line) > vim.fn.foldlevel(line - 1)
+
+  if fold > 0 and is_fold_start then
+    if is_folded then
+      return ui.hl_str('FoldClosed', '  ')
+    end
+  end
+
+  return '   '
 end
 
 statuscolumn.pretty_folds = function()

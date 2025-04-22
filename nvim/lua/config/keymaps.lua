@@ -61,11 +61,35 @@ set('n', '<leader>gcm', '<cmd>:Git checkout main<CR>', { desc = 'Git checkout ma
 set('n', '<leader>gcc', ':Git checkout ', { desc = 'Git checkout' })
 set('n', '<leader>gcn', ':Git checkout -b ', { desc = 'Git checkout -b' })
 set('n', '<leader>gcl', '<cmd>:Git checkout @{-1}<CR>', { desc = 'Git checkout last' })
-set('n', '<leader>gp', '<cmd>:Git pull<CR>', { desc = 'Git pull' })
 set('n', '<leader>gM', '<cmd>:Git pull origin main<CR>', { desc = 'Git pull origin main' })
 set('n', '<leader>gP', '<cmd>:Git push origin HEAD<CR>', { desc = 'Git push origin HEAD' })
 set('n', '<leader>gl', '<cmd>:0Gclog<CR>', { desc = 'Git log' })
 set('n', '<leader>gd', '<cmd>:DiffviewOpen<CR>', { desc = 'Git diff' })
+
+set('n', ']c', function()
+  local gitsigns = require 'gitsigns'
+
+  if vim.wo.diff then
+    vim.cmd.normal { ']c', bang = true }
+  else
+    gitsigns.nav_hunk 'next'
+  end
+end, { desc = 'Next hunk' })
+
+set('n', '[c', function()
+  local gitsigns = require 'gitsigns'
+
+  if vim.wo.diff then
+    vim.cmd.normal { '[c', bang = true }
+  else
+    gitsigns.nav_hunk 'prev'
+  end
+end, { desc = 'Prev hunk' })
+
+set('n', '<leader>gv', function()
+  require('gitsigns').preview_hunk()
+end, { desc = 'Git preview hunk' })
+
 set('n', '<leader>gd', function()
   if next(require('diffview.lib').views) == nil then
     vim.cmd 'DiffviewOpen'

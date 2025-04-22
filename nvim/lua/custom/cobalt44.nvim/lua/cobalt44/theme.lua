@@ -21,7 +21,7 @@ Group.new('Directory', colors.blue, nil, nil)
 Group.new('ErrorMsg', colors.red:light(), nil, nil)
 Group.new('FloatBorder', colors.cobalt_bg_dark, colors.cobalt_bg_dark, nil)
 Group.new('FloatTitle', colors.light_blue, colors.cobalt_bg, nil)
-Group.new('FoldColumn', colors.cobalt_bg_light, colors.cobalt_bg, nil)
+Group.new('FoldColumn', colors.cobalt_bg_light, nil, nil)
 -- Folded text/backgroun
 Group.new('Folded', nil, colors.cobalt_bg, styles.italic)
 Group.new('MoreMsg', colors.cobalt_bg_dark, colors.light_yellow, nil)
