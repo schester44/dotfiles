@@ -28,6 +28,7 @@ return {
             return true
           end
         end,
+        'snippet_forward',
         'fallback',
       },
     },
