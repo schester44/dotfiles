@@ -117,13 +117,12 @@ return {
           end
         end,
       })
+
       -- LSP servers and clients are able to communicate to each other what features they support.
 
       --  By default, Neovim doesn't support everything that is in the LSP specification.
       --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
-      --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+      --  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
 
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -144,6 +143,18 @@ return {
               },
             },
           },
+        },
+        eslint = {
+          flags = {
+            debounce_text_changes = 500,
+          },
+
+          on_attach = function(client, bufnr)
+            vim.api.nvim_create_autocmd('BufWritePre', {
+              buffer = bufnr,
+              command = 'EslintFixAll',
+            })
+          end,
         },
       }
 
@@ -167,34 +178,22 @@ return {
         'pylsp',
       })
 
+      local capabilities = require('blink.cmp').get_lsp_capabilities()
+
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       ---@diagnostic disable-next-line: missing-fields
       require('mason-lspconfig').setup {
+        ensure_installed = {},
         handlers = {
           function(server_name)
-            local server = servers[server_name] or {}
-            -- This handles overriding only values explicitly passed
-            -- by the server configuration above. Useful when disabling
-            -- certain features of an LSP (for example, turning off formatting for tsserver)
-            --
-            server.capabilities = require('blink.cmp').get_lsp_capabilities(vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {}))
+            local config = servers[server_name] or {}
 
-            require('lspconfig')[server_name].setup(server)
+            config.capabilities = vim.tbl_deep_extend('force', {}, capabilities, config.capabilities or {})
+
+            require('lspconfig')[server_name].setup(config)
           end,
         },
-      }
-
-      require('lspconfig').eslint.setup {
-        flags = {
-          debounce_text_changes = 500,
-        },
-        on_attach = function(client, bufnr)
-          vim.api.nvim_create_autocmd('BufWritePre', {
-            buffer = bufnr,
-            command = 'EslintFixAll',
-          })
-        end,
       }
     end,
   },

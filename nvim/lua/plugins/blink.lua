@@ -3,10 +3,12 @@ local ui = require 'lib.ui'
 
 return {
   'saghen/blink.cmp',
+  event = 'VimEnter',
   cond = not vim.g.vscode,
   dependencies = {
     {
       'chrisgrieser/nvim-scissors',
+      'folke/lazydev.nvim',
     },
   },
 
@@ -39,9 +41,6 @@ return {
       menu = { border = ui.border_chars_outer_thin },
       documentation = { auto_show = false, window = { border = ui.border_chars_outer_thin } },
     },
-
-    -- Default list of enabled providers defined so that you can extend it
-    -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
       providers = {
         snippets = {
@@ -49,16 +48,18 @@ return {
             search_paths = { snippets_dir },
           },
         },
+        lazydev = {
+          name = 'LazyDev',
+          module = 'lazydev.integrations.blink',
+          -- make lazydev completions top priority (see `:h blink.cmp`)
+          score_offset = 100,
+        },
       },
-      default = { 'lsp', 'path', 'snippets', 'buffer' },
+      default = { 'lazydev', 'lsp', 'path', 'snippets', 'buffer' },
     },
 
-    -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
-    -- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
-    -- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
-    --
-    -- See the fuzzy documentation for more information
     fuzzy = { implementation = 'prefer_rust_with_warning' },
+    signature = { enabled = true },
   },
   opts_extend = { 'sources.default' },
 }

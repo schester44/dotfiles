@@ -54,7 +54,7 @@ Group.new('CmpDocNormal', colors.white, colors.cobalt_bg_dark, nil)
 Group.new('PMenu', colors.white, colors.cobalt_bg_dark, nil)
 Group.new('PMenuSBar', nil, colors.cobalt_bg, nil)
 
-Group.new('PmenuSel', colors.yellow, colors.cobalt_bg_dark, nil)
+Group.new('PmenuSel', colors.light_yellow, colors.cobalt_bg, nil)
 Group.new('PMenuThumb', nil, colors.cobalt_bg_dark, nil)
 
 Group.new('Question', colors.green, nil, nil)
