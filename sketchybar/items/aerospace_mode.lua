@@ -36,7 +36,7 @@ local function hideMessage()
 end
 
 local function showMessage(content, hold)
-	hideMessage()
+	-- hideMessage()
 
 	mode:set({ popup = { drawing = true } })
 	messagePopup:set({ icon = { string = "󰀝" }, label = { string = content } })
@@ -46,7 +46,7 @@ local function showMessage(content, hold)
 			if hold then
 				return
 			end
-			hideMessage()
+			-- hideMessage()
 		end)
 	end
 end
@@ -57,4 +57,4 @@ mode:subscribe(constants.events.SEND_MODE, function(env)
 	showMessage(content, hold)
 end)
 
-mode:subscribe(constants.events.HIDE_MODE, hideMessage)
+-- mode:subscribe(constants.events.HIDE_MODE, hideMessage)

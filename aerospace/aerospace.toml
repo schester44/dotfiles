@@ -22,11 +22,6 @@ exec-on-workspace-change = [
 [mode.main.binding]
     alt-tab = 'workspace-back-and-forth'
 
-    ctrl-space = [
-        'mode alt',
-        'exec-and-forget sketchybar --trigger send_mode MESSAGE="AERO" HOLD="true"'
-    ]
-
     alt-1 = 'workspace 1'
     alt-2 = 'workspace 2'
     alt-3 = 'workspace 3'
@@ -71,51 +66,21 @@ exec-on-workspace-change = [
     alt-slash = 'layout tiles horizontal vertical'
     alt-comma = 'layout accordion horizontal vertical'
 
-[mode.alt.binding]
-    esc = [
-    'mode main',
-    'exec-and-forget sketchybar --trigger hide_mode'
-   ]
-
-    space = [
-        'mode main',
-        'exec-and-forget sketchybar --trigger hide_mode'
-    ]
-
-
-    0 = [
-        'flatten-workspace-tree',
-        'mode main',
-        'exec-and-forget sketchybar --trigger hide_mode'
-    ] # reset layout
-
-    f = [
-        'layout floating tiling',
-        'mode main',
-        'exec-and-forget sketchybar --trigger hide_mode'
-    ] # Toggle between floating and tiling layout
-
-    r = [
+    # reload config 
+    alt-ctrl-r = [
         'reload-config',
-        'exec-and-forget sketchybar --trigger hide_mode',
         'exec-and-forget sketchybar --reload',
-        'mode main',
-    ]
-    
-    shift-h = ['join-with left']
-    shift-j = ['join-with down']
-    shift-k = ['join-with up']
-    shift-l = ['join-with right']
+    ]   
 
-    alt-shift-h = 'focus left'
-    alt-shift-j = 'focus down'
-    alt-shift-k = 'focus up'
-    alt-shift-l = 'focus right'
+    # reset layout
+    alt-ctrl-0 = [
+        'flatten-workspace-tree',
+    ] 
 
-    alt-ctrl-h = 'move left'
-    alt-ctrl-j = 'move down'
-    alt-ctrl-k = 'move up'
-    alt-ctrl-l = 'move right'
+    # Toggle between floating and tiling layout
+    alt-ctrl-f = [
+        'layout floating tiling',
+    ] 
   
 # Float the Google Meet PIP
 [[on-window-detected]]
