@@ -9,22 +9,14 @@ return {
     end,
   },
   { 'Bilal2453/luvit-meta', lazy = true, cond = not vim.g.vscode },
-  -- {
-  --   'pmizio/typescript-tools.nvim',
-  --   dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
-  --   opts = {},
-  -- },
   {
-    -- Main LSP Configuration
     'neovim/nvim-lspconfig',
     cond = not vim.g.vscode,
     dependencies = {
-      -- Automatically install LSPs and related tools to stdpath for Neovim
       { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
-      -- Useful status updates for LSP.
       {
         'j-hui/fidget.nvim',
         config = function()
@@ -34,7 +26,6 @@ return {
         end,
       },
 
-      -- Allows extra capabilities provided by nvim-cmp
       'hrsh7th/cmp-nvim-lsp',
     },
     config = function()

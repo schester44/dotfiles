@@ -123,15 +123,34 @@ exec-on-workspace-change = [
     if.window-title-regex-substring = '^about:blank - (?!Google Chrome).*$'
     run = ['layout floating']
 
-# this may not be needed
 [[on-window-detected]]
     if.app-id = 'com.dottt.app'
     run = ['layout floating']
 
-# move wezterm to W when it opens
 [[on-window-detected]]
     if.app-id = 'com.github.wez.terminal'
-    run = 'move-node-to-workspace W'
+    run = 'move-node-to-workspace 1'
 
+[[on-window-detected]]
+  if.app-id = 'com.tinyapp.TablePlus'
+  run = 'move-node-to-workspace 3'
 
-## TODO - Set remaining on-window-detected events for other spaces
+[[on-window-detected]]
+    if.app-id = 'com.google.Chrome'
+    run = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+    if.app-id = 'org.mozilla.firefox'
+    run = 'move-node-to-workspace P'
+
+[[on-window-detected]]
+    if.app-id = 'com.tinyspeck.slackmacgap'
+    run = 'move-node-to-workspace S'
+
+[[on-window-detected]]
+    if.app-id = 'com.openai.chat'
+    run = 'move-node-to-workspace 5'
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.MobileSMS'
+    run = 'move-node-to-workspace P'

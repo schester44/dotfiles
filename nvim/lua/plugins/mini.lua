@@ -35,6 +35,26 @@ return {
     if not vim.g.vscode then
       setup_starter()
     end
+
+    local hipatterns = require 'mini.hipatterns'
+
+    hipatterns.setup {
+      highlighters = {
+        fixme = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
+        fixme2 = { pattern = '%f[%w]()fixme()%f[%W]', group = 'MiniHipatternsFixme' },
+        todo = {
+          pattern = '%f[%w]()TODO()%f[%W]',
+          group = 'MiniHipatternsTodo',
+        },
+        todo2 = {
+          pattern = '%f[%w]()todo()%f[%W]',
+          group = 'MiniHipatternsTodo',
+        },
+        note = { pattern = '%f[%w]()NOTE()%f[%W]', group = 'MiniHipatternsNote' },
+        hex_color = hipatterns.gen_highlighter.hex_color(),
+      },
+    }
+
     -- Better Around/Inside textobjects
     --
     -- Examples:
