@@ -38,7 +38,13 @@ return {
 
     -- (Default) Only show the documentation popup when manually triggered
     completion = {
-      menu = { border = ui.border_chars_outer_thin },
+      menu = {
+        border = ui.border_chars_outer_thin,
+        draw = {
+          treesitter = {},
+          columns = { { 'kind_icon', 'label', 'label_description', gap = 1, 'source_name' } },
+        },
+      },
       documentation = { auto_show = false, window = { border = ui.border_chars_outer_thin } },
     },
     sources = {

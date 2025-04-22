@@ -25,7 +25,6 @@ return {
           }
         end,
       },
-      'hrsh7th/cmp-nvim-lsp',
     },
     config = function()
       vim.api.nvim_create_autocmd('LspAttach', {
@@ -100,39 +99,9 @@ return {
               end,
             })
           end
-
-          local k = require 'lib.keymaps'
-          -- code, if the language server you are using supports them
-          -- The following code creates a keymap to toggle inlay hints in your
-          --
-          -- This may be unwanted, since they displace some of your code
-          if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
-            k.set_toggle_keymap {
-              keys = 'h',
-              cmd = function()
-                vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
-              end,
-              desc = 'Inlay Hints',
-            }
-          end
         end,
       })
 
-      -- LSP servers and clients are able to communicate to each other what features they support.
-
-      --  By default, Neovim doesn't support everything that is in the LSP specification.
-      --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
-      --  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
-
-      -- Enable the following language servers
-      --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
-      --
-      --  Add any additional override configuration in the following tables. Available keys are:
-      --  - cmd (table): Override the default command used to start the server
-      --  - filetypes (table): Override the default list of associated filetypes for the server
-      --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
-      --  - settings (table): Override the default settings passed when initializing the server.
-      --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         ts_ls = {},
         lua_ls = {
@@ -158,29 +127,19 @@ return {
         },
       }
 
-      -- Ensure the servers and tools above are installed
-      --  To check the current status of installed tools and/or manually install
-      --  other tools, you can run
-      --    :Mason
-      --
-      --  You can press `g?` for help in this menu.
       require('mason').setup()
 
-      -- You can add other tools here that you want Mason to install
-      -- for you, so that they are available from within Neovim.
-      local ensure_installed = vim.tbl_keys(servers or {})
-
-      vim.list_extend(ensure_installed, {
-        'stylua', -- Used to format Lua code
-        'jsonls',
-        'bashls',
-        'prismals',
-        'pylsp',
-      })
-
-      local capabilities = require('blink.cmp').get_lsp_capabilities()
-
-      require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+      require('mason-tool-installer').setup {
+        ensure_installed = vim.list_extend(servers, {
+          'stylua',
+          'jsonls',
+          'bashls',
+          'prismals',
+          'pylsp',
+          'tailwindcss',
+          'yamlls',
+        }),
+      }
 
       ---@diagnostic disable-next-line: missing-fields
       require('mason-lspconfig').setup {
@@ -189,7 +148,7 @@ return {
           function(server_name)
             local config = servers[server_name] or {}
 
-            config.capabilities = vim.tbl_deep_extend('force', {}, capabilities, config.capabilities or {})
+            config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities, true)
 
             require('lspconfig')[server_name].setup(config)
           end,
