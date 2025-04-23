@@ -103,7 +103,7 @@ return {
       })
 
       local servers = {
-        ts_ls = {},
+        -- ts_ls = {},
         lua_ls = {
           settings = {
             Lua = {
@@ -138,6 +138,7 @@ return {
           'pylsp',
           'tailwindcss',
           'yamlls',
+          'vtsls',
         }),
       }
 
