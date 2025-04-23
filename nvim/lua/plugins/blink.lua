@@ -37,13 +37,11 @@ return {
       nerd_font_variant = 'mono',
     },
 
-    -- (Default) Only show the documentation popup when manually triggered
     completion = {
       menu = {
         border = ui.border_chars_outer_thin,
         draw = {
-          treesitter = {},
-          columns = { { 'kind_icon', 'label', 'label_description', gap = 1, 'kind', 'source_name' } },
+          columns = { { 'kind_icon', 'label', 'label_description', gap = 1 } },
         },
       },
       documentation = { auto_show = false, window = { border = ui.border_chars_outer_thin } },
@@ -58,7 +56,6 @@ return {
         lazydev = {
           name = 'LazyDev',
           module = 'lazydev.integrations.blink',
-          -- make lazydev completions top priority (see `:h blink.cmp`)
           score_offset = 100,
         },
       },
