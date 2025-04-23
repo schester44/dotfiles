@@ -43,7 +43,7 @@ return {
         border = ui.border_chars_outer_thin,
         draw = {
           treesitter = {},
-          columns = { { 'kind_icon', 'label', 'label_description', gap = 1, 'source_name' } },
+          columns = { { 'kind_icon', 'label', 'label_description', gap = 1, 'kind', 'source_name' } },
         },
       },
       documentation = { auto_show = false, window = { border = ui.border_chars_outer_thin } },
