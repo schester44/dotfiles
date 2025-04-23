@@ -52,7 +52,6 @@ statuscolumn.render = function()
     statuscolumn.number(),
     statuscolumn.folds(),
     '%s',
-    statuscolumn.border(),
   }
 
   return text
