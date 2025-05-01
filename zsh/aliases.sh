@@ -27,3 +27,5 @@ alias ls="eza --icons=always"
 
 eval "$(zoxide init zsh)"
 alias cd="z"
+
+alias ji="jira sprint list --current -a $(jira me)"

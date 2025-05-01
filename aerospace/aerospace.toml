@@ -7,9 +7,8 @@ after-startup-command = ['exec-and-forget sketchybar']
 exec-on-workspace-change = [
     '/bin/bash',
     '-c',
-    'sketchybar --trigger aerospace_workspace_changed FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE',
+    'sketchybar --trigger aerospace_workspace_changed PREV_WORKSPACE=$AEROSPACE_PREV_WORKSPACE FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE',
 ]
-
 
 [gaps]
     inner.horizontal = 8

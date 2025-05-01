@@ -2,7 +2,7 @@ local colors = require('cobalt44.utils').colors
 local styles = require('cobalt44.utils').styles
 local Group = require('cobalt44.utils').Group
 
-Group.new('MiniStarterHeader', colors.cobalt_bg_dark, nil, nil)
+Group.new('MiniStarterHeader', colors.light_blue_green, nil, nil)
 
 Group.new('ColorColumn', nil, colors.cursor_line, nil)
 Group.new('CommandMode', colors.black, colors.darker_blue, nil)

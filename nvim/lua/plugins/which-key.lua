@@ -9,6 +9,7 @@ local icons = {
   test = '󰱑',
   text = '󰊄',
   toggle = '',
+  copilot = '',
 }
 
 return {
@@ -37,6 +38,7 @@ return {
         mode = { 'n', 'x' },
         icon = { icon = icons.code, color = 'yellow' },
       },
+      { '<leader>a', group = 'Avante', icon = { icon = icons.copilot, color = 'yellow' } },
       { '<leader>g', group = 'Git', icon = { icon = icons.git, color = 'yellow' } },
       { '<leader>l', group = 'LSP', icon = { icon = icons.code, color = 'yellow' } },
       { '<leader>s', group = 'Search', icon = { icon = icons.search, color = 'yellow' } },
@@ -47,6 +49,7 @@ return {
       { '<leader>o', group = 'Obsidian', icon = { icon = icons.note, color = 'yellow' } },
       { '<leader>n', group = 'Noice', icon = { icon = icons.note, color = 'yellow' } },
       { '<leader>x', group = 'Trouble', icon = { icon = icons.diagnostics, color = 'yellow' } },
+      { '<leader>d', group = 'DAP', icon = { icon = icons.diagnostics, color = 'yellow' } },
     },
   },
 }

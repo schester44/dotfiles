@@ -1,15 +1,3 @@
-local oneOnOneTemplate = [[
-      ## {date}
-
-      ### Topics
-      - {a}
-      ### Notes
-      - {b}
-      ### Action Items
-
-      ---
-      ]]
-
 return {
   {
     'MeanderingProgrammer/render-markdown.nvim',
@@ -38,39 +26,11 @@ return {
     version = '*', -- recommended, use latest release instead of latest commit
     lazy = true,
     ft = 'markdown',
-    -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
-    -- event = {
-    --   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
-    --   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/*.md"
-    --   -- refer to `:h file-pattern` for more examples
-    --   "BufReadPre path/to/my-vault/*.md",
-    --   "BufNewFile path/to/my-vault/*.md",
-    -- },
     dependencies = {
       -- Required.
       'nvim-lua/plenary.nvim',
     },
     config = function()
-      local ls = require 'luasnip'
-      local fmt = require('luasnip.extras.fmt').fmt
-
-      ls.add_snippets('markdown', {
-        ls.snippet(
-          '11header',
-          fmt(
-            oneOnOneTemplate,
-            {
-              a = ls.insert_node(1, 'Write your topics'),
-              b = ls.insert_node(2, 'Write your notes'),
-              date = ls.text_node(
-                os.date '%Y-%m-%d')
-            }
-          )
-        ),
-      })
-
-      vim.keymap.set('n', '<leader>od', '<CMD>ObsidianDailies<CR>', { desc = '[O]bsidian [D]aily Note' })
-
       require('obsidian').setup {
         ui = { enable = false },
         workspaces = {

@@ -38,6 +38,11 @@ return {
     },
 
     completion = {
+      accept = {
+        auto_brackets = {
+          enabled = true,
+        },
+      },
       menu = {
         border = ui.border_chars_outer_thin,
         draw = {

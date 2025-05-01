@@ -125,6 +125,9 @@ set('n', '<leader>fcp', '<cmd>let @+=expand("%:p")<CR>', { desc = 'Copy file pat
 -- File Open in Finder
 set('n', '<leader>fof', '<cmd>silent !open %:p:h<CR>', { desc = 'Open file in Finder' })
 
+-- append a comma to end of line
+set('n', ',,', 'A,<esc>', { desc = 'Append ,' })
+
 k.set_toggle_keymap {
   keys = 'c',
   desc = 'Copilot',

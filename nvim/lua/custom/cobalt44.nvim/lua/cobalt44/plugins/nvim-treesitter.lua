@@ -90,7 +90,7 @@ Group.new('@property', colors.light_blue, nil, nil)
 --  NOTE: identifiers {{{
 --------------------------------------------------------------------------------
 Group.new('@variable', colors.white, nil, nil)
-Group.new('@variable.builtin', colors.dark_pink, nil, nil)
+Group.new('@variable.builtin', colors.white, nil, nil)
 
 Group.new('@constant', colors.white, nil, nil)
 Group.new('@constant.builtin', colors.dark_pink, nil, styles.italic)

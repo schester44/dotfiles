@@ -129,7 +129,9 @@ return {
       require('mason').setup()
 
       require('mason-tool-installer').setup {
-        ensure_installed = vim.list_extend(servers, {
+        ensure_installed = {
+          'lua_ls',
+          'eslint',
           'stylua',
           'jsonls',
           'bashls',
@@ -138,7 +140,7 @@ return {
           'tailwindcss',
           'yamlls',
           'vtsls',
-        }),
+        },
       }
 
       ---@diagnostic disable-next-line: missing-fields

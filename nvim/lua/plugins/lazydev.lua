@@ -5,6 +5,7 @@ return {
   ft = 'lua',
   opts = {
     library = {
+      'nvim-dap-ui',
       -- Load luvit types when the `vim.uv` word is found
       { path = '${3rd}luvit-meta/library', words = { 'vim%.uv' } },
       { path = 'snacks.nvim', words = { 'Snacks' } },

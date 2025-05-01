@@ -19,7 +19,7 @@ local spaceConfigs = {
 	["P"] = { icon = icons.personal, name = "Personal", bg_color = colors.light_blue },
 }
 
-local function highlightActiveWorkspace(focusedWorkspaceName)
+local function updateWorkSpaces(focusedWorkspaceName)
 	for sid, item in pairs(spaces) do
 		if item ~= nil then
 			local isSelected = sid == constants.items.SPACES .. "." .. focusedWorkspaceName
@@ -51,7 +51,7 @@ end
 local function findAndSelectCurrentWorkspace()
 	sbar.exec(constants.aerospace.GET_CURRENT_WORKSPACE, function(focusedWorkspaceOutput)
 		local focusedWorkspaceName = focusedWorkspaceOutput:match("[^\r\n]+")
-		highlightActiveWorkspace(focusedWorkspaceName)
+		updateWorkSpaces(focusedWorkspaceName)
 	end)
 end
 
@@ -88,7 +88,7 @@ local function createWorkspaces()
 end
 
 currentWorkspaceWatcher:subscribe(constants.events.AEROSPACE_WORKSPACE_CHANGED, function(env)
-	highlightActiveWorkspace(env.FOCUSED_WORKSPACE)
+	updateWorkSpaces(env.FOCUSED_WORKSPACE)
 	sbar.trigger(constants.events.UPDATE_WINDOWS)
 end)
 

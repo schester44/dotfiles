@@ -19,7 +19,7 @@ local function change_border_color(color, width)
 	handle:close()
 end
 
-mode:subscribe(constants.events.FULLSCREEN, function()
+mode:subscribe(constants.events.FULLSCREEN, function(env)
 	if is_fullscreen then
 		is_fullscreen = false
 		change_border_color("0xAA00AAFF", "8.0")
