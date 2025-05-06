@@ -52,7 +52,11 @@ return {
       documentation = { auto_show = false, window = { border = ui.border_chars_outer_thin } },
     },
     sources = {
+      per_filetype = {
+        sql = { 'snippets', 'dadbod', 'buffer' },
+      },
       providers = {
+        dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink' },
         snippets = {
           opts = {
             search_paths = { snippets_dir },
