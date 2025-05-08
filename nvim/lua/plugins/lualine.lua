@@ -95,7 +95,6 @@ return {
         extensions = { 'trouble' },
         sections = {
           lualine_a = {
-            { buffer_modified, padding = 0 },
             macro_recording,
             {
               'filename',
@@ -103,10 +102,11 @@ return {
               file_status = false,
               fmt = function(name)
                 local fname = vim.fn.fnamemodify(name, ':t')
-                local path = vim.fn.fnamemodify(name, ':p:h')
 
-                return (path ~= '' and tools.hl_str('LualinePath', vim.fn.fnamemodify(path, ':t') .. '/') or '')
-                  .. tools.hl_str(vim.bo.modified and 'LualineFilenameModified' or 'LualineFilename', fname)
+                local path = name:gsub(fname, '')
+
+                return (path ~= '' and tools.hl_str('LualinePath', path) or '')
+                  .. tools.hl_str(vim.bo.modified and 'LualineFilenameModified' or 'LualineFilename', (vim.bo.modified and '+' or '') .. fname)
               end,
             },
           },
