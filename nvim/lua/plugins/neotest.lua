@@ -106,6 +106,7 @@ return {
     }
 
     local mochaAdapter = require 'neotest-mocha' {
+      env = { LOG_LEVEL = 'debug' },
       command = 'yarn test:unfiltered:fast',
       cwd = '/Users/schester/work/risk-management/api',
     }

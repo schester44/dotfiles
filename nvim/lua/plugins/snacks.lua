@@ -17,8 +17,8 @@ return {
                   box = 'vertical',
                   border = 'rounded',
                   title = '{title} {live} {flags}',
-                  { win = 'input', height = 2,     border = 'bottom' },
-                  { win = 'list',  border = 'none' },
+                  { win = 'input', height = 2, border = 'bottom' },
+                  { win = 'list', border = 'none' },
                 },
                 {
                   win = 'preview',
@@ -29,7 +29,6 @@ return {
               },
             },
             select = {
-              preview = false,
               layout = {
                 backdrop = false,
                 width = 0.3,
@@ -40,9 +39,9 @@ return {
                 border = require('lib.ui').border_chars_outer_thin,
                 title = '{title}',
                 title_pos = 'center',
-                { win = 'input',   height = 2,          border = 'none' },
-                { win = 'list',    border = 'none' },
-                { win = 'preview', title = '{preview}', height = 0.4,   border = 'top' },
+                { win = 'input', height = 2, border = 'none' },
+                { win = 'list', border = 'none' },
+                { win = 'preview', title = '{preview}', height = 0.4, border = 'top' },
               },
             },
           },
@@ -58,7 +57,7 @@ return {
       {
         '<leader><space>',
         function()
-          Snacks.picker.smart { title = 'Find Files' }
+          Snacks.picker.smart { title = 'Find Files', sources = { files = { hidden = true } } }
         end,
         desc = 'Find Files',
       },
@@ -66,7 +65,6 @@ return {
       {
         '<leader>,',
         function()
-          -- TODO: Simplify layout, dont need complete layout but want it centered.
           Snacks.picker.buffers {
             layout = {
               layout = {
@@ -78,8 +76,8 @@ return {
                   box = 'vertical',
                   border = 'rounded',
                   title = '{title} {live} {flags}',
-                  { win = 'input', height = 2,     border = 'bottom' },
-                  { win = 'list',  border = 'none' },
+                  { win = 'input', height = 2, border = 'bottom' },
+                  { win = 'list', border = 'none' },
                 },
               },
             },

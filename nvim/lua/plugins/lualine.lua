@@ -62,13 +62,6 @@ local macro_recording = function()
   return tools.hl_str('LualineRecording', ' Recording @' .. reg)
 end
 
-local buffer_modified = function()
-  if vim.bo.modified then
-    return tools.hl_str('LualineFileModified', '[+]')
-  end
-  return ''
-end
-
 return {
   {
     'nvim-lualine/lualine.nvim',
@@ -102,10 +95,9 @@ return {
               file_status = false,
               fmt = function(name)
                 local fname = vim.fn.fnamemodify(name, ':t')
+                local path = vim.fn.fnamemodify(name, ':p:h')
 
-                local path = name:gsub(fname, '')
-
-                return (path ~= '' and tools.hl_str('LualinePath', path) or '')
+                return (path ~= '' and tools.hl_str('LualinePath', path .. '/') or '')
                   .. tools.hl_str(vim.bo.modified and 'LualineFilenameModified' or 'LualineFilename', (vim.bo.modified and '+' or '') .. fname)
               end,
             },
