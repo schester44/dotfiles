@@ -1,14 +1,11 @@
 #!/bin/bash
 
-
 git_set_upstream() {
-    local branch=$(git branch --show-current)
+    branch=$(git branch --show-current)
 
     git branch --set-upstream-to="origin/$branch" "$branch"
 }
 
-
-git config --global alias.upstream '!git push -u origin HEAD'
 git config --global alias.recent 'branch --sort=-committerdate --format="%(committerdate:relative)%09%(refname:short)"'
 git config --global alias.ml 'merge @{-1}'
 
