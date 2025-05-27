@@ -116,11 +116,10 @@ return {
           flags = {
             debounce_text_changes = 500,
           },
-
           on_attach = function(client, bufnr)
             vim.api.nvim_create_autocmd('BufWritePre', {
               buffer = bufnr,
-              command = 'EslintFixAll',
+              command = 'LspEslintFixAll',
             })
           end,
         },
