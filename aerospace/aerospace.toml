@@ -5,17 +5,16 @@ after-startup-command = ['exec-and-forget sketchybar']
 
 # Notify Sketchybar about workspace change
 exec-on-workspace-change = [
-    '/bin/bash',
-    '-c',
-    'sketchybar --trigger aerospace_workspace_changed PREV_WORKSPACE=$AEROSPACE_PREV_WORKSPACE FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE',
+  "/bin/bash",
+  "/Users/schester/.dotfiles/aerospace/on-workspace-change.sh"
 ]
 
 [gaps]
-    inner.horizontal = 8
-    inner.vertical = 8
+    inner.horizontal = 12
+    inner.vertical = 12
     outer.left = 12
     outer.bottom = 12
-    outer.top =  [{monitor.'^built-in retina display$' = 10 }, 40]
+    outer.top =  [{monitor.'^built-in retina display$' = 10 }, 44]
     outer.right = 12
 
 [mode.main.binding]
@@ -89,6 +88,16 @@ exec-on-workspace-change = [
 
 [[on-window-detected]]
     if.app-id = 'com.dottt.app'
+    run = ['layout floating']
+
+# # Electron development
+# [[on-window-detected]]
+#     if.app-id = 'com.github.Electron'
+#     run = ['layout floating']
+
+
+[[on-window-detected]]
+    if.app-id = 'com.heynote.app'
     run = ['layout floating']
 
 [[on-window-detected]]
