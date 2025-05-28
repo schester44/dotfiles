@@ -102,29 +102,6 @@ return {
         end,
       })
 
-      local servers = {
-        lua_ls = {
-          settings = {
-            Lua = {
-              completion = {
-                callSnippet = 'Replace',
-              },
-            },
-          },
-        },
-        eslint = {
-          flags = {
-            debounce_text_changes = 500,
-          },
-          on_attach = function(client, bufnr)
-            vim.api.nvim_create_autocmd('BufWritePre', {
-              buffer = bufnr,
-              command = 'LspEslintFixAll',
-            })
-          end,
-        },
-      }
-
       require('mason').setup()
 
       require('mason-tool-installer').setup {
@@ -145,16 +122,38 @@ return {
       ---@diagnostic disable-next-line: missing-fields
       require('mason-lspconfig').setup {
         ensure_installed = {},
-        handlers = {
-          function(server_name)
-            local config = servers[server_name] or {}
-
-            config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities, true)
-
-            require('lspconfig')[server_name].setup(config)
-          end,
+        automatic_enable = {
+          exclude = { 'eslint' },
         },
       }
+
+      -- FIXME should be able to move this to lsp/eslint.lua but the nvim-lspconfig is overriding the on_attach
+      vim.lsp.config('eslint', {
+        flags = {
+          debounce_text_changes = 500,
+        },
+        on_attach = function(client, bufnr)
+          vim.api.nvim_buf_create_user_command(0, 'LspEslintFixAll', function()
+            client:exec_cmd({
+              title = 'Fix all Eslint errors for current buffer',
+              command = 'eslint.applyAllFixes',
+              arguments = {
+                {
+                  uri = vim.uri_from_bufnr(bufnr),
+                  version = vim.lsp.util.buf_versions[bufnr],
+                },
+              },
+            }, { bufnr = bufnr })
+          end, {})
+
+          vim.api.nvim_create_autocmd('BufWritePre', {
+            buffer = bufnr,
+            command = 'LspEslintFixAll',
+          })
+        end,
+      })
+
+      vim.lsp.enable 'eslint'
     end,
   },
 }

@@ -6,6 +6,12 @@ return {
       require('snacks').setup {
         picker = {
           ui_select = true,
+          ----@class snacks.picker.formatters.Config
+          formatters = {
+            file = {
+              filename_first = true, -- display filename before the file path
+            },
+          },
           layouts = {
             default = {
               layout = {
@@ -30,7 +36,6 @@ return {
             },
             select = {
               layout = {
-                backdrop = false,
                 width = 0.3,
                 min_width = 60,
                 height = 0.4,
