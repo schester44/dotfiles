@@ -127,15 +127,13 @@ return {
         },
       }
 
-      -- FIXME should be able to move this to lsp/eslint.lua but the nvim-lspconfig is overriding the on_attach
       vim.lsp.config('eslint', {
         flags = {
           debounce_text_changes = 500,
         },
         on_attach = function(client, bufnr)
           vim.api.nvim_buf_create_user_command(0, 'LspEslintFixAll', function()
-            client:exec_cmd({
-              title = 'Fix all Eslint errors for current buffer',
+            client:request_sync('workspace/executeCommand', {
               command = 'eslint.applyAllFixes',
               arguments = {
                 {
@@ -143,9 +141,8 @@ return {
                   version = vim.lsp.util.buf_versions[bufnr],
                 },
               },
-            }, { bufnr = bufnr })
+            }, nil, bufnr)
           end, {})
-
           vim.api.nvim_create_autocmd('BufWritePre', {
             buffer = bufnr,
             command = 'LspEslintFixAll',

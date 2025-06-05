@@ -43,14 +43,17 @@ return {
           enable_cursor_planning_mode = true,
           auto_apply_diff_after_generation = true,
         },
-        provider = 'openai',
-        openai = {
-          endpoint = 'https://api.openai.com/v1',
-          model = 'gpt-4o-2024-08-06', -- your desired model (or use gpt-4o, etc.)
-          timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
-          temperature = 0,
-          max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
-          --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
+        provider = 'claude',
+        providers = {
+          claude = {
+            endpoint = 'https://api.anthropic.com',
+            model = 'claude-3-7-sonnet-20250219',
+            timeout = 30000,
+            extra_request_body = {
+              temperature = 0,
+              max_tokens = 8192,
+            },
+          },
         },
         selector = {
           provider = 'snacks',
@@ -58,7 +61,7 @@ return {
 
         system_prompt = function()
           local hub = require('mcphub').get_hub_instance()
-          return hub:get_active_servers_prompt()
+          return hub and hub:get_active_servers_prompt() or ''
         end,
         custom_tools = function()
           return {
