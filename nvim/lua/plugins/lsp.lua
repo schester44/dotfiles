@@ -143,6 +143,7 @@ return {
               },
             }, nil, bufnr)
           end, {})
+
           vim.api.nvim_create_autocmd('BufWritePre', {
             buffer = bufnr,
             command = 'LspEslintFixAll',
