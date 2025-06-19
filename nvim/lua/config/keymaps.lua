@@ -57,6 +57,8 @@ set('n', '<leader>qq', '<cmd>qa<CR>', { desc = 'Quit All' })
 
 set('n', ']b', '<cmd>BuffyCycleNext<CR>', { desc = 'Next Buffer' })
 set('n', '[b', '<cmd>BuffyCyclePrev<CR>', { desc = 'Prev Buffer' })
+set('n', '[t', '<cmd>tabprevious<CR>', { desc = 'Previous Tab' })
+set('n', ']t', '<cmd>tabnext<CR>', { desc = 'Next Tab' })
 
 set('n', '<leader>fcp', '<cmd>let @+=expand("%:p")<CR>', { desc = 'Copy file path to clipboard' })
 set('n', '<leader>fof', '<cmd>silent !open %:p:h<CR>', { desc = 'Open file in Finder' })
