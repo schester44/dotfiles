@@ -76,8 +76,6 @@ return {
         diff = '╱',
       }
 
-      local codecompanion = require 'lib.statusline.codecompanion'
-
       require('lualine').setup {
         options = {
           theme = get_theme(),
@@ -112,7 +110,7 @@ return {
             Snacks.profiler.status(),
           },
           lualine_y = { 'branch' },
-          lualine_z = { copilot_status, codecompanion, require 'mcphub.extensions.lualine' },
+          lualine_z = { copilot_status, require 'mcphub.extensions.lualine' },
         },
         inactive_sections = {
           lualine_a = {

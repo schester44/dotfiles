@@ -14,6 +14,7 @@ return {
       set('n', '<leader>gM', '<cmd>:Git pull origin main<CR>', { desc = 'Git pull origin main' })
       set('n', '<leader>gP', '<cmd>:Git push origin HEAD<CR>', { desc = 'Git push origin HEAD' })
       set('n', '<leader>gl', '<cmd>:0Gclog<CR>', { desc = 'Git log' })
+      set('n', '<leader>gL', '<cmd>G log HEAD -- %<CR>', { desc = 'Git log' })
     end,
   },
   { 'tpope/vim-rhubarb', cond = not vim.g.vscode },

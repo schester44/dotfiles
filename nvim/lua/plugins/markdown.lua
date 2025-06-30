@@ -3,7 +3,7 @@ return {
     'MeanderingProgrammer/render-markdown.nvim',
     cond = not vim.g.vscode,
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
-    ft = { 'markdown', 'codecompanion' },
+    ft = { 'markdown' },
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
     opts = {

@@ -66,7 +66,43 @@ return {
         end,
         desc = 'Find Files',
       },
+      {
+        '<leader>sM',
+        function()
+          local function fetch()
+            local handle = io.popen 'git status --porcelain'
+            if not handle then
+              return {}
+            end
 
+            local result = handle:read '*a'
+            handle:close()
+
+            local entries = {}
+
+            for line in result:gmatch '[^\r\n]+' do
+              local status = line:sub(1, 2)
+              local file = line:sub(4)
+
+              if status:match 'M' then
+                table.insert(entries, {
+                  label = status .. ' ' .. file,
+                  value = file,
+                  file = file,
+                })
+              end
+            end
+
+            return entries
+          end
+
+          Snacks.picker {
+            title = 'Git Modified Files',
+            items = fetch(),
+          }
+        end,
+        desc = 'Git Modified Files',
+      },
       {
         '<leader>,',
         function()
@@ -94,7 +130,9 @@ return {
       {
         '<leader>sg',
         function()
-          Snacks.picker.grep()
+          Snacks.picker.grep {
+            hidden = true,
+          }
         end,
         desc = 'Grep',
       },

@@ -71,6 +71,8 @@ vim.opt.numberwidth = 4
 
 vim.o.statuscolumn = "%!v:lua.require('lib/statuscolumn').render()"
 
+vim.lsp.inlay_hint.enable(true)
+
 local icons = require 'lib.icons'
 local diagnostics = require 'lib.diagnostics'
 local cur_border = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }

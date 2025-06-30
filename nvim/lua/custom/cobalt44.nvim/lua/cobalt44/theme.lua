@@ -23,9 +23,9 @@ Group.new('FloatBorder', colors.cobalt_bg_dark, colors.cobalt_bg_dark, nil)
 Group.new('FloatTitle', colors.light_blue, colors.cobalt_bg, nil)
 Group.new('FoldColumn', colors.cobalt_bg_light, nil, nil)
 -- Folded text/backgroun
-Group.new('Folded', nil, colors.cobalt_bg, styles.italic)
-Group.new('MoreMsg', colors.cobalt_bg_dark, colors.light_yellow, nil)
-Group.new('FoldedCorners', colors.light_yellow, colors.cobalt_bg_light, nil)
+Group.new('Folded', colors.purple, colors.cobalt_bg, styles.italic)
+Group.new('MoreMsg', colors.light_yellow, nil, nil)
+Group.new('FoldedText', colors.dirty_blue, nil, nil)
 
 Group.new('IncSearch', colors.black, colors.yellow, styles.NONE)
 Group.new('InsertMode', colors.black, colors.dirty_blue, nil)
