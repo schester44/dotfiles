@@ -15,7 +15,6 @@ return {
     dependencies = {
       { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
       'williamboman/mason-lspconfig.nvim',
-      'WhoIsSethDaniel/mason-tool-installer.nvim',
       'saghen/blink.cmp',
       {
         'j-hui/fidget.nvim',
@@ -104,7 +103,9 @@ return {
 
       require('mason').setup()
 
-      require('mason-tool-installer').setup {
+      ---@diagnostic disable-next-line: missing-fields
+      require('mason-lspconfig').setup {
+
         ensure_installed = {
           'lua_ls',
           'eslint',
@@ -119,31 +120,18 @@ return {
         },
       }
 
-      ---@diagnostic disable-next-line: missing-fields
-      require('mason-lspconfig').setup {
-        ensure_installed = {},
-        automatic_enable = {
-          exclude = { 'eslint' },
-        },
-      }
+      local base_on_attach = vim.lsp.config.eslint.on_attach
 
       vim.lsp.config('eslint', {
         flags = {
           debounce_text_changes = 500,
         },
         on_attach = function(client, bufnr)
-          vim.api.nvim_buf_create_user_command(0, 'LspEslintFixAll', function()
-            client:request_sync('workspace/executeCommand', {
-              command = 'eslint.applyAllFixes',
-              arguments = {
-                {
-                  uri = vim.uri_from_bufnr(bufnr),
-                  version = vim.lsp.util.buf_versions[bufnr],
-                },
-              },
-            }, nil, bufnr)
-          end, {})
+          if not base_on_attach then
+            return
+          end
 
+          base_on_attach(client, bufnr)
           vim.api.nvim_create_autocmd('BufWritePre', {
             buffer = bufnr,
             command = 'LspEslintFixAll',

@@ -85,3 +85,9 @@ k.set_toggle_keymap {
     end, 1000)
   end,
 }
+
+set('n', '<leader>Th', function()
+  local current_state = vim.lsp.inlay_hint.is_enabled()
+  vim.lsp.inlay_hint.enable(not current_state)
+  vim.notify('Inlay hints ' .. (not current_state and 'enabled' or 'disabled'))
+end, { desc = 'Toggle inlay hints' })
