@@ -11,14 +11,14 @@ return {
       log_templates = {
         default = {
           lua = [[print("%log_marker %log_target", %log_target)]],
-          javascript = [[console.log("%s \x1b[33m%s\x1b[0m", "%log_marker %log_target", %log_target)]],
-          typescript = [[console.log("%s \x1b[33m%s\x1b[0m", "%log_marker %log_target", %log_target)]],
+          javascript = [[console.log("\x1b[33m%s\x1b[0m %s", "%log_marker %log_target", %log_target)]],
+          typescript = [[console.log("\x1b[33m%s\x1b[0m %s", "%log_marker %log_target", %log_target)]],
           jsx = [[console.log("%log_marker %log_target", %log_target)]],
           tsx = [[console.log("%log_marker %log_target", %log_target)]],
         },
         plain = {
-          javascript = [[console.log("%s \x1b[33m%s\x1b[0m", "%log_marker", %insert_cursor)]],
-          typescript = [[console.log("%s \x1b[33m%s\x1b[0m", "%log_marker", %insert_cursor)]],
+          javascript = [[console.log("\x1b[33m%s\x1b[0m %s", "%log_marker", %insert_cursor)]],
+          typescript = [[console.log("\x1b[33m%s\x1b[0m %s", "%log_marker", %insert_cursor)]],
           jsx = [[console.log("%log_marker", %insert_cursor)]],
           tsx = [[console.log("%log_marker", %insert_cursor)]],
           lua = [[print("%log_marker", %insert_cursor)]],
