@@ -53,7 +53,7 @@ Group.new('LspSignatureActiveParameter', colors.light_blue, nil, nil)
 Group.new('LspInfoBorder', colors.blue, nil, nil)
 
 -- inlay hints
-Group.new('LspInlayHint', colors.grey, nil, styles.italic)
+Group.new('LspInlayHint', colors.dim_blue, nil, nil)
 
 --------------------------------------------------------------------------------
 --  nvim-0.9 changes
