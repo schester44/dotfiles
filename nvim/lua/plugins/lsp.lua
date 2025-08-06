@@ -107,7 +107,6 @@ return {
         ensure_installed = {
           'lua_ls',
           'eslint',
-          'stylua',
           'jsonls',
           'bashls',
           'prismals',

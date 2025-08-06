@@ -48,6 +48,7 @@ return {
           claude = {
             endpoint = 'https://api.anthropic.com',
             model = 'claude-3-7-sonnet-20250219',
+            api_key_name = 'AVANTE_ANTHROPIC_API_KEY',
             timeout = 30000,
             extra_request_body = {
               temperature = 0,
