@@ -20,7 +20,7 @@ function kport {
 
 # Random
 alias prdb="prdb.sh"
-alias e="nvim"
+alias e="nvim --listen /tmp/nvim-server.pipe"
 alias pst="npx playwright show-trace"
 
 alias ls="eza --icons=always"

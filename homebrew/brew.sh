@@ -8,7 +8,6 @@ brew install jq
 brew install kubectl
 
 brew install --cask 1password
-brew install --cask 1password-cli
 brew install --cask bitwarden
 brew install --cask google-chrome
 brew install --cask spotify
@@ -27,6 +26,7 @@ brew install --cask proxyman
 
 brew install neovim
 brew install wezterm
+brew install neovim-remote
 
 brew tap heroku/brew
 
@@ -50,4 +50,3 @@ brewl install librsvg
 
 # Launchd configuration
 brew services start postgresql
-

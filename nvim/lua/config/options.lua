@@ -114,3 +114,17 @@ vim.diagnostic.config {
     text = diagnostics.text,
   },
 }
+
+-- Tab navigation
+for i = 1, 4 do
+  vim.keymap.set('n', '<leader>t' .. i, function()
+    vim.cmd('tabnext ' .. i)
+  end, { desc = 'Go to tab ' .. i })
+
+  vim.keymap.set('n', '<leader>tc' .. i, function()
+    if vim.fn.tabpagenr '$' < i then
+      return
+    end
+    vim.cmd('tabclose ' .. i)
+  end, { desc = 'Close tab' .. i })
+end
