@@ -1,5 +1,4 @@
-# Function to start Neovim with a named pipe for remote neovim (nvr)
-
+# Neovim with a named pipe for remote neovim (nvr)
 e() {
 	local root
 	root=$(git rev-parse --show-toplevel 2>/dev/null)
@@ -9,11 +8,13 @@ e() {
 		root=$(pwd)
 	fi
 
-	# Slugify path: replace slashes with dashes
 	local slug
 	slug=$(echo "$root" | sed 's|/|-|g' | sed 's|^-||')
 
-	export NVIM_PIPE="/tmp/nvim-${slug}.pipe"
+	local id
+	id=$(uuidgen | cut -c1-5)
+
+	export NVIM_PIPE="/tmp/nvim-${slug}-${id}.pipe"
 
 	nvim --listen "$NVIM_PIPE"
 }
