@@ -10,22 +10,16 @@ alias ip="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0
 alias yst="yarn start:test"
 alias ys="yarn start"
 alias yt="yarn test:watch:fast"
-alias rel="sh ~/my-releases.sh"
 alias ytu="yarn test:unfiltered:fast --watch --watch-files src"
+# Random
+alias prdb="prdb.sh"
 
 # Misc
 function kport {
   lsof -i :"$1" | awk 'NR > 1 {print $2}' | xargs kill -15
 }
 
-# Random
-alias prdb="prdb.sh"
-alias e="nvim --listen /tmp/nvim-server.pipe"
-alias pst="npx playwright show-trace"
-
-alias ls="eza --icons=always"
-
+# System
 eval "$(zoxide init zsh)"
 alias cd="z"
-
-alias ji="jira sprint list --current -a $(jira me)"
+alias ls="eza --icons=always"
