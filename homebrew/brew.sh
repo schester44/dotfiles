@@ -27,6 +27,7 @@ brew install --cask proxyman
 brew install neovim
 brew install wezterm
 brew install neovim-remote
+brew install git-delta
 
 brew tap heroku/brew
 

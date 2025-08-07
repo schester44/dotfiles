@@ -4,3 +4,17 @@
 [alias]
 	recent = branch --sort=-committerdate --format=\"%(committerdate:relative)%09%(refname:short)\"
 	ml = merge @{-1}
+        diffv = -c delta.features=side-by-side diff
+[core]
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only --syntax-theme dracula
+
+[delta]
+    navigate = true  # use n and N to move between diff sections
+    dark = true      # or light = true, or omit for auto-detection
+    line-numbers = true
+
+[merge]
+    conflictStyle = zdiff3
