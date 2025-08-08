@@ -83,6 +83,7 @@ sbar.exec("aerospace list-workspaces --all", function(output)
 			click_script = "aerospace workspace " .. space_name,
 			padding_left = is_first and 0 or 4,
 			drawing = false, -- hide by default until checked
+			updates = true,
 		})
 
 		add_windows(space, space_name)
@@ -91,14 +92,19 @@ sbar.exec("aerospace list-workspaces --all", function(output)
 
 		space:subscribe(constants.events.AEROSPACE_WORKSPACE_CHANGED, function(env)
 			local selected = env.FOCUSED_WORKSPACE == space_name
+			local prev_selected = env.PREV_WORKSPACE == space_name
 
 			space:set({
 				icon = { highlight = selected },
 				label = { highlight = selected },
 			})
 
-			-- Always make focused space visible
-			space:set({ drawing = true })
+			space:set({ drawing = selected or space:query().label.value ~= "—" })
+
+			-- update the window icons if this space was selected or was previously selected
+			if selected or prev_selected then
+				add_windows(space, space_name)
+			end
 		end)
 
 		space:subscribe("space_windows_change", function()
