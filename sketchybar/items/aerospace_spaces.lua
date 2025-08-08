@@ -74,8 +74,12 @@ sbar.exec("aerospace list-workspaces --all", function(output)
 				font = "sketchybar-app-font:Regular:14.0",
 				string = "",
 				color = colors.white,
-				highlight_color = highlights[space_name] or colors.yellow,
+				highlight_color = colors.bg1,
 				y_offset = -1,
+				background = {
+					height = 20,
+					corner_radius = 6,
+				},
 			},
 			background = {
 				color = colors.bg1,
@@ -96,7 +100,10 @@ sbar.exec("aerospace list-workspaces --all", function(output)
 
 			space:set({
 				icon = { highlight = selected },
-				label = { highlight = selected },
+				label = {
+					highlight = selected,
+					background = { color = selected and highlights[space_name] or colors.bg1 },
+				},
 			})
 
 			space:set({ drawing = selected or space:query().label.value ~= "—" })
