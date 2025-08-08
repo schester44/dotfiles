@@ -66,7 +66,7 @@ gui:
   showDivergenceFromBaseBranch: none
   commandLogSize: 8
   splitDiff: auto
-  windowSize: normal
+  screenMode: normal
   border: single
   animateExplosion: true
   portraitMode: auto
@@ -84,7 +84,7 @@ gui:
 git:
   paging:
     colorArg: always
-    pager: delta --dark --paging=never 
+    pager: delta --dark --paging=never
   commit:
     signOff: false
     autoWrapCommitMessage: true
@@ -123,11 +123,11 @@ confirmOnQuit: false
 quitOnTopLevelReturn: false
 disableStartupPopups: false
 customCommands:
-    - key: 'v'
-      context: 'files'
-      description: 'Open side-by-side delta diff'
-      command: "git diff --color=always {{.SelectedFile.Name}} | delta --side-by-side --paging=always"
-      subprocess: true
+  - key: 'v'
+    context: 'files'
+    description: 'Open side-by-side delta diff'
+    command: "git diff --color=always {{.SelectedFile.Name}} | delta --side-by-side --paging=always"
+    output: terminal
 services: {}
 notARepository: prompt
 promptToReturnFromSubprocess: true
