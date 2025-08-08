@@ -29,5 +29,5 @@ return {
 		border = 0xffcad3f5,
 	},
 	bg1 = 0xFF0D2E42,
-	bg2 = 0xff494d64,
+	bg2 = 0xff7a7e9a,
 }

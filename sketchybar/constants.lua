@@ -9,8 +9,6 @@ M.items = {
 	DOTTT = "Dottt",
 }
 
-M.aerospace = {}
-
 M.events = {
 	AEROSPACE_WORKSPACE_CHANGED = "aerospace_workspace_changed",
 	AEROSPACE_SWITCH = "aerospace_switch",
@@ -20,13 +18,6 @@ M.events = {
 	SEND_MODE = "send_mode",
 	HIDE_MODE = "hide_mode",
 	FULLSCREEN = "fullscreen",
-}
-
-M.aerospace = {
-	LIST_ALL_WORKSPACES = "aerospace list-workspaces --all",
-	GET_CURRENT_WORKSPACE = "aerospace list-workspaces --focused",
-	LIST_WINDOWS = 'aerospace list-windows --workspace focused --format "id=%{window-id}, name=%{app-name}"',
-	GET_CURRENT_WINDOW = "aerospace list-windows --focused --format %{app-name}",
 }
 
 return M
