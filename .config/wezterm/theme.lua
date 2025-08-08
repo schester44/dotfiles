@@ -77,8 +77,8 @@ function M.apply(config)
 	}
 
 	config.inactive_pane_hsb = {
-		saturation = 0.7,
-		brightness = 0.6,
+		saturation = 0,
+		brightness = 0.4,
 	}
 
 	return config
