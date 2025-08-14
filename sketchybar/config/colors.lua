@@ -18,6 +18,7 @@ return {
 	light_blue = 0xff80FCFF,
 	yellow = 0xffffee80,
 	purple = 0xff967efb,
+	orange = 0xffFFB86C,
 	transparent = 0x00000000,
 
 	bar = {

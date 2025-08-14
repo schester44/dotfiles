@@ -11,16 +11,18 @@ local log = function(x)
 	end
 end
 
--- Check if this workspace is currently focused
-local function is_focused_workspace(space_name, callback)
-	sbar.exec("aerospace list-workspaces --focused", function(focused)
-		local current = focused:match("^%s*(.-)%s*$")
-		callback(current == space_name)
-	end)
-end
+local highlights = {
+	["1"] = colors.blue,
+	["2"] = colors.green,
+	["3"] = colors.yellow,
+	["4"] = colors.red,
+	["5"] = colors.light_blue,
+	["P"] = colors.orange,
+	["S"] = colors.purple,
+}
 
 -- -- Add app icons and hide if empty + unfocused
-local function add_windows(space, space_name)
+local function add_windows(space, space_name, is_focused)
 	sbar.exec("aerospace list-windows --format %{app-name} --workspace " .. space_name, function(windows)
 		local icon_line = ""
 
@@ -43,21 +45,18 @@ local function add_windows(space, space_name)
 			})
 		end)
 
-		is_focused_workspace(space_name, function(is_focused)
-			local should_draw = icon_line ~= "" or is_focused
-			space:set({ drawing = should_draw })
-		end)
+		local should_draw = icon_line ~= "" or is_focused
+
+		space:set({
+			drawing = should_draw,
+			label = {
+				background = {
+					color = icon_line == "" and colors.red or (is_focused and highlights[space_name] or colors.bg1),
+				},
+			},
+		})
 	end)
 end
-
-local highlights = {
-	["1"] = colors.yellow,
-	["2"] = colors.green,
-	["3"] = colors.blue,
-	["4"] = colors.bg1,
-	["5"] = colors.purple,
-	["P"] = colors.light_blue,
-}
 
 sbar.exec("aerospace list-workspaces --all", function(output)
 	for space_name in output:gmatch("[^\r\n]+") do
@@ -110,7 +109,7 @@ sbar.exec("aerospace list-workspaces --all", function(output)
 
 			-- update the window icons if this space was selected or was previously selected
 			if selected or prev_selected then
-				add_windows(space, space_name)
+				add_windows(space, space_name, selected)
 			end
 		end)
 
