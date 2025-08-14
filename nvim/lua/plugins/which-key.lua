@@ -21,17 +21,10 @@ return {
       mappings = vim.g.have_nerd_font,
     },
     spec = {
-      { '<leader>i', desc = 'Paste image from clipboard', icon = { icon = icons.image, color = 'blue' } },
-      { '<leader>p', desc = 'Paste from system clipboard', icon = { icon = icons.text, color = 'blue' } },
-      { '<leader>Y', desc = 'Copy to end of line to system clipboard', icon = { icon = icons.text, color = 'blue' } },
-      { '<leader>y', desc = 'Copy to system clipboard', icon = { icon = icons.text, color = 'blue' } },
       { '<leader>q', desc = 'Quit', icon = { icon = icons.file, color = 'red' } },
+      { '<leader>Q', desc = 'Quit All', icon = { icon = icons.file, color = 'red' } },
       { '<leader>w', desc = 'Write', icon = { icon = icons.file, color = 'red' } },
-
-      { '<leader><tab>', desc = 'Goto last buffer', icon = { icon = icons.file, color = 'yellow' } },
       { '<leader>,', desc = 'Open Buffers', icon = { icon = icons.file, color = 'yellow' } },
-      { '<leader><space>', desc = 'Find Files', icon = { icon = icons.file, color = 'yellow' } },
-
       {
         '<leader>c',
         group = 'Code',

@@ -15,7 +15,7 @@ return {
       set('n', '<leader>gP', '<cmd>:Git push origin HEAD<CR>', { desc = 'Git push origin HEAD' })
       set('n', '<leader>gl', '<cmd>:0Gclog<CR>', { desc = 'Git log' })
       set('n', '<leader>gl', '<cmd>:0Gclog<CR>', { desc = 'Git log' })
-      set('n', '<leader>>gh', '<cmd>:LazyGitFilterCurrentFile<CR>', { desc = 'LazyGit file history' })
+      set('n', '<leader>gh', '<cmd>:LazyGitFilterCurrentFile<CR>', { desc = 'LazyGit file history' })
     end,
   },
   { 'tpope/vim-rhubarb', cond = not vim.g.vscode },

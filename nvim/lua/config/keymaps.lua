@@ -53,7 +53,7 @@ set('n', '<leader>bD', '<cmd>:bd<cr>', { desc = 'Delete Buffer and Window' })
 
 set('n', '<leader>w', '<cmd>:w<CR>', { desc = 'Write' })
 set('n', '<leader>q', '<cmd>:q<CR>', { desc = 'Quit' })
-set('n', '<leader>qq', '<cmd>qa<CR>', { desc = 'Quit All' })
+set('n', '<leader>Q', '<cmd>qa<CR>', { desc = 'Quit All' })
 
 set('n', ']b', '<cmd>BuffyCycleNext<CR>', { desc = 'Next Buffer' })
 set('n', '[b', '<cmd>BuffyCyclePrev<CR>', { desc = 'Prev Buffer' })
