@@ -92,18 +92,4 @@ set('n', '<leader>Th', function()
   vim.notify('Inlay hints ' .. (not current_state and 'enabled' or 'disabled'))
 end, { desc = 'Toggle inlay hints' })
 
-set('n', '<leader>tcc', '<cmd>tabclose<CR>', { desc = 'Close current tab' })
-
--- Tab navigation
-for i = 1, 4 do
-  set('n', '<leader>t' .. i, function()
-    vim.cmd('tabnext ' .. i)
-  end, { desc = 'Go to tab ' .. i })
-
-  set('n', '<leader>tc' .. i, function()
-    if vim.fn.tabpagenr '$' < i then
-      return
-    end
-    vim.cmd('tabclose ' .. i)
-  end, { desc = 'Close tab' .. i })
-end
+set('n', '<leader>tc', '<cmd>tabclose<CR>', { desc = 'Close current tab' })
