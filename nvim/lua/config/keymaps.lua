@@ -42,27 +42,33 @@ set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- Preserve window layouts when closing a buffer
-set('n', '<leader>bd', function()
-  Snacks.bufdelete()
+vim.keymap.set('n', '<leader>bd', function()
+  Snacks.bufdelete(0)
 
-  -- Check if there are any other buffers open
   local buffers = vim.tbl_filter(function(buf)
     return vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buflisted and vim.api.nvim_buf_get_name(buf) ~= ''
   end, vim.api.nvim_list_bufs())
 
-  -- If no other buffers are open, close all splits and show dashboard
   if #buffers == 0 then
-    -- Close all splits except the current one
+    -- close extra splits and open dashboard
     vim.cmd 'only'
     require('mini.starter').open()
+
+    -- Find and delete NoName buffers after mini.starter is open
+    vim.defer_fn(function()
+      for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        local name = vim.api.nvim_buf_get_name(buf)
+        if name == '' and vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buflisted then
+          vim.api.nvim_buf_delete(buf, { force = false })
+        end
+      end
+    end, 300)
   end
 end, { desc = 'Delete Buffer' })
 
 set('n', '<leader>bo', function()
   Snacks.bufdelete.other()
 end, { desc = 'Delete Other Buffers' })
-
-set('n', '<leader>bD', '<cmd>:bd<cr>', { desc = 'Delete Buffer and Window' })
 
 set('n', '<leader>w', '<cmd>:w<CR>', { desc = 'Write' })
 set('n', '<leader>q', '<cmd>:q<CR>', { desc = 'Quit' })
