@@ -5,17 +5,16 @@ return {
     'tpope/vim-fugitive',
     cond = not vim.g.vscode,
     config = function()
-      set({ 'n', 'v' }, '<leader>go', '<cmd>:GBrowse<CR>', { desc = 'Git browse' })
+      set('n', '<leader>go', '<cmd>GBrowse<CR>', { desc = 'GBrowse' })
+      set('x', '<leader>go', ':GBrowse<CR>', { desc = 'GBrowse (selection)' })
+
       set('n', '<leader>gs', '<cmd>:G<CR>', { desc = 'Git status' })
       set('n', '<leader>gcm', '<cmd>:Git checkout main<CR>', { desc = 'Git checkout main' })
-      set('n', '<leader>gcc', ':Git checkout ', { desc = 'Git checkout' })
-      set('n', '<leader>gcn', ':Git checkout -b ', { desc = 'Git checkout -b' })
+      set('n', '<leader>gcb', ':Git checkout -b ', { desc = 'Git checkout -b' })
       set('n', '<leader>gcl', '<cmd>:Git checkout @{-1}<CR>', { desc = 'Git checkout last' })
-      set('n', '<leader>gM', '<cmd>:Git pull origin main<CR>', { desc = 'Git pull origin main' })
-      set('n', '<leader>gP', '<cmd>:Git push origin HEAD<CR>', { desc = 'Git push origin HEAD' })
       set('n', '<leader>gl', '<cmd>:0Gclog<CR>', { desc = 'Git log' })
-      set('n', '<leader>gl', '<cmd>:0Gclog<CR>', { desc = 'Git log' })
-      set('n', '<leader>gh', '<cmd>:LazyGitFilterCurrentFile<CR>', { desc = 'LazyGit file history' })
+      set('n', '<leader>gh', '<cmd>:DiffviewFileHistory %<CR>', { desc = 'File history' })
+      set('n', '<leader>gB', '<cmd>:Git blame<CR>', { desc = 'Git blame' })
     end,
   },
   { 'tpope/vim-rhubarb', cond = not vim.g.vscode },
@@ -23,16 +22,7 @@ return {
     'sindrets/diffview.nvim',
     cond = not vim.g.vscode,
     config = function()
-      set('n', '<leader>gd', function()
-        if next(require('diffview.lib').views) == nil then
-          vim.cmd 'DiffviewOpen'
-        else
-          -- If diffview is already open, close it
-          vim.cmd 'DiffviewClose'
-        end
-      end, { desc = 'Git diff' })
-
-      set('n', '<leader>gB', '<cmd>:Git blame<CR>', { desc = 'Git blame' })
+      set('n', '<leader>gd', '<cmd>:DiffviewOpen main...HEAD', { desc = 'Git diff' })
 
       set('n', '<leader>gb', function()
         Snacks.picker.git_log_line()

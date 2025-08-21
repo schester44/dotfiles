@@ -16,22 +16,11 @@ local setup_starter = function()
 
   local items = nil
 
-  local is_vault = vim.fn.expand('%:p:h'):match '/vaults'
-
   local starter = require 'mini.starter'
 
-  if is_vault then
-    local name_of_vault = vim.fn.expand '%:p:h:t'
-    items = { {
-      action = 'edit' .. ' ' .. vim.fn.expand '%:p:h' .. '/index.md',
-      name = 'index.md',
-      section = name_of_vault,
-    } }
-  else
-    items = {
-      starter.sections.recent_files(10, true, false),
-    }
-  end
+  items = {
+    starter.sections.recent_files(10, true, false),
+  }
 
   local is_obie = vim.fn.getcwd():find '/risk%-management'
 
@@ -86,8 +75,6 @@ return {
         p = ai.gen_spec.treesitter({ a = '@parameter.list', i = '@parameter.list' }, {}),
       },
     }
-
-    require('mini.bufremove').setup()
 
     -- Move lines
     require('mini.move').setup {

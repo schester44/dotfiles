@@ -41,8 +41,21 @@ set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+-- Preserve window layouts when closing a buffer
 set('n', '<leader>bd', function()
   Snacks.bufdelete()
+
+  -- Check if there are any other buffers open
+  local buffers = vim.tbl_filter(function(buf)
+    return vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buflisted and vim.api.nvim_buf_get_name(buf) ~= ''
+  end, vim.api.nvim_list_bufs())
+
+  -- If no other buffers are open, close all splits and show dashboard
+  if #buffers == 0 then
+    -- Close all splits except the current one
+    vim.cmd 'only'
+    require('mini.starter').open()
+  end
 end, { desc = 'Delete Buffer' })
 
 set('n', '<leader>bo', function()
@@ -87,6 +100,7 @@ k.set_toggle_keymap {
 }
 
 set('n', '<leader>Th', function()
+  -- side by side diffs
   local current_state = vim.lsp.inlay_hint.is_enabled()
   vim.lsp.inlay_hint.enable(not current_state)
   vim.notify('Inlay hints ' .. (not current_state and 'enabled' or 'disabled'))
