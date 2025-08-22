@@ -67,7 +67,7 @@ vim.bo.tabstop = 2 -- Tab width is 2 spaces
 
 vim.opt.conceallevel = 2 -- Conceal text
 
-vim.opt.numberwidth = 4
+vim.opt.numberwidth = 6
 
 vim.o.statuscolumn = "%!v:lua.require('lib/statuscolumn').render()"
 
