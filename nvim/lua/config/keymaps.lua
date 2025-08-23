@@ -80,10 +80,30 @@ set('n', '[t', '<cmd>tabprevious<CR>', { desc = 'Previous Tab' })
 set('n', ']t', '<cmd>tabnext<CR>', { desc = 'Next Tab' })
 
 set('n', '<leader>fcp', '<cmd>let @+=expand("%:p")<CR>', { desc = 'Copy file path to clipboard' })
+set('n', '<leader>fcr', '<cmd>let @+=expand("%")<CR>', { desc = 'Copy relative file path to clipboard' })
+set('n', '<leader>fcn', '<cmd>let @+=expand("%:t")<CR>', { desc = 'Copy file name to clipboard' })
 set('n', '<leader>fof', '<cmd>silent !open %:p:h<CR>', { desc = 'Open file in Finder' })
 
 -- append a comma to end of line
 set('n', ',,', 'A,<esc>', { desc = 'Append ,' })
+-- append a semicolon to end of line
+set('n', ';;', 'A;<esc>', { desc = 'Append ;' })
+
+-- Better indenting
+set('v', '<', '<gv', { desc = 'Indent left and reselect' })
+set('v', '>', '>gv', { desc = 'Indent right and reselect' })
+
+-- Move lines up/down
+set('n', '<A-j>', ':m .+1<CR>==', { desc = 'Move line down' })
+set('n', '<A-k>', ':m .-2<CR>==', { desc = 'Move line up' })
+set('v', '<A-j>', ":m '>+1<CR>gv=gv", { desc = 'Move selection down' })
+set('v', '<A-k>', ":m '<-2<CR>gv=gv", { desc = 'Move selection up' })
+
+-- Better window resizing
+set('n', '<C-Up>', ':resize +2<CR>', { desc = 'Increase window height' })
+set('n', '<C-Down>', ':resize -2<CR>', { desc = 'Decrease window height' })
+set('n', '<C-Left>', ':vertical resize -2<CR>', { desc = 'Decrease window width' })
+set('n', '<C-Right>', ':vertical resize +2<CR>', { desc = 'Increase window width' })
 
 k.set_toggle_keymap {
   keys = 'c',

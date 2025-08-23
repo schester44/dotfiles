@@ -30,6 +30,10 @@ vim.opt.breakindent = true
 -- Save undo history
 vim.opt.undofile = true
 
+-- Better undo settings
+vim.opt.undodir = vim.fn.stdpath 'data' .. '/undo'
+vim.opt.undolevels = 10000
+
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
@@ -59,6 +63,24 @@ vim.opt.inccommand = 'split'
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
+vim.opt.sidescrolloff = 8
+
+-- Better completion experience
+vim.opt.completeopt = 'menu,menuone,noselect'
+
+-- Better search experience
+vim.opt.hlsearch = true
+vim.opt.incsearch = true
+
+-- Better clipboard integration
+vim.opt.clipboard = 'unnamedplus'
+
+-- Improve performance
+vim.opt.lazyredraw = true
+vim.opt.ttyfast = true
+
+-- Better wildmenu
+vim.opt.wildmode = 'longest:full,full'
 
 vim.bo.expandtab = true -- Use spaces
 vim.bo.shiftwidth = 2 -- Indent by 2 spaces

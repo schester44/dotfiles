@@ -65,3 +65,58 @@ autocmd({ 'BufLeave', 'QuitPre' }, {
     end
   end,
 })
+
+-- Automatically create directories when saving files
+autocmd('BufWritePre', {
+  desc = 'Create directories when needed, when saving files',
+  callback = function()
+    local dir = vim.fn.fnamemodify(vim.fn.expand '<afile>', ':p:h')
+    if vim.fn.isdirectory(dir) == 0 then
+      vim.fn.mkdir(dir, 'p')
+    end
+  end,
+})
+
+-- Restore cursor position when opening files
+autocmd('BufReadPost', {
+  desc = 'Restore cursor position when opening files',
+  callback = function(args)
+    local valid_line = vim.fn.line([['"]]) >= 1 and vim.fn.line([['"]]) < vim.fn.line('$')
+    local not_commit = vim.b[args.buf].filetype ~= 'commit'
+
+    if valid_line and not_commit then
+      vim.cmd([[normal! g`"]])
+    end
+  end,
+})
+
+-- Auto-resize splits when window is resized
+autocmd('VimResized', {
+  desc = 'Resize splits when window is resized',
+  callback = function()
+    local current_tab = vim.fn.tabpagenr()
+    vim.cmd 'tabdo wincmd ='
+    vim.cmd('tabnext ' .. current_tab)
+  end,
+})
+
+-- Close certain filetypes with q
+autocmd('FileType', {
+  desc = 'Close certain filetypes with q',
+  pattern = {
+    'checkhealth',
+    'help',
+    'lspinfo',
+    'man',
+    'notify',
+    'oil',
+    'qf',
+    'query',
+    'startuptime',
+    'trouble',
+  },
+  callback = function(event)
+    vim.bo[event.buf].buflisted = false
+    vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = event.buf, silent = true })
+  end,
+})
