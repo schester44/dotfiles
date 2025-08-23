@@ -49,6 +49,11 @@ return {
     sources = {
       per_filetype = {
         sql = { 'snippets', 'dadbod', 'buffer' },
+        lua = { 'lazydev', 'lsp', 'path', 'snippets', 'buffer' },
+        typescript = { 'lsp', 'path', 'snippets', 'buffer' },
+        javascript = { 'lsp', 'path', 'snippets', 'buffer' },
+        typescriptreact = { 'lsp', 'path', 'snippets', 'buffer' },
+        javascriptreact = { 'lsp', 'path', 'snippets', 'buffer' },
       },
       providers = {
         dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink' },
