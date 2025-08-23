@@ -67,6 +67,31 @@ return {
           -- or a suggestion from your LSP for this to activate.
           map('<leader>ca', vim.lsp.buf.code_action, 'Code Action', { 'n', 'x' })
 
+          -- Additional useful LSP keymaps
+          map('<leader>ci', function()
+            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }, { bufnr = event.buf })
+          end, 'Toggle Inlay Hints')
+
+          map('<leader>cR', function()
+            Snacks.picker.lsp_references()
+          end, 'Code References')
+
+          map('<leader>cs', function()
+            Snacks.picker.lsp_document_symbols()
+          end, 'Code Symbols (Document)')
+
+          map('<leader>cS', function()
+            Snacks.picker.lsp_workspace_symbols()
+          end, 'Code Symbols (Workspace)')
+
+          map('<leader>cc', function()
+            vim.lsp.codelens.run()
+          end, 'Code Lens')
+
+          map('<leader>cC', function()
+            vim.lsp.codelens.refresh()
+          end, 'Code Lens Refresh')
+
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
           --    See `:help CursorHold` for information about when this is executed
@@ -114,6 +139,93 @@ return {
           'tailwindcss',
           'yamlls',
           'vtsls',
+          'rust_analyzer',
+          'gopls',
+          'cssls',
+          'html',
+          'emmet_ls',
+        },
+        handlers = {
+          -- Default handler
+          function(server_name)
+            local capabilities = vim.lsp.protocol.make_client_capabilities()
+            capabilities = vim.tbl_deep_extend('force', capabilities, require('blink.cmp').get_lsp_capabilities())
+            
+            require('lspconfig')[server_name].setup {
+              capabilities = capabilities,
+            }
+          end,
+          
+          -- Specialized handlers
+          ['lua_ls'] = function()
+            local capabilities = vim.lsp.protocol.make_client_capabilities()
+            capabilities = vim.tbl_deep_extend('force', capabilities, require('blink.cmp').get_lsp_capabilities())
+            
+            require('lspconfig').lua_ls.setup {
+              capabilities = capabilities,
+              settings = {
+                Lua = {
+                  completion = {
+                    callSnippet = 'Replace',
+                  },
+                  diagnostics = {
+                    globals = { 'vim' },
+                  },
+                  workspace = {
+                    library = {
+                      [vim.fn.expand '$VIMRUNTIME/lua'] = true,
+                      [vim.fn.stdpath 'config' .. '/lua'] = true,
+                    },
+                  },
+                },
+              },
+            }
+          end,
+          
+          ['vtsls'] = function()
+            local capabilities = vim.lsp.protocol.make_client_capabilities()
+            capabilities = vim.tbl_deep_extend('force', capabilities, require('blink.cmp').get_lsp_capabilities())
+            
+            require('lspconfig').vtsls.setup {
+              capabilities = capabilities,
+              settings = {
+                complete_function_calls = true,
+                vtsls = {
+                  enableMoveToFileCodeAction = true,
+                  autoUseWorkspaceTsdk = true,
+                  experimental = {
+                    completion = {
+                      enableServerSideFuzzyMatch = true,
+                    },
+                  },
+                },
+                typescript = {
+                  updateImportsOnFileMove = { enabled = 'always' },
+                  suggest = {
+                    completeFunctionCalls = true,
+                  },
+                  inlayHints = {
+                    enumMemberValues = { enabled = true },
+                    functionLikeReturnTypes = { enabled = true },
+                    parameterNames = { enabled = 'literals' },
+                    parameterTypes = { enabled = true },
+                    propertyDeclarationTypes = { enabled = true },
+                    variableTypes = { enabled = false },
+                  },
+                },
+              },
+            }
+          end,
+          
+          ['emmet_ls'] = function()
+            local capabilities = vim.lsp.protocol.make_client_capabilities()
+            capabilities = vim.tbl_deep_extend('force', capabilities, require('blink.cmp').get_lsp_capabilities())
+            
+            require('lspconfig').emmet_ls.setup {
+              capabilities = capabilities,
+              filetypes = { 'html', 'typescriptreact', 'javascriptreact', 'css', 'sass', 'scss', 'less' },
+            }
+          end,
         },
       }
 

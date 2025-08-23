@@ -197,6 +197,14 @@ return {
       {
         '<leader>ss',
         function()
+          require('auto-session.session-lens').search_session()
+        end,
+        desc = 'Session search',
+      },
+
+      {
+        '<leader>sy',
+        function()
           Snacks.picker.lsp_symbols()
         end,
         desc = 'LSP Symbols',
@@ -208,15 +216,6 @@ return {
           Snacks.picker.lsp_workspace_symbols()
         end,
         desc = 'LSP Workspace Symbols',
-      },
-
-      {
-
-        '<leader>ps',
-        function()
-          Snacks.profiler.scratch()
-        end,
-        desc = 'Profiler Scratch Buffer',
       },
     },
   },
