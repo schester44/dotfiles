@@ -5,7 +5,7 @@ local palette = {
 	cobalt_bg_dark = "#15232D",
 	cobalt_bg_light = "#2A3C51",
 	purple = "#967EFB",
-	light_yellow = "#FFEE80",
+	light_yellow = "#FFC600",
 	light_grey = "#9E9E9E",
 	dim_blue_grey = "#506171",
 	white = "#ffffff",
@@ -48,13 +48,26 @@ function M.apply(config)
 				palette.greyish_blue,
 				palette.white,
 			},
+			brights = {
+				palette.cobalt_bg_dark,
+				palette.muted_red,
+				palette.green,
+				palette.light_yellow,
+				palette.blue,
+				palette.purple,
+				palette.greyish_blue,
+				palette.white,
+			},
 		},
 	}
 
 	config.colors = {
 		background = theme.background,
+		foreground = theme.foreground,
 		cursor_fg = theme.background,
+		cursor_bg = palette.light_yellow,
 		selection_bg = theme.cursor_highlight,
+		selection_fg = theme.background,
 		split = theme.background_dark,
 		compose_cursor = palette.purple,
 		tab_bar = {
