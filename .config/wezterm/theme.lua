@@ -12,7 +12,7 @@ local palette = {
 	black = "#1C1C1C",
 	pink = "#FF628C",
 	blue = "#00AAFF",
-	green = "#88FF88",
+	green = "#7CDD7C",
 	muted_red = "#E57373",
 	greyish_blue = "#8fbfdc",
 }
