@@ -49,14 +49,14 @@ function M.apply(config)
 				palette.white,
 			},
 			brights = {
-				palette.cobalt_bg_dark,
+				palette.light_grey,
 				palette.muted_red,
 				palette.green,
 				palette.light_yellow,
 				palette.blue,
 				palette.purple,
 				palette.greyish_blue,
-				palette.white,
+				palette.black,
 			},
 		},
 	}
