@@ -105,23 +105,20 @@ return {
       desc = 'Output',
     }
 
-    local mochaAdapter = require 'neotest-mocha' {
-      env = { LOG_LEVEL = 'debug' },
-      command = 'yarn test:unfiltered:fast',
-      cwd = '/Users/schester/work/risk-management/api',
-    }
-
-    mochaAdapter.filter_dir = function(name, rel_path)
-      return string.match(rel_path, 'api')
-    end
-
     ---@diagnostic disable-next-line: missing-fields
     n.setup {
       consumers = {
         playwright = require('neotest-playwright.consumers').consumers,
       },
       adapters = {
-        mochaAdapter,
+        require 'neotest-mocha' {
+          env = { LOG_LEVEL = 'debug' },
+          command = 'yarn test:unfiltered:fast',
+          cwd = '/Users/schester/work/risk-management/api',
+          filter_dir = function(_, rel_path)
+            return string.match(rel_path, 'api')
+          end,
+        },
         require 'neotest-vitest' {
           vitestCommand = 'yarn test',
           cwd = '/Users/schester/work/risk-management/web-client',

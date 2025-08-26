@@ -105,6 +105,9 @@ Group.new('NoiceCmdlinePopupBorderHelp', colors.cobalt_bg_dark, colors.cobalt_bg
 
 Group.new('NotifyBackground', nil, colors.cobalt_bg, nil)
 
+-- Mini.Jump
+Group.new('MiniJump', nil, colors.dim_blue, nil)
+
 -- EasyMotion
 Group.new('EasyMotionTarget', colors.yellow, colors.cobalt_bg, styles.bold)
 

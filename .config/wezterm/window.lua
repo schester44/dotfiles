@@ -8,15 +8,15 @@ M.apply = function(config)
 	config.window_decorations = "RESIZE"
 
 	config.window_padding = {
-		left = 0,
-		right = 0,
-		top = 4,
-		bottom = 0,
+		left = 50,
+		right = 50,
+		top = 50,
+		bottom = 50,
 	}
 
 	config.tab_max_width = 64
 	config.use_fancy_tab_bar = false
-	config.hide_tab_bar_if_only_one_tab = false
+	config.hide_tab_bar_if_only_one_tab = true
 	config.tab_bar_at_bottom = true
 	config.show_new_tab_button_in_tab_bar = false
 
@@ -29,7 +29,7 @@ M.apply = function(config)
 	wezterm.on("format-tab-title", function(tab)
 		local is_zoomed = tab.active_pane.is_zoomed
 
-		local title = tab.tab_title and tab.tab_title ~= "" and tab.tab_title or "Tab" .. tab.tab_index + 1
+		local title = tab.tab_title and tab.tab_title ~= "" and tab.tab_title or ""
 
 		local elements = {
 			{ Background = { Color = is_zoomed and theme.alert or theme.background } },
@@ -46,8 +46,7 @@ M.apply = function(config)
 		end
 
 		table.insert(elements, { Text = " " .. wezterm.nerdfonts["md_numeric_" .. tab.tab_index + 1 .. "_box"] .. " " })
-
-		table.insert(elements, { Text = title .. " " })
+		table.insert(elements, { Text = title })
 
 		return elements
 	end)
@@ -57,6 +56,9 @@ M.apply = function(config)
 		local key_map_name = active_key_maps[active_key_table]
 
 		local active_key_title = (key_map_name and key_map_name or active_key_table)
+		local active_workspace = window:active_workspace()
+
+		local title = active_workspace == "default" and "" or "" .. " " .. active_workspace .. ""
 
 		window:set_left_status(wezterm.format({
 			{
@@ -69,7 +71,7 @@ M.apply = function(config)
 			},
 			{ Foreground = { Color = theme.foreground } },
 			{
-				Text = " " .. wezterm.nerdfonts.fa_terminal .. " " .. window:active_workspace() .. " ",
+				Text = " " .. wezterm.nerdfonts.fa_terminal .. title .. " ",
 			},
 		}))
 	end)

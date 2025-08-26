@@ -48,11 +48,12 @@ statuscolumn.render = function()
   local text = ''
 
   text = table.concat {
-    ' ',
+    '',
     '%s',
     ' ',
     statuscolumn.number(),
     statuscolumn.folds(),
+    ' ',
   }
 
   return text
@@ -74,7 +75,7 @@ statuscolumn.folds = function()
     end
   end
 
-  return ''
+  return '  '
 end
 
 statuscolumn.pretty_folds = function()

@@ -1,7 +1,6 @@
 # ~/.config/jesseduffield/lazygit/config.yml
 os:
-  editCommand: 'nvim'
-  editCommandTemplate: '{{editor}} --server $NVIM_PIPE --remote-tab "{{filename}}"'
+  edit: 'nvim --server $NVIM_PIPE --remote-tab "{{filename}}"'
 gui:
   authorColors: {}
   branchColors: {}
@@ -96,7 +95,7 @@ git:
   mainBranches:
     - master
     - main
-  skipHookPrefix: WIP
+  skipHookPrefix: ""
   autoFetch: true
   autoRefresh: true
   fetchAll: true
@@ -123,9 +122,9 @@ confirmOnQuit: false
 quitOnTopLevelReturn: false
 disableStartupPopups: false
 customCommands:
-  - key: 'v'
-    context: 'files'
-    description: 'Open side-by-side delta diff'
+  - key: "v"
+    context: "files"
+    description: "Open side-by-side delta diff"
     command: "git diff --color=always {{.SelectedFile.Name}} | delta --side-by-side --paging=always"
     output: terminal
 services: {}

@@ -66,6 +66,8 @@ return {
     --  - ci'  - [C]hange [I]nside [']quote
     local ai = require 'mini.ai'
 
+    require('mini.jump').setup()
+
     ai.setup {
       n_lines = 500,
       custom_textobjects = {

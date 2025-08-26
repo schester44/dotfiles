@@ -66,16 +66,6 @@ function M.apply(config)
 	config.font_size = 14
 	config.cell_width = 1
 
-	config.background = {
-		{ source = { File = "/Users/schester/Pictures/mono_dark_distortion_1.jpeg" } },
-		{
-			source = { Color = theme.background },
-			width = "100%",
-			height = "100%",
-			opacity = 0.95,
-		},
-	}
-
 	config.inactive_pane_hsb = {
 		saturation = 0,
 		brightness = 0.4,
