@@ -74,6 +74,7 @@ return {
         stl = ' ',
         stlnc = '─',
         diff = '╱',
+        eob = ' ',
       }
 
       require('lualine').setup {

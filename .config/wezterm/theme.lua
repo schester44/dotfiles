@@ -67,8 +67,8 @@ function M.apply(config)
 	config.cell_width = 1
 
 	config.inactive_pane_hsb = {
-		saturation = 0,
-		brightness = 0.4,
+		brightness = 0.5,
+		saturation = 0.7,
 	}
 
 	return config
