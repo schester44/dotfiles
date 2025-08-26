@@ -9,8 +9,12 @@ local palette = {
 	light_grey = "#9E9E9E",
 	dim_blue_grey = "#506171",
 	white = "#ffffff",
+	black = "#1C1C1C",
 	pink = "#FF628C",
-	blue = "#0052AA",
+	blue = "#00AAFF",
+	green = "#88FF88",
+	muted_red = "#E57373",
+	greyish_blue = "#8fbfdc",
 }
 
 local theme = {
@@ -30,7 +34,22 @@ M.theme = theme
 function M.apply(config)
 	local wezterm = require("wezterm")
 
-	config.color_scheme = "Cobalt2"
+	config.color_scheme = "Cobalt44"
+
+	config.color_schemes = {
+		Cobalt44 = {
+			ansi = {
+				palette.cobalt_bg_dark,
+				palette.muted_red,
+				palette.green,
+				palette.light_yellow,
+				palette.blue,
+				palette.purple,
+				palette.greyish_blue,
+				palette.white,
+			},
+		},
+	}
 
 	config.colors = {
 		background = theme.background,
