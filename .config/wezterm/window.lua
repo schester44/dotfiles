@@ -29,10 +29,16 @@ M.apply = function(config)
 	wezterm.on("format-tab-title", function(tab)
 		local is_zoomed = tab.active_pane.is_zoomed
 
-		local title = tab.tab_title and tab.tab_title ~= "" and tab.tab_title or ""
+		local title = tab.tab_title and tab.tab_title ~= "" and tab.tab_title .. " " or ""
+
+		local is_active = tab.is_active
 
 		local elements = {
-			{ Background = { Color = is_zoomed and theme.alert or theme.background } },
+			{
+				Background = {
+					Color = is_zoomed and theme.alert or is_active and theme.background_light or theme.background,
+				},
+			},
 		}
 
 		if is_zoomed then

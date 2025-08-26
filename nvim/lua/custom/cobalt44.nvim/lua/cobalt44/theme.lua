@@ -23,9 +23,9 @@ Group.new('FloatBorder', colors.cobalt_bg_dark, colors.cobalt_bg_dark, nil)
 Group.new('FloatTitle', colors.light_blue, colors.cobalt_bg, nil)
 Group.new('FoldColumn', colors.cobalt_bg_light, nil, nil)
 -- Folded text/backgroun
-Group.new('Folded', colors.purple, colors.cobalt_bg, styles.italic)
-Group.new('MoreMsg', colors.light_yellow, nil, nil)
+Group.new('Folded', colors.purple, nil, styles.italic)
 Group.new('FoldedText', colors.dirty_blue, nil, nil)
+Group.new('MoreMsg', colors.light_yellow, nil, nil)
 
 Group.new('IncSearch', colors.black, colors.yellow, styles.NONE)
 Group.new('InsertMode', colors.black, colors.dirty_blue, nil)
@@ -69,9 +69,11 @@ Group.new('SpellLocal', nil, colors.darkest_green, styles.underline)
 Group.new('SpellRare', nil, colors.aubergine, styles.underline)
 Group.new('StatusLineNC', colors.white, colors.cursor_line, nil)
 Group.new('StatusLine', colors.yellow, colors.cursor_line, nil)
-Group.new('TabLine', colors.yellow, colors.cursor_hover, nil)
+
+Group.new('TabLine', colors.light_grey, colors.cobalt_bg, nil)
 Group.new('TabLineFill', colors.light_grey, nil, nil)
-Group.new('TabLineSel', colors.white, colors.cobalt_bg, styles.bold)
+Group.new('TabLineSel', colors.light_yellow, colors.cobalt_bg_light, nil)
+
 Group.new('Title', colors.dirty_green, nil, styles.bold)
 Group.new('VertSplit', colors.grey, nil, nil)
 Group.new('Visual', nil, colors.darker_blue, nil)
@@ -123,7 +125,3 @@ Group.new('@constant.css', colors.light_orange, nil, nil)
 Group.new('@type.css', colors.light_orange, nil, nil)
 Group.new('@keyword.operator.css', colors.green, nil, nil)
 Group.new('@tag.attribute.css', colors.green, nil, nil)
-
-Group.new('UfoFoldedBg', nil, colors.cobalt_bg_light, nil)
-
-vim.api.nvim_set_hl(0, 'Folded', { link = 'UfoFoldedBg' })

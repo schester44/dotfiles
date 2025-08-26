@@ -3,6 +3,7 @@ local M = {}
 local palette = {
 	cobalt_bg = "#1C2E41",
 	cobalt_bg_dark = "#15232D",
+	cobalt_bg_light = "#2A3C51",
 	purple = "#967EFB",
 	light_yellow = "#FFEE80",
 	light_grey = "#9E9E9E",
@@ -15,6 +16,7 @@ local palette = {
 local theme = {
 	background = palette.cobalt_bg,
 	background_dark = palette.cobalt_bg_dark,
+	background_light = palette.cobalt_bg_light,
 	foreground_muted = palette.dim_blue_grey,
 	foreground_inactive = palette.light_grey,
 	foreground = palette.white,
@@ -40,8 +42,7 @@ function M.apply(config)
 			background = theme.background,
 			active_tab = {
 				fg_color = theme.foreground_highlight,
-				intensity = "Bold",
-				bg_color = theme.background,
+				bg_color = theme.background_light,
 			},
 			inactive_tab = {
 				fg_color = theme.foreground_inactive,

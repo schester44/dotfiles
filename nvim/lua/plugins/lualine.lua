@@ -75,6 +75,7 @@ return {
         stlnc = '─',
         diff = '╱',
         eob = ' ',
+        fold = ' ',
       }
 
       require('lualine').setup {

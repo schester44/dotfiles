@@ -52,8 +52,7 @@ statuscolumn.render = function()
     '%s',
     ' ',
     statuscolumn.number(),
-    statuscolumn.folds(),
-    ' ',
+    '%=',
   }
 
   return text
@@ -69,9 +68,12 @@ statuscolumn.folds = function()
   local is_folded = vim.fn.foldclosed(line) ~= -1
   local is_fold_start = vim.fn.foldlevel(line) > vim.fn.foldlevel(line - 1)
 
+  local endLn = vim.fn.foldclosedend(line)
+
   if fold > 0 and is_fold_start then
     if is_folded then
-      return ui.hl_str('FoldClosed', '  ')
+      local count = endLn - line
+      return ui.hl_str('FoldClosed', ' ' .. count)
     end
   end
 
