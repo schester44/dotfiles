@@ -11,6 +11,9 @@ return {
   root_markers = { 'tsconfig.json', 'package.json', 'jsconfig.json', '.git' },
 
   settings = {
+    vtsls = {
+      autoUseWorkspaceTsdk = true,
+    },
     typescript = {
       inlayHints = {
         parameterNames = { enabled = 'literals' },
