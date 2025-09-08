@@ -1,4 +1,3 @@
--- Auto formatting
 return {
   'stevearc/conform.nvim',
   cond = not vim.g.vscode,
