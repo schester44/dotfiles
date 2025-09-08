@@ -45,6 +45,13 @@ function M.apply(config)
 				end),
 			}),
 		},
+
+		{
+			key = "x",
+			mods = "LEADER",
+			action = wezterm.action.ActivateCopyMode,
+		},
+
 		{
 			key = "k",
 			mods = "CMD",
@@ -52,6 +59,14 @@ function M.apply(config)
 				flags = "FUZZY|WORKSPACES",
 			}),
 		},
+
+		-- Swap Panes
+		{
+			key = "{",
+			mods = "LEADER|SHIFT",
+			action = act.PaneSelect({ mode = "SwapWithActiveKeepFocus" }),
+		},
+
 		-- splitting
 		{
 			key = "s",
@@ -76,7 +91,7 @@ function M.apply(config)
 
 		-- rename tab
 		{
-			key = "/",
+			key = ",",
 			mods = "LEADER",
 			action = act.PromptInputLine({
 				description = wezterm.format({

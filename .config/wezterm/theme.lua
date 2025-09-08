@@ -17,6 +17,8 @@ local palette = {
 	greyish_blue = "#8fbfdc",
 }
 
+local inactive_panel_background = "#192432"
+
 local theme = {
 	background = palette.cobalt_bg,
 	background_dark = palette.cobalt_bg_dark,
@@ -27,6 +29,7 @@ local theme = {
 	foreground_highlight = palette.light_yellow,
 	alert = palette.pink,
 	cursor_highlight = palette.blue,
+	inactive_panel_background = inactive_panel_background,
 }
 
 M.theme = theme
@@ -71,18 +74,18 @@ function M.apply(config)
 		split = theme.background_dark,
 		compose_cursor = palette.purple,
 		tab_bar = {
-			background = theme.background,
+			background = inactive_panel_background,
 			active_tab = {
 				fg_color = theme.foreground_highlight,
-				bg_color = theme.background_light,
+				bg_color = inactive_panel_background,
 			},
 			inactive_tab = {
 				fg_color = theme.foreground_inactive,
 				italic = true,
-				bg_color = theme.background,
+				bg_color = inactive_panel_background,
 			},
 			new_tab = {
-				bg_color = theme.background,
+				bg_color = inactive_panel_background,
 				fg_color = theme.foreground_inactive,
 			},
 		},
@@ -100,8 +103,8 @@ function M.apply(config)
 	config.cell_width = 1
 
 	config.inactive_pane_hsb = {
-		brightness = 0.5,
-		saturation = 0.7,
+		brightness = 0.6,
+		saturation = 0.9,
 	}
 
 	return config

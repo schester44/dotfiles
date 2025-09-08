@@ -22,7 +22,14 @@ return {
     'sindrets/diffview.nvim',
     cond = not vim.g.vscode,
     config = function()
-      set('n', '<leader>gd', '<cmd>:DiffviewOpen main...HEAD<CR>', { desc = 'Git diff' })
+      set('n', '<leader>gd', function()
+        local ref = vim.fn.input('DiffviewOpen ref/range: ', 'main')
+        if ref ~= '' then
+          vim.cmd('DiffviewOpen ' .. ref)
+        end
+      end, { desc = 'Diffview' })
+
+      -- set('n', '<leader>gd', '<cmd>:DiffviewOpen', { desc = 'Git diff' })
 
       set('n', '<leader>gb', function()
         Snacks.picker.git_log_line()
