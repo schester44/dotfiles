@@ -13,6 +13,9 @@ return {
               truncate = 100,
             },
           },
+          layout = {
+            layout = { backdrop = false },
+          },
           layouts = {
             default = {
               layout = {
@@ -65,7 +68,7 @@ return {
         function()
           Snacks.picker.smart { title = 'Find Files', sources = { files = { hidden = true } } }
         end,
-        desc = 'Find Files',
+        desc = 'which_key_ignore',
       },
       {
         '<leader>sM',
@@ -114,6 +117,7 @@ return {
                 width = 0.3,
                 min_width = 80,
                 height = 0.3,
+                backdrop = false,
                 {
                   box = 'vertical',
                   border = 'rounded',

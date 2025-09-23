@@ -2,6 +2,8 @@ local colors = require('cobalt44.utils').colors
 local styles = require('cobalt44.utils').styles
 local Group = require('cobalt44.utils').Group
 
+local palette = require 'cobalt44.palette'
+
 Group.new('MiniStarterHeader', colors.light_blue_green, nil, nil)
 
 Group.new('ColorColumn', nil, colors.cursor_line, nil)
@@ -29,7 +31,7 @@ Group.new('MoreMsg', colors.light_yellow, nil, nil)
 
 Group.new('IncSearch', colors.black, colors.yellow, styles.NONE)
 Group.new('InsertMode', colors.black, colors.dirty_blue, nil)
-Group.new('LineNr', colors.dim_blue, colors.cobalt_bg, styles.NONE)
+Group.new('LineNr', colors.dim_blue, nil, styles.NONE)
 Group.new('MatchParen', colors.white, colors.dark_purple, styles.bold)
 Group.new('MatchWord', colors.white, colors.dark_purple, styles.bold)
 Group.new('ModeMsg', colors.white, nil, styles.bold)
@@ -41,6 +43,8 @@ Group.new('Normal', colors.white, colors.cobalt_bg, nil)
 Group.new('NormalFloat', colors.white, colors.cobalt_bg_dark, nil)
 Group.new('NormalMode', colors.black, colors.yellow, nil)
 Group.new('NormalNC', colors.white, colors.cobalt_bg, nil)
+
+Group.new('SnacksBackdrop', nil, colors.yellow, nil)
 
 Group.new('LazyGitFloat', nil, colors.cobalt_bg_dark, nil)
 Group.new('LazyGitBorder', colors.cobalt_bg_dark, colors.cobalt_bg_dark, nil)
@@ -67,8 +71,8 @@ Group.new('SpellBad', colors.red, nil, styles.underline)
 Group.new('SpellCap', nil, colors.darkest_blue, styles.underline)
 Group.new('SpellLocal', nil, colors.darkest_green, styles.underline)
 Group.new('SpellRare', nil, colors.aubergine, styles.underline)
-Group.new('StatusLineNC', colors.white, colors.cursor_line, nil)
-Group.new('StatusLine', colors.yellow, colors.cursor_line, nil)
+Group.new('StatusLineNC', colors.white, nil, nil)
+Group.new('StatusLine', colors.yellow, nil, nil)
 
 Group.new('TabLine', colors.light_grey, colors.cobalt_bg, nil)
 Group.new('TabLineFill', colors.light_grey, nil, nil)
