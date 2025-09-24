@@ -50,8 +50,8 @@ statuscolumn.render = function()
   text = table.concat {
     '',
     '%s',
-    ' ',
     statuscolumn.number(),
+    ' ',
     '%=',
   }
 
