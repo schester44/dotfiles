@@ -18,6 +18,7 @@ return {
   event = 'VimEnter',
   opts = {
     preset = 'helix',
+    show_help = false,
     icons = {
       mappings = vim.g.have_nerd_font,
     },
@@ -35,6 +36,7 @@ return {
       { '<leader>s', group = 'Search', icon = { icon = icons.search, color = 'yellow' } },
       { '<leader>f', group = 'File', icon = { icon = icons.file, color = 'yellow' } },
       { '<leader>b', group = 'Buffer', icon = { icon = icons.file, color = 'yellow' } },
+      { '<leader>p', group = 'Profiler', icon = { icon = icons.file, color = 'yellow' } },
       { '<leader>T', group = 'Toggle', icon = { icon = icons.file, color = 'yellow' } },
       { '<leader>t', group = 'Test', icon = { icon = icons.test, color = 'yellow' } },
       { '<leader>o', group = 'Obsidian', icon = { icon = icons.note, color = 'yellow' } },
