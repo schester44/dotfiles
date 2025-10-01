@@ -78,6 +78,11 @@ return {
         fold = ' ',
       }
 
+      vim.keymap.set('n', '<leader>Tp', function()
+        vim.g.lualine_full_path = not vim.g.lualine_full_path
+        require('lualine').refresh()
+      end, { desc = 'Toggle lualine full path' })
+
       require('lualine').setup {
         options = {
           theme = get_theme(),
@@ -95,7 +100,11 @@ return {
               file_status = false,
               fmt = function(name)
                 local fname = vim.fn.fnamemodify(name, ':t')
-                local path = vim.fn.fnamemodify(name, ':p:h')
+                local path = ''
+
+                if vim.g.lualine_full_path then
+                  path = vim.fn.fnamemodify(name, ':p:h')
+                end
 
                 return (path ~= '' and tools.hl_str('LualinePath', path .. '/') or '')
                   .. tools.hl_str(vim.bo.modified and 'LualineFilenameModified' or 'LualineFilename', (vim.bo.modified and '+' or '') .. fname)
@@ -112,7 +121,7 @@ return {
             Snacks.profiler.status(),
           },
           lualine_y = { 'branch' },
-          lualine_z = { copilot_status, require 'mcphub.extensions.lualine' },
+          lualine_z = { copilot_status },
         },
         inactive_sections = {
           lualine_a = {
