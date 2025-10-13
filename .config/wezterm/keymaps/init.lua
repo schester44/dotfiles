@@ -8,7 +8,7 @@ function M.apply(config)
 
 	local resize_mode = require("keymaps.resize")
 
-	config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
+	config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 3000 }
 
 	resize_mode.apply(config, "resize_pane")
 
@@ -99,6 +99,7 @@ function M.apply(config)
 					{ Foreground = { Color = theme.alert } },
 					{ Text = " New tab name:" },
 				}),
+				---@diagnostic disable-next-line: unused-local
 				action = wezterm.action_callback(function(window, pane, line)
 					if line then
 						window:active_tab():set_title(line)
@@ -134,6 +135,7 @@ function M.apply(config)
 					{ Foreground = { Color = theme.alert } },
 					{ Text = " Rename workspace name:" },
 				}),
+				---@diagnostic disable-next-line: unused-local
 				action = wezterm.action_callback(function(window, pane, line)
 					if line then
 						wezterm.mux.rename_workspace(wezterm.mux.get_active_workspace(), line)

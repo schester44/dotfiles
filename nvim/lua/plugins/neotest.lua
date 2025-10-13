@@ -121,7 +121,6 @@ return {
         },
         require 'neotest-vitest' {
           vitestCommand = 'yarn test',
-          cwd = '/Users/schester/work/risk-management/web-client',
         },
         require('neotest-playwright').adapter {
           options = {

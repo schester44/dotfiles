@@ -1,6 +1,7 @@
 local colors = require('cobalt44.utils').colors
 local styles = require('cobalt44.utils').styles
 local Group = require('cobalt44.utils').Group
+local palette = require 'cobalt44.palette'
 
 Group.new('MiniStarterHeader', colors.light_blue_green, nil, nil)
 
@@ -41,6 +42,10 @@ Group.new('Normal', colors.white, colors.cobalt_bg, nil)
 Group.new('NormalFloat', colors.white, colors.cobalt_bg_dark, nil)
 Group.new('NormalMode', colors.black, colors.yellow, nil)
 Group.new('NormalNC', colors.white, colors.cobalt_bg, nil)
+
+Group.new('TreesitterContext', colors.light_grey, colors.cobalt_bg_light, nil)
+Group.new('TreesitterContextBottom', nil, colors.cobalt_bg_light, nil)
+Group.new('TreesitterContextLineNumber', colors.dim_blue, colors.cobalt_bg_light, nil)
 
 Group.new('SnacksBackdrop', nil, colors.yellow, nil)
 

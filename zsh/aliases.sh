@@ -9,8 +9,10 @@ alias ip="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0
 # Yarn
 alias yst="yarn start:test"
 alias ys="yarn start"
-alias yt="yarn test:watch:fast"
-alias ytu="yarn test:unfiltered:fast --watch --watch-files src"
+alias yt="yarn test:watch"
+alias ytf="yarn test:watch:fast"
+alias ytu="yarn test:unfiltered --watch --watch-files src"
+alias ytuf="yarn test:unfiltered:fast"
 # Random
 alias prdb="prdb.sh"
 

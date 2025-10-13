@@ -40,10 +40,14 @@ Group.new('LspDiagnosticsWarningUnderline', colors.light_yellow, nil, styles.und
 -- codelens
 Group.new('LspCodeLens', colors.dark_grey, nil, nil)
 
+local function link(group, target)
+  vim.api.nvim_set_hl(0, group, { link = target, default = true })
+end
+
 -- These control the appearance of code backgrounds when cursor is on a symbol.
 Group.new('LspReferenceRead', nil, colors.cobalt_bg_lighter, nil)
-Group.new('LspReferenceText', nil, colors.cobalt_bg_lighter, nil)
-Group.new('LspReferenceWrite', nil, colors.cobalt_bg_lighter, nil)
+Group.new('LspReferenceText', nil, colors.cobalt_bg, nil)
+Group.new('LspReferenceWrite', colors.light_yellow, colors.cobalt_bg_lighter, nil)
 
 -- normal
 Group.new('LspFloatWinNormal', colors.yellow, colors.cobalt_bg_dark, nil)
