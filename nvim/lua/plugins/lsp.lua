@@ -114,6 +114,7 @@ return {
           'tailwindcss',
           'yamlls',
           'vtsls',
+          'copilot',
         },
       }
 
