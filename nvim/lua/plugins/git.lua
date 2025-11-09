@@ -24,6 +24,21 @@ return {
         end,
         desc = 'Create Branch from Current',
       },
+      {
+        '<leader>gP',
+        function()
+          require('neogit').action('push', 'to_upstream', {})()
+        end,
+        desc = 'Push Upstream',
+      },
+
+      {
+        '<leader>gp',
+        function()
+          require('neogit').action('pull', 'from_upstream', {})()
+        end,
+        desc = 'Pull Upstream',
+      },
     },
   },
 
