@@ -16,6 +16,7 @@ return {
     config = function()
       set('n', '<leader>go', '<cmd>GBrowse<CR>', { desc = 'GBrowse' })
       set('x', '<leader>go', ':GBrowse<CR>', { desc = 'GBrowse (selection)' })
+      set('n', '<leader>gg', ':Neogit<CR>', { desc = 'Neogit' })
 
       set('n', '<leader>gs', '<cmd>:G<CR>', { desc = 'Git status' })
       set('n', '<leader>gcm', '<cmd>:Git checkout main<CR>', { desc = 'Git checkout main' })
