@@ -8,6 +8,23 @@ return {
       'sindrets/diffview.nvim', -- optional - Diff integration
       'folke/snacks.nvim', -- optional
     },
+    keys = {
+      { '<leader>gg', '<cmd>Neogit<cr>', desc = 'Neogit' },
+      {
+        '<leader>gbb',
+        function()
+          require('neogit').action('branch', 'checkout_recent_branch', {})()
+        end,
+        desc = 'Checkout Branch',
+      },
+      {
+        '<leader>gcb',
+        function()
+          require('neogit').action('branch', 'checkout_create_branch', {})()
+        end,
+        desc = 'Create Branch from Current',
+      },
+    },
   },
 
   {
@@ -16,13 +33,7 @@ return {
     config = function()
       set('n', '<leader>go', '<cmd>GBrowse<CR>', { desc = 'GBrowse' })
       set('x', '<leader>go', ':GBrowse<CR>', { desc = 'GBrowse (selection)' })
-      set('n', '<leader>gg', ':Neogit<CR>', { desc = 'Neogit' })
 
-      set('n', '<leader>gs', '<cmd>:G<CR>', { desc = 'Git status' })
-      set('n', '<leader>gcm', '<cmd>:Git checkout main<CR>', { desc = 'Git checkout main' })
-      set('n', '<leader>gcb', ':Git checkout -b ', { desc = 'Git checkout -b' })
-      set('n', '<leader>gcl', '<cmd>:Git checkout @{-1}<CR>', { desc = 'Git checkout last' })
-      set('n', '<leader>gl', '<cmd>:0Gclog<CR>', { desc = 'Git log' })
       set('n', '<leader>gh', '<cmd>:DiffviewFileHistory %<CR>', { desc = 'File history' })
       set('n', '<leader>gB', '<cmd>:Git blame<CR>', { desc = 'Git blame' })
     end,
