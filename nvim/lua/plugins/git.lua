@@ -49,23 +49,28 @@ return {
     config = function()
       set('n', '<leader>gB', '<cmd>:Gitsigns blame<CR>', { desc = 'Git blame' })
 
-      set('n', ']c', function()
-        local gitsigns = require 'gitsigns'
+      local gs = require 'gitsigns'
 
+      set('n', ']c', function()
         if vim.wo.diff then
           vim.cmd.normal { ']c', bang = true }
         else
-          gitsigns.nav_hunk 'next'
+          gs.nav_hunk 'next'
         end
       end, { desc = 'Next hunk' })
 
-      set('n', '[c', function()
-        local gitsigns = require 'gitsigns'
+      set('n', '<leader>hs', gs.stage_hunk, { desc = 'Stage hunk' })
+      set('n', '<leader>hr', gs.reset_hunk, { desc = 'Reset hunk' })
+      set('n', '<leader>hu', gs.undo_stage_hunk, { desc = 'Undo stage hunk' })
+      set('n', '<leader>hp', gs.preview_hunk, { desc = 'Preview hunk' })
+      set('n', '<leader>hd', gs.diffthis, { desc = 'Diff hunk' })
+      set('n', '<leader>Tb', gs.toggle_current_line_blame, { desc = 'Toggle line blame' })
 
+      set('n', '[c', function()
         if vim.wo.diff then
           vim.cmd.normal { '[c', bang = true }
         else
-          gitsigns.nav_hunk 'prev'
+          gs.nav_hunk 'prev'
         end
       end, { desc = 'Prev hunk' })
 

@@ -34,6 +34,7 @@ return {
       { '<leader>r', group = 'Requests', icon = { icon = icons.search, color = 'red' } },
       { '<leader>l', group = 'LSP', icon = { icon = icons.code, color = 'yellow' } },
       { '<leader>s', group = 'Search', icon = { icon = icons.search, color = 'yellow' } },
+      { '<leader>h', group = 'Hunk', icon = { icon = icons.git, color = 'yellow' } },
       { '<leader>f', group = 'File', icon = { icon = icons.file, color = 'yellow' } },
       { '<leader>b', group = 'Buffer', icon = { icon = icons.file, color = 'yellow' } },
       { '<leader>p', group = 'Profiler', icon = { icon = icons.file, color = 'yellow' } },
