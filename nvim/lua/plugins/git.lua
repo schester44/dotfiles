@@ -2,6 +2,15 @@ local set = vim.keymap.set
 
 return {
   {
+    'NeogitOrg/neogit',
+    dependencies = {
+      'nvim-lua/plenary.nvim', -- required
+      'sindrets/diffview.nvim', -- optional - Diff integration
+      'folke/snacks.nvim', -- optional
+    },
+  },
+
+  {
     'tpope/vim-fugitive',
     cond = not vim.g.vscode,
     config = function()

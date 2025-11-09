@@ -8,10 +8,10 @@ M.apply = function(config)
 	config.window_decorations = "RESIZE"
 
 	config.window_padding = {
-		left = 50,
-		right = 50,
-		top = 50,
-		bottom = 50,
+		left = 30,
+		right = 30,
+		top = 30,
+		bottom = 25,
 	}
 
 	config.tab_max_width = 64
