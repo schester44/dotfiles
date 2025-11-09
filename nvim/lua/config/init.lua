@@ -6,4 +6,5 @@ else
   require 'config.keymaps'
   require 'config.lazy'
   require 'config.cmds'
+  require 'config.git'
 end
