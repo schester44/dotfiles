@@ -2,6 +2,30 @@ local set = vim.keymap.set
 
 return {
   {
+    'trevorhauter/gitportal.nvim',
+    config = function()
+      local gitportal = require 'gitportal'
+
+      gitportal.setup {
+        always_include_current_line = true,
+      }
+
+      -- Opens the current file in your browser at the correct branch/commit.
+      -- When in visual mode, selected lines are included in the permalink.
+      set('n', '<leader>go', gitportal.open_file_in_browser, { desc = 'Open file in Github' })
+      set('v', '<leader>go', gitportal.open_file_in_browser, { desc = 'Open file in Github' })
+
+      -- Opens a Githost link directly in Neovim, optionally switching to the branch/commit.
+      set('n', '<leader>ig', gitportal.open_file_in_neovim, { desc = 'Open Github link in Neovim' })
+
+      -- Generates and copies the permalink of your current file to your clipboard.
+      -- When in visual mode, selected lines are included in the permalink.
+      set('n', '<leader>gc', gitportal.copy_link_to_clipboard, { desc = 'Copy GitHub link to clipboard' })
+      set('v', '<leader>gc', gitportal.copy_link_to_clipboard, { desc = 'Copy GitHub link to clipboard' })
+    end,
+  },
+
+  {
     'NeogitOrg/neogit',
     dependencies = {
       'nvim-lua/plenary.nvim', -- required

@@ -132,3 +132,6 @@ Group.new('@constant.css', colors.light_orange, nil, nil)
 Group.new('@type.css', colors.light_orange, nil, nil)
 Group.new('@keyword.operator.css', colors.green, nil, nil)
 Group.new('@tag.attribute.css', colors.green, nil, nil)
+
+-- Biscuits
+Group.new('BiscuitColor', colors.dim_blue, nil, nil)

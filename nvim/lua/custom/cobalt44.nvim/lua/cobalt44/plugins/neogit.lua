@@ -41,3 +41,6 @@ Group.new('NeogitChangeNewFile', colors.green, nil, styles.bold)
 -- commit buffer
 Group.new('NeogitFilePath', colors.dark_pink, nil, styles.bold)
 Group.new('NeogitCommitViewHeader', colors.blue, nil, nil)
+
+Group.new('NeogitChangeMStaged', colors.light_green, nil, nil)
+Group.new('neogitremote', colors.dim_blue, nil, nil)
