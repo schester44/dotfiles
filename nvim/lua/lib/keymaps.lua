@@ -14,7 +14,7 @@ end
 
 local M = {}
 
-M.set_toggle_keymap = create_keymap_group('<leader>T', '')
-M.set_test_keymap = create_keymap_group('<leader>t', '')
+M.set_toggle_keymap = create_keymap_group('<leader>x', '')
+M.set_test_keymap = create_keymap_group('<leader>T', '')
 
 return M

@@ -78,7 +78,7 @@ return {
         fold = ' ',
       }
 
-      vim.keymap.set('n', '<leader>Tp', function()
+      vim.keymap.set('n', '<leader>xp', function()
         vim.g.lualine_full_path = not vim.g.lualine_full_path
         require('lualine').refresh()
       end, { desc = 'Toggle lualine full path' })

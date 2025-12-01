@@ -12,13 +12,9 @@ export dotfiles=$HOME/.dotfiles
 export DOTFILES=$dotfiles
 export ZSH_CUSTOM=$DOTFILES/zsh/custom
 
-if [ -n "$NVIM_LISTEN_ADDRESS" ]; then
-    export VISUAL="nvr -cc split --remote-wait +'set bufhidden=wipe'"
-    export EDITOR="nvr -cc split --remote-wait +'set bufhidden=wipe'"
-else
-    export VISUAL="nvim"
-    export EDITOR="nvim"
-fi
+export VISUAL="nvim"
+export EDITOR="nvim"
+export LAUNCH_EDITOR="launch-editor"
 
 # ZSH Settings
 # ZSH_THEME="spaceship"

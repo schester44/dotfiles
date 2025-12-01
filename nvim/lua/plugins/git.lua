@@ -88,7 +88,7 @@ return {
       set('n', '<leader>hu', gs.undo_stage_hunk, { desc = 'Undo stage hunk' })
       set('n', '<leader>hp', gs.preview_hunk, { desc = 'Preview hunk' })
       set('n', '<leader>hd', gs.diffthis, { desc = 'Diff hunk' })
-      set('n', '<leader>Tb', gs.toggle_current_line_blame, { desc = 'Toggle line blame' })
+      set('n', '<leader>gtb', gs.toggle_current_line_blame, { desc = 'Toggle line blame' })
 
       set('n', '[c', function()
         if vim.wo.diff then

@@ -9,17 +9,9 @@ set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
 -- For other diagnostic commands, see trouble.lua
-set('n', '<leader>xm', function()
+set('n', '<leader>dm', function()
   vim.diagnostic.open_float { border = 'rounded' }
 end, { desc = 'Open floating [L]sp [D]iagnostic message' })
-
-k.set_toggle_keymap {
-  keys = 'q',
-  desc = 'Quickfix',
-  cmd = function()
-    require('quicker').toggle()
-  end,
-}
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -105,11 +97,12 @@ k.set_toggle_keymap {
   end,
 }
 
-set('n', '<leader>Th', function()
-  -- side by side diffs
-  local current_state = vim.lsp.inlay_hint.is_enabled()
-  vim.lsp.inlay_hint.enable(not current_state)
-  vim.notify('Inlay hints ' .. (not current_state and 'enabled' or 'disabled'))
-end, { desc = 'Toggle inlay hints' })
-
-set('n', '<leader>tc', '<cmd>tabclose<CR>', { desc = 'Close current tab' })
+k.set_toggle_keymap {
+  keys = 'h',
+  desc = 'Toggle inlay hints',
+  cmd = function()
+    local current_state = vim.lsp.inlay_hint.is_enabled()
+    vim.lsp.inlay_hint.enable(not current_state)
+    vim.notify('Inlay hints ' .. (not current_state and 'enabled' or 'disabled'))
+  end,
+}

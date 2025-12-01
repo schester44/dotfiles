@@ -15,6 +15,7 @@ alias ytu="yarn test:unfiltered --watch --watch-files src"
 alias ytuf="yarn test:unfiltered:fast"
 # Random
 alias prdb="prdb.sh"
+alias e="nvim"
 
 # Misc
 function kport {

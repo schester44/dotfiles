@@ -34,12 +34,9 @@ return {
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = desc })
           end
 
-          --  To jump back, press <C-t>.
           map('gd', function()
             Snacks.picker.lsp_definitions()
           end, 'Goto Definition')
-
-          map('gD', vim.lsp.buf.declaration, 'Goto Declaration')
 
           -- Find references for the word under your cursor.
           map('gr', function()
@@ -48,16 +45,16 @@ return {
 
           -- Jump to the implementation of the word under your cursor.
           --  Useful when your language has ways of declaring types without an actual implementation.
-          map('gI', function()
-            Snacks.picker.lsp_implementations()
-          end, 'Goto Implementation')
+          -- map('gI', function()
+          --   Snacks.picker.lsp_implementations()
+          -- end, 'Goto Implementation')
 
           -- Jump to the type of the word under your cursor.
           --  Useful when you're not sure what type a variable is and you want to see
           --  the definition of its *type*, not where it was *defined*.
-          map('gt', function()
-            Snacks.picker.lsp_type_definitions()
-          end, 'Goto Type Definition')
+          -- map('gt', function()
+          --   Snacks.picker.lsp_type_definitions()
+          -- end, 'Goto Type Definition')
 
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
