@@ -7,14 +7,22 @@ t-new() {
 		return 1
 	fi
 
-	local worktree_base
-	worktree_base="$(pwd)"
-
 	local repo_root
 	repo_root="$(git -C . rev-parse --show-toplevel 2>/dev/null)" || {
 		echo "❌ Not inside a Git repository."
 		return 1
 	}
+
+	local repo_name
+	repo_name="$(basename "$repo_root")"
+
+	local worktree_base="$HOME/worktrees/$repo_name"
+
+	# Create the worktree directory if it doesn't exist
+	if [[ ! -d "$worktree_base" ]]; then
+		echo "📁 Creating worktree directory: $worktree_base"
+		mkdir -p "$worktree_base"
+	fi
 
 	local base_branch
 	if git -C "$repo_root" rev-parse --verify origin/main >/dev/null 2>&1; then

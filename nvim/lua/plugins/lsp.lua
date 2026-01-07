@@ -110,9 +110,8 @@ return {
           'pylsp',
           'tailwindcss',
           'yamlls',
-          -- 'vtsls',
+          'vtsls',
           'copilot',
-          'tsgo',
         },
       }
 
