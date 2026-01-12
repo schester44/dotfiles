@@ -1,4 +1,4 @@
-t-new() {
+tn() {
 	# Join all arguments to allow spaces in task names without quotes
 	local session_name="$*"
 
@@ -80,7 +80,25 @@ t-new() {
 	fi
 }
 
-t-list() {
+# Helper function to get worktree task names (excludes main repo)
+_t-get-worktrees() {
+	local repo_root="$1"
+	git -C "$repo_root" worktree list --porcelain | awk '
+		/^worktree / {
+			path = substr($0, 10)
+			# Skip the main repo (first worktree is always main)
+			if (NR > 1 || path !~ /\.git$/) {
+				n = split(path, parts, "/")
+				# Only include worktrees under ~/worktrees/
+				if (path ~ /\/worktrees\//) {
+					print parts[n]
+				}
+			}
+		}
+	'
+}
+
+tl() {
 	local repo_root
 	repo_root="$(git -C . rev-parse --show-toplevel 2>/dev/null)" || {
 		echo "❌ Not inside a Git repository."
@@ -92,22 +110,79 @@ t-list() {
 	echo "📋 Active Tasks (Worktrees):"
 	echo ""
 
+	local i=1
 	git -C "$repo_root" worktree list | while IFS= read -r line; do
 		local worktree_path=$(echo "$line" | awk '{print $1}')
 		local branch=$(echo "$line" | grep -oE '\[.*\]' | tr -d '[]')
 
+		# Skip the main repo worktree (not under worktrees/)
+		if [[ ! "$worktree_path" =~ /worktrees/ ]]; then
+			continue
+		fi
+
 		# Check if this is the current worktree
 		if [[ "$current_dir" == "$worktree_path"* ]]; then
-			echo "➡️  $worktree_path ($branch) [current]"
+			echo "➡️  [$i] $worktree_path ($branch) [current]"
 		else
-			echo "   $worktree_path ($branch)"
+			echo "   [$i] $worktree_path ($branch)"
 		fi
+		((i++))
 	done
 }
 
-t-done() {
+tg() {
+	local input="$1"
+
+	if [[ -z "$input" ]]; then
+		echo "❌ Usage: tg <number|name>"
+		return 1
+	fi
+
+	local repo_root
+	repo_root="$(git -C . rev-parse --show-toplevel 2>/dev/null)" || {
+		echo "❌ Not inside a Git repository."
+		return 1
+	}
+
+	local i=1
+	local target_path=""
+
+	while IFS= read -r line; do
+		local worktree_path=$(echo "$line" | awk '{print $1}')
+
+		# Skip the main repo worktree (not under worktrees/)
+		if [[ ! "$worktree_path" =~ /worktrees/ ]]; then
+			continue
+		fi
+
+		# Match by number
+		if [[ "$input" =~ ^[0-9]+$ ]] && [[ "$i" -eq "$input" ]]; then
+			target_path="$worktree_path"
+			break
+		fi
+
+		# Match by name (directory name contains input)
+		local dir_name=$(basename "$worktree_path")
+		if [[ "$dir_name" == *"$input"* ]]; then
+			target_path="$worktree_path"
+			break
+		fi
+
+		((i++))
+	done < <(git -C "$repo_root" worktree list)
+
+	if [[ -n "$target_path" ]]; then
+		cd "$target_path"
+		echo "📂 Changed to: $target_path"
+	else
+		echo "❌ No worktree found matching: $input"
+		return 1
+	fi
+}
+
+td() {
 	# Join all arguments to allow spaces in task names without quotes
-	local task_name="$*"
+	local task_input="$*"
 
 	local repo_root
 	repo_root="$(git -C . rev-parse --show-toplevel 2>/dev/null)" || {
@@ -117,9 +192,24 @@ t-done() {
 
 	local worktree_path
 	local current_dir="$(pwd)"
+	local task_name
 
-	# If task name provided, find the worktree
-	if [[ -n "$task_name" ]]; then
+	# If task input provided, check if it's a number or a name
+	if [[ -n "$task_input" ]]; then
+		# Check if input is a number
+		if [[ "$task_input" =~ ^[0-9]+$ ]]; then
+			# Get the task name by index
+			local worktrees=("${(@f)$(_t-get-worktrees "$repo_root")}")
+			if (( task_input < 1 || task_input > ${#worktrees[@]} )); then
+				echo "❌ Invalid task number: $task_input (valid: 1-${#worktrees[@]})"
+				return 1
+			fi
+			task_name="${worktrees[$task_input]}"
+			echo "📌 Selected task: $task_name"
+		else
+			task_name="$task_input"
+		fi
+
 		# Look for worktree matching the task name using --porcelain for reliable parsing
 		worktree_path=$(git -C "$repo_root" worktree list --porcelain | awk -v task="$task_name" '
 			/^worktree / {
