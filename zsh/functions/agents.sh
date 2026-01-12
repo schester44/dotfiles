@@ -75,7 +75,7 @@ t-new() {
 			wezterm cli set-tab-title --pane-id "$pane_id" "$session_name"
 			# Small delay to avoid git config lock contention
 			sleep 0.5
-			wezterm cli split-pane --right --pane-id "$pane_id" -- zsh -i -c "SHELL=/bin/bash claude"
+			wezterm cli split-pane --right --pane-id "$pane_id" -- zsh -i -c "pi"
 		fi
 	fi
 }
