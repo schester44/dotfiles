@@ -19,14 +19,27 @@ autocmd('BufWinEnter', {
   desc = 'Try to load file view if available and enable view saving for real files',
   group = view_group,
   callback = function(args)
-    if not vim.b[args.buf].view_activated then
-      local filetype = vim.api.nvim_get_option_value('filetype', { buf = args.buf })
-      local buftype = vim.api.nvim_get_option_value('buftype', { buf = args.buf })
-      local ignore_filetypes = { 'gitcommit', 'gitrebase', 'svg', 'hgcommit' }
-      if buftype == '' and filetype and filetype ~= '' and not vim.tbl_contains(ignore_filetypes, filetype) then
-        vim.b[args.buf].view_activated = true
-        vim.cmd.loadview { mods = { emsg_silent = true } }
-      end
+    if vim.b[args.buf].view_activated then
+      return
+    end
+
+    local filetype = vim.api.nvim_get_option_value('filetype', { buf = args.buf })
+    local buftype = vim.api.nvim_get_option_value('buftype', { buf = args.buf })
+    local ignore_filetypes = { 'gitcommit', 'gitrebase', 'svg', 'hgcommit' }
+
+    if buftype == '' and filetype and filetype ~= '' and not vim.tbl_contains(ignore_filetypes, filetype) then
+      vim.b[args.buf].view_activated = true
+
+      -- this prevents the view from changing the cwd
+      -- capture current window cwd + global cwd
+      local win_cwd = vim.fn.getcwd(0) -- window-local effective cwd
+      local global_cwd = vim.fn.getcwd() -- global cwd
+
+      vim.cmd.loadview { mods = { emsg_silent = true } }
+
+      -- restore both (covers cases where view did :lcd or :cd)
+      pcall(vim.cmd.lcd, win_cwd)
+      pcall(vim.cmd.cd, global_cwd)
     end
   end,
 })

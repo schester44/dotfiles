@@ -1,17 +1,74 @@
-tn() {
-	# Join all arguments to allow spaces in task names without quotes
-	local session_name="$*"
+# Unified worktree management command
+wt() {
+	local cmd="$1"
+	shift 2>/dev/null
+
+	case "$cmd" in
+		new|n)
+			_wt_new "$@"
+			;;
+		list|ls|l)
+			_wt_list "$@"
+			;;
+		go|g)
+			_wt_go "$@"
+			;;
+		delete|del|d|rm)
+			_wt_delete "$@"
+			;;
+		setup|s)
+			_wt_setup "$@"
+			;;
+		help|--help|-h|"")
+			_wt_help
+			;;
+		*)
+			echo "❌ Unknown command: $cmd"
+			_wt_help
+			return 1
+			;;
+	esac
+}
+
+_wt_help() {
+	cat <<EOF
+Usage: wt <command> [options]
+
+Commands:
+  new, n     <name> [args...]   Create a new worktree (args passed to setup script)
+  list, ls, l                   List all worktrees
+  go, g      <number|name>      Change to a worktree
+  delete, d, rm [number|name]   Delete a worktree (current if no arg)
+  setup, s   [args...]          Run setup script in current worktree
+
+Examples:
+  wt new my-feature
+  wt new my-feature --clone
+  wt list
+  wt go 2
+  wt go my-feature
+  wt delete
+  wt delete my-feature
+  wt setup 
+EOF
+}
+
+_wt_new() {
+	local session_name="$1"
+	shift 2>/dev/null
+	local setup_args=("$@")
 
 	if [[ -z "$session_name" ]]; then
-		echo "Usage: t-new <session-name>"
+		echo "Usage: wt new <name> [setup-args...]"
+		echo "Example: wt new my-feature --use-existing"
 		return 1
 	fi
 
 	local repo_root
-	repo_root="$(git -C . rev-parse --show-toplevel 2>/dev/null)" || {
+	if ! repo_root="$(git -C . rev-parse --show-toplevel 2>/dev/null)"; then
 		echo "❌ Not inside a Git repository."
 		return 1
-	}
+	fi
 
 	local repo_name
 	repo_name="$(basename "$repo_root")"
@@ -57,7 +114,7 @@ tn() {
 	local setup_script="$repo_root/.agents/worktree-setup.sh"
 	if [[ -f "$setup_script" ]]; then
 		echo "🔧 Running worktree setup script..."
-		if (cd "$worktree_path" && REPO_ROOT="$repo_root" WORKTREE_PATH="$worktree_path" WORKTREE_NAME="$session_name" bash "$setup_script"); then
+		if (cd "$worktree_path" && REPO_ROOT="$repo_root" WORKTREE_PATH="$worktree_path" WORKTREE_NAME="$session_name" bash "$setup_script" "${setup_args[@]}"); then
 			echo "✅ Setup script completed successfully"
 		else
 			echo "⚠️  Setup script failed with exit code $?"
@@ -80,40 +137,25 @@ tn() {
 	fi
 }
 
-# Helper function to get worktree task names (excludes main repo)
-_t-get-worktrees() {
-	local repo_root="$1"
-	git -C "$repo_root" worktree list --porcelain | awk '
-		/^worktree / {
-			path = substr($0, 10)
-			# Skip the main repo (first worktree is always main)
-			if (NR > 1 || path !~ /\.git$/) {
-				n = split(path, parts, "/")
-				# Only include worktrees under ~/worktrees/
-				if (path ~ /\/worktrees\//) {
-					print parts[n]
-				}
-			}
-		}
-	'
-}
-
-tl() {
+_wt_list() {
 	local repo_root
-	repo_root="$(git -C . rev-parse --show-toplevel 2>/dev/null)" || {
+	if ! repo_root="$(git -C . rev-parse --show-toplevel 2>/dev/null)"; then
 		echo "❌ Not inside a Git repository."
 		return 1
-	}
+	fi
 
-	local current_dir="$(pwd)"
+	local current_dir
+	current_dir="$(pwd)"
 
-	echo "📋 Active Tasks (Worktrees):"
+	echo "📋 Active Worktrees:"
 	echo ""
 
 	local i=1
+	local worktree_path
+	local branch
 	git -C "$repo_root" worktree list | while IFS= read -r line; do
-		local worktree_path=$(echo "$line" | awk '{print $1}')
-		local branch=$(echo "$line" | grep -oE '\[.*\]' | tr -d '[]')
+		worktree_path=$(echo "$line" | awk '{print $1}')
+		branch=$(echo "$line" | grep -oE '\[.*\]' | tr -d '[]')
 
 		# Skip the main repo worktree (not under worktrees/)
 		if [[ ! "$worktree_path" =~ /worktrees/ ]]; then
@@ -130,25 +172,27 @@ tl() {
 	done
 }
 
-tg() {
+_wt_go() {
 	local input="$1"
 
 	if [[ -z "$input" ]]; then
-		echo "❌ Usage: tg <number|name>"
+		echo "❌ Usage: wt go <number|name>"
 		return 1
 	fi
 
 	local repo_root
-	repo_root="$(git -C . rev-parse --show-toplevel 2>/dev/null)" || {
+	if ! repo_root="$(git -C . rev-parse --show-toplevel 2>/dev/null)"; then
 		echo "❌ Not inside a Git repository."
 		return 1
-	}
+	fi
 
 	local i=1
 	local target_path=""
+	local worktree_path
+	local dir_name
 
 	while IFS= read -r line; do
-		local worktree_path=$(echo "$line" | awk '{print $1}')
+		worktree_path=$(echo "$line" | awk '{print $1}')
 
 		# Skip the main repo worktree (not under worktrees/)
 		if [[ ! "$worktree_path" =~ /worktrees/ ]]; then
@@ -162,7 +206,7 @@ tg() {
 		fi
 
 		# Match by name (directory name contains input)
-		local dir_name=$(basename "$worktree_path")
+		dir_name=$(basename "$worktree_path")
 		if [[ "$dir_name" == *"$input"* ]]; then
 			target_path="$worktree_path"
 			break
@@ -172,7 +216,7 @@ tg() {
 	done < <(git -C "$repo_root" worktree list)
 
 	if [[ -n "$target_path" ]]; then
-		cd "$target_path"
+		cd "$target_path" || return 1
 		echo "📂 Changed to: $target_path"
 	else
 		echo "❌ No worktree found matching: $input"
@@ -180,18 +224,51 @@ tg() {
 	fi
 }
 
-td() {
-	# Join all arguments to allow spaces in task names without quotes
+_wt_setup() {
+	local setup_args
+	setup_args=("$@")
+
+	local worktree_path
+	worktree_path="$(pwd)"
+	local worktree_name
+	worktree_name="$(basename "$worktree_path")"
+
+	# Get the main repo root (not the worktree)
+	local git_common_dir
+	if ! git_common_dir="$(git rev-parse --git-common-dir 2>/dev/null)"; then
+		echo "❌ Not inside a Git repository."
+		return 1
+	fi
+	local repo_root
+	repo_root="$(dirname "$git_common_dir")"
+
+	local setup_script="$repo_root/.agents/worktree-setup.sh"
+	if [[ -f "$setup_script" ]]; then
+		echo "🔧 Running worktree setup script..."
+		if (cd "$worktree_path" && REPO_ROOT="$repo_root" WORKTREE_PATH="$worktree_path" WORKTREE_NAME="$worktree_name" bash "$setup_script" "${setup_args[@]}"); then
+			echo "✅ Setup script completed successfully"
+		else
+			echo "⚠️  Setup script failed with exit code $?"
+			return 1
+		fi
+	else
+		echo "❌ No setup script found at .agents/worktree-setup.sh"
+		return 1
+	fi
+}
+
+_wt_delete() {
 	local task_input="$*"
 
 	local repo_root
-	repo_root="$(git -C . rev-parse --show-toplevel 2>/dev/null)" || {
+	if ! repo_root="$(git -C . rev-parse --show-toplevel 2>/dev/null)"; then
 		echo "❌ Not inside a Git repository."
 		return 1
-	}
+	fi
 
 	local worktree_path
-	local current_dir="$(pwd)"
+	local current_dir
+	current_dir="$(pwd)"
 	local task_name
 
 	# If task input provided, check if it's a number or a name
@@ -199,7 +276,7 @@ td() {
 		# Check if input is a number
 		if [[ "$task_input" =~ ^[0-9]+$ ]]; then
 			# Get the task name by index
-			local worktrees=("${(@f)$(_t-get-worktrees "$repo_root")}")
+			local worktrees=("${(@f)$(_wt_get_worktrees "$repo_root")}")
 			if (( task_input < 1 || task_input > ${#worktrees[@]} )); then
 				echo "❌ Invalid task number: $task_input (valid: 1-${#worktrees[@]})"
 				return 1
@@ -239,9 +316,10 @@ td() {
 
 	# Check for and run teardown script if it exists
 	local teardown_script="$repo_root/.agents/worktree-teardown.sh"
+	local worktree_name
 	if [[ -f "$teardown_script" ]]; then
 		echo "🔧 Running teardown script..."
-		local worktree_name=$(basename "$worktree_path")
+		worktree_name=$(basename "$worktree_path")
 		if (cd "$worktree_path" && REPO_ROOT="$repo_root" WORKTREE_PATH="$worktree_path" WORKTREE_NAME="$worktree_name" bash "$teardown_script"); then
 			echo "✅ Teardown script completed successfully"
 		else
@@ -287,3 +365,27 @@ td() {
 		return 1
 	fi
 }
+
+# Helper function to get worktree task names (excludes main repo)
+_wt_get_worktrees() {
+	local repo_root="$1"
+	git -C "$repo_root" worktree list --porcelain | awk '
+		/^worktree / {
+			path = substr($0, 10)
+			# Skip the main repo (first worktree is always main)
+			if (NR > 1 || path !~ /\.git$/) {
+				n = split(path, parts, "/")
+				# Only include worktrees under ~/worktrees/
+				if (path ~ /\/worktrees\//) {
+					print parts[n]
+				}
+			}
+		}
+	'
+}
+
+# Keep old aliases for backwards compatibility (optional - remove if not needed)
+alias tn='wt new'
+alias tl='wt list'
+alias tg='wt go'
+alias td='wt delete'
