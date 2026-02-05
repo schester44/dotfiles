@@ -11,6 +11,7 @@ theme.apply(config)
 window.apply(config)
 
 config.enable_kitty_keyboard = true
+config.audible_bell = "SystemBeep"
 
 -- Not sure why this exists yet, but we need to merge config.keys, not replace it
 -- config.keys = {-- 	{ key = "Enter", mods = "SHIFT", action = wezterm.action({ SendString = "\x1b\r",

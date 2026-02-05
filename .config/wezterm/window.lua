@@ -59,7 +59,7 @@ M.apply = function(config)
 		return elements
 	end)
 
-	wezterm.on("update-status", function(window)
+	wezterm.on("update-status", function(window, pane)
 		local active_key_table = window:active_key_table()
 		local key_map_name = active_key_maps[active_key_table]
 
@@ -67,6 +67,44 @@ M.apply = function(config)
 		local active_workspace = window:active_workspace()
 
 		local title = active_workspace == "default" and "" or "" .. " " .. active_workspace .. ""
+
+		-- Get git branch and status for the active pane's cwd
+		local git_branch = ""
+		local git_dirty = false
+		local git_file_count = 0
+		local cwd_uri = pane:get_current_working_dir()
+		if cwd_uri then
+			local cwd = cwd_uri.file_path
+			if cwd then
+				local success, stdout = wezterm.run_child_process({
+					"git",
+					"-C",
+					cwd,
+					"rev-parse",
+					"--abbrev-ref",
+					"HEAD",
+				})
+				if success then
+					git_branch = stdout:gsub("%s+", "")
+
+					-- Check for uncommitted changes
+					local status_success, status_stdout = wezterm.run_child_process({
+						"git",
+						"-C",
+						cwd,
+						"status",
+						"--porcelain",
+					})
+					if status_success and status_stdout ~= "" then
+						git_dirty = true
+						-- Count changed files
+						for _ in status_stdout:gmatch("[^\r\n]+") do
+							git_file_count = git_file_count + 1
+						end
+					end
+				end
+			end
+		end
 
 		window:set_left_status(wezterm.format({
 			{
@@ -76,6 +114,14 @@ M.apply = function(config)
 			},
 			{
 				Text = active_key_table and " " .. wezterm.nerdfonts.cod_layout .. " " .. active_key_title or "",
+			},
+			{
+				Foreground = { Color = git_dirty and "#f9e2af" or "#a6e3a1" },
+			},
+			{
+				Text = git_branch ~= ""
+						and " " .. wezterm.nerdfonts.dev_git_branch .. " " .. git_branch .. (git_dirty and " (" .. git_file_count .. ")" or "") .. " "
+					or "",
 			},
 			{ Foreground = { Color = theme.foreground } },
 			{

@@ -48,9 +48,10 @@ return {
     },
     sources = {
       per_filetype = {
-        sql = { 'snippets', 'buffer' },
+        sql = { 'snippets', 'buffer', 'dadbod' },
       },
       providers = {
+        dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink' },
         snippets = {
           opts = {
             search_paths = { snippets_dir },
