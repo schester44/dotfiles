@@ -7,6 +7,7 @@ M.items = {
 	AEROSPACE_FULLSCREEN = "aerospace_fullscreen",
 	-- this needs to match the name of the app
 	DOTTT = "Dottt",
+	GIT = "git",
 }
 
 M.events = {
@@ -18,6 +19,7 @@ M.events = {
 	SEND_MODE = "send_mode",
 	HIDE_MODE = "hide_mode",
 	FULLSCREEN = "fullscreen",
+	GIT_UPDATE = "git_update",
 }
 
 return M

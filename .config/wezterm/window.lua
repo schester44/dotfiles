@@ -68,23 +68,6 @@ M.apply = function(config)
 
 		local title = active_workspace == "default" and "" or "" .. " " .. active_workspace .. ""
 
-		window:set_left_status(wezterm.format({
-			{
-				Foreground = {
-					Color = theme.alert,
-				},
-			},
-			{
-				Text = active_key_table and " " .. wezterm.nerdfonts.cod_layout .. " " .. active_key_title or "",
-			},
-			{ Foreground = { Color = theme.foreground } },
-			{
-				Text = " " .. wezterm.nerdfonts.fa_terminal .. title .. " ",
-			},
-		}))
-	end)
-
-	wezterm.on("update-right-status", function(window, pane)
 		-- Get git branch and status for the active pane's cwd
 		local git_branch = ""
 		local git_dirty = false
@@ -123,18 +106,42 @@ M.apply = function(config)
 			end
 		end
 
-		window:set_right_status(wezterm.format({
+		local git_text = git_branch ~= ""
+				and " "
+					.. wezterm.nerdfonts.dev_git_branch
+					.. " "
+					.. ((git_branch ~= "main" and git_branch ~= "master") and git_branch .. " " or "")
+					.. (git_dirty and "(" .. git_file_count .. ") " or "")
+			or ""
+
+		-- Sync git status to sketchybar
+		wezterm.run_child_process({
+			"sketchybar",
+			"--trigger",
+			"git_update",
+			"BRANCH=" .. git_branch,
+			"DIRTY=" .. (git_dirty and "true" or "false"),
+			"FILE_COUNT=" .. tostring(git_file_count),
+		})
+
+		window:set_left_status(wezterm.format({
+			{
+				Foreground = {
+					Color = theme.alert,
+				},
+			},
+			{
+				Text = active_key_table and " " .. wezterm.nerdfonts.cod_layout .. " " .. active_key_title or "",
+			},
+			{ Foreground = { Color = theme.foreground } },
+			{
+				Text = " " .. wezterm.nerdfonts.fa_terminal .. title .. " ",
+			},
 			{
 				Foreground = { Color = git_dirty and "#f9e2af" or "#a6e3a1" },
 			},
 			{
-				Text = git_branch ~= ""
-						and " "
-							.. ((git_branch ~= "main" and git_branch ~= "master") and git_branch .. " " or "")
-							.. (git_dirty and "(" .. git_file_count .. ") " or "")
-							.. wezterm.nerdfonts.dev_git_branch
-							.. " "
-					or "",
+				Text = git_text,
 			},
 		}))
 	end)
