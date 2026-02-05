@@ -71,6 +71,7 @@ M.apply = function(config)
 		-- Get git branch and status for the active pane's cwd
 		local git_branch = ""
 		local git_dirty = false
+		local git_ahead = false
 		local git_file_count = 0
 		local cwd_uri = pane:get_current_working_dir()
 		if cwd_uri then
@@ -102,6 +103,22 @@ M.apply = function(config)
 							git_file_count = git_file_count + 1
 						end
 					end
+
+					-- Check for commits ahead of upstream
+					local ahead_success, ahead_stdout = wezterm.run_child_process({
+						"git",
+						"-C",
+						cwd,
+						"rev-list",
+						"--count",
+						"@{upstream}..HEAD",
+					})
+					if ahead_success then
+						local ahead_count = tonumber(ahead_stdout:gsub("%s+", "")) or 0
+						if ahead_count > 0 then
+							git_ahead = true
+						end
+					end
 				end
 			end
 		end
@@ -116,7 +133,7 @@ M.apply = function(config)
 				Text = active_key_table and " " .. wezterm.nerdfonts.cod_layout .. " " .. active_key_title or "",
 			},
 			{
-				Foreground = { Color = git_dirty and "#f9e2af" or "#a6e3a1" },
+				Foreground = { Color = git_dirty and "#f9e2af" or git_ahead and "#a6e3a1" or "#6c7086" },
 			},
 			{
 				Text = git_branch ~= ""
