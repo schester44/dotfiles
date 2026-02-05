@@ -106,23 +106,10 @@ M.apply = function(config)
 			end
 		end
 
-		local git_text = git_branch ~= ""
-				and " "
-					.. wezterm.nerdfonts.dev_git_branch
-					.. " "
-					.. ((git_branch ~= "main" and git_branch ~= "master") and git_branch .. " " or "")
-					.. (git_dirty and "(" .. git_file_count .. ") " or "")
-			or ""
-
-		-- Sync git status to sketchybar
-		wezterm.run_child_process({
-			"sketchybar",
-			"--trigger",
-			"git_update",
-			"BRANCH=" .. git_branch,
-			"DIRTY=" .. (git_dirty and "true" or "false"),
-			"FILE_COUNT=" .. tostring(git_file_count),
-		})
+		-- Sync git status to sketchybar via shell (fire and forget)
+		os.execute(
+			"/opt/homebrew/bin/sketchybar --trigger git_update BRANCH='" .. git_branch .. "' DIRTY=" .. (git_dirty and "true" or "false") .. " FILE_COUNT=" .. tostring(git_file_count) .. " &"
+		)
 
 		window:set_left_status(wezterm.format({
 			{
@@ -136,12 +123,6 @@ M.apply = function(config)
 			{ Foreground = { Color = theme.foreground } },
 			{
 				Text = " " .. wezterm.nerdfonts.fa_terminal .. title .. " ",
-			},
-			{
-				Foreground = { Color = git_dirty and "#f9e2af" or "#a6e3a1" },
-			},
-			{
-				Text = git_text,
 			},
 		}))
 	end)
