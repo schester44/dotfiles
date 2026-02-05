@@ -120,7 +120,11 @@ M.apply = function(config)
 			},
 			{
 				Text = git_branch ~= ""
-						and " " .. wezterm.nerdfonts.dev_git_branch .. " " .. git_branch .. (git_dirty and " (" .. git_file_count .. ")" or "") .. " "
+						and " "
+							.. wezterm.nerdfonts.dev_git_branch
+							.. ((git_branch ~= "main" and git_branch ~= "master") and " " .. git_branch or "")
+							.. (git_dirty and " (" .. git_file_count .. ")" or "")
+							.. " "
 					or "",
 			},
 			{ Foreground = { Color = theme.foreground } },
