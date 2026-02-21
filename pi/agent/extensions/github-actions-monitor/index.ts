@@ -96,6 +96,82 @@ export default function githubActionsMonitorExtension(pi: ExtensionAPI) {
       widgetTui?.requestRender();
     }
   });
+
+  // Register /pr command to commit changes and create a PR
+  pi.registerCommand("pr", {
+    description: "Commit all uncommitted files and create a PR. Use --new to branch from main/master.",
+    handler: async (args, ctx) => {
+      if (!ctx.isIdle()) {
+        ctx.ui.notify("Agent is busy. Wait for it to finish.", "warning");
+        return;
+      }
+
+      // Check if we're in a git repo
+      const branch = await getCurrentBranch(ctx.cwd);
+      if (!branch) {
+        ctx.ui.notify("Not in a git repository", "error");
+        return;
+      }
+
+      // Parse --new flag
+      const forceNewBranch = args.includes("--new");
+      const cleanArgs = args.replace(/--new\s*/g, "").trim();
+
+      // Check if we need to create a new branch
+      const isOnMainBranch = branch === "main" || branch === "master";
+      const shouldCreateBranch = isOnMainBranch || forceNewBranch;
+
+      // Determine the base branch
+      const baseBranch = isOnMainBranch ? branch : "main"; // Default to main if forcing new branch
+
+      // Build the instruction message
+      let instruction = `Please help me create a pull request:
+
+1. First, check for any uncommitted changes using \`git status\``;
+
+      if (shouldCreateBranch) {
+        if (forceNewBranch && !isOnMainBranch) {
+          instruction += `
+2. Stash any uncommitted changes, switch to ${baseBranch} (or master if main doesn't exist), pull latest, then create a new feature branch:
+   - \`git stash\` (if there are changes)
+   - \`git checkout ${baseBranch}\` (try master if this fails)
+   - \`git pull\`
+   - Create a new branch with a descriptive name based on the changes (e.g., \`fix/auth-bug\`, \`feature/add-logging\`)
+   - \`git checkout -b <branch-name>\`
+   - \`git stash pop\` (if you stashed)`;
+        } else {
+          instruction += `
+2. Create a new feature branch from ${branch}:
+   - Use a descriptive branch name based on the changes (e.g., \`fix/auth-bug\`, \`feature/add-logging\`, \`chore/update-deps\`)
+   - Run \`git checkout -b <branch-name>\``;
+        }
+      }
+
+      const stepOffset = shouldCreateBranch ? 3 : 2;
+      instruction += `
+${stepOffset}. If there are uncommitted changes:
+   - Stage all changes with \`git add -A\`
+   - Create a commit with a descriptive message summarizing the changes
+${stepOffset + 1}. Push the branch to origin
+${stepOffset + 2}. Create a pull request using \`gh pr create\` with:
+   - A clear, descriptive title
+   - A body that summarizes what changes were made and why`;
+
+      // If user provided additional context, include it
+      if (cleanArgs) {
+        instruction += `
+
+Additional context for the PR: ${cleanArgs}`;
+      }
+
+      instruction += `
+
+After creating the PR, the GitHub Actions monitor will automatically track the CI status.`;
+
+      // Send as a user message to trigger the LLM
+      pi.sendUserMessage(instruction);
+    },
+  });
 }
 
 async function initMonitor(ctx: ExtensionContext, pi: ExtensionAPI) {
