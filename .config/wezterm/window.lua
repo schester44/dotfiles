@@ -59,7 +59,7 @@ M.apply = function(config)
 		return elements
 	end)
 
-	wezterm.on("update-status", function(window, pane)
+	wezterm.on("update-status", function(window)
 		local active_key_table = window:active_key_table()
 		local key_map_name = active_key_maps[active_key_table]
 
@@ -67,58 +67,6 @@ M.apply = function(config)
 		local active_workspace = window:active_workspace()
 
 		local title = active_workspace == "default" and "" or "" .. " " .. active_workspace .. ""
-
-		-- Get git branch and status for the active pane's cwd
-		local git_branch = ""
-		local git_dirty = false
-		local git_added = 0
-		local git_modified = 0
-		local git_deleted = 0
-		local cwd_uri = pane:get_current_working_dir()
-		if cwd_uri then
-			local cwd = cwd_uri.file_path
-			if cwd then
-				local success, stdout = wezterm.run_child_process({
-					"git",
-					"-C",
-					cwd,
-					"rev-parse",
-					"--abbrev-ref",
-					"HEAD",
-				})
-				if success then
-					git_branch = stdout:gsub("%s+", "")
-
-					-- Check for uncommitted changes
-					local status_success, status_stdout = wezterm.run_child_process({
-						"git",
-						"-C",
-						cwd,
-						"status",
-						"--porcelain",
-					})
-					if status_success and status_stdout ~= "" then
-						git_dirty = true
-						-- Parse status to count added/modified/deleted
-						for line in status_stdout:gmatch("[^\r\n]+") do
-							local status_code = line:sub(1, 2)
-							if status_code:match("[?A]") then
-								git_added = git_added + 1
-							elseif status_code:match("D") then
-								git_deleted = git_deleted + 1
-							elseif status_code:match("[MRCU ]") and status_code ~= "  " then
-								git_modified = git_modified + 1
-							end
-						end
-					end
-				end
-			end
-		end
-
-		-- Sync git status to sketchybar via shell (fire and forget)
-		os.execute(
-			"/opt/homebrew/bin/sketchybar --trigger git_update BRANCH='" .. git_branch .. "' DIRTY=" .. (git_dirty and "true" or "false") .. " ADDED=" .. tostring(git_added) .. " MODIFIED=" .. tostring(git_modified) .. " DELETED=" .. tostring(git_deleted) .. " &"
-		)
 
 		window:set_left_status(wezterm.format({
 			{

@@ -1,0 +1,4 @@
+agent/sessions/
+agent/auth.json
+agent/git/
+.DS_Store

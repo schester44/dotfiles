@@ -2,6 +2,7 @@ local set = vim.keymap.set
 local k = require 'lib.keymaps'
 
 set('i', 'jj', '<Esc>')
+set('i', '<C-BS>', '<C-w>', { desc = 'Delete word backward' })
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
@@ -32,6 +33,11 @@ set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+
+set('n', 'gvd', function()
+  vim.cmd 'vsplit'
+  vim.lsp.buf.definition()
+end, { desc = 'VSplit Definition' })
 
 -- Preserve window layouts when closing a buffer
 vim.keymap.set('n', '<leader>bd', function()

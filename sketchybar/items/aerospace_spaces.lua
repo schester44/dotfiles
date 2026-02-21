@@ -134,7 +134,4 @@ sbar.exec("aerospace list-workspaces --all", function(output)
 			end)
 		end)
 	end
-
-	-- Load git item after spaces are created so it appears to the right of them
-	require("items.git")
 end)

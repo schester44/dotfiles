@@ -1,0 +1,11 @@
+{
+  "lastChangelogVersion": "0.51.6",
+  "hideThinkingBlock": false,
+  "defaultProvider": "anthropic",
+  "defaultModel": "claude-opus-4-5",
+  "defaultThinkingLevel": "off",
+  "theme": "my-theme",
+  "packages": [
+    "git:github.com/ferologics/pi-notify"
+  ]
+}

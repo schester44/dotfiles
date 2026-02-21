@@ -105,6 +105,22 @@ return {
       desc = 'Output',
     }
 
+    k.set_test_keymap {
+      keys = ']',
+      cmd = function()
+        n.jump.next { status = 'failed' }
+      end,
+      desc = 'Next Failed',
+    }
+
+    k.set_test_keymap {
+      keys = '[',
+      cmd = function()
+        n.jump.prev { status = 'failed' }
+      end,
+      desc = 'Prev Failed',
+    }
+
     ---@diagnostic disable-next-line: missing-fields
     n.setup {
       consumers = {
