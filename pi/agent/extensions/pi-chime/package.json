@@ -1,0 +1,20 @@
+{
+    "name": "pi-chime",
+    "version": "1.0.0",
+    "description": "Audio chime notification for Pi agent when ready for input",
+    "keywords": [
+        "pi-package",
+        "pi",
+        "pi-coding-agent",
+        "notifications",
+        "audio",
+        "chime"
+    ],
+    "author": "schester",
+    "license": "MIT",
+    "pi": {
+        "extensions": [
+            "index.ts"
+        ]
+    }
+}

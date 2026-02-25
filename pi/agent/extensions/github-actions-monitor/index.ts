@@ -52,27 +52,38 @@ let currentBranch: string | null = null;
 let lastCommit: string | null = null;
 let lastCwd: string | null = null;
 let lastActiveTime: number = Date.now(); // Track when we last saw active runs
+let monitoringEnabled = false; // Only start monitoring after /pr triggers it
+let currentCtx: ExtensionContext | null = null;
 
 const POLL_INTERVAL_MS = 15_000; // 15 seconds
 const LINGER_TIME_MS = 30_000; // Keep completed runs visible for 30s
 const IDLE_STOP_MS = 120_000; // Stop polling after 2 minutes of no active runs
 
 export default function githubActionsMonitorExtension(pi: ExtensionAPI) {
+  // Just track the context and current state, don't start monitoring
   pi.on("session_start", async (_event, ctx) => {
-    await initMonitor(ctx, pi);
+    currentCtx = ctx;
+    lastCwd = ctx.cwd;
+    currentBranch = await getCurrentBranch(ctx.cwd);
+    lastCommit = await getHeadCommit(ctx.cwd);
   });
 
   pi.on("session_switch", async (_event, ctx) => {
     stopPolling();
     trackedRuns.clear();
-    await initMonitor(ctx, pi);
+    monitoringEnabled = false;
+    currentCtx = ctx;
+    lastCwd = ctx.cwd;
+    currentBranch = await getCurrentBranch(ctx.cwd);
+    lastCommit = await getHeadCommit(ctx.cwd);
   });
 
   pi.on("session_shutdown", async () => {
     stopPolling();
+    monitoringEnabled = false;
   });
 
-  // Check on turn end - branch or commit might have changed (new push)
+  // Check on turn end - branch or commit might have changed (new push from /pr)
   pi.on("turn_end", async (_event, ctx) => {
     const newBranch = await getCurrentBranch(ctx.cwd);
     const newCommit = await getHeadCommit(ctx.cwd);
@@ -86,14 +97,20 @@ export default function githubActionsMonitorExtension(pi: ExtensionAPI) {
         trackedRuns.clear();
       }
 
-      // Restart polling on new commits
+      // Start monitoring when we detect a new commit on a feature branch
+      // This happens after /pr pushes
       if (commitChanged && newBranch && newBranch !== "main" && newBranch !== "master") {
+        if (!monitoringEnabled) {
+          monitoringEnabled = true;
+          await initMonitor(ctx, pi);
+        }
         lastActiveTime = Date.now();
         startPolling(ctx.cwd, pi);
+        await pollOnce(ctx.cwd, pi);
+        widgetTui?.requestRender();
       }
 
-      await pollOnce(ctx.cwd, pi);
-      widgetTui?.requestRender();
+      lastCommit = newCommit;
     }
   });
 
@@ -175,9 +192,6 @@ After creating the PR, the GitHub Actions monitor will automatically track the C
 }
 
 async function initMonitor(ctx: ExtensionContext, pi: ExtensionAPI) {
-  lastCwd = ctx.cwd;
-  currentBranch = await getCurrentBranch(ctx.cwd);
-
   if (!currentBranch || currentBranch === "main" || currentBranch === "master") {
     // Don't monitor on main/master
     if (ctx.hasUI) {
@@ -198,12 +212,6 @@ async function initMonitor(ctx: ExtensionContext, pi: ExtensionAPI) {
       };
     });
   }
-
-  // Initial poll
-  await pollOnce(ctx.cwd, pi);
-
-  // Start polling
-  startPolling(ctx.cwd, pi);
 }
 
 function startPolling(cwd: string, pi: ExtensionAPI) {
