@@ -5,7 +5,7 @@ local ui = require 'lib.ui'
 
 local statuscolumn = {}
 
-local theme_palette = require 'cobalt44.palette'
+local ok, theme_palette = pcall(require, 'graphite.palette'); if not ok then theme_palette = require 'cobalt44.palette' end
 
 local user_config = {
   colors = {

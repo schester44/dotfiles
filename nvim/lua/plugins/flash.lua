@@ -29,7 +29,7 @@ return {
       } },
     }
 
-    local palette = require 'cobalt44.palette'
+    local ok, palette = pcall(require, 'graphite.palette'); if not ok then palette = require 'cobalt44.palette' end
     vim.api.nvim_set_hl(0, 'FlashMatch', { bg = palette.blue, fg = palette.cobalt_bg_dark })
     vim.api.nvim_set_hl(0, 'FlashCurrent', { bg = palette.blue, fg = palette.cobalt_bg_dark })
     vim.api.nvim_set_hl(0, 'FlashLabel', { bg = palette.yellow, fg = palette.cobalt_bg_dark })

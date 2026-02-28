@@ -1,32 +1,32 @@
 local M = {}
 
 local palette = {
-	cobalt_bg = "#1C2E41",
-	cobalt_bg_dark = "#15232D",
-	cobalt_bg_light = "#2A3C51",
+	bg = "#121214",
+	bg_dark = "#101012",
+	bg_light = "#2a2a2e",
 	purple = "#967EFB",
-	light_yellow = "#FFC600",
-	light_grey = "#9E9E9E",
-	dim_blue_grey = "#506171",
-	white = "#ffffff",
+	yellow = "#d4b870",
+	gray_light = "#9E9E9E",
+	gray_muted = "#626262",
+	white = "#cccccc",
 	black = "#1C1C1C",
 	pink = "#FF628C",
-	blue = "#00AAFF",
-	green = "#7CDD7C",
-	muted_red = "#E57373",
-	greyish_blue = "#8fbfdc",
+	blue = "#8fbfdc",
+	green = "#1bfd9c",
+	red_muted = "#E57373",
+	blue_muted = "#668799",
 }
 
-local inactive_panel_background = "#192432"
+local inactive_panel_background = "#151517"
 
 local theme = {
-	background = palette.cobalt_bg,
-	background_dark = palette.cobalt_bg_dark,
-	background_light = palette.cobalt_bg_light,
-	foreground_muted = palette.dim_blue_grey,
-	foreground_inactive = palette.light_grey,
+	background = palette.bg,
+	background_dark = palette.bg_dark,
+	background_light = palette.bg_light,
+	foreground_muted = palette.gray_muted,
+	foreground_inactive = palette.gray_light,
 	foreground = palette.white,
-	foreground_highlight = palette.light_yellow,
+	foreground_highlight = palette.yellow,
 	alert = palette.pink,
 	cursor_highlight = palette.blue,
 	inactive_panel_background = inactive_panel_background,
@@ -42,24 +42,24 @@ function M.apply(config)
 	config.color_schemes = {
 		Cobalt44 = {
 			ansi = {
-				palette.cobalt_bg_dark,
-				palette.muted_red,
-				palette.green,
-				palette.light_yellow,
-				palette.blue,
-				palette.purple,
-				palette.greyish_blue,
-				palette.white,
+				palette.bg_dark,      -- 0: black
+				palette.red_muted,    -- 1: red
+				palette.green,        -- 2: green
+				palette.yellow,       -- 3: yellow
+				palette.blue,         -- 4: blue
+				palette.purple,       -- 5: purple
+				palette.blue_muted,   -- 6: cyan
+				palette.white,        -- 7: white
 			},
 			brights = {
-				palette.light_grey,
-				palette.muted_red,
-				palette.green,
-				palette.light_yellow,
-				palette.blue,
-				palette.purple,
-				palette.greyish_blue,
-				palette.black,
+				palette.gray_light,   -- 8: bright black (gray)
+				palette.red_muted,    -- 9: bright red
+				palette.green,        -- 10: bright green
+				palette.yellow,       -- 11: bright yellow
+				palette.blue,         -- 12: bright blue
+				palette.purple,       -- 13: bright purple
+				palette.blue_muted,   -- 14: bright cyan
+				palette.white,        -- 15: bright white
 			},
 		},
 	}
@@ -68,16 +68,16 @@ function M.apply(config)
 		background = theme.background,
 		foreground = theme.foreground,
 		cursor_fg = theme.background,
-		cursor_bg = palette.light_yellow,
-		selection_bg = theme.cursor_highlight,
-		selection_fg = theme.background,
+		cursor_bg = palette.yellow,
+		selection_bg = palette.bg_light,
+		selection_fg = theme.foreground,
 		split = theme.background_dark,
 		compose_cursor = palette.purple,
 		tab_bar = {
 			background = inactive_panel_background,
 			active_tab = {
 				fg_color = theme.foreground_highlight,
-				bg_color = inactive_panel_background,
+				bg_color = "#2a2a2e",
 			},
 			inactive_tab = {
 				fg_color = theme.foreground_inactive,

@@ -1,7 +1,11 @@
 local tools = require 'lib.tools'
 
 local get_theme = function()
-  local palette = require 'cobalt44.palette'
+  -- Try graphite first, fall back to cobalt44
+  local ok, palette = pcall(require, 'graphite.palette')
+  if not ok then
+    palette = require 'cobalt44.palette'
+  end
 
   local colors = {
     fg_bright = palette.lighter_grey,

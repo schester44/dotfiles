@@ -3,7 +3,7 @@ return {
   cond = not vim.g.vscode,
   opts = {
     cursor_color = '#AD8F17',
-    normal_bg = '#1C2E41',
+    normal_bg = '#1a1a1e',
     stiffness = 1,
     trailing_stiffness = 0.4,
     stiffness_insert_mode = 0.6,

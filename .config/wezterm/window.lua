@@ -6,6 +6,8 @@ M.apply = function(config)
 	local wezterm = require("wezterm")
 
 	config.window_decorations = "RESIZE"
+	config.window_background_opacity = 0.9
+	config.macos_window_background_blur = 20
 
 	config.window_padding = {
 		left = 30,

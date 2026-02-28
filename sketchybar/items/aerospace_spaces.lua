@@ -11,14 +11,16 @@ local log = function(x)
 	end
 end
 
+local highlight_color = colors.green
+
 local highlights = {
-	["1"] = colors.blue,
-	["2"] = colors.green,
-	["3"] = colors.yellow,
-	["4"] = colors.red,
-	["5"] = colors.light_blue,
-	["P"] = colors.orange,
-	["S"] = colors.purple,
+	["1"] = highlight_color,
+	["2"] = highlight_color,
+	["3"] = highlight_color,
+	["4"] = highlight_color,
+	["5"] = highlight_color,
+	["P"] = highlight_color,
+	["S"] = highlight_color,
 }
 
 -- -- Add app icons and hide if empty + unfocused

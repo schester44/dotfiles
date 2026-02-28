@@ -4,19 +4,20 @@
   "vars": {
     "cyan": "#80FcFF",
     "blue": "#00AAFF",
-    "green": "#70B950",
+    "green": "#8fbf9f",
     "red": "#E57373",
     "yellow": "#FFD86B",
     "gray": "#BCBCBC",
-    "dimGray": "#CCCCCC",
-    "darkGray": "#9E9E9E",
+    "dimGray": "#9E9E9E",
+    "darkGray": "#6e6e6e",
     "accent": "#8fbfdc",
-    "selectedBg": "#3a3a4a",
-    "userMsgBg": "#192432",
-    "toolPendingBg": "#282832",
-    "toolSuccessBg": "#1D3940",
-    "toolErrorBg": "#3c2828",
-    "customMsgBg": "#2d2838"
+    "baseBg": "#1a1a1e",
+    "selectedBg": "#2a2a2e",
+    "userMsgBg": "#1a1a1e",
+    "toolPendingBg": "#252528",
+    "toolSuccessBg": "#1a2420",
+    "toolErrorBg": "#282224",
+    "customMsgBg": "#252528"
   },
   "colors": {
     "accent": "accent",
@@ -72,8 +73,8 @@
     "bashMode": "green"
   },
   "export": {
-    "pageBg": "#18181e",
-    "cardBg": "#1e1e24",
-    "infoBg": "#3c3728"
+    "pageBg": "#1a1a1e",
+    "cardBg": "#222226",
+    "infoBg": "#2a2a2e"
   }
 }

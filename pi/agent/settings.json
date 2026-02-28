@@ -6,6 +6,7 @@
   "defaultThinkingLevel": "off",
   "theme": "my-theme",
   "packages": [
-    "npm:pi-mesh"
+    "npm:pi-mesh",
+    "npm:pi-subagents"
   ]
 }
