@@ -48,8 +48,8 @@ Color.new('yellow_bg', M.adjust_transparency(palette.yellow, palette.bg, 0.1))
 Color.new('blue_bg', M.adjust_transparency(palette.blue, palette.bg, 0.1))
 Color.new('purple_bg', M.adjust_transparency(palette.purple, palette.bg, 0.1))
 Color.new('pink_bg', M.adjust_transparency(palette.pink, palette.bg, 0.1))
-Color.new('light_red_bg', M.adjust_transparency(palette.red_light, palette.bg, 0.15))
-Color.new('light_blue_bg', M.adjust_transparency(palette.blue_light, palette.bg, 0.1))
+Color.new('red_light_bg', M.adjust_transparency(palette.red_light, palette.bg, 0.15))
+Color.new('blue_light_bg', M.adjust_transparency(palette.blue_light, palette.bg, 0.1))
 
 --------------------------------------------------------------------------------
 -- Load highlights

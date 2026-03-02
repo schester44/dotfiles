@@ -1,3 +1,7 @@
+# Dotfiles
+
+![Neovim Screenshot](images/nvim-screenshot.png)
+
 # Getting Started
 
 ### Install Xcode developer tools

@@ -1,32 +1,99 @@
--- Graphite theme colors for sketchybar
+-- Grapelean theme colors for sketchybar
+-- Loads from ~/.dotfiles/colors/grapelean.json (single source of truth)
 -- Format: 0xAARRGGBB (AA = alpha)
 
+local json_path = os.getenv("HOME") .. "/.dotfiles/colors/grapelean.json"
+
+local function load_json(path)
+	local file = io.open(path, "r")
+	if not file then
+		error("Could not open palette file: " .. path)
+	end
+	local content = file:read("*a")
+	file:close()
+
+	-- Simple JSON parsing using Lua patterns (sketchybar uses plain Lua)
+	-- This handles the nested structure we need
+	local function parse_string(s)
+		return s:match('"([^"]*)"')
+	end
+
+	local result = {}
+
+	-- Extract palette section
+	local palette_section = content:match('"palette"%s*:%s*(%b{})')
+	if palette_section then
+		result.palette = {}
+
+		-- Extract nested objects (bg, gray, yellow, etc.)
+		for key, value in palette_section:gmatch('"([%w_]+)"%s*:%s*(%b{})') do
+			result.palette[key] = {}
+			for subkey, subval in value:gmatch('"([%w_]+)"%s*:%s*"([^"]*)"') do
+				result.palette[key][subkey] = subval
+			end
+		end
+
+		-- Extract simple string values (black, white)
+		for key, value in palette_section:gmatch('"([%w_]+)"%s*:%s*"([^"]*)"') do
+			if not result.palette[key] then
+				result.palette[key] = value
+			end
+		end
+	end
+
+	-- Extract terminal section
+	local terminal_section = content:match('"terminal"%s*:%s*(%b{})')
+	if terminal_section then
+		result.terminal = {}
+		for key, value in terminal_section:gmatch('"([%w_]+)"%s*:%s*"([^"]*)"') do
+			result.terminal[key] = value
+		end
+	end
+
+	return result
+end
+
+-- Convert hex "#RRGGBB" to sketchybar format 0xAARRGGBB
+local function hex_to_argb(hex, alpha)
+	alpha = alpha or 0xff
+	local r, g, b = hex:match("#(%x%x)(%x%x)(%x%x)")
+	if r and g and b then
+		return alpha * 0x1000000 + tonumber(r, 16) * 0x10000 + tonumber(g, 16) * 0x100 + tonumber(b, 16)
+	end
+	return 0xff000000 -- fallback to black
+end
+
+local theme = load_json(json_path)
+local p = theme.palette
+local t = theme.terminal
+
+-- Build palette in sketchybar format
 local palette = {
 	-- backgrounds
-	bg = 0xff1a1a1e,
-	bg_dark = 0xff101012,
-	bg_light = 0xff2a2a2e,
-	bg_muted = 0xff222226,
+	bg = hex_to_argb(p.bg.base),
+	bg_dark = hex_to_argb(p.bg.dark),
+	bg_light = hex_to_argb(p.bg.light),
+	bg_muted = hex_to_argb(p.bg.muted),
 
 	-- grays
-	black = 0xff1C1C1C,
-	white = 0xffFFFFFF,
-	gray = 0xff808080,
-	gray_dark = 0xff444444,
-	gray_light = 0xff9E9E9E,
-	gray_muted = 0xff626262,
+	black = hex_to_argb(p.black),
+	white = hex_to_argb(p.white),
+	gray = hex_to_argb(p.gray.base),
+	gray_dark = hex_to_argb(p.gray.dark),
+	gray_light = hex_to_argb(p.gray.light),
+	gray_muted = hex_to_argb(p.gray.muted),
 
 	-- colors
-	yellow = 0xffd4b870,
-	yellow_light = 0xffe0cfa0,
-	green = 0xff5fcf9f,
-	green_glow = 0xff1bfd9c,
-	blue = 0xff8fbfdc,
-	blue_light = 0xff80FCFF,
-	purple = 0xff967EFB,
-	red = 0xffFF6B6B,
-	red_muted = 0xffE57373,
-	pink = 0xffFF628C,
+	yellow = hex_to_argb(p.yellow.base),
+	yellow_light = hex_to_argb(p.yellow.light),
+	green = hex_to_argb(p.green.base),
+	green_glow = hex_to_argb(p.green.glow),
+	blue = hex_to_argb(p.blue.base),
+	blue_light = hex_to_argb(p.blue.light),
+	purple = hex_to_argb(p.purple.base),
+	red = hex_to_argb(p.red.base),
+	red_muted = hex_to_argb(p.red.muted),
+	pink = hex_to_argb(p.pink.base),
 }
 
 return {
@@ -42,8 +109,8 @@ return {
 	transparent = 0x00000000,
 
 	bar = {
-		bg = 0xD0101012,
-		border = 0xff2a2a2e,
+		bg = hex_to_argb(p.bg.dark, 0xD0), -- with transparency
+		border = palette.bg_light,
 	},
 	popup = {
 		bg = palette.bg_dark,

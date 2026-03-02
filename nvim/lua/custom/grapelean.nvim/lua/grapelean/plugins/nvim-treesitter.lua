@@ -7,10 +7,10 @@ local Group = require('grapelean.utils').Group
 --------------------------------------------------------------------------------
 --  NOTE: misc {{{
 --------------------------------------------------------------------------------
-Group.new('@annotation', colors.grey, nil, styles.italic)
-Group.new('@error', colors.muted_red, nil, nil)
-Group.new('@operator', colors.dark_grey, nil, nil)
-Group.new('@structure', colors.grey, nil, styles.italic)
+Group.new('@annotation', colors.gray, nil, styles.italic)
+Group.new('@error', colors.red_muted, nil, nil)
+Group.new('@operator', colors.gray_muted, nil, nil)
+Group.new('@structure', colors.gray, nil, styles.italic)
 -- }}}
 --------------------------------------------------------------------------------
 
@@ -54,7 +54,7 @@ Group.new('@parameter.reference', colors.white, nil, nil)
 Group.new('@keyword', colors.keyword, nil, nil)
 Group.new('@keyword.import', colors.keyword, nil, nil)
 Group.new('@keyword.function', colors.keyword, nil, nil)
-Group.new('@keyword.operator', colors.grey, nil, nil)
+Group.new('@keyword.operator', colors.gray, nil, nil)
 Group.new('@keyword.return', colors.pink, nil, nil)
 Group.new('@keyword.coroutine', colors.pink, nil, nil)
 Group.new('@keyword.exception', colors.keyword, nil, nil)
@@ -62,8 +62,8 @@ Group.new('@keyword.conditional', colors.keyword, nil, nil)
 
 Group.new('@conditional', colors.keyword, nil, nil)
 Group.new('@repeat', colors.keyword, nil, nil)
-Group.new('@debug', colors.grey, nil, nil)
-Group.new('@label', colors.grey, nil, nil)
+Group.new('@debug', colors.gray, nil, nil)
+Group.new('@label', colors.gray, nil, nil)
 Group.new('@include', colors.keyword, nil, nil)
 Group.new('@exception', colors.keyword, nil, nil)
 
@@ -80,7 +80,7 @@ Group.new('@lsp.type.class', colors.blue, nil, nil)
 Group.new('@type', colors.blue, nil, nil)
 Group.new('@type.builtin', colors.blue, nil, nil)
 
-Group.new('@attribute', colors.grey, nil, styles.italic)
+Group.new('@attribute', colors.gray, nil, styles.italic)
 Group.new('@field', colors.white, nil, nil)
 Group.new('@property', colors.white, nil, nil)
 
@@ -94,7 +94,7 @@ Group.new('@variable', colors.white, nil, nil)
 Group.new('@variable.builtin', colors.white, nil, nil)
 
 Group.new('@constant', colors.white, nil, nil)
-Group.new('@constant.builtin', colors.light_yellow, nil, styles.italic)
+Group.new('@constant.builtin', colors.yellow_light, nil, styles.italic)
 Group.new('@constant.macro', colors.blue, nil, nil)
 
 Group.new('@namespace', colors.white, nil, nil)
@@ -106,9 +106,9 @@ Group.new('@module', colors.white, nil, nil)
 --------------------------------------------------------------------------------
 --  NOTE: punctuations {{{
 --------------------------------------------------------------------------------
-Group.new('@punctuation.bracket', colors.dark_grey, nil, nil)
-Group.new('@punctuation.delimiter', colors.dark_grey, nil, nil)
-Group.new('@punctuation.special', colors.dark_grey, nil, nil)
+Group.new('@punctuation.bracket', colors.gray_muted, nil, nil)
+Group.new('@punctuation.delimiter', colors.gray_muted, nil, nil)
+Group.new('@punctuation.special', colors.gray_muted, nil, nil)
 -- }}}
 --------------------------------------------------------------------------------
 
@@ -130,10 +130,10 @@ Group.new('@text.strong', colors.white, nil, styles.bold)
 Group.new('@text.strike', colors.white, nil, styles.strikethrough)
 Group.new('@text.emphasis', colors.white, nil, styles.italic)
 Group.new('@text.underline', colors.white, nil, styles.underline)
-Group.new('@text.uri', colors.light_blue, nil, styles.underline)
-Group.new('@text.todo', colors.dark_pink, nil, styles.bold)
+Group.new('@text.uri', colors.blue_light, nil, styles.underline)
+Group.new('@text.todo', colors.pink, nil, styles.bold)
 Group.new('@text.note', colors.green_muted, nil, styles.bold)
-Group.new('@text.warning', colors.light_yellow, nil, styles.bold)
+Group.new('@text.warning', colors.yellow_light, nil, styles.bold)
 Group.new('@text.danger', colors.red:light(), nil, styles.bold)
 Group.new('@text.underline', colors.white, nil, styles.underline)
 Group.new('@text.diff.add', colors.green, nil, nil)
@@ -144,9 +144,9 @@ Group.new('@punctuation.delimiter', colors.white, nil, nil)
 --------------------------------------------------------------------------------
 --  markdown
 --------------------------------------------------------------------------------
-Group.new('@text.title', colors.dark_pink, nil, styles.bold)
+Group.new('@text.title', colors.pink, nil, styles.bold)
 Group.new('@text.title.1', colors.yellow, nil, styles.bold)
-Group.new('@text.title.2', colors.dark_pink, nil, styles.bold)
+Group.new('@text.title.2', colors.pink, nil, styles.bold)
 Group.new('@text.literal', colors.green, nil, nil)
 Group.new('@text.reference', colors.blue, nil, nil)
 -- }}}
@@ -156,6 +156,6 @@ Group.new('@text.reference', colors.blue, nil, nil)
 --  treesitter-context
 --------------------------------------------------------------------------------
 Group.new('TreesitterContext', nil, colors.bg_muted, nil)
-Group.new('TreesitterContextLineNumber', colors.grey, colors.bg_muted, nil)
+Group.new('TreesitterContextLineNumber', colors.gray, colors.bg_muted, nil)
 Group.new('TreesitterContextSeparator', nil, colors.bg_muted, nil)
 Group.new('TreesitterContextBottom', nil, colors.bg_muted, nil)

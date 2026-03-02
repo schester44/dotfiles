@@ -1,20 +1,45 @@
+-- Grapelean theme for WezTerm
+-- Loads from ~/.dotfiles/colors/grapelean.json (single source of truth)
+
+local wezterm = require("wezterm")
 local M = {}
 
+local json_path = os.getenv("HOME") .. "/.dotfiles/colors/grapelean.json"
+
+-- Watch the JSON file for changes (triggers config reload)
+wezterm.add_to_config_reload_watch_list(json_path)
+
+local function load_json(path)
+	local file = io.open(path, "r")
+	if not file then
+		error("Could not open palette file: " .. path)
+	end
+	local content = file:read("*a")
+	file:close()
+
+	return wezterm.json_parse(content)
+end
+
+local theme_data = load_json(json_path)
+local p = theme_data.palette
+local t = theme_data.terminal
+local s = theme_data.semantic
+
 local palette = {
-	bg = "#121214",
-	bg_dark = "#101012",
-	bg_light = "#2a2a2e",
-	purple = "#967EFB",
-	yellow = "#d4b870",
-	gray_light = "#9E9E9E",
-	gray_muted = "#626262",
-	white = "#cccccc",
-	black = "#1C1C1C",
-	pink = "#FF628C",
-	blue = "#8fbfdc",
-	green = "#1bfd9c",
-	red_muted = "#E57373",
-	blue_muted = "#668799",
+	bg = p.bg.base,
+	bg_dark = p.bg.dark,
+	bg_light = p.bg.light,
+	purple = p.purple.base,
+	yellow = p.yellow.base,
+	gray_light = p.gray.light,
+	gray_muted = p.gray.muted,
+	white = p.white,
+	black = p.black,
+	pink = p.pink.base,
+	blue = p.blue.base,
+	green = p.green.glow,
+	red_muted = p.red.muted,
+	blue_muted = p.blue.muted,
 }
 
 local inactive_panel_background = "#151517"
@@ -37,29 +62,29 @@ M.theme = theme
 function M.apply(config)
 	local wezterm = require("wezterm")
 
-	config.color_scheme = "Cobalt44"
+	config.color_scheme = "Grapelean"
 
 	config.color_schemes = {
-		Cobalt44 = {
+		Grapelean = {
 			ansi = {
-				palette.bg_dark,      -- 0: black
-				palette.red_muted,    -- 1: red
-				palette.green,        -- 2: green
-				palette.yellow,       -- 3: yellow
-				palette.blue,         -- 4: blue
-				palette.purple,       -- 5: purple
-				palette.blue_muted,   -- 6: cyan
-				palette.white,        -- 7: white
+				t.black,   -- 0: black
+				t.red,     -- 1: red
+				t.green,   -- 2: green
+				t.yellow,  -- 3: yellow
+				t.blue,    -- 4: blue
+				t.purple,  -- 5: purple
+				t.cyan,    -- 6: cyan
+				t.white,   -- 7: white
 			},
 			brights = {
-				palette.gray_light,   -- 8: bright black (gray)
-				palette.red_muted,    -- 9: bright red
-				palette.green,        -- 10: bright green
-				palette.yellow,       -- 11: bright yellow
-				palette.blue,         -- 12: bright blue
-				palette.purple,       -- 13: bright purple
-				palette.blue_muted,   -- 14: bright cyan
-				palette.white,        -- 15: bright white
+				t.bright_black,   -- 8: bright black (gray)
+				t.bright_red,     -- 9: bright red
+				t.bright_green,   -- 10: bright green
+				t.bright_yellow,  -- 11: bright yellow
+				t.bright_blue,    -- 12: bright blue
+				t.bright_purple,  -- 13: bright purple
+				t.bright_cyan,    -- 14: bright cyan
+				t.bright_white,   -- 15: bright white
 			},
 		},
 	}
@@ -68,8 +93,8 @@ function M.apply(config)
 		background = theme.background,
 		foreground = theme.foreground,
 		cursor_fg = theme.background,
-		cursor_bg = palette.yellow,
-		selection_bg = palette.bg_light,
+		cursor_bg = s.cursor,
+		selection_bg = s.selection,
 		selection_fg = theme.foreground,
 		split = theme.background_dark,
 		compose_cursor = palette.purple,
@@ -77,7 +102,7 @@ function M.apply(config)
 			background = inactive_panel_background,
 			active_tab = {
 				fg_color = theme.foreground_highlight,
-				bg_color = "#2a2a2e",
+				bg_color = palette.bg_light,
 			},
 			inactive_tab = {
 				fg_color = theme.foreground_inactive,

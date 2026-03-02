@@ -1,0 +1,110 @@
+{
+  "name": "grapelean",
+  "description": "Gray base with pink, purple, and green accents",
+
+  "palette": {
+    "bg": {
+      "base": "#141416",
+      "dark": "#101012",
+      "light": "#2a2a2e",
+      "lighter": "#3e3e42",
+      "muted": "#1c1c20"
+    },
+
+    "gray": {
+      "base": "#808080",
+      "dark": "#444444",
+      "light": "#9E9E9E",
+      "muted": "#626262"
+    },
+
+    "black": "#0a0a0c",
+    "white": "#c0c0c0",
+
+    "yellow": {
+      "base": "#d4b870",
+      "dark": "#b89840",
+      "light": "#e0cfa0",
+      "muted": "#d4a055"
+    },
+
+    "green": {
+      "base": "#5fcf9f",
+      "dark": "#3a9a7a",
+      "light": "#7fe8b8",
+      "muted": "#4db88a",
+      "glow": "#1bfd9c"
+    },
+
+    "blue": {
+      "base": "#8fbfdc",
+      "dark": "#345FA8",
+      "light": "#80FCFF",
+      "muted": "#668799"
+    },
+
+    "purple": {
+      "base": "#967EFB",
+      "dark": "#6a5acd",
+      "light": "#b8a8e8",
+      "muted": "#7d70ba"
+    },
+
+    "red": {
+      "base": "#FF6B6B",
+      "dark": "#902020",
+      "light": "#ffa0a0",
+      "muted": "#E57373"
+    },
+
+    "pink": {
+      "base": "#FF628C",
+      "dark": "#c44a6c",
+      "light": "#FF68B8",
+      "muted": "#d87090"
+    }
+  },
+
+  "semantic": {
+    "background": "#141416",
+    "foreground": "#c0c0c0",
+    "cursor": "#d4b870",
+    "cursor_line": "#222226",
+    "selection": "#2a2a2e",
+
+    "keyword": "#888890",
+    "string": "#5fcf9f",
+    "function": "#d4b870",
+    "type": "#8fbfdc",
+    "constant": "#967EFB",
+    "comment": "#626262",
+    "error": "#FF6B6B",
+    "warning": "#d4a055",
+    "info": "#8fbfdc",
+    "hint": "#5fcf9f",
+
+    "added": "#5fcf9f",
+    "modified": "#d4b870",
+    "removed": "#FF6B6B"
+  },
+
+  "terminal": {
+    "black": "#101012",
+    "red": "#E57373",
+    "green": "#1bfd9c",
+    "yellow": "#d4b870",
+    "blue": "#8fbfdc",
+    "purple": "#967EFB",
+    "cyan": "#668799",
+    "white": "#c0c0c0",
+
+    "bright_black": "#9E9E9E",
+    "bright_red": "#E57373",
+    "bright_green": "#1bfd9c",
+    "bright_yellow": "#d4b870",
+    "bright_blue": "#8fbfdc",
+    "bright_purple": "#967EFB",
+    "bright_cyan": "#668799",
+    "bright_white": "#c0c0c0"
+  }
+}
