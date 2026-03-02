@@ -1,8 +1,8 @@
 local tools = require 'lib.tools'
 
 local get_theme = function()
-  -- Try graphite first, fall back to cobalt44
-  local ok, palette = pcall(require, 'graphite.palette')
+  -- Try grapelean first, fall back to cobalt44
+  local ok, palette = pcall(require, 'grapelean.palette')
   if not ok then
     palette = require 'cobalt44.palette'
   end

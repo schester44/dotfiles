@@ -1,7 +1,7 @@
 local plugins = require 'lib/plugins'
 
--- Change this to switch themes: 'cobalt44' or 'graphite'
-local active_theme = 'graphite'
+-- Change this to switch themes: 'cobalt44' or 'grapelean'
+local active_theme = 'grapelean'
 
 return {
   {
@@ -14,12 +14,12 @@ return {
     end,
   },
   {
-    dir = plugins.custom_path 'graphite.nvim',
-    cond = not vim.g.vscode and active_theme == 'graphite',
+    dir = plugins.custom_path 'grapelean.nvim',
+    cond = not vim.g.vscode and active_theme == 'grapelean',
     dependencies = { 'tjdevries/colorbuddy.nvim', tag = 'v1.0.0' },
     priority = 1000,
     init = function()
-      require('colorbuddy').colorscheme 'graphite'
+      require('colorbuddy').colorscheme 'grapelean'
     end,
   },
 }
