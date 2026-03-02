@@ -44,35 +44,23 @@ cd ~/.dotfiles
 
 ### Symlink Configs
 
-Most configs expect to be symlinked to their standard locations:
-
 ```bash
-# Neovim
+# Create config directories
+mkdir -p ~/.config/lazygit
+
+# Symlink everything
 ln -s ~/.dotfiles/nvim ~/.config/nvim
-
-# WezTerm
 ln -s ~/.dotfiles/wezterm ~/.config/wezterm
-
-# Aerospace
 ln -s ~/.dotfiles/aerospace ~/.config/aerospace
-
-# Sketchybar
 ln -s ~/.dotfiles/sketchybar ~/.config/sketchybar
-
-# Lazygit
 ln -s ~/.dotfiles/lazygit/config.yml ~/.config/lazygit/config.yml
-
-# Zsh
-ln -s ~/.dotfiles/zsh/zshrc.symlink ~/.zshrc
 ```
 
 ### Zsh Setup
 
 ```bash
-# Install oh-my-zsh
+# Install oh-my-zsh, then symlink .zshrc
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-# Symlink .zshrc (after oh-my-zsh install)
 ln -s ~/.dotfiles/zsh/zshrc.symlink ~/.zshrc
 ```
 
