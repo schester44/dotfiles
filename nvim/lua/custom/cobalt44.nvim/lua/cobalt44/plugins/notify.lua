@@ -2,7 +2,7 @@ local colors = require('cobalt44.utils').colors
 local Group = require('cobalt44.utils').Group
 
 Group.new('NotifyDEBUGBorder', colors.dark_pink, nil, nil)
-Group.new('NotifyBackground', nil, colors.cobalt_bg, nil)
+Group.new('NotifyBackground', nil, colors.bg, nil)
 Group.new('NotifyDEBUGIcon', colors.dark_pink, nil, nil)
 Group.new('NotifyDEBUGTitle', colors.dark_pink, nil, nil)
 Group.new('NotifyERRORBorder', colors.red:light(), nil, nil)

@@ -1,109 +1,91 @@
--- ╭──────────────────────────────────────────────────────────╮
--- │          Copyright (c) 2022-present Lalit Kumar          │
--- │                       License: MIT                       │
--- ╰──────────────────────────────────────────────────────────╯
---
+-- Cobalt44 color palette
+-- Loads from ~/.dotfiles/colors/cobalt44.json (single source of truth)
 
+local json_path = vim.fn.expand '~/.dotfiles/colors/cobalt44.json'
+
+local function load_json(path)
+  local file = io.open(path, 'r')
+  if not file then
+    error('Could not open palette file: ' .. path)
+  end
+  local content = file:read '*a'
+  file:close()
+  return vim.json.decode(content)
+end
+
+local theme = load_json(json_path)
+local p = theme.palette
+local s = theme.semantic
+
+-- Flatten palette into the format expected by the theme
+-- Maps JSON structure to legacy color names used throughout the theme
 local colors = {
-  cobalt_bg = '#1C2E41',
-  cobalt_bg_dark = '#192432',
-  cobalt_bg_light = '#2A3C51',
-  cobalt_bg_lighter = '#3E4F62',
-  dim_blue = '#506171',
-  --------------------------------------------------------------------------------
-  --  NOTE: black, white and grey {{{
-  --------------------------------------------------------------------------------
-  black = '#1C1C1C',
-  darkest_grey = '#3A3A3A',
-  darker_grey = '#444444',
-  dark_grey = '#626262',
-  grey = '#808080',
-  light_grey = '#9E9E9E',
-  lighter_grey = '#BCBCBC',
-  lightest_grey = '#CCCCCC',
-  white = '#FFFFFF',
-  -- }}}
-  --------------------------------------------------------------------------------
+  -- backgrounds
+  bg = p.bg.base,
+  bg_dark = p.bg.dark,
+  bg_light = p.bg.light,
+  bg_lighter = p.bg.lighter,
+  dim_blue = p.bg.muted,
 
-  --------------------------------------------------------------------------------
-  --  NOTE: yellow and orange {{{
-  --------------------------------------------------------------------------------
-  dark_orange = '#FF9A00',
-  light_orange = '#FF9D00',
-  yellow = '#FFC600',
-  light_yellow = '#FFEE80',
-  tainted_yellow = '#454A33',
-  -- }}}
-  --------------------------------------------------------------------------------
+  -- grays
+  darkest_grey = p.gray.darkest,
+  darker_grey = p.gray.darker,
+  dark_grey = p.gray.dark,
+  grey = p.gray.base,
+  light_grey = p.gray.base,
+  lighter_grey = p.gray.lighter,
+  lightest_grey = p.gray.lightest,
 
-  --------------------------------------------------------------------------------
-  --  NOTE: green {{{
-  --------------------------------------------------------------------------------
-  darkest_green = '#2B5F5A',
-  dirty_green = '#70b950',
-  green = '#3AD900',
-  light_green = '#88FF88',
-  lighter_green = '#9EFF80',
-  light_blue_green = '#80FFBB',
-  lightest_green = '#BBFFDD',
-  -- }}}
-  --------------------------------------------------------------------------------
+  -- black/white
+  black = p.black,
+  white = p.white,
 
-  --------------------------------------------------------------------------------
-  --  NOTE: purple {{{
-  --------------------------------------------------------------------------------
-  dark_purple = '#345FA8',
-  purple = '#967EFB',
-  light_purple = '#DEEBFE',
-  -- }}}
-  --------------------------------------------------------------------------------
+  -- orange
+  orange = p.orange.base,
+  dark_orange = p.orange.dark,
+  light_orange = p.orange.light,
 
-  --------------------------------------------------------------------------------
-  --  NOTE: blue {{{
-  --------------------------------------------------------------------------------
-  darkest_blue = '#0000df',
-  darker_blue = '#0050A4',
-  dark_blue = '#0088FF',
-  blue = '#00AAFF',
-  light_blue = '#80FCFF',
-  greyish_blue = '#8fbfdc',
-  dirty_blue = '#668799',
-  -- }}}
-  --------------------------------------------------------------------------------
+  -- yellow
+  yellow = p.yellow.base,
+  light_yellow = p.yellow.light,
+  tainted_yellow = p.yellow.muted,
 
-  --------------------------------------------------------------------------------
-  --  NOTE: red {{{
-  --------------------------------------------------------------------------------
-  aubergine = '#4F0037',
-  darker_red = '#700009',
-  dark_red = '#902020',
-  red = '#FF0000',
-  light_red = '#D94A4A',
-  muted_red = '#E57373',
-  -- }}}
-  --------------------------------------------------------------------------------
+  -- green
+  green = p.green.base,
+  darkest_green = p.green.dark,
+  light_green = p.green.light,
+  lighter_green = p.green.lighter,
+  lightest_green = p.green.lightest,
 
-  --------------------------------------------------------------------------------
-  --  NOTE: pink {{{
-  --------------------------------------------------------------------------------
-  dark_pink = '#FF628C',
-  pink = '#FF00FF',
-  light_pink = '#FF68B8',
-  lightest_pink = '#FFA5F3',
-  pale_pink = '#F0A0C0',
-  dirty_pink = '#EB939A',
-  -- }}}i
-  --------------------------------------------------------------------------------
+  -- blue
+  blue = p.blue.base,
+  dark_blue = p.blue.dark,
+  darker_blue = p.blue.darker,
+  light_blue = p.blue.light,
+  dirty_blue = p.blue.muted,
 
-  --------------------------------------------------------------------------------
-  --  NOTE: cursor {{{
-  --------------------------------------------------------------------------------
-  cursor_line = '#172637',
-  cursor_hover = '#185294',
-  -- }}}
-  --------------------------------------------------------------------------------
+  -- purple
+  purple = p.purple.base,
+  dark_purple = p.purple.dark,
+  light_purple = p.purple.light,
+
+  -- red
+  red = p.red.base,
+  dark_red = p.red.dark,
+  darker_red = p.red.darker,
+  light_red = p.red.light,
+  muted_red = p.red.muted,
+
+  -- pink
+  pink = p.pink.base,
+  dark_pink = p.pink.dark,
+  light_pink = p.pink.light,
+  lightest_pink = p.pink.lightest,
+  pale_pink = p.pink.pale,
+
+  -- cursor (semantic)
+  cursor_line = s.cursor_line,
+  cursor_hover = s.selection,
 }
 
 return colors
-
--- vim:fdm=marker

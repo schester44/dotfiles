@@ -40,6 +40,11 @@ local colors = {
   -- keywords (semantic)
   keyword = s.keyword,
 
+  -- orange
+  orange = p.orange.base,
+  orange_dark = p.orange.dark,
+  orange_light = p.orange.light,
+
   -- yellow (functions, important)
   yellow = p.yellow.base,
   yellow_dark = p.yellow.dark,

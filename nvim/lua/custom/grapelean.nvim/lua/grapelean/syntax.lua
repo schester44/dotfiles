@@ -2,7 +2,7 @@ local colors = require('grapelean.utils').colors
 local styles = require('grapelean.utils').styles
 local Group = require('grapelean.utils').Group
 
-Group.new('Type', colors.blue, nil, nil)
+Group.new('Type', colors.purple, nil, nil)
 Group.new('StorageClass', colors.keyword, nil, nil)
 Group.new('Structure', colors.keyword, nil, nil)
 
@@ -26,7 +26,7 @@ Group.new('PreProc', colors.keyword, nil, nil)
 Group.new('Include', colors.keyword, nil, nil)
 Group.new('Define', colors.keyword, nil, nil)
 Group.new('Macro', colors.blue, nil, nil)
-Group.new('Typedef', colors.blue, nil, nil)
+Group.new('Typedef', colors.purple, nil, nil)
 Group.new('PreCondit', colors.keyword, nil, nil)
 Group.new('Repeat', colors.keyword, nil, nil)
 Group.new('String', colors.green, nil, nil)

@@ -56,7 +56,7 @@ Group.new('@keyword.import', colors.keyword, nil, nil)
 Group.new('@keyword.function', colors.keyword, nil, nil)
 Group.new('@keyword.operator', colors.gray, nil, nil)
 Group.new('@keyword.return', colors.pink, nil, nil)
-Group.new('@keyword.coroutine', colors.pink, nil, nil)
+Group.new('@keyword.coroutine', colors.keyword, nil, nil)
 Group.new('@keyword.exception', colors.keyword, nil, nil)
 Group.new('@keyword.conditional', colors.keyword, nil, nil)
 
@@ -67,9 +67,9 @@ Group.new('@label', colors.gray, nil, nil)
 Group.new('@include', colors.keyword, nil, nil)
 Group.new('@exception', colors.keyword, nil, nil)
 
-Group.new('@lsp.type.type', colors.blue, nil, nil)
-Group.new('@lsp.type.enum', colors.blue, nil, nil)
-Group.new('@lsp.type.class', colors.blue, nil, nil)
+Group.new('@lsp.type.type', colors.purple, nil, nil)
+Group.new('@lsp.type.enum', colors.purple, nil, nil)
+Group.new('@lsp.type.class', colors.purple, nil, nil)
 
 -- }}}
 --------------------------------------------------------------------------------
@@ -77,8 +77,8 @@ Group.new('@lsp.type.class', colors.blue, nil, nil)
 --------------------------------------------------------------------------------
 --  NOTE: types {{{
 --------------------------------------------------------------------------------
-Group.new('@type', colors.blue, nil, nil)
-Group.new('@type.builtin', colors.blue, nil, nil)
+Group.new('@type', colors.white, nil, nil)
+Group.new('@type.builtin', colors.green, nil, nil)
 
 Group.new('@attribute', colors.gray, nil, styles.italic)
 Group.new('@field', colors.white, nil, nil)
@@ -94,7 +94,7 @@ Group.new('@variable', colors.white, nil, nil)
 Group.new('@variable.builtin', colors.white, nil, nil)
 
 Group.new('@constant', colors.white, nil, nil)
-Group.new('@constant.builtin', colors.yellow_light, nil, styles.italic)
+Group.new('@constant.builtin', colors.pink, nil, styles.italic)
 Group.new('@constant.macro', colors.blue, nil, nil)
 
 Group.new('@namespace', colors.white, nil, nil)
@@ -106,7 +106,7 @@ Group.new('@module', colors.white, nil, nil)
 --------------------------------------------------------------------------------
 --  NOTE: punctuations {{{
 --------------------------------------------------------------------------------
-Group.new('@punctuation.bracket', colors.gray_muted, nil, nil)
+Group.new('@punctuation.bracket', colors.white, nil, nil)
 Group.new('@punctuation.delimiter', colors.gray_muted, nil, nil)
 Group.new('@punctuation.special', colors.gray_muted, nil, nil)
 -- }}}

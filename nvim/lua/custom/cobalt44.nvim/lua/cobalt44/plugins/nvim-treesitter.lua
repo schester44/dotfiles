@@ -68,7 +68,7 @@ Group.new('@exception', colors.red, nil, nil)
 
 Group.new('@lsp.type.type', colors.light_pink, nil, styles.italic)
 Group.new('@lsp.type.enum', colors.yellow, nil, nil)
-Group.new('@lsp.type.class', colors.light_blue_green, nil, nil)
+Group.new('@lsp.type.class', colors.lighter_green, nil, nil)
 
 -- }}}
 --------------------------------------------------------------------------------
@@ -77,7 +77,7 @@ Group.new('@lsp.type.class', colors.light_blue_green, nil, nil)
 --  NOTE: types {{{
 --------------------------------------------------------------------------------
 Group.new('@type', colors.white, nil, nil)
-Group.new('@type.builtin', colors.light_blue_green, nil, nil)
+Group.new('@type.builtin', colors.lighter_green, nil, nil)
 
 Group.new('@attribute', colors.yellow, nil, nil)
 Group.new('@field', colors.light_blue, nil, styles.italic)
@@ -131,7 +131,7 @@ Group.new('@text.emphasis', colors.white, nil, styles.italic)
 Group.new('@text.underline', colors.white, nil, styles.underline)
 Group.new('@text.uri', colors.light_blue, nil, styles.underline)
 Group.new('@text.todo', colors.dark_pink, nil, styles.bold)
-Group.new('@text.note', colors.dirty_green, nil, styles.bold)
+Group.new('@text.note', colors.green, nil, styles.bold)
 Group.new('@text.warning', colors.light_yellow, nil, styles.bold)
 Group.new('@text.danger', colors.red:light(), nil, styles.bold)
 Group.new('@text.underline', colors.white, nil, styles.underline)

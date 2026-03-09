@@ -45,12 +45,12 @@ local function link(group, target)
 end
 
 -- These control the appearance of code backgrounds when cursor is on a symbol.
-Group.new('LspReferenceRead', nil, colors.cobalt_bg_lighter, nil)
-Group.new('LspReferenceText', nil, colors.cobalt_bg, nil)
-Group.new('LspReferenceWrite', colors.light_yellow, colors.cobalt_bg_lighter, nil)
+Group.new('LspReferenceRead', nil, colors.bg_lighter, nil)
+Group.new('LspReferenceText', nil, colors.bg, nil)
+Group.new('LspReferenceWrite', colors.light_yellow, colors.bg_lighter, nil)
 
 -- normal
-Group.new('LspFloatWinNormal', colors.yellow, colors.cobalt_bg_dark, nil)
+Group.new('LspFloatWinNormal', colors.yellow, colors.bg_dark, nil)
 Group.new('LspSignatureActiveParameter', colors.light_blue, nil, nil)
 
 -- info window

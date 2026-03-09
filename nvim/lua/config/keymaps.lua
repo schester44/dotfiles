@@ -77,7 +77,32 @@ set('n', '[b', '<cmd>BuffyCyclePrev<CR>', { desc = 'Prev Buffer' })
 set('n', '[t', '<cmd>tabprevious<CR>', { desc = 'Previous Tab' })
 set('n', ']t', '<cmd>tabnext<CR>', { desc = 'Next Tab' })
 
+vim.keymap.set('v', '<leader>yl', function()
+  local filepath = vim.fn.expand '%'
+  local line = vim.fn.line '.'
+  local result = filepath .. ':' .. line
+  vim.fn.setreg('+', result)
+  vim.notify('Copied: ' .. result)
+end, { desc = '[Y]ank file path and [L]ine number' })
+
 set('n', '<leader>fcp', '<cmd>let @+=expand("%:p")<CR>', { desc = 'Copy file path to clipboard' })
+set('n', '<leader>fcl', function()
+  local path = vim.fn.expand '%:p'
+  local line = vim.fn.line '.'
+  vim.fn.setreg('+', path .. ':' .. line)
+  vim.notify('Copied: ' .. path .. ':' .. line)
+end, { desc = 'Copy file path with line number' })
+set('v', '<leader>fcl', function()
+  local path = vim.fn.expand '%:p'
+  local start_line = vim.fn.line 'v'
+  local end_line = vim.fn.line '.'
+  if start_line > end_line then
+    start_line, end_line = end_line, start_line
+  end
+  local result = path .. ':' .. start_line .. '-' .. end_line
+  vim.fn.setreg('+', result)
+  vim.notify('Copied: ' .. result)
+end, { desc = 'Copy file path with line range' })
 set('n', '<leader>fof', '<cmd>silent !open %:p:h<CR>', { desc = 'Open file in Finder' })
 
 -- append a comma to end of line

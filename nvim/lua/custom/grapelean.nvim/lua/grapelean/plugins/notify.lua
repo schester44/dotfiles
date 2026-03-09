@@ -2,8 +2,11 @@ local colors = require('grapelean.utils').colors
 local Group = require('grapelean.utils').Group
 
 Group.new('NotifyDEBUGBorder', colors.pink, nil, nil)
-Group.new('NotifyBackground', nil, colors.bg, nil)
 Group.new('NotifyDEBUGIcon', colors.pink, nil, nil)
+
+-- Set NotifyBackground with explicit hex value for transparency support
+-- nvim-notify requires this to have a real bg color even when Normal bg is NONE
+vim.api.nvim_set_hl(0, 'NotifyBackground', { bg = '#202024' })
 Group.new('NotifyDEBUGTitle', colors.pink, nil, nil)
 Group.new('NotifyERRORBorder', colors.red:light(), nil, nil)
 Group.new('NotifyERRORIcon', colors.red:light(), nil, nil)

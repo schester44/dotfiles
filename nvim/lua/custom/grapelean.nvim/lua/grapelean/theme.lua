@@ -80,7 +80,7 @@ Group.new('TabLineFill', colors.gray_light, nil, nil)
 Group.new('TabLineSel', colors.yellow_light, colors.bg_light, nil)
 
 Group.new('Title', colors.green_muted, nil, styles.bold)
-Group.new('VertSplit', colors.gray, nil, nil)
+Group.new('VertSplit', colors.gray_dark, nil, nil)
 Group.new('Visual', nil, colors.bg_lighter, nil)
 Group.new('VisualMode', colors.black, colors.pink_muted, nil)
 Group.new('VisualNOS', nil, colors.purple_dark, nil)
@@ -94,7 +94,7 @@ Group.new('healthSuccess', colors.green, nil, nil)
 Group.new('healthWarning', colors.yellow_light, nil, nil)
 Group.new('qfLineNr', colors.gray_light, colors.bg, nil)
 
-Group.new('WinSeparator', colors.bg_light, nil, nil)
+Group.new('WinSeparator', colors.gray_dark, nil, nil)
 
 -- Noice
 Group.new('NoiceCmdlinePopup', nil, colors.bg_dark, nil)
