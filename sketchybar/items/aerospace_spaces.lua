@@ -53,7 +53,7 @@ local function add_windows(space, space_name, is_focused)
 			drawing = should_draw,
 			label = {
 				background = {
-					color = icon_line == "" and colors.red or (is_focused and highlights[space_name] or colors.bg1),
+					color = icon_line == "" and colors.red or (is_focused and highlights[space_name] or 0x20ffffff),
 				},
 			},
 		})
@@ -67,7 +67,7 @@ sbar.exec("aerospace list-workspaces --all", function(output)
 		local space = sbar.add("item", "space." .. space_name, {
 			icon = {
 				string = space_name,
-				color = colors.bg2,
+				color = colors.white,
 				highlight_color = colors.white,
 				padding_left = 8,
 			},
@@ -83,7 +83,7 @@ sbar.exec("aerospace list-workspaces --all", function(output)
 				},
 			},
 			background = {
-				color = colors.bg1,
+				color = 0x00000000,
 			},
 			click_script = "aerospace workspace " .. space_name,
 			padding_left = is_first and 0 or 4,
@@ -103,7 +103,7 @@ sbar.exec("aerospace list-workspaces --all", function(output)
 				icon = { highlight = selected },
 				label = {
 					highlight = selected,
-					background = { color = selected and highlights[space_name] or colors.bg1 },
+					background = { color = selected and highlights[space_name] or 0x20ffffff },
 				},
 			})
 

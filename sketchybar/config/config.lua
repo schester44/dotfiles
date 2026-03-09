@@ -10,7 +10,7 @@ return {
 		bar = {
 			height = 30,
 			offset = 12,
-			x_padding = 12,
+			x_padding = 10,
 		},
 	},
 }

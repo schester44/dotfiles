@@ -12,12 +12,6 @@ local function load_json(path)
 	local content = file:read("*a")
 	file:close()
 
-	-- Simple JSON parsing using Lua patterns (sketchybar uses plain Lua)
-	-- This handles the nested structure we need
-	local function parse_string(s)
-		return s:match('"([^"]*)"')
-	end
-
 	local result = {}
 
 	-- Extract palette section
@@ -65,7 +59,6 @@ end
 
 local theme = load_json(json_path)
 local p = theme.palette
-local t = theme.terminal
 
 -- Build palette in sketchybar format
 local palette = {

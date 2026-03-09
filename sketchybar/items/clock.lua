@@ -15,11 +15,17 @@ clock:subscribe({ "forced", "routine", "system_woke" }, function()
 	clock:set({
 		label = {
 			string = day .. os.date("%m-%d|%H:%M"),
+			color = colors.white,
 			padding_left = 12,
 			padding_right = 12,
+			background = {
+				height = 20,
+				corner_radius = 6,
+				color = 0x20ffffff,
+			},
 		},
 		background = {
-			color = colors.bg1,
+			color = 0x00000000,
 		},
 	})
 end)
