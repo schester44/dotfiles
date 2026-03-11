@@ -1,28 +1,6 @@
 local colors = require("config.colors")
 local icons = require("config.icons")
 
-local log = function(x)
-	local log_file = io.open(os.getenv("HOME") .. "/.cache/sketchybar/app_log.txt", "a")
-
-	if log_file then
-		log_file:write(os.date("%Y-%m-%d %H:%M:%S") .. " - ", x, "\n")
-
-		log_file:close()
-	end
-end
-
-local highlight_color = colors.green
-
-local highlights = {
-	["1"] = highlight_color,
-	["2"] = highlight_color,
-	["3"] = highlight_color,
-	["4"] = highlight_color,
-	["5"] = highlight_color,
-	["P"] = highlight_color,
-	["S"] = highlight_color,
-}
-
 -- -- Add app icons and hide if empty + unfocused
 local function add_windows(space, space_name, is_focused)
 	sbar.exec("aerospace list-windows --format %{app-name} --workspace " .. space_name, function(windows)
@@ -51,42 +29,48 @@ local function add_windows(space, space_name, is_focused)
 
 		space:set({
 			drawing = should_draw,
-			label = {
-				background = {
-					color = icon_line == "" and colors.red or (is_focused and highlights[space_name] or 0x20ffffff),
-				},
-			},
 		})
 	end)
 end
 
+local space_names = {}
+
 sbar.exec("aerospace list-workspaces --all", function(output)
+	-- Collect all workspace names first
+	local workspaces = {}
 	for space_name in output:gmatch("[^\r\n]+") do
-		local is_first = space_name == "1"
+		table.insert(workspaces, space_name)
+	end
+
+	for i, space_name in ipairs(workspaces) do
+		table.insert(space_names, "space." .. space_name)
+		local is_first = i == 1
+		local is_last = i == #workspaces
 
 		local space = sbar.add("item", "space." .. space_name, {
 			icon = {
 				string = space_name,
 				color = colors.white,
 				highlight_color = colors.white,
-				padding_left = 8,
+				padding_left = 12,
+				padding_right = 0,
 			},
 			label = {
 				font = "sketchybar-app-font:Regular:14.0",
 				string = "",
-				color = colors.white,
-				highlight_color = colors.bg1,
+				color = 0xbbffffff,
+				highlight_color = colors.white,
 				y_offset = -1,
-				background = {
-					height = 20,
-					corner_radius = 6,
-				},
+				padding_right = is_last and 0 or 14,
 			},
 			background = {
 				color = 0x00000000,
+				corner_radius = 10,
+				height = 22,
 			},
 			click_script = "aerospace workspace " .. space_name,
-			padding_left = is_first and 0 or 4,
+			padding_left = is_first and 4 or 2,
+			padding_right = is_last and 4 or 2,
 			drawing = false, -- hide by default until checked
 			updates = true,
 		})
@@ -101,10 +85,8 @@ sbar.exec("aerospace list-workspaces --all", function(output)
 
 			space:set({
 				icon = { highlight = selected },
-				label = {
-					highlight = selected,
-					background = { color = selected and highlights[space_name] or 0x20ffffff },
-				},
+				label = { highlight = selected },
+				background = { color = selected and 0x60967EFB or 0x00000000 },
 			})
 
 			space:set({ drawing = selected or space:query().label.value ~= "—" })
@@ -136,4 +118,13 @@ sbar.exec("aerospace list-workspaces --all", function(output)
 			end)
 		end)
 	end
+
+	-- Add bracket around all spaces for pill-shaped container
+	sbar.add("bracket", "spaces_bracket", space_names, {
+		background = {
+			color = 0x20ffffff,
+			corner_radius = 12,
+			height = 28,
+		},
+	})
 end)

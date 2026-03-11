@@ -17,6 +17,9 @@ alias ytuf="yarn test:unfiltered:fast"
 alias prdb="prdb.sh"
 alias e="nvim"
 
+# GitHub
+alias ghd="gh dash --config ~/.dotfiles/gh-dash/config.yml"
+
 # Misc
 function kport {
   lsof -i :"$1" | awk 'NR > 1 {print $2}' | xargs kill -15

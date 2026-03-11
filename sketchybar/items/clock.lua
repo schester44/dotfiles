@@ -1,11 +1,19 @@
 local constants = require("constants")
 local colors = require("config.colors")
 
+-- Right spacer for container padding
+sbar.add("item", "right_container_spacer", {
+	position = "right",
+	width = 4,
+	background = { drawing = false },
+})
+
 local clock = sbar.add("item", constants.items.CLOCK, {
 	position = "right",
 	-- TODO, 1 what? only need to update every minute
 	update_freq = 1,
 	icon = { padding_left = 0, padding_right = 0 },
+	padding_left = 6,
 })
 
 clock:subscribe({ "forced", "routine", "system_woke" }, function()
@@ -16,13 +24,8 @@ clock:subscribe({ "forced", "routine", "system_woke" }, function()
 		label = {
 			string = day .. os.date("%m-%d|%H:%M"),
 			color = colors.white,
-			padding_left = 12,
-			padding_right = 12,
-			background = {
-				height = 20,
-				corner_radius = 6,
-				color = 0x20ffffff,
-			},
+			padding_left = 8,
+			padding_right = 8,
 		},
 		background = {
 			color = 0x00000000,

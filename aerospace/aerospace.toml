@@ -14,7 +14,7 @@ exec-on-workspace-change = [
     inner.vertical = 8
     outer.left = 8
     outer.bottom = 8
-    outer.top =  [{monitor.'^built-in retina display$' = 10 }, 36]
+    outer.top =  [{monitor.'^built-in retina display$' = 10 }, 40]
     outer.right = 8
 
 [mode.main.binding]

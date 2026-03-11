@@ -1,0 +1,111 @@
+prSections:
+  - title: My Pull Requests
+    filters: >-
+      is:open
+      author:@me
+      updated:>={{ nowModify "-2w" }}
+    limit: 50
+  - title: Needs My Review
+    filters: >-
+      is:open
+      review-requested:@me
+      updated:>={{ nowModify "-2w" }}
+    limit: 50
+  - title: Involved
+    filters: >-
+      is:open
+      involves:@me
+      -author:@me
+      updated:>={{ nowModify "-2w" }}
+    limit: 50
+repo:
+  branchesRefetchIntervalSeconds: 30
+  prsRefetchIntervalSeconds: 60
+defaults:
+  preview:
+    open: true
+    width: 50
+  prsLimit: 20
+  prApproveComment: LGTM
+  issuesLimit: 20
+  view: prs
+  layout:
+    prs:
+      updatedAt:
+        width: 5
+      createdAt:
+        width: 5
+      repo:
+        width: 20
+      author:
+        width: 15
+      authorIcon:
+        hidden: false
+      assignees:
+        width: 20
+        hidden: true
+      base:
+        width: 15
+        hidden: true
+      lines:
+        width: 15
+    issues:
+      updatedAt:
+        width: 5
+      createdAt:
+        width: 5
+      repo:
+        width: 15
+      creator:
+        width: 10
+      creatorIcon:
+        hidden: false
+      assignees:
+        width: 20
+        hidden: true
+  refetchIntervalMinutes: 30
+repoPaths:
+  ObieCRE/risk-management: ~/work/risk-management
+  ObieCRE/surefin: ~/work/surefin
+keybindings:
+  universal: []
+  issues: []
+  prs:
+    - key: C
+      name: "Edit Heroku Config"
+      command: >
+        heroku config:edit --app obie-rm-review-pr-{{.PrNumber}}
+    - key: d
+      name: "Review in Neovim"
+      command: cd {{.RepoPath}} && gh pr checkout {{.PrNumber}} && nvim -c "DiffviewOpen {{.BaseRefName}}...HEAD"
+    - key: D
+      builtin: diff
+    - key: T
+      command: gh enhance -R {{.RepoName}} {{.PrNumber}}
+  branches: []
+theme:
+  ui:
+    sectionsShowCount: true
+    table:
+      showSeparator: true
+      compact: false
+  colors:
+    text:
+      primary: "#FFFFFF"
+      secondary: "#9E9E9E"
+      inverted: "#202024"
+      faint: "#626262"
+      warning: "#FF6B6B"
+      success: "#6fbfa0"
+      actor: "#967EFB"
+    background:
+      selected: "#2e2e32"
+    border:
+      primary: "#808080"
+      secondary: "#626262"
+      faint: "#444444"
+pager:
+  diff: delta
+confirmQuit: false
+showAuthorIcons: true
+smartFilteringAtLaunch: true
