@@ -1,8 +1,8 @@
-local utils = require("grapelean.utils")
+local hl  = require('grapelean.utils').hl
+local pal = require 'grapelean.palette'
+local p   = pal.palette
 
-local Group, colors, styles = utils.Group, utils.colors, utils.styles
-
-Group.new("FlashBackdrop", colors.gray_light, colors.bg, styles.italic)
-Group.new("FlashMatch", colors.black, colors.yellow, nil)
-Group.new("FlashCurrent", colors.black, colors.yellow, nil)
-Group.new("FlashLabel", colors.white, colors.pink, nil)
+hl('FlashBackdrop', { fg = p.gray_light, bg = p.bg, italic = true })
+hl('FlashMatch',    { fg = p.black, bg = p.yellow })
+hl('FlashCurrent',  { fg = p.black, bg = p.yellow })
+hl('FlashLabel',    { fg = p.white, bg = p.pink })

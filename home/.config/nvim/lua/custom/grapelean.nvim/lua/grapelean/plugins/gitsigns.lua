@@ -1,20 +1,23 @@
-local colors = require('grapelean.utils').colors
-local Group = require('grapelean.utils').Group
+local hl     = require('grapelean.utils').hl
+local pal    = require 'grapelean.palette'
+local p      = pal.palette
+local s      = pal.semantic
+local darken = require('grapelean.color').darken
 
-Group.new('GitSignsAdd', colors.green, nil, nil)
-Group.new('GitSignsChange', colors.yellow, nil, nil)
-Group.new('GitSignsCurrentLineBlame', colors.gray_light:dark(), nil, nil)
-Group.new('GitSignsDelete', colors.red_muted, nil, nil)
-Group.new('GitSignsDeletePreview', colors.red_muted, nil, nil)
-Group.new('GitSignsDeleteVirtLn', colors.pink, nil, nil)
-Group.new('GitSignsAddPreview', colors.green, nil, nil)
-Group.new('GitSignsUntracked', colors.green, nil, nil)
-Group.new('GitSignsUntrackedLn', colors.green, nil, nil)
-Group.new('GitSignsUntrackedNr', colors.green, nil, nil)
-Group.new('GitSignsAddInline', colors.green, nil, nil)
-Group.new('GitSignsAddLnInline', colors.green, nil, nil)
-Group.new('GitSignsDeleteInline', colors.pink, nil, nil)
-Group.new('GitSignsDeleteLnInline', colors.pink, nil, nil)
-Group.new('GitSignsDeleteVirtLnInline', colors.pink, nil, nil)
-Group.new('GitSignsChangeInline', colors.yellow, nil, nil)
-Group.new('GitSignsChangeLnInline', colors.yellow, nil, nil)
+hl('GitSignsAdd',               { fg = s.added })
+hl('GitSignsChange',            { fg = s.modified })
+hl('GitSignsCurrentLineBlame',  { fg = darken(p.gray_light) })
+hl('GitSignsDelete',            { fg = s.removed })
+hl('GitSignsDeletePreview',     { fg = s.removed })
+hl('GitSignsDeleteVirtLn',      { fg = p.pink })
+hl('GitSignsAddPreview',        { fg = s.added })
+hl('GitSignsUntracked',         { fg = s.added })
+hl('GitSignsUntrackedLn',       { fg = s.added })
+hl('GitSignsUntrackedNr',       { fg = s.added })
+hl('GitSignsAddInline',         { fg = s.added })
+hl('GitSignsAddLnInline',       { fg = s.added })
+hl('GitSignsDeleteInline',      { fg = p.pink })
+hl('GitSignsDeleteLnInline',    { fg = p.pink })
+hl('GitSignsDeleteVirtLnInline',{ fg = p.pink })
+hl('GitSignsChangeInline',      { fg = s.modified })
+hl('GitSignsChangeLnInline',    { fg = s.modified })

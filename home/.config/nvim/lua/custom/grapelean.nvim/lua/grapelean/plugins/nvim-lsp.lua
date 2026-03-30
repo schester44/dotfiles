@@ -1,68 +1,66 @@
-local colors = require('grapelean.utils').colors
-local styles = require('grapelean.utils').styles
-local Group = require('grapelean.utils').Group
+local hl = require('grapelean.utils').hl
+local pal = require 'grapelean.palette'
+local p = pal.palette
+local s = pal.semantic
+local lighten = require('grapelean.color').lighten
 
 -- diagnostics
+hl('DiagnosticError', { fg = s.error })
+hl('DiagnosticHint', { fg = s.hint })
+hl('DiagnosticInfo', { fg = s.info })
+hl('DiagnosticWarn', { fg = s.warning })
+hl('DiagnosticUnnecessary', {})
 
-Group.new('DiagnosticError', colors.red_muted, nil, nil)
-Group.new('DiagnosticHint', colors.pink_light, nil, nil)
-Group.new('DiagnosticInfo', colors.blue_light, nil, nil)
-Group.new('DiagnosticWarn', colors.yellow_light, nil, nil)
-Group.new('DiagnosticUnnecessary', nil, nil, nil)
+hl('DiagnosticLineError', {})
+hl('DiagnosticLineHint', {})
+hl('DiagnosticLineInfo', {})
+hl('DiagnosticLineWarn', {})
 
-Group.new('DiagnosticLineError', nil, nil, nil)
-Group.new('DiagnosticLineHint', nil, nil, nil)
-Group.new('DiagnosticLineInfo', nil, nil, nil)
-Group.new('DiagnosticLineWarn', nil, nil, nil)
+hl('DiagnosticUnderlineError', { undercurl = true, sp = s.error })
+hl('DiagnosticUnderlineHint', { undercurl = true, sp = s.hint })
+hl('DiagnosticUnderlineInfo', { undercurl = true, sp = s.info })
+hl('DiagnosticUnderlineWarn', { undercurl = true, sp = s.warning })
 
-Group.new('DiagnosticUnderlineError', nil, nil, styles.undercurl, colors.red_muted)
-Group.new('DiagnosticUnderlineHint', nil, nil, styles.undercurl, colors.pink_light)
-Group.new('DiagnosticUnderlineInfo', nil, nil, styles.undercurl, colors.blue_light)
-Group.new('DiagnosticUnderlineWarn', nil, nil, styles.undercurl, colors.yellow_light)
+hl('LspDiagnosticsDefaultError', { fg = lighten(p.red) })
+hl('LspDiagnosticsDefaultHint', { fg = s.hint })
+hl('LspDiagnosticsDefaultInformation', { fg = p.blue })
+hl('LspDiagnosticsDefaultWarning', { fg = s.warning })
+hl('LspDiagnosticsError', { fg = lighten(p.red) })
+hl('LspDiagnosticsErrorUnderline', { fg = lighten(p.red), underline = true })
+hl('LspDiagnosticsHint', { fg = s.hint })
+hl('LspDiagnosticsHintUnderline', { fg = s.hint, underline = true })
+hl('LspDiagnosticsInformation', { fg = p.blue })
+hl('LspDiagnosticsInformationUnderline', { fg = p.blue, underline = true })
+hl('LspDiagnosticsVirtualTextError', { fg = lighten(p.red) })
+hl('LspDiagnosticsVirtualTextHint', { fg = s.hint })
+hl('LspDiagnosticsVirtualTextInformation', { fg = p.blue })
+hl('LspDiagnosticsVirtualTextWarning', { fg = s.warning })
+hl('LspDiagnosticsWarning', { fg = s.warning })
+hl('LspDiagnosticsWarningUnderline', { fg = s.warning, underline = true })
 
-Group.new('LspDiagnosticsDefaultError', colors.red:light(), nil, nil)
-Group.new('LspDiagnosticsDefaultHint', colors.pink_light, nil, nil)
-Group.new('LspDiagnosticsDefaultInformation', colors.blue, nil, nil)
-Group.new('LspDiagnosticsDefaultWarning', colors.yellow_light, nil, nil)
-Group.new('LspDiagnosticsError', colors.red:light(), nil, nil)
-Group.new('LspDiagnosticsErrorUnderline', colors.red:light(), nil, styles.underline)
-Group.new('LspDiagnosticsHint', colors.pink_light, nil, nil)
-Group.new('LspDiagnosticsHintUnderline', colors.pink_light, nil, styles.underline)
-Group.new('LspDiagnosticsInformation', colors.blue, nil, nil)
-Group.new('LspDiagnosticsInformationUnderline', colors.blue, nil, styles.underline)
-Group.new('LspDiagnosticsVirtualTextError', colors.red:light(), nil, nil)
-Group.new('LspDiagnosticsVirtualTextHint', colors.pink_light, nil, nil)
-Group.new('LspDiagnosticsVirtualTextInformation', colors.blue, nil, nil)
-Group.new('LspDiagnosticsVirtualTextWarning', colors.yellow_light, nil, nil)
-Group.new('LspDiagnosticsWarning', colors.yellow_light, nil, nil)
-Group.new('LspDiagnosticsWarningUnderline', colors.yellow_light, nil, styles.underline)
---
 -- codelens
-Group.new('LspCodeLens', colors.gray_muted, nil, nil)
-
-local function link(group, target)
-  vim.api.nvim_set_hl(0, group, { link = target, default = true })
-end
+hl('LspCodeLens', { fg = s.comment })
 
 -- These control the appearance of code backgrounds when cursor is on a symbol.
-Group.new('LspReferenceRead', nil, colors.bg_lighter, nil)
-Group.new('LspReferenceText', nil, colors.bg, nil)
-Group.new('LspReferenceWrite', colors.yellow_light, colors.bg_lighter, nil)
+-- NOTE: LspReferenceText uses p.bg_muted (not p.bg) for visibility.
+hl('LspReferenceRead', { bg = p.bg_lighter })
+hl('LspReferenceText', { bg = p.bg_muted })
+hl('LspReferenceWrite', { fg = s.warning, bg = p.bg_lighter })
 
 -- normal
-Group.new('LspFloatWinNormal', colors.yellow, colors.bg_dark, nil)
-Group.new('LspSignatureActiveParameter', colors.blue_light, nil, nil)
+hl('LspFloatWinNormal', { fg = p.yellow, bg = s.bg_float })
+hl('LspSignatureActiveParameter', { fg = s.info })
 
 -- info window
-Group.new('LspInfoBorder', colors.blue, nil, nil)
+hl('LspInfoBorder', { fg = p.blue })
 
 -- inlay hints
-Group.new('LspInlayHint', colors.keyword, nil, nil)
+hl('LspInlayHint', { fg = s.keyword })
 
 --------------------------------------------------------------------------------
 --  nvim-0.9 changes
 --------------------------------------------------------------------------------
-local links = {
+local lsp_links = {
   ['@lsp.type.namespace'] = '@namespace',
   ['@lsp.type.type'] = '@type',
   ['@lsp.type.class'] = '@type',
@@ -78,9 +76,6 @@ local links = {
   ['@lsp.type.macro'] = '@macro',
   ['@lsp.type.decorator'] = '@function',
 }
-for newgroup, oldgroup in pairs(links) do
-  vim.api.nvim_set_hl(0, newgroup, {
-    link = oldgroup,
-    default = true,
-  })
+for newgroup, oldgroup in pairs(lsp_links) do
+  vim.api.nvim_set_hl(0, newgroup, { link = oldgroup, default = true })
 end

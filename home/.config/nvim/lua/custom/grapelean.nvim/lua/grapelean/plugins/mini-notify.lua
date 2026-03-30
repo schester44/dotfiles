@@ -1,8 +1,10 @@
-local colors = require('grapelean.utils').colors
-local Group = require('grapelean.utils').Group
+local hl  = require('grapelean.utils').hl
+local pal = require 'grapelean.palette'
+local p   = pal.palette
+local s   = pal.semantic
 
 -- Mini Notify
-Group.new('MiniNotifyNormal', colors.white, colors.bg_dark, nil)
-Group.new('MiniNotifyBorder', colors.bg_dark, colors.bg_dark, nil)
-Group.new('MiniNotifyTitle', colors.purple, colors.bg_dark, nil)
-Group.new('MiniNotifyLspProgress', colors.gray_light, colors.bg_dark, nil)
+hl('MiniNotifyNormal',      { fg = s.fg,      bg = s.bg_float })
+hl('MiniNotifyBorder',      { fg = s.bg_float, bg = s.bg_float })
+hl('MiniNotifyTitle',       { fg = p.purple,  bg = s.bg_float })
+hl('MiniNotifyLspProgress', { fg = p.gray_light, bg = s.bg_float })
