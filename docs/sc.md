@@ -69,7 +69,7 @@ sc show done          # show a "Done!" spinner, wait for keypress
 
 ### `sc menu`
 
-The Crust Menu — a searchable hierarchical launcher. See [menu.md](menu.md).
+The Space Cake Menu — a searchable hierarchical launcher. See [menu.md](menu.md).
 
 Note: the menu is typically opened via keybind (`ALT_R + M`) which calls Walker directly, but `sc menu` also works as a standalone fallback.
 
