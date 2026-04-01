@@ -7,10 +7,9 @@ return {
   {
     dir = plugins.custom_path 'grapelean.nvim',
     cond = not vim.g.vscode,
-    dependencies = { 'tjdevries/colorbuddy.nvim', tag = 'v1.0.0' },
     priority = 1000,
     init = function()
-      require('colorbuddy').colorscheme 'grapelean'
+      vim.cmd.colorscheme 'grapelean'
     end,
   },
 }

@@ -30,6 +30,8 @@ My Arch Linux dotfiles — Hyprland, Neovim, WezTerm, and more.
 │   │   ├── wezterm/        # WezTerm config
 │   │   └── zsh/            # Zsh aliases & functions
 │   └── .zshrc
+├── platform/               # OS-specific setup
+│   └── macos/              # macOS (Aerospace, Homebrew, Raycast, etc.)
 ├── system/
 │   ├── packages/           # pacman.txt, aur.txt, npm.txt
 │   └── fonts/              # fonts.zip

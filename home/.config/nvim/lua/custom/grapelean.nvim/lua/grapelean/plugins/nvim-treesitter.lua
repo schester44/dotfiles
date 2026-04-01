@@ -1,161 +1,138 @@
-local colors = require('grapelean.utils').colors
-local styles = require('grapelean.utils').styles
-local Group = require('grapelean.utils').Group
+local hl  = require('grapelean.utils').hl
+local pal = require 'grapelean.palette'
+local p   = pal.palette
+local s   = pal.semantic
+local lighten = require('grapelean.color').lighten
 
 --- REF: https://neovim.io/doc/user/treesitter.html#_treesitter-trees
 
 --------------------------------------------------------------------------------
---  NOTE: misc {{{
+--  misc
 --------------------------------------------------------------------------------
-Group.new('@annotation', colors.gray, nil, styles.italic)
-Group.new('@error', colors.red_muted, nil, nil)
-Group.new('@operator', colors.gray_muted, nil, nil)
-Group.new('@structure', colors.gray, nil, styles.italic)
--- }}}
---------------------------------------------------------------------------------
+hl('@annotation', { fg = p.gray, italic = true })
+hl('@error',      { fg = s.error })
+hl('@operator',   { fg = s.operator })
+hl('@structure',  { fg = p.gray, italic = true })
 
 --------------------------------------------------------------------------------
---  NOTE: literals {{{
+--  literals
 --------------------------------------------------------------------------------
-Group.new('@string', colors.green, nil, nil)
-Group.new('@string.escape', colors.blue, nil, nil)
-Group.new('@string.regex', colors.blue, nil, nil)
-Group.new('@string.special', colors.blue, nil, styles.italic)
+hl('@string',         { fg = s.string })
+hl('@string.escape',  { fg = s.escape })
+hl('@string.regex',   { fg = s.escape })
+hl('@string.special', { fg = s.escape, italic = true })
 
-Group.new('@character', colors.green, nil, nil)
-Group.new('@character.special', colors.blue, nil, nil)
+hl('@character',         { fg = s.string })
+hl('@character.special', { fg = s.escape })
 
-Group.new('@number', colors.purple, nil, nil)
-Group.new('@float', colors.purple, nil, nil)
-Group.new('@boolean', colors.purple, nil, nil)
--- }}}
---------------------------------------------------------------------------------
+hl('@number',  { fg = s.number })
+hl('@float',   { fg = s.number })
+hl('@boolean', { fg = s.boolean })
 
 --------------------------------------------------------------------------------
---  NOTE: functions {{{
+--  functions
 --------------------------------------------------------------------------------
-Group.new('@function', colors.yellow, nil, nil)
-Group.new('@function.call', colors.yellow, nil, nil)
-Group.new('@function.builtin', colors.yellow, nil, nil)
-Group.new('@function.macro', colors.yellow, nil, nil)
+hl('@function',         { fg = s.func })
+hl('@function.call',    { fg = s.func })
+hl('@function.builtin', { fg = s.builtin_function })
+hl('@function.macro',   { fg = s.func })
 
-Group.new('@method', colors.yellow, nil, nil)
-Group.new('@method.call', colors.yellow, nil, nil)
+hl('@method',      { fg = s.func })
+hl('@method.call', { fg = s.func })
 
-Group.new('@constructor', colors.blue, nil, nil)
-Group.new('@parameter', colors.white, nil, nil)
-Group.new('@parameter.reference', colors.white, nil, nil)
--- }}}
---------------------------------------------------------------------------------
+hl('@constructor',          { fg = s.constructor })
+hl('@parameter',            { fg = s.parameter })
+hl('@parameter.reference',  { fg = s.parameter })
 
 --------------------------------------------------------------------------------
---  NOTE: keywords {{{
+--  keywords
 --------------------------------------------------------------------------------
-Group.new('@keyword', colors.keyword, nil, nil)
-Group.new('@keyword.import', colors.keyword, nil, nil)
-Group.new('@keyword.function', colors.keyword, nil, nil)
-Group.new('@keyword.operator', colors.gray, nil, nil)
-Group.new('@keyword.return', colors.pink, nil, nil)
-Group.new('@keyword.coroutine', colors.keyword, nil, nil)
-Group.new('@keyword.exception', colors.keyword, nil, nil)
-Group.new('@keyword.conditional', colors.keyword, nil, nil)
+hl('@keyword',              { fg = s.keyword })
+hl('@keyword.import',       { fg = s.include })
+hl('@keyword.function',     { fg = s.keyword_function })
+hl('@keyword.operator',     { fg = s.keyword_operator })
+hl('@keyword.return',       { fg = s.keyword_return })
+hl('@keyword.coroutine',    { fg = s.keyword_coroutine })
+hl('@keyword.exception',    { fg = s.exception })
+hl('@keyword.conditional',  { fg = s.conditional })
 
-Group.new('@conditional', colors.keyword, nil, nil)
-Group.new('@repeat', colors.keyword, nil, nil)
-Group.new('@debug', colors.gray, nil, nil)
-Group.new('@label', colors.gray, nil, nil)
-Group.new('@include', colors.keyword, nil, nil)
-Group.new('@exception', colors.keyword, nil, nil)
+hl('@conditional', { fg = s.conditional })
+hl('@repeat',      { fg = s.loop })
+hl('@debug',       { fg = p.gray })
+hl('@label',       { fg = s.label })
+hl('@include',     { fg = s.include })
+hl('@exception',   { fg = s.exception })
 
-Group.new('@lsp.type.type', colors.purple, nil, nil)
-Group.new('@lsp.type.enum', colors.purple, nil, nil)
-Group.new('@lsp.type.class', colors.purple, nil, nil)
-
--- }}}
---------------------------------------------------------------------------------
+hl('@lsp.type.type',  { fg = s.type })
+hl('@lsp.type.enum',  { fg = s.type })
+hl('@lsp.type.class', { fg = s.type })
 
 --------------------------------------------------------------------------------
---  NOTE: types {{{
+--  types
 --------------------------------------------------------------------------------
-Group.new('@type', colors.white, nil, nil)
-Group.new('@type.builtin', colors.green, nil, nil)
+hl('@type',         { fg = s.fg })
+hl('@type.builtin', { fg = s.builtin_type })
 
-Group.new('@attribute', colors.gray, nil, styles.italic)
-Group.new('@field', colors.white, nil, nil)
-Group.new('@property', colors.white, nil, nil)
-
--- }}}
---------------------------------------------------------------------------------
+hl('@attribute', { fg = p.gray, italic = true })
+hl('@field',     { fg = s.property })
+hl('@property',  { fg = s.property })
 
 --------------------------------------------------------------------------------
---  NOTE: identifiers {{{
+--  identifiers
 --------------------------------------------------------------------------------
-Group.new('@variable', colors.white, nil, nil)
-Group.new('@variable.builtin', colors.white, nil, nil)
+hl('@variable',         { fg = s.variable })
+hl('@variable.builtin', { fg = s.variable })
 
-Group.new('@constant', colors.white, nil, nil)
-Group.new('@constant.builtin', colors.pink, nil, styles.italic)
-Group.new('@constant.macro', colors.blue, nil, nil)
+hl('@constant',         { fg = s.fg })
+hl('@constant.builtin', { fg = s.builtin_constant, italic = true })
+hl('@constant.macro',   { fg = s.escape })
 
-Group.new('@namespace', colors.white, nil, nil)
-Group.new('@symbol', colors.white, nil, nil)
-Group.new('@module', colors.white, nil, nil)
--- }}}
---------------------------------------------------------------------------------
+hl('@namespace', { fg = s.module })
+hl('@symbol',    { fg = s.variable })
+hl('@module',    { fg = s.module })
 
 --------------------------------------------------------------------------------
---  NOTE: punctuations {{{
+--  punctuations
 --------------------------------------------------------------------------------
-Group.new('@punctuation.bracket', colors.white, nil, nil)
-Group.new('@punctuation.delimiter', colors.gray_muted, nil, nil)
-Group.new('@punctuation.special', colors.gray_muted, nil, nil)
--- }}}
---------------------------------------------------------------------------------
+hl('@punctuation.bracket',   { fg = s.fg })
+hl('@punctuation.delimiter', { fg = s.operator })
+hl('@punctuation.special',   { fg = s.operator })
 
 --------------------------------------------------------------------------------
---  NOTE: tags {{{
+--  tags
 --------------------------------------------------------------------------------
-Group.new('@tag', colors.green, nil, nil)
-Group.new('@tag.builtin', colors.purple, nil, nil)
-Group.new('@tag.attribute', colors.yellow, nil, styles.italic)
-Group.new('@tag.delimiter', colors.white, nil, nil)
--- }}}
---------------------------------------------------------------------------------
+hl('@tag',           { fg = s.tag })
+hl('@tag.builtin',   { fg = s.tag_builtin })
+hl('@tag.attribute', { fg = s.tag_attribute, italic = true })
+hl('@tag.delimiter', { fg = s.tag_delimiter })
 
 --------------------------------------------------------------------------------
---  NOTE: text {{{
+--  text
 --------------------------------------------------------------------------------
-Group.new('@text', colors.white, nil, nil)
-Group.new('@text.strong', colors.white, nil, styles.bold)
-Group.new('@text.strike', colors.white, nil, styles.strikethrough)
-Group.new('@text.emphasis', colors.white, nil, styles.italic)
-Group.new('@text.underline', colors.white, nil, styles.underline)
-Group.new('@text.uri', colors.blue_light, nil, styles.underline)
-Group.new('@text.todo', colors.pink, nil, styles.bold)
-Group.new('@text.note', colors.green_muted, nil, styles.bold)
-Group.new('@text.warning', colors.yellow_light, nil, styles.bold)
-Group.new('@text.danger', colors.red:light(), nil, styles.bold)
-Group.new('@text.underline', colors.white, nil, styles.underline)
-Group.new('@text.diff.add', colors.green, nil, nil)
-Group.new('@text.diff.delete', colors.red, nil, nil)
+hl('@text',            { fg = s.fg })
+hl('@text.strong',     { fg = s.fg, bold = true })
+hl('@text.strike',     { fg = s.fg, strikethrough = true })
+hl('@text.emphasis',   { fg = s.fg, italic = true })
+hl('@text.underline',  { fg = s.fg, underline = true })
+hl('@text.uri',        { fg = p.blue_light, underline = true })
+hl('@text.todo',       { fg = s.accent, bold = true })
+hl('@text.note',       { fg = p.green_muted, bold = true })
+hl('@text.warning',    { fg = s.warning, bold = true })
+hl('@text.danger',     { fg = lighten(p.red), bold = true })
+hl('@text.diff.add',   { fg = s.added })
+hl('@text.diff.delete',{ fg = s.removed })
 
-Group.new('@punctuation.delimiter', colors.white, nil, nil)
-
---------------------------------------------------------------------------------
---  markdown
---------------------------------------------------------------------------------
-Group.new('@text.title', colors.pink, nil, styles.bold)
-Group.new('@text.title.1', colors.yellow, nil, styles.bold)
-Group.new('@text.title.2', colors.pink, nil, styles.bold)
-Group.new('@text.literal', colors.green, nil, nil)
-Group.new('@text.reference', colors.blue, nil, nil)
--- }}}
---------------------------------------------------------------------------------
+-- markdown
+hl('@text.title',   { fg = p.pink, bold = true })
+hl('@text.title.1', { fg = p.yellow, bold = true })
+hl('@text.title.2', { fg = p.pink, bold = true })
+hl('@text.literal', { fg = s.string })
+hl('@text.reference',{ fg = p.blue })
 
 --------------------------------------------------------------------------------
 --  treesitter-context
 --------------------------------------------------------------------------------
-Group.new('TreesitterContext', nil, colors.bg_muted, nil)
-Group.new('TreesitterContextLineNumber', colors.gray, colors.bg_muted, nil)
-Group.new('TreesitterContextSeparator', nil, colors.bg_muted, nil)
-Group.new('TreesitterContextBottom', nil, colors.bg_muted, nil)
+hl('TreesitterContext',            { bg = p.bg_muted })
+hl('TreesitterContextLineNumber',  { fg = p.gray, bg = p.bg_muted })
+hl('TreesitterContextSeparator',   { bg = p.bg_muted })
+hl('TreesitterContextBottom',      { bg = p.bg_muted })

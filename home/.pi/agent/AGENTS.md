@@ -1,7 +1,10 @@
 # System Context
 
 ## Operating System
-This is an Arch-based Linux system. Use `pacman` (or `yay`/`paru` for AUR) as the package manager. Prefer Arch conventions and packages when relevant.
+Detect the OS at runtime using `uname -s` before making OS-specific decisions.
+
+- **macOS (Darwin)**: Use `brew` as the package manager. Prefer Homebrew formulae and macOS conventions.
+- **Linux (Arch)**: Use `pacman` (or `yay`/`paru` for AUR) as the package manager. Prefer Arch conventions and packages.
 
 ## User
 - Home directory: `~`

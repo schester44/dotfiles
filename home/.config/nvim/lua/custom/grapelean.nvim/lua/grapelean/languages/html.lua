@@ -1,8 +1,10 @@
-local colors = require("grapelean.utils").colors
-local Group = require("grapelean.utils").Group
+local hl  = require('grapelean.utils').hl
+local pal = require 'grapelean.palette'
+local p   = pal.palette
+local s   = pal.semantic
 
-Group.new("htmlArg", colors.yellow, nil, nil)
-Group.new("htmlEndTag", colors.white, nil, nil)
-Group.new("htmlSpecialTagName", colors.blue_light, nil, nil)
-Group.new("htmlTag", colors.white, nil, nil)
-Group.new("htmlTagName", colors.blue_light, nil, nil)
+hl('htmlArg',           { fg = s.tag_attribute })
+hl('htmlEndTag',        { fg = s.tag_delimiter })
+hl('htmlSpecialTagName',{ fg = p.blue_light })
+hl('htmlTag',           { fg = s.tag_delimiter })
+hl('htmlTagName',       { fg = p.blue_light })

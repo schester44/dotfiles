@@ -1,6 +1,7 @@
-local colors = require('grapelean.utils').colors
-local styles = require('grapelean.utils').styles
-local Group = require('grapelean.utils').Group
+local hl  = require('grapelean.utils').hl
+local pal = require 'grapelean.palette'
+local p   = pal.palette
+local s   = pal.semantic
 
-Group.new('AvantePromptInput', nil, colors.bg_dark, nil)
-Group.new('AvanteInlineHint', colors.keyword, nil, styles.italic)
+hl('AvantePromptInput', { bg = s.bg_float })
+hl('AvanteInlineHint',  { fg = s.keyword, italic = true })

@@ -1,6 +1,6 @@
-local colors = require("grapelean.utils").colors
-local Group = require("grapelean.utils").Group
-local styles = require("grapelean.utils").styles
+local hl  = require('grapelean.utils').hl
+local pal = require 'grapelean.palette'
+local p   = pal.palette
 
-Group.new("FidgetTask", colors.blue, colors.bg, nil)
-Group.new("FidgetTitle", colors.yellow, colors.bg, styles.bold)
+hl('FidgetTask',  { fg = p.blue,   bg = p.bg })
+hl('FidgetTitle', { fg = p.yellow, bg = p.bg, bold = true })

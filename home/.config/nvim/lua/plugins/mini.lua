@@ -34,7 +34,7 @@ end
 return {
   'echasnovski/mini.nvim',
   dependencies = {
-    'nvim-treesitter/nvim-treesitter-textobjects',
+    { 'nvim-treesitter/nvim-treesitter-textobjects', branch = 'main' },
     {
 
       'dmtrKovalenko/fff.nvim',

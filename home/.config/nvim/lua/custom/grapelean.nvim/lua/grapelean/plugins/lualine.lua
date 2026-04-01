@@ -1,10 +1,10 @@
-local colors = require('grapelean.utils').colors
-local Group = require('grapelean.utils').Group
-local styles = require('grapelean.utils').styles
+local hl  = require('grapelean.utils').hl
+local pal = require 'grapelean.palette'
+local p   = pal.palette
+local s   = pal.semantic
 
-Group.new('LualineRecording', colors.red, nil, nil)
-Group.new('LualineCopilotOffline', colors.red, nil, nil)
-Group.new('LualinePath', colors.keyword, nil, nil)
-Group.new('LualineFilename', colors.gray_light, nil, nil)
-
-Group.new('LualineFilenameModified', colors.yellow_light, nil, styles.italic)
+hl('LualineRecording',        { fg = p.red })
+hl('LualineCopilotOffline',   { fg = p.red })
+hl('LualinePath',             { fg = s.keyword })
+hl('LualineFilename',         { fg = p.gray_light })
+hl('LualineFilenameModified', { fg = p.yellow_light, italic = true })

@@ -1,14 +1,15 @@
-local colors = require('grapelean.utils').colors
-local Group = require('grapelean.utils').Group
+local hl  = require('grapelean.utils').hl
+local pal = require 'grapelean.palette'
+local p   = pal.palette
 
-Group.new('DiffViewDiffAdd', nil, colors.green_bg, nil)
-Group.new('DiffViewDiffDelete', colors.red_muted, colors.bg, nil)
-Group.new('DiffViewDiffChange', nil, colors.bg_light, nil)
-Group.new('DiffViewDiffAddAsDelete', nil, colors.red_light_bg, nil)
-Group.new('DiffViewDiffText', nil, colors.green_bg_emphasis, nil)
+hl('DiffViewDiffAdd',        { bg = p.green_bg })
+hl('DiffViewDiffDelete',     { fg = p.red_muted, bg = p.bg })
+hl('DiffViewDiffChange',     { bg = p.bg_light })
+hl('DiffViewDiffAddAsDelete',{ bg = p.red_light_bg })
+hl('DiffViewDiffText',       { bg = p.green_bg_emphasis })
 
-Group.new('DiffAdd', nil, colors.green_bg, nil)
-Group.new('DiffDelete', colors.red_muted, colors.bg, nil)
-Group.new('DiffChange', nil, colors.bg_light, nil)
-Group.new('DiffAddAsDelete', nil, colors.red_light_bg, nil)
-Group.new('DiffText', nil, colors.green_bg_emphasis, nil)
+hl('DiffAdd',        { bg = p.green_bg })
+hl('DiffDelete',     { fg = p.red_muted, bg = p.bg })
+hl('DiffChange',     { bg = p.bg_light })
+hl('DiffAddAsDelete',{ bg = p.red_light_bg })
+hl('DiffText',       { bg = p.green_bg_emphasis })

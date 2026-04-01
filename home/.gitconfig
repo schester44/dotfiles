@@ -16,3 +16,6 @@
 
 [merge]
 	conflictStyle = zdiff3
+[user]
+	email = schester44@gmail.com
+	name = Steve Chester

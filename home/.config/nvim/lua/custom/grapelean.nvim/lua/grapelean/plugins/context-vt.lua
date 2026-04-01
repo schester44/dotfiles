@@ -1,5 +1,5 @@
-local colors = require('grapelean.utils').colors
-local Group = require('grapelean.utils').Group
-local styles = require('grapelean.utils').styles
+local hl  = require('grapelean.utils').hl
+local pal = require 'grapelean.palette'
+local s   = pal.semantic
 
-Group.new('NvimContextVt', colors.gray_muted, nil, styles.italic)
+hl('NvimContextVt', { fg = s.comment, italic = true })

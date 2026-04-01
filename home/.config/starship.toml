@@ -1,7 +1,5 @@
 format = """
 $directory\
-$nodejs\
-$package\
 $git_branch\
 $git_status\
 $docker_context\
@@ -16,9 +14,10 @@ disabled = true
 [directory]
 truncation_length = 1
 format = '[$path]($style) '
+style = '#6fbfa0 bold'
 
 [git_branch]
-format = 'git:([$branch]($style)) '
+format = 'on [$branch]($style) '
 style = 'purple'
 
 [git_status]

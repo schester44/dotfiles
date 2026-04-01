@@ -1,12 +1,12 @@
-# Crust Menu
+# Space Cake Menu
 
-The Crust Menu is a searchable, hierarchical launcher built on [Walker](https://github.com/abenz1267/walker) and [Elephant](https://github.com/abenz1267/elephant). It provides quick access to toggles, config shortcuts, system actions, and anything else you want a keybind away.
+The Space Cake Menu is a searchable, hierarchical launcher built on [Walker](https://github.com/abenz1267/walker) and [Elephant](https://github.com/abenz1267/elephant). It provides quick access to toggles, config shortcuts, system actions, and anything else you want a keybind away.
 
 ## Opening the menu
 
 | Keybind | Action |
 |---------|--------|
-| `ALT_R + M` | Open the Crust Menu |
+| `ALT_R + M` | Open the Space Cake Menu |
 
 Walker's search bar filters across all entries. Select a category to drill into its submenu, or just start typing to find what you need.
 

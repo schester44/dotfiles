@@ -1,10 +1,12 @@
-local colors = require('grapelean.utils').colors
-local Group = require('grapelean.utils').Group
+local hl  = require('grapelean.utils').hl
+local pal = require 'grapelean.palette'
+local p   = pal.palette
+local s   = pal.semantic
 
-Group.new('whichkey', colors.pink, nil, nil)
-Group.new('WhichKeyTitle', colors.pink_light, nil, nil)
-Group.new('WhichKeyDesc', colors.yellow, nil, nil)
-Group.new('WhichKeyFloat', colors.blue, nil, nil)
-Group.new('WhichKeyGroup', colors.gray_light, nil, nil)
-Group.new('WhichKeySeparator', colors.keyword, nil, nil)
-Group.new('WhichKeyValue', colors.cursor_hover, nil, nil)
+hl('whichkey',        { fg = p.pink })
+hl('WhichKeyTitle',   { fg = p.pink_light })
+hl('WhichKeyDesc',    { fg = p.yellow })
+hl('WhichKeyFloat',   { fg = p.blue })
+hl('WhichKeyGroup',   { fg = p.gray_light })
+hl('WhichKeySeparator',{ fg = s.keyword })
+hl('WhichKeyValue',   { fg = s.bg_selection })

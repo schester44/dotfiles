@@ -2,7 +2,7 @@
 -- Loads from ~/.dotfiles/colors/grapelean.json (single source of truth)
 -- Format: 0xAARRGGBB (AA = alpha)
 
-local json_path = os.getenv("HOME") .. "/.dotfiles/colors/grapelean.json"
+local json_path = os.getenv("HOME") .. "/.dotfiles/system/colors/grapelean.json"
 
 local function load_json(path)
 	local file = io.open(path, "r")

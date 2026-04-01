@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+# Interactive Cloudflare Tunnel launcher using gum.
+# Scans ~/.cloudflared/ for config files and lets you pick one.
+
+set -euo pipefail
+
+CONFIG_DIR="$HOME/.cloudflared"
+
+if ! command -v gum &>/dev/null; then
+  echo "Error: gum is not installed. Install with: brew install gum"
+  exit 1
+fi
+
+if ! command -v cloudflared &>/dev/null; then
+  echo "Error: cloudflared is not installed. Install with: brew install cloudflared"
+  exit 1
+fi
+
+# Find all config files
+configs=()
+labels=()
+
+for f in "$CONFIG_DIR"/*config*.yml "$CONFIG_DIR"/*config*.yaml; do
+  [ -f "$f" ] || continue
+  configs+=("$f")
+
+  # Extract tunnel name/hostname for display
+  hostname=$(grep -m1 'hostname:' "$f" | head -1 | awk '{print $3}' || echo "")
+  tunnel_id=$(grep -m1 'tunnel:' "$f" | awk '{print $2}' || echo "")
+  basename=$(basename "$f")
+
+  if [ -n "$hostname" ]; then
+    labels+=("$basename  →  $hostname")
+  else
+    labels+=("$basename  (tunnel: ${tunnel_id:0:8}…)")
+  fi
+done
+
+if [ ${#configs[@]} -eq 0 ]; then
+  gum style --foreground 9 --bold "No config files found in $CONFIG_DIR"
+  exit 1
+fi
+
+if [ ${#configs[@]} -eq 1 ]; then
+  selected="${configs[0]}"
+  gum style --foreground 14 "Only one config found, using: $(basename "$selected")"
+else
+  # Build the gum choose input
+  choice=$(printf '%s\n' "${labels[@]}" | gum choose --header "Select a tunnel:" --cursor.foreground 212)
+
+  # Map selection back to config file
+  for i in "${!labels[@]}"; do
+    if [ "${labels[$i]}" = "$choice" ]; then
+      selected="${configs[$i]}"
+      break
+    fi
+  done
+fi
+
+if [ -z "${selected:-}" ]; then
+  gum style --foreground 9 --bold "No tunnel selected."
+  exit 1
+fi
+
+# Show what we're launching
+echo
+gum style --foreground 212 --bold --border rounded --border-foreground 99 --padding "0 2" "Cloudflare Tunnel"
+echo
+gum style --foreground 245 "  Config:  $(basename "$selected")"
+
+# Show all hostnames from the config
+grep 'hostname:' "$selected" 2>/dev/null | while read -r line; do
+  host=$(echo "$line" | awk '{print $3}')
+  service=$(grep -A1 "hostname: $host" "$selected" | grep 'service:' | awk '{print $2}')
+  gum style --foreground 10 "  Route:   $host → ${service:-unknown}"
+done
+
+echo
+gum style --foreground 245 "Starting tunnel…"
+echo
+
+exec cloudflared tunnel --config "$selected" run

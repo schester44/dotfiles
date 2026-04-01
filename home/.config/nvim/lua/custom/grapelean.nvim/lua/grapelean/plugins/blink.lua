@@ -1,26 +1,28 @@
-local colors = require('grapelean.utils').colors
-local Group = require('grapelean.utils').Group
+local hl  = require('grapelean.utils').hl
+local pal = require 'grapelean.palette'
+local p   = pal.palette
+local s   = pal.semantic
 
-Group.new('BlinkCmpMenu', colors.white, colors.bg_dark, nil)
-Group.new('BlinkCmpMenuBorder', colors.bg_dark, colors.bg_dark, nil)
-Group.new('BlinkCmpDoc', colors.white, colors.bg_dark, nil)
-Group.new('BlinkCmpDocBorder', colors.bg_dark, colors.bg_dark, nil)
-Group.new('BlinkCmpLabelDescription', colors.keyword, nil, nil)
-Group.new('BlinkCmpSource', colors.bg_light, nil, nil)
+hl('BlinkCmpMenu',             { fg = s.fg,        bg = s.bg_float })
+hl('BlinkCmpMenuBorder',       { fg = s.bg_float,  bg = s.bg_float })
+hl('BlinkCmpDoc',              { fg = s.fg,        bg = s.bg_float })
+hl('BlinkCmpDocBorder',        { fg = s.bg_float,  bg = s.bg_float })
+hl('BlinkCmpLabelDescription', { fg = s.keyword })
+hl('BlinkCmpSource',           { fg = p.bg_light })
 
-Group.new('BlinkCmpKindBuffer', colors.bg_dark, nil, nil)
-Group.new('BlinkCmpKindLSP', colors.pink_light, nil, nil)
+hl('BlinkCmpKindBuffer',    { fg = p.bg_dark })
+hl('BlinkCmpKindLSP',       { fg = p.pink_light })
 
-Group.new('BlinkCmpKindFunction', colors.pink_light, nil, nil)
-Group.new('BlinkCmpKindVariable', colors.green_light, nil, nil)
-Group.new('BlinkCmpKindClass', colors.yellow_light, nil, nil)
-Group.new('BlinkCmpKindModule', colors.pink_light, nil, nil)
-Group.new('BlinkCmpKindInterface', colors.yellow_light, nil, nil)
-Group.new('BlinkCmpKindKeyword', colors.pink, nil, nil)
-Group.new('BlinkCmpKindEnum', colors.green, nil, nil)
-Group.new('BlinkCmpKindStruct', colors.green, nil, nil)
-Group.new('BlinkCmpKindProperty', colors.green_light, nil, nil)
-Group.new('BlinkCmpKindSnippet', colors.purple, nil, nil)
-Group.new('BlinkCmpKindField', colors.blue_light, nil, nil)
-Group.new('BlinkCmpKindFile', colors.gray_light, nil, nil)
-Group.new('BlinkCmpKindText', colors.white, nil, nil)
+hl('BlinkCmpKindFunction',  { fg = p.pink_light })
+hl('BlinkCmpKindVariable',  { fg = p.green_light })
+hl('BlinkCmpKindClass',     { fg = p.yellow_light })
+hl('BlinkCmpKindModule',    { fg = p.pink_light })
+hl('BlinkCmpKindInterface', { fg = p.yellow_light })
+hl('BlinkCmpKindKeyword',   { fg = p.pink })
+hl('BlinkCmpKindEnum',      { fg = p.green })
+hl('BlinkCmpKindStruct',    { fg = p.green })
+hl('BlinkCmpKindProperty',  { fg = p.green_light })
+hl('BlinkCmpKindSnippet',   { fg = p.purple })
+hl('BlinkCmpKindField',     { fg = p.blue_light })
+hl('BlinkCmpKindFile',      { fg = p.gray_light })
+hl('BlinkCmpKindText',      { fg = p.white })

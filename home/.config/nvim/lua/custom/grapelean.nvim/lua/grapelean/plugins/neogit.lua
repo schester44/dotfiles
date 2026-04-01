@@ -1,46 +1,47 @@
-local colors = require('grapelean.utils').colors
-local styles = require('grapelean.utils').styles
-local Group = require('grapelean.utils').Group
+local hl  = require('grapelean.utils').hl
+local pal = require 'grapelean.palette'
+local p   = pal.palette
+local s   = pal.semantic
 
-Group.new('NeogitDiffAddHighlight', colors.green, nil, nil)
-Group.new('NeogitDiffAddRegion', colors.green, nil, nil)
-Group.new('NeogitDiffContextHighlight', nil, nil, nil)
-Group.new('NeogitDiffDeleteHighlight', colors.red_muted, nil, nil)
-Group.new('NeogitDiffDeleteRegion', colors.red, nil, nil)
-Group.new('NeogitHunkHeaderHighlight', colors.yellow, colors.bg_light, styles.bold)
-Group.new('NeogitHunkHeaderCursor', colors.yellow, colors.bg_lighter, styles.bold)
+hl('NeogitDiffAddHighlight',    { fg = s.added })
+hl('NeogitDiffAddRegion',       { fg = s.added })
+hl('NeogitDiffContextHighlight',{})
+hl('NeogitDiffDeleteHighlight', { fg = s.removed })
+hl('NeogitDiffDeleteRegion',    { fg = p.red })
+hl('NeogitHunkHeaderHighlight', { fg = p.yellow, bg = p.bg_light, bold = true })
+hl('NeogitHunkHeaderCursor',    { fg = p.yellow, bg = p.bg_lighter, bold = true })
 
 -- status buffer
-Group.new('NeogitBranch', colors.green, nil, nil)
-Group.new('NeogitFold', colors.blue, nil, nil)
-Group.new('NeogitBranchHead', colors.red, nil, styles.bold)
-Group.new('NeogitRemote', colors.pink, nil, nil)
-Group.new('NeogitObjectId', colors.blue, nil, nil)
-Group.new('NeogitStash', colors.pink_light, nil, nil)
-Group.new('NeogitRebaseDone', colors.green, nil, nil)
-Group.new('NeogitTagName', colors.yellow, nil, nil)
-Group.new('NeogitTagDistance', colors.yellow_muted, nil, nil)
+hl('NeogitBranch',     { fg = p.green })
+hl('NeogitFold',       { fg = p.blue })
+hl('NeogitBranchHead', { fg = p.red, bold = true })
+hl('NeogitRemote',     { fg = p.pink })
+hl('NeogitObjectId',   { fg = p.blue })
+hl('NeogitStash',      { fg = p.pink_light })
+hl('NeogitRebaseDone', { fg = p.green })
+hl('NeogitTagName',    { fg = p.yellow })
+hl('NeogitTagDistance',{ fg = p.yellow_muted })
 
 -- status and commit buffer
-Group.new('NeogitHunkHeader', colors.yellow, colors.bg_light, styles.bold)
-Group.new('NeogitDiffContext', nil, colors.bg, nil)
-Group.new('NeogitDiffDelete', colors.red, nil, nil)
-Group.new('NeogitDiffHeader', colors.blue, nil, nil)
-Group.new('NeogitDiffAdd', colors.green, nil, nil)
+hl('NeogitHunkHeader',  { fg = p.yellow, bg = p.bg_light, bold = true })
+hl('NeogitDiffContext', { bg = p.bg })
+hl('NeogitDiffDelete',  { fg = p.red })
+hl('NeogitDiffHeader',  { fg = p.blue })
+hl('NeogitDiffAdd',     { fg = p.green })
 
 -- applied to filenames
-Group.new('NeogitChangeModified', colors.yellow_light, nil, nil)
-Group.new('NeogitChangeAdded', colors.green, nil, styles.bold)
-Group.new('NeogitChangeDeleted', colors.red, nil, styles.bold)
-Group.new('NeogitChangeRenamed', colors.pink_muted, nil, styles.bold)
-Group.new('NeogitChangeUpdated', colors.green, nil, styles.bold)
-Group.new('NeogitChangeCopied', colors.yellow, nil, styles.bold)
-Group.new('NeogitChangeBothModified', colors.red, nil, styles.bold)
-Group.new('NeogitChangeNewFile', colors.green, nil, styles.bold)
+hl('NeogitChangeModified',    { fg = p.yellow_light })
+hl('NeogitChangeAdded',       { fg = p.green, bold = true })
+hl('NeogitChangeDeleted',     { fg = p.red, bold = true })
+hl('NeogitChangeRenamed',     { fg = p.pink_muted, bold = true })
+hl('NeogitChangeUpdated',     { fg = p.green, bold = true })
+hl('NeogitChangeCopied',      { fg = p.yellow, bold = true })
+hl('NeogitChangeBothModified',{ fg = p.red, bold = true })
+hl('NeogitChangeNewFile',     { fg = p.green, bold = true })
 
 -- commit buffer
-Group.new('NeogitFilePath', colors.pink, nil, styles.bold)
-Group.new('NeogitCommitViewHeader', colors.blue, nil, nil)
+hl('NeogitFilePath',          { fg = p.pink, bold = true })
+hl('NeogitCommitViewHeader',  { fg = p.blue })
 
-Group.new('NeogitChangeMStaged', colors.green, nil, nil)
-Group.new('neogitremote', colors.keyword, nil, nil)
+hl('NeogitChangeMStaged', { fg = p.green })
+hl('neogitremote',        { fg = s.keyword })
