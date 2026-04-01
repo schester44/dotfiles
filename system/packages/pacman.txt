@@ -24,8 +24,10 @@ xdg-desktop-portal-hyprland
 wl-clipboard
 cliphist
 ripgrep
+unzip
 tmux
 fzf
+gum
 eza
 zoxide
 jq
