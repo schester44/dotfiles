@@ -6,6 +6,84 @@ set -euo pipefail
 
 CONFIG_DIR="$HOME/.cloudflared"
 
+# ── Subcommand: create ────────────────────────────────────────────────
+if [ "${1:-}" = "create" ]; then
+  shift
+  HOSTNAME="${1:?Usage: tunnel create <hostname>  (e.g. intercom.dottt.app)}"
+
+  # Derive a tunnel name from the first subdomain segment
+  TUNNEL_NAME="${HOSTNAME%%.*}"
+
+  if ! command -v gum &>/dev/null; then
+    echo "Error: gum is not installed. Install with: brew install gum"
+    exit 1
+  fi
+  if ! command -v cloudflared &>/dev/null; then
+    echo "Error: cloudflared is not installed. Install with: brew install cloudflared"
+    exit 1
+  fi
+
+  # Ask for the local port to forward to
+  PORT=$(gum input --placeholder "Local port (e.g. 3000)" --header "Which local port should $HOSTNAME route to?")
+  if [ -z "$PORT" ]; then
+    gum style --foreground 9 --bold "No port provided. Aborting."
+    exit 1
+  fi
+
+  echo
+  gum style --foreground 212 --bold --border rounded --border-foreground 99 --padding "0 2" "Create Cloudflare Tunnel"
+  echo
+  gum style --foreground 245 "  Name:      $TUNNEL_NAME"
+  gum style --foreground 245 "  Hostname:  $HOSTNAME"
+  gum style --foreground 245 "  Service:   http://localhost:$PORT"
+  echo
+
+  gum confirm "Proceed?" || { echo "Aborted."; exit 1; }
+
+  echo
+  gum style --foreground 245 "Creating tunnel…"
+  OUTPUT=$(cloudflared tunnel create "$TUNNEL_NAME" 2>&1)
+  echo "$OUTPUT"
+
+  # Extract the tunnel UUID from the creation output
+  TUNNEL_ID=$(echo "$OUTPUT" | grep -oE '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' | head -1)
+  if [ -z "$TUNNEL_ID" ]; then
+    gum style --foreground 9 --bold "Failed to extract tunnel ID."
+    exit 1
+  fi
+
+  gum style --foreground 10 "  Tunnel ID: $TUNNEL_ID"
+  echo
+
+  gum style --foreground 245 "Setting up DNS route…"
+  cloudflared tunnel route dns -f "$TUNNEL_NAME" "$HOSTNAME"
+  gum style --foreground 10 "  DNS CNAME created for $HOSTNAME"
+  echo
+
+  # Write config file
+  if [ "$TUNNEL_NAME" = "dev" ] || [ "$TUNNEL_NAME" = "default" ]; then
+    CONFIG_FILE="$CONFIG_DIR/config.yml"
+  else
+    CONFIG_FILE="$CONFIG_DIR/${TUNNEL_NAME}-config.yml"
+  fi
+
+  cat > "$CONFIG_FILE" <<EOF
+tunnel: $TUNNEL_ID
+credentials-file: $CONFIG_DIR/${TUNNEL_ID}.json
+
+ingress:
+  - hostname: $HOSTNAME
+    service: http://localhost:$PORT
+  - service: http_status:404
+EOF
+
+  gum style --foreground 10 "  Config written to $(basename "$CONFIG_FILE")"
+  echo
+  gum style --foreground 212 --bold "Done! Run 'tunnel' to start it."
+  exit 0
+fi
+
+# ── Subcommand: run (default) ────────────────────────────────────────
 if ! command -v gum &>/dev/null; then
   echo "Error: gum is not installed. Install with: brew install gum"
   exit 1
