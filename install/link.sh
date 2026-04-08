@@ -19,6 +19,9 @@ ln -sf "$CONFIG_SOURCE/zsh" "$CONFIG_DEST/zsh"
 ln -sf "$HOME_SOURCE/.wezterm.lua" "$HOME/.wezterm.lua"
 ln -sf "$CONFIG_SOURCE/wezterm" "$CONFIG_DEST/wezterm"
 
+# Tmux
+ln -sf "$CONFIG_SOURCE/tmux" "$CONFIG_DEST/tmux"
+
 # Starship
 ln -sf "$CONFIG_SOURCE/starship.toml" "$CONFIG_DEST/starship.toml"
 

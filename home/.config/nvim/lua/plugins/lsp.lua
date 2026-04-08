@@ -35,10 +35,11 @@ return {
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = desc })
           end
 
-          map('gd', vim.lsp.buf.definition, 'Goto Definition')
-          map('gr', vim.lsp.buf.references, 'Goto References')
-          map('<leader>cr', vim.lsp.buf.rename, 'Code Rename')
-          map('<leader>ca', vim.lsp.buf.code_action, 'Code Action', { 'n', 'x' })
+          map('grd', vim.lsp.buf.definition, 'Goto Definition')
+          -- these have been remapped under `gr` default prefix
+          -- map('gr', vim.lsp.buf.references, 'Goto References')
+          -- map('<leader>cr', vim.lsp.buf.rename, 'Code Rename')
+          -- map('<leader>ca', vim.lsp.buf.code_action, 'Code Action', { 'n', 'x' })
 
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
@@ -112,6 +113,7 @@ return {
       })
 
       vim.lsp.enable 'eslint'
+      vim.lsp.enable 'tsgo'
     end,
   },
 }

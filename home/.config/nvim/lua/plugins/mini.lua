@@ -1,16 +1,10 @@
 local setup_starter = function()
   local header = [[
- .----------------.  .----------------.  .----------------.  .----------------. 
-| .--------------. || .--------------. || .--------------. || .--------------. |
-| |     ____     | || |   ______     | || |     _____    | || |  _________   | |
-| |   .'    `.   | || |  |_   _ \    | || |    |_   _|   | || | |_   ___  |  | |
-| |  /  .--.  \  | || |    | |_) |   | || |      | |     | || |   | |_  \_|  | |
-| |  | |    | |  | || |    |  __'.   | || |      | |     | || |   |  _|  _   | |
-| |  \  `--'  /  | || |   _| |__) |  | || |     _| |_    | || |  _| |___/ |  | |
-| |   `.____.'   | || |  |_______/   | || |    |_____|   | || | |_________|  | |
-| |              | || |              | || |              | || |              | |
-| '--------------' || '--------------' || '--------------' || '--------------' |
- '----------------'  '----------------'  '----------------'  '----------------' 
+        ║╲  ║
+        ║ ╲ ║
+        ║  ╲║
+
+     N E O V I M
   ]]
   local footer = [[]]
 
@@ -22,10 +16,8 @@ local setup_starter = function()
     starter.sections.recent_files(10, true, false),
   }
 
-  local is_obie = vim.fn.getcwd():find '/risk%-management'
-
   starter.setup {
-    header = is_obie and header or [[]],
+    header = header,
     footer = footer,
     items = items,
   }
@@ -107,7 +99,9 @@ return {
         local map_split = function(lhs, direction, desc)
           vim.keymap.set('n', lhs, function()
             local entry = MiniFiles.get_fs_entry()
-            if entry == nil or entry.fs_type == 'directory' then return end
+            if entry == nil or entry.fs_type == 'directory' then
+              return
+            end
             MiniFiles.close()
             vim.cmd(direction .. ' ' .. vim.fn.fnameescape(entry.path))
           end, { buffer = buf_id, desc = desc })
@@ -225,7 +219,7 @@ return {
         local text = item.text or tostring(item)
         lines[i] = text
         -- Parse "filename:lnum: content" pattern
-        local fname_end = text:find(':%d')
+        local fname_end = text:find ':%d'
         if fname_end then
           local lnum_start = fname_end
           local lnum_end = text:find(':', lnum_start + 1)

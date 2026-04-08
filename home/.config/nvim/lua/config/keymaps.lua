@@ -1,6 +1,9 @@
 local set = vim.keymap.set
 local k = require 'lib.keymaps'
 
+set('n', 'gt', '<Nop>')
+set('n', 'gT', '<Nop>')
+
 set('i', 'jj', '<Esc>')
 set('i', '<C-BS>', '<C-w>', { desc = 'Delete word backward' })
 
@@ -24,17 +27,12 @@ set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 set('n', 'U', '<C-r>', { desc = 'Redo' })
 
-set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
-set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
-set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
-set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
-
 set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
-set('n', 'gvd', function()
+set('n', 'grv', function()
   vim.cmd 'vsplit'
   vim.lsp.buf.definition()
 end, { desc = 'VSplit Definition' })

@@ -1,4 +1,7 @@
-export TERM="xterm-256color"
+# Set TERM appropriately — let tmux set its own
+if [[ -z "$TMUX" ]]; then
+  export TERM="xterm-256color"
+fi
 # Resolve DOTFILES from this symlinked .zshrc back to the repo root
 # .zshrc lives at <repo>/home/.zshrc, so go up two levels
 _zshrc="${(%):-%x}"
