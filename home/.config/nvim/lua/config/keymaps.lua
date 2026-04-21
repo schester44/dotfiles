@@ -139,9 +139,13 @@ k.set_toggle_keymap {
 }
 
 -- Send selection to pi via headless RPC mode
-set('v', '<leader>pi', function()
+set('v', '<leader>pe', function()
   require('lib.pi-edit').edit_selection()
-end, { desc = 'Inline Pi Edit' })
+end, { desc = 'Pi Edit' })
+
+set('v', '<leader>ps', function()
+  require('lib.pi-edit').send_to_pane()
+end, { desc = 'Pi Send' })
 
 k.set_toggle_keymap {
   keys = 'h',

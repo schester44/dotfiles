@@ -189,6 +189,103 @@ function M.run(prompt, cwd, cleanup)
   end, 500)
 end
 
+--- Send selection to pi running in a sibling wezterm pane
+function M.send_to_pane()
+  -- Get selected lines
+  local start_line = vim.fn.line 'v'
+  local end_line = vim.fn.line '.'
+  if start_line > end_line then
+    start_line, end_line = end_line, start_line
+  end
+  local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
+  local selected_text = table.concat(lines, '\n')
+
+  -- File info
+  local filepath = vim.fn.expand '%:p'
+  local filetype = vim.bo.filetype
+
+  -- Find pi pane in same tab
+  local my_pane = os.getenv 'WEZTERM_PANE'
+  if not my_pane then
+    vim.notify('WEZTERM_PANE not set — not running in wezterm?', vim.log.levels.ERROR)
+    return
+  end
+
+  local json_str = vim.fn.system 'wezterm cli list --format json'
+  local ok, panes = pcall(vim.json.decode, json_str)
+  if not ok then
+    vim.notify('Failed to parse wezterm pane list', vim.log.levels.ERROR)
+    return
+  end
+
+  -- Find our tab_id
+  local my_tab_id = nil
+  for _, p in ipairs(panes) do
+    if tostring(p.pane_id) == my_pane then
+      my_tab_id = p.tab_id
+      break
+    end
+  end
+
+  if not my_tab_id then
+    vim.notify('Could not find our pane in wezterm list', vim.log.levels.ERROR)
+    return
+  end
+
+  -- Find pi pane in same tab (title starts with π)
+  local pi_pane_id = nil
+  for _, p in ipairs(panes) do
+    if p.tab_id == my_tab_id and tostring(p.pane_id) ~= my_pane and p.title:match '^π' then
+      pi_pane_id = p.pane_id
+      break
+    end
+  end
+
+  -- Build message
+  local range_str = start_line == end_line and ('line ' .. start_line) or ('lines ' .. start_line .. '-' .. end_line)
+  local msg = string.format('In `%s` (%s, %s):\n\n```%s\n%s\n```\n', filepath, range_str, filetype, filetype, selected_text)
+
+  -- Helper to send message and activate pane
+  local function send_msg_to_pane(pane_id)
+    -- Clear existing editor content first (Ctrl+C = app.clear in pi)
+    local clear_cmd = string.format('wezterm cli send-text --pane-id %d --no-paste', pane_id)
+    vim.fn.system(clear_cmd, '\x03')
+
+    -- Send to pi pane (no trailing newline — let user review before pressing enter)
+    local cmd = string.format('wezterm cli send-text --pane-id %d --no-paste', pane_id)
+    vim.fn.system(cmd, msg)
+
+    -- Activate the pi pane
+    vim.fn.system(string.format('wezterm cli activate-pane --pane-id %d', pane_id))
+  end
+
+  -- Exit visual mode
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'n', false)
+
+  if pi_pane_id then
+    send_msg_to_pane(pi_pane_id)
+    vim.notify('Sent to pi pane ' .. pi_pane_id)
+  else
+    -- No pi pane found — spawn one in a right split
+    local cwd = vim.fn.getcwd()
+    local new_pane_id = vim.fn.system(string.format(
+      'wezterm cli split-pane --right --percent 50 --cwd %s -- pi',
+      vim.fn.shellescape(cwd)
+    ))
+    new_pane_id = vim.trim(new_pane_id)
+    local pane_num = tonumber(new_pane_id)
+    if not pane_num then
+      vim.notify('Failed to spawn pi pane', vim.log.levels.ERROR)
+      return
+    end
+    -- Wait for pi to start, then send the message
+    vim.defer_fn(function()
+      send_msg_to_pane(pane_num)
+      vim.notify('Spawned pi pane ' .. pane_num .. ' and sent message')
+    end, 2000)
+  end
+end
+
 --- Entry point: capture selection, prompt for instructions, run pi
 function M.edit_selection()
   -- Capture selection bounds while still in visual mode
