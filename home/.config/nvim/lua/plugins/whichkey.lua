@@ -1,3 +1,5 @@
+local plugins = require 'lib.plugins'
+
 local icons = {
   code = '',
   diagnostics = '',
@@ -12,10 +14,8 @@ local icons = {
   copilot = '',
 }
 
-return {
-  'folke/which-key.nvim',
-  cond = not vim.g.vscode,
-  event = 'VimEnter',
+plugins.add {
+  src = 'folke/which-key.nvim',
   opts = {
     preset = 'helix',
     show_help = false,

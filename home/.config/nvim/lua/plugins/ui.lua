@@ -1,3 +1,4 @@
+local plugins = require 'lib.plugins'
 local tools = require 'lib.tools'
 
 local get_theme = function()
@@ -59,16 +60,15 @@ local macro_recording = function()
     return ''
   end
 
-  return tools.hl_str('LualineRecording', ' Recording @' .. reg)
+  return tools.hl_str('LualineRecording', ' Recording @' .. reg)
 end
 
-return {
+plugins.add {
+  { src = 'nvim-tree/nvim-web-devicons' },
+
   {
-    'nvim-lualine/lualine.nvim',
-    cond = not vim.g.vscode,
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
-    event = 'VeryLazy',
-    config = function()
+    src = 'nvim-lualine/lualine.nvim',
+    opts = function(ctx)
       -- adds a border for inactive windows
       vim.opt.fillchars = {
         stl = ' ',
@@ -78,12 +78,12 @@ return {
         fold = ' ',
       }
 
-      vim.keymap.set('n', '<leader>xp', function()
+      ctx.map('n', '<leader>xp', function()
         vim.g.lualine_full_path = not vim.g.lualine_full_path
         require('lualine').refresh()
       end, { desc = 'Toggle lualine full path' })
 
-      require('lualine').setup {
+      return {
         options = {
           theme = get_theme(),
           always_show_tabline = false,
@@ -114,9 +114,7 @@ return {
           lualine_b = {
             'diagnostics',
           },
-          lualine_c = {
-            -- '%=', - to center a section
-          },
+          lualine_c = {},
           lualine_x = {},
           lualine_y = { 'branch' },
           lualine_z = { copilot_status },

@@ -1,0 +1,166 @@
+*plugins.txt*                                    Plugin management helpers
+
+==============================================================================
+CONTENTS                                                    *plugins-contents*
+
+  1. Overview ..................... |plugins-overview|
+  2. plugins.add() ............... |plugins-add|
+  3. Spec fields ................. |plugins-spec|
+  4. The opts field .............. |plugins-opts|
+  5. Context object .............. |plugins-ctx|
+  6. Examples .................... |plugins-examples|
+
+==============================================================================
+1. OVERVIEW                                                *plugins-overview*
+
+`lib.plugins` is a thin wrapper around |vim.pack| that adds automatic setup
+and keymap registration. Plugins are managed in category files under
+`lua/plugins/` (e.g. `editing.lua`, `git.lua`, `ai.lua`).
+
+Source URLs default to GitHub. A bare `user/repo` is automatically prefixed
+with `https://github.com/`. Full URLs (starting with `https://`) are passed
+through as-is.
+
+==============================================================================
+2. plugins.add()                                              *plugins-add*
+>lua
+    local plugins = require 'lib.plugins'
+
+    plugins.add {
+      { src = 'windwp/nvim-autopairs', opts = {} },
+      { src = 'numToStr/Comment.nvim', opts = {} },
+    }
+<
+Parameters: ~
+  • {specs}  `(string|plugins.Spec)[]`  List of plugin specifications.
+    String items are treated as `src`.
+
+Internally calls |vim.pack.add()| to install and load plugins, then runs
+setup logic based on the `opts` field.
+
+==============================================================================
+3. SPEC FIELDS                                               *plugins-spec*
+
+Extends |vim.pack.Spec| with one additional field:
+
+  Field     Type                              Description ~
+  `src`       `string`                            `user/repo` or full URL.
+  `name`      `string?`                           Plugin name. Defaults to the
+                                                repo name with `.nvim` and
+                                                `.lua` suffixes stripped.
+  `version`   `string|vim.VersionRange?`          Version constraint.
+  `opts`      `table|fun(ctx: plugins.Ctx): table?`  See |plugins-opts|.
+
+==============================================================================
+4. THE OPTS FIELD                                            *plugins-opts*
+
+The `opts` field controls how a plugin is configured. It supports three
+forms:
+
+Table ~
+
+Passed directly to `require(name).setup(opts)`.
+>lua
+    { src = 'windwp/nvim-autopairs', opts = {} }
+    { src = 'numToStr/Comment.nvim', opts = { padding = true } }
+<
+Function (full control) ~
+
+Called with a |plugins-ctx| object. Setup is handled automatically:
+
+• If your function calls `require(name).setup()` itself, it will be
+  detected and won't be called again.
+
+• If your function does NOT call setup, `setup({})` is called
+  automatically after opts returns.
+
+• If your function returns a table and did not call setup, the table
+  is passed to `setup()` as the config.
+>lua
+    -- setup() called automatically with {}
+    opts = function(ctx)
+      ctx.map('n', '<leader>gg', '<cmd>Neogit<cr>', { desc = 'Neogit' })
+    end
+
+    -- setup() called automatically with returned table
+    opts = function(ctx)
+      ctx.map('n', '<leader>gg', '<cmd>Neogit<cr>', { desc = 'Neogit' })
+      return { kind = 'split' }
+    end
+
+    -- setup() called manually (detected, won't double-call)
+    opts = function(ctx)
+      require('neogit').setup { kind = 'split' }
+      ctx.map('n', '<leader>gg', '<cmd>Neogit<cr>', { desc = 'Neogit' })
+    end
+<
+Nil (omitted) ~
+
+Plugin is installed and loaded via |vim.pack.add()| but no setup or
+keymaps are registered.
+
+==============================================================================
+5. CONTEXT OBJECT                                            *plugins-ctx*
+
+The `opts` function receives a context table with the following fields:
+
+  Field     Type                                Description ~
+  `name`      `string`                              Plugin name
+  `map`       `fun(mode, lhs, rhs, opts?)`          Alias for |vim.keymap.set()|
+
+==============================================================================
+6. EXAMPLES                                              *plugins-examples*
+
+Editing plugins with default setup: >lua
+    local plugins = require 'lib.plugins'
+
+    plugins.add {
+      { src = 'windwp/nvim-autopairs', opts = {} },
+      { src = 'numToStr/Comment.nvim', opts = {} },
+    }
+<
+Git plugins with keymaps: >lua
+    local plugins = require 'lib.plugins'
+
+    plugins.add {
+      {
+        src = 'trevorhauter/gitportal.nvim',
+        opts = function(ctx)
+          ctx.map('n', '<leader>go', require('gitportal').open_file_in_browser,
+            { desc = 'Open file in Github' })
+          return { always_include_current_line = true }
+        end,
+      },
+      {
+        src = 'NeogitOrg/neogit',
+        opts = function(ctx)
+          ctx.map('n', '<leader>gg', '<cmd>Neogit<cr>', { desc = 'Neogit' })
+        end,
+      },
+    }
+<
+AI plugins with manual setup: >lua
+    local plugins = require 'lib.plugins'
+
+    plugins.add {
+      {
+        src = 'zbirenbaum/copilot.lua',
+        name = 'copilot',
+        opts = function(ctx)
+          local palette = require 'grapelean.palette'
+          vim.api.nvim_set_hl(0, 'CopilotSuggestion', { fg = palette.gray })
+
+          require('copilot').setup {
+            suggestion = { enabled = true, auto_trigger = true },
+          }
+        end,
+      },
+    }
+<
+Non-GitHub source: >lua
+    plugins.add {
+      { src = 'https://codeberg.org/user/plugin', opts = {} },
+    }
+<
+==============================================================================
+ vim:tw=78:ts=8:ft=help:norl:

@@ -19,6 +19,9 @@ require('lazy').setup({
   { import = 'lazy-plugins' },
 }, {
   dev = { path = plugins.custom_path() },
+  performance = {
+    reset_packpath = false,
+  },
   ui = {
     icons = {},
   },

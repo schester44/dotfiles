@@ -1,9 +1,11 @@
-return {
+local plugins = require 'lib.plugins'
+
+plugins.add {
   {
-    'zbirenbaum/copilot.lua',
-    event = 'InsertEnter',
-    cond = not vim.g.vscode,
-    config = function()
+    src = 'zbirenbaum/copilot.lua',
+    name = 'copilot',
+    opts = function(ctx)
+      print('Setting up ' .. ctx.name)
       local palette = require 'grapelean.palette'
 
       vim.api.nvim_set_hl(0, 'CopilotSuggestion', { fg = palette.gray, bg = nil })
