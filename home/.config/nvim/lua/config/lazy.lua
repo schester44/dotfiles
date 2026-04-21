@@ -16,7 +16,7 @@ vim.opt.rtp:prepend(lazypath)
 --  To check the current status of your plugins, run
 --    :Lazy
 require('lazy').setup({
-  { import = 'plugins' },
+  { import = 'lazy-plugins' },
 }, {
   dev = { path = plugins.custom_path() },
   ui = {
