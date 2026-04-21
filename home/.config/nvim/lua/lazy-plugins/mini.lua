@@ -171,12 +171,13 @@ return {
       local file_picker = require 'fff.file_picker'
       query = query or ''
       local results = file_picker.search_files(query, fff_state.current_file_cache, 100, 4)
+      local cwd = vim.uv.cwd()
 
       local items = {}
       for _, item in ipairs(results) do
         table.insert(items, {
           text = item.relative_path,
-          path = item.path,
+          path = cwd .. '/' .. item.relative_path,
           score = item.total_frecency_score,
         })
       end
@@ -303,17 +304,18 @@ return {
       local result = grep.search(query, 0, 200)
       local items = {}
       for _, item in ipairs(result.items or {}) do
-        local file = item.relative_path or item.path or ''
+        local file = item.relative_path or ''
         local fname = vim.fn.fnamemodify(file, ':t')
         local lnum = item.line_number or 0
         local col = (item.col or 0)
         local content = item.line_content or ''
+        local abs_path = vim.uv.cwd() .. '/' .. file
         if type(content) ~= 'string' then
           content = tostring(content) or ''
         end
         table.insert(items, {
           text = string.format('%s:%d: %s', fname, lnum, vim.trim(content)),
-          path = item.path or '',
+          path = abs_path,
           lnum = lnum,
           col = col,
         })
