@@ -32,6 +32,14 @@ set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+set('v', '<leader>pe', function()
+  require('lib.pi-edit').edit_selection()
+end, { desc = 'Pi Edit' })
+
+set('v', '<leader>ps', function()
+  require('lib.pi-edit').send_to_pane()
+end, { desc = 'Pi Send' })
+
 set('n', 'grv', function()
   vim.cmd 'vsplit'
   vim.lsp.buf.definition()
@@ -82,8 +90,6 @@ set('n', '<leader>w', '<cmd>:w<CR>', { desc = 'which_key_ignore' })
 set('n', '<leader>q', '<cmd>:q<CR>', { desc = 'which_key_ignore' })
 set('n', '<leader>Q', '<cmd>qa<CR>', { desc = 'which_key_ignore' })
 
-set('n', ']b', '<cmd>BuffyCycleNext<CR>', { desc = 'Next Buffer' })
-set('n', '[b', '<cmd>BuffyCyclePrev<CR>', { desc = 'Prev Buffer' })
 set('n', '[t', '<cmd>tabprevious<CR>', { desc = 'Previous Tab' })
 set('n', ']t', '<cmd>tabnext<CR>', { desc = 'Next Tab' })
 
@@ -137,15 +143,6 @@ k.set_toggle_keymap {
     end, 1000)
   end,
 }
-
--- Send selection to pi via headless RPC mode
-set('v', '<leader>pe', function()
-  require('lib.pi-edit').edit_selection()
-end, { desc = 'Pi Edit' })
-
-set('v', '<leader>ps', function()
-  require('lib.pi-edit').send_to_pane()
-end, { desc = 'Pi Send' })
 
 k.set_toggle_keymap {
   keys = 'h',
