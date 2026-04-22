@@ -24,7 +24,8 @@ local setup_starter = function()
 end
 
 return {
-  'echasnovski/mini.nvim',
+  'nvim-mini/mini.nvim',
+  version = false,
   dependencies = {
     { 'nvim-treesitter/nvim-treesitter-textobjects', branch = 'main' },
     {
