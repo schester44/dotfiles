@@ -112,6 +112,15 @@ return {
         end,
       })
 
+      vim.lsp.config('prismals', {
+        root_markers = { 'schema.prisma' },
+        workspace = {
+          didChangeWatchedFiles = {
+            dynamicRegistration = false,
+          },
+        },
+      })
+
       vim.lsp.enable 'eslint'
       vim.lsp.enable 'tsgo'
       vim.lsp.enable 'prismals'

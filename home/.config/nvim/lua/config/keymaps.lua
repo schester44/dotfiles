@@ -121,6 +121,13 @@ set('v', '<leader>fcl', function()
 end, { desc = 'Copy file path with line range' })
 set('n', '<leader>fof', '<cmd>silent !open %:p:h<CR>', { desc = 'Open file in Finder' })
 
+-- Yank to system clipboard
+set({ 'n', 'v' }, '<leader>Y', '"+y', { desc = 'Yank to system clipboard' })
+
+-- Remap g< (ui2 pager: show recent messages) to <leader>xm
+-- g< is taken by vim-swap (<Plug>(swap-prev))
+set('n', '<leader>xm', 'g<', { desc = 'Show messages (ui2 pager)' })
+
 -- append a comma to end of line
 set('n', ',,', 'A,<esc>', { desc = 'Append ,' })
 
