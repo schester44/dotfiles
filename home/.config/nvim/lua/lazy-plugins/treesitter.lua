@@ -25,6 +25,7 @@ return { -- Highlight, edit, and navigate code
         'typescript',
         'javascript',
         'tsx',
+        'prisma',
       }
 
       -- Enable treesitter highlighting for all filetypes that have a parser

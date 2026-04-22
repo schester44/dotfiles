@@ -114,6 +114,7 @@ return {
 
       vim.lsp.enable 'eslint'
       vim.lsp.enable 'tsgo'
+      vim.lsp.enable 'prismals'
     end,
   },
 }
