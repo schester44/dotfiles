@@ -86,6 +86,24 @@ set('n', '<leader>bo', function()
   end
 end, { desc = 'Delete Other Buffers' })
 
+set('n', '<leader>ba', function()
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buflisted then
+      MiniBufremove.delete(buf)
+    end
+  end
+  vim.cmd 'only'
+  require('mini.starter').open()
+  vim.defer_fn(function()
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+      local name = vim.api.nvim_buf_get_name(buf)
+      if name == '' and vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buflisted then
+        vim.api.nvim_buf_delete(buf, { force = false })
+      end
+    end
+  end, 300)
+end, { desc = 'Delete All Buffers' })
+
 set('n', '<leader>w', '<cmd>:w<CR>', { desc = 'which_key_ignore' })
 set('n', '<leader>q', '<cmd>:q<CR>', { desc = 'which_key_ignore' })
 set('n', '<leader>Q', '<cmd>qa<CR>', { desc = 'which_key_ignore' })

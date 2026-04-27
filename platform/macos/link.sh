@@ -12,3 +12,6 @@ ln -sf "$DIR/aerospace" "$CONFIG_DEST/aerospace"
 
 # Sketchybar
 ln -sf "$DIR/sketchybar" "$CONFIG_DEST/sketchybar"
+
+# Karabiner
+ln -sf "$DIR/karabiner" "$CONFIG_DEST/karabiner"

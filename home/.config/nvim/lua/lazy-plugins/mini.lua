@@ -263,6 +263,8 @@ return {
           return
         end
       end
+      -- Rescan to pick up files created externally (e.g. by an LLM agent)
+      file_picker.scan_files()
 
       local current_buf = vim.api.nvim_get_current_buf()
       if current_buf and vim.api.nvim_buf_is_valid(current_buf) then
@@ -332,6 +334,8 @@ return {
           return
         end
       end
+      -- Rescan to pick up files created externally (e.g. by an LLM agent)
+      file_picker.scan_files()
 
       MiniPick.start {
         source = {
