@@ -1,11 +1,12 @@
 {
-  "lastChangelogVersion": "0.65.2",
+  "lastChangelogVersion": "0.73.0",
   "hideThinkingBlock": false,
   "defaultProvider": "anthropic",
   "defaultModel": "claude-opus-4-6",
   "defaultThinkingLevel": "medium",
   "theme": "my-theme",
   "packages": [
-    "npm:pi-subagents"
+    "npm:pi-subagents",
+    "npm:pi-mcp-adapter"
   ]
 }

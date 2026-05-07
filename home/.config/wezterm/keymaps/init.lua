@@ -54,7 +54,7 @@ function M.apply(config)
 
 		{
 			key = "k",
-			mods = "CMD",
+			mods = "LEADER",
 			action = act.ShowLauncherArgs({
 				flags = "FUZZY|WORKSPACES",
 			}),
@@ -165,6 +165,9 @@ function M.apply(config)
 		split_nav("resize", "j"),
 		split_nav("resize", "k"),
 		split_nav("resize", "l"),
+		-- scroll half page up/down
+		{ key = "k", mods = "CMD", action = act.ScrollByPage(-0.5) },
+		{ key = "j", mods = "CMD", action = act.ScrollByPage(0.5) },
 		-- resizing (full screen)
 		{
 			mods = "LEADER",

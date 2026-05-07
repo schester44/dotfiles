@@ -19,7 +19,7 @@ brew install gum 2>/dev/null
 # -----------------------------------------------------------
 # Homebrew packages
 # -----------------------------------------------------------
-gum spin --spinner dot --title "Installing Homebrew packages..." -- bash -c "source '$MAC/homebrew/brew.sh'"
+# gum spin --spinner dot --title "Installing Homebrew packages..." -- bash -c "source '$MAC/homebrew/brew.sh'"
 
 # -----------------------------------------------------------
 # Shared symlinks (cross-platform configs)
@@ -97,6 +97,8 @@ gum spin --spinner dot --title "Installing fonts..." -- bash -c '
   FONT_DIR="$HOME/Library/Fonts"
   mkdir -p "$FONT_DIR"
   unzip -o "'"$DOTFILES"'/system/fonts/fonts.zip" -d "$FONT_DIR"
+  curl -fsSL -o "$FONT_DIR/sketchybar-app-font.ttf" \
+    "https://github.com/kvndrsslr/sketchybar-app-font/releases/download/v2.0.28/sketchybar-app-font.ttf"
 '
 
 # -----------------------------------------------------------

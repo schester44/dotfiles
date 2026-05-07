@@ -95,11 +95,6 @@ exec-on-workspace-change = [
 #     if.app-id = 'com.github.Electron'
 #     run = ['layout floating']
 
-
-[[on-window-detected]]
-    if.app-id = 'com.heynote.app'
-    run = ['layout floating']
-
 [[on-window-detected]]
     if.app-id = 'com.github.wez.terminal'
     run = 'move-node-to-workspace 1'

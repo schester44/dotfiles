@@ -22,7 +22,9 @@ brew install --cask postman
 brew install --cask tableplus
 brew install --cask imageoptim
 
+brew tap FelixKratz/formulae
 brew install sketchybar
+brew install lua
 brew install sesh
 brew install lazygit
 brew install neovim
@@ -53,6 +55,7 @@ brew install cloudflared
 brew install zsh-autosuggestions
 brew install zsh-syntax-highlighting
 
+brew install --cask font-jetbrains-mono-nerd-font
 brew install --cask cleanshot
 brew install --cask nikitabobko/tap/aerospace
 brew install --cask firefox

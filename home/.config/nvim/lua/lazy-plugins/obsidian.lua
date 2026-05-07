@@ -1,4 +1,4 @@
-local vault_path = '~/Documents/Obsidian/Vault'
+local vault_path = '~/Documents/vaults/primary'
 
 vim.keymap.set('n', '<leader>on', '<cmd>Obsidian new<CR>', { desc = 'Obsidian New' })
 vim.keymap.set('n', '<leader>ot', '<cmd>Obsidian today<CR>', { desc = 'Obsidian Today' })
@@ -47,7 +47,8 @@ vim.keymap.set('n', '<leader>og', with_cwd_restore(function()
   if pattern == '' then
     return
   end
-  local cmd = vim.list_extend(vim.list_extend({}, vault_rg_base), { '--line-number', '--column', '--color=never', '--', pattern })
+  local cmd = vim.list_extend(vim.list_extend({}, vault_rg_base),
+    { '--line-number', '--column', '--color=never', '--', pattern })
   MiniPick.builtin.cli(
     { command = cmd },
     { source = { name = 'Obsidian Grep', cwd = vault_resolved } }
@@ -55,7 +56,8 @@ vim.keymap.set('n', '<leader>og', with_cwd_restore(function()
 end), { desc = 'Obsidian Grep' })
 
 vim.keymap.set('n', '<leader>oa', with_cwd_restore(function()
-  local cmd = vim.list_extend(vim.list_extend({}, vault_rg_base), { '--line-number', '--column', '--color=never', '--', '#' })
+  local cmd = vim.list_extend(vim.list_extend({}, vault_rg_base),
+    { '--line-number', '--column', '--color=never', '--', '#' })
   MiniPick.builtin.cli(
     { command = cmd },
     { source = { name = 'Obsidian Tags', cwd = vault_resolved } }
