@@ -165,6 +165,8 @@ function M.apply(config)
 		split_nav("resize", "j"),
 		split_nav("resize", "k"),
 		split_nav("resize", "l"),
+		-- enter copy mode
+		{ key = "c", mods = "LEADER", action = act.ActivateCopyMode },
 		-- scroll half page up/down
 		{ key = "k", mods = "CMD", action = act.ScrollByPage(-0.5) },
 		{ key = "j", mods = "CMD", action = act.ScrollByPage(0.5) },

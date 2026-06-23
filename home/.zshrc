@@ -26,6 +26,12 @@ compinit
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' menu select
 
+# fzf-tab — must be after compinit, before other plugins
+[ -f /usr/share/zsh/plugins/fzf-tab/fzf-tab.zsh ] && \
+  source /usr/share/zsh/plugins/fzf-tab/fzf-tab.zsh
+[ -f /opt/homebrew/opt/fzf-tab/share/fzf-tab/fzf-tab.zsh ] && \
+  source /opt/homebrew/opt/fzf-tab/share/fzf-tab/fzf-tab.zsh
+
 # Key bindings
 bindkey -e
 

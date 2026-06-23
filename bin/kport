@@ -1,0 +1,18 @@
+#!/bin/bash
+# Kill the process listening on a given port
+# Usage: kport <port>
+
+if [ -z "$1" ]; then
+  echo "Usage: kport <port>" >&2
+  exit 1
+fi
+
+pid=$(lsof -ti :"$1")
+
+if [ -z "$pid" ]; then
+  echo "No process found on port $1" >&2
+  exit 1
+fi
+
+echo "Killing PID $pid on port $1"
+kill -9 $pid
