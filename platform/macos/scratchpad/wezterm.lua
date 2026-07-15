@@ -40,6 +40,26 @@ end)
 -- Launch directly into the vault
 config.default_cwd = os.getenv("HOME") .. "/Documents/vaults/primary"
 
+-- Visual focus indicator: constant border, color swaps on focus
+config.window_frame = {
+	border_left_width = "4px",
+	border_right_width = "4px",
+	border_bottom_height = "4px",
+	border_top_height = "4px",
+	border_left_color = "#111114",
+	border_right_color = "#111114",
+	border_bottom_color = "#111114",
+	border_top_color = "#111114",
+}
+
+wezterm.on("window-focus-changed", function(window)
+	local overrides = window:get_config_overrides() or {}
+
+	overrides.window_background_opacity = window:is_focused() and 0.95 or 0.7
+
+	window:set_config_overrides(overrides)
+end)
+
 -- Position window on startup: right side of screen, always on top
 wezterm.on("gui-startup", function(cmd)
 	local tab, pane, window = wezterm.mux.spawn_window(cmd or {})
