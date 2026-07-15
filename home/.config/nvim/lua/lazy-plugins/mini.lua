@@ -304,7 +304,15 @@ return {
       if query == '' then
         return {}
       end
-      local result = grep.search(query, 0, 200)
+      local grep_mode = 'plain'
+      if query:sub(1, 1) == '/' then
+        grep_mode = 'regex'
+        query = query:sub(2)
+      end
+      if query == '' then
+        return {}
+      end
+      local result = grep.search(query, 0, 200, nil, grep_mode)
       local items = {}
       for _, item in ipairs(result.items or {}) do
         local file = item.relative_path or ''
