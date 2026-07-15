@@ -11,13 +11,7 @@ CURRENT_WS=$(aerospace list-workspaces --focused)
 
 find_window() {
     aerospace list-windows "$@" --json 2>/dev/null \
-        | python3 -c "
-import json, sys
-for w in json.load(sys.stdin):
-    if w.get('window-title') == 'scratchpad':
-        print(w['window-id'])
-        break
-" 2>/dev/null
+        | jq -r '[.[] | select(.["window-title"] == "scratchpad")][0] // empty | .["window-id"]' 2>/dev/null
 }
 
 # Check if scratchpad exists at all
