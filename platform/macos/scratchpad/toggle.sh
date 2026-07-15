@@ -1,12 +1,12 @@
 #!/bin/bash
 # Toggle a floating WezTerm scratchpad with nvim + TODAY.md
-#   - Not running        → launch on current workspace
-#   - On current workspace → kill it
-#   - On other workspace  → pull it here and focus
+#   - Not running          → launch on current workspace
+#   - On current workspace → stash it (hide)
+#   - Stashed/other ws     → pull it here and focus
 
 CONFIG="$HOME/.config/scratchpad/wezterm.lua"
 VAULT="$HOME/Documents/vaults/primary"
-PID_FILE="/tmp/scratchpad.pid"
+STASH_WS="scratch-stash"
 CURRENT_WS=$(aerospace list-workspaces --focused)
 
 find_window() {
@@ -24,17 +24,13 @@ for w in json.load(sys.stdin):
 WINDOW_ID=$(find_window --all)
 
 if [ -n "$WINDOW_ID" ]; then
-    # Check if it's on the focused workspace
     LOCAL_ID=$(find_window --workspace focused)
 
     if [ -n "$LOCAL_ID" ]; then
-        # On this workspace — kill it
-        if [ -f "$PID_FILE" ]; then
-            kill "$(cat "$PID_FILE")" 2>/dev/null
-            rm -f "$PID_FILE"
-        fi
+        # On this workspace — stash it
+        aerospace move-node-to-workspace --window-id "$WINDOW_ID" "$STASH_WS" 2>/dev/null
     else
-        # On another workspace — pull it here and focus
+        # Stashed or on another workspace — pull it here
         aerospace move-node-to-workspace --window-id "$WINDOW_ID" "$CURRENT_WS" 2>/dev/null
         aerospace layout --window-id "$WINDOW_ID" floating 2>/dev/null
         aerospace focus --window-id "$WINDOW_ID" 2>/dev/null
@@ -50,17 +46,8 @@ fi
     --cwd "$VAULT" \
     -- nvim TODAY.md &
 
-# Wait for the wezterm-gui process, then track and float it
+# Wait for window to appear, then float it on current workspace
 (
-    for i in $(seq 1 30); do
-        GUI_PID=$(pgrep -f "scratchpad/wezterm.lua" | head -1)
-        if [ -n "$GUI_PID" ]; then
-            echo "$GUI_PID" > "$PID_FILE"
-            break
-        fi
-        sleep 0.15
-    done
-
     for i in $(seq 1 30); do
         WINDOW_ID=$(find_window --all)
         if [ -n "$WINDOW_ID" ]; then
@@ -69,13 +56,7 @@ fi
             aerospace focus --window-id "$WINDOW_ID" 2>/dev/null
             break
         fi
-        sleep 0.15
+        sleep 0.1
     done
-
-    # Clean up PID file when process exits
-    if [ -n "$GUI_PID" ]; then
-        while kill -0 "$GUI_PID" 2>/dev/null; do sleep 1; done
-        rm -f "$PID_FILE"
-    fi
 ) &
 disown
