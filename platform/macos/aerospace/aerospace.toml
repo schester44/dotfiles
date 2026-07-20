@@ -5,8 +5,8 @@ after-startup-command = ['exec-and-forget sketchybar']
 
 # Notify Sketchybar about workspace change
 exec-on-workspace-change = [
-  "/bin/bash",
-  "$HOME/.config/aerospace/on-workspace-change.sh"
+  '/bin/bash', '-c',
+  '$HOME/.config/aerospace/on-workspace-change.sh'
 ]
 
 # Scratchpad must come before general WezTerm rule — first match wins
