@@ -1,0 +1,39 @@
+home/.config/nvim/lua/lazy-plugins/lsp.lua
+  s_0b33caacb9d06f::t_eace2126f7e9f7 8,39
+home/.config/nvim/lua/config/keymaps.lua
+  s_ed18f1d759e9d5::t_85a201dd9930cc 17-35
+home/.config/nvim/lua/lazy-plugins/mini.lua
+  s_4e8a8a7f9dd0f6::t_8ac67172e69733 12,46-48,105,107,109-110,256-260,286,365
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "e95fd9688fec46e5fe22becb9f9338d1a442c011",
+  "prompts": {},
+  "sessions": {
+    "s_0b33caacb9d06f": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "019fa533-5fed-7a63-8999-977ac06dd7d3",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    },
+    "s_4e8a8a7f9dd0f6": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "019faf57-3744-75d4-90d1-88f306c81982",
+        "model": "unknown"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    },
+    "s_ed18f1d759e9d5": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "019faf44-5c8e-7350-a241-eafbed7d99ea",
+        "model": "unknown"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
