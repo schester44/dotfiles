@@ -5,7 +5,7 @@ return {
     'Sebastian-Nielsen/better-type-hover',
     config = function()
       require('better-type-hover').setup {
-        openTypeDocKeymap = 'gk',
+        openTypeDocKeymap = 'gK',
       }
     end,
   },
@@ -36,6 +36,7 @@ return {
           end
 
           map('grd', vim.lsp.buf.definition, 'Goto Definition')
+          map('gk', vim.lsp.buf.hover, 'LSP Hover')
           -- these have been remapped under `gr` default prefix
           -- map('gr', vim.lsp.buf.references, 'Goto References')
           -- map('<leader>cr', vim.lsp.buf.rename, 'Code Rename')

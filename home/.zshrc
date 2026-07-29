@@ -74,3 +74,8 @@ fi
 
 # Path
 export PATH="$DOTFILES/bin:$HOME/.local/bin:$PATH"
+
+
+# Local overrides (not committed)
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+

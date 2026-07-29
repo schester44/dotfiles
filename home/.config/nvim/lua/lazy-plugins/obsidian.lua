@@ -74,10 +74,7 @@ return {
     picker = {
       name = 'mini.pick',
     },
-    completion = {
-      blink = true,
-      nvim_cmp = false,
-    },
+    completion = {},
     daily_notes = {
       folder = 'daily',
     },
@@ -85,10 +82,6 @@ return {
       {
         name = 'all',
         path = vault_path,
-      },
-      {
-        name = 'old',
-        path = '~/vaults/work',
       },
     },
   },

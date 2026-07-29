@@ -45,11 +45,5 @@ return {
         highlight = { backdrop = false },
       } },
     }
-
-    local palette = require 'grapelean.palette'
-    vim.api.nvim_set_hl(0, 'FlashBackdrop', { italic = true })
-    vim.api.nvim_set_hl(0, 'FlashMatch', { underline = true, bold = true, fg = palette.pink })
-    vim.api.nvim_set_hl(0, 'FlashCurrent', { underline = true, bold = true, fg = palette.pink_light })
-    vim.api.nvim_set_hl(0, 'FlashLabel', { bg = palette.yellow, fg = palette.bg_dark })
   end,
 }

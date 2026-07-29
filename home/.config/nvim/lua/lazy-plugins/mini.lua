@@ -7,12 +7,9 @@ local setup_starter = function()
      N E O V I M
   ]]
   local footer = [[]]
-
-  local items = nil
-
   local starter = require 'mini.starter'
 
-  items = {
+  local items = {
     starter.sections.recent_files(10, true, false),
   }
 
@@ -29,7 +26,6 @@ return {
   dependencies = {
     { 'nvim-treesitter/nvim-treesitter-textobjects', branch = 'main' },
     {
-
       'dmtrKovalenko/fff.nvim',
       build = function()
         -- this will download prebuild binary or try to use existing rustup toolchain to build from source
@@ -47,17 +43,9 @@ return {
 
     hipatterns.setup {
       highlighters = {
-        fixme = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
-        fixme2 = { pattern = '%f[%w]()fixme()%f[%W]', group = 'MiniHipatternsFixme' },
-        todo = {
-          pattern = '%f[%w]()TODO()%f[%W]',
-          group = 'MiniHipatternsTodo',
-        },
-        todo2 = {
-          pattern = '%f[%w]()todo()%f[%W]',
-          group = 'MiniHipatternsTodo',
-        },
-        note = { pattern = '%f[%w]()NOTE()%f[%W]', group = 'MiniHipatternsNote' },
+        fixme = { pattern = '%f[%w]()[Ff][Ii][Xx][Mm][Ee]()%f[%W]', group = 'MiniHipatternsFixme' },
+        todo = { pattern = '%f[%w]()[Tt][Oo][Dd][Oo]()%f[%W]', group = 'MiniHipatternsTodo' },
+        note = { pattern = '%f[%w]()[Nn][Oo][Tt][Ee]()%f[%W]', group = 'MiniHipatternsNote' },
         hex_color = hipatterns.gen_highlighter.hex_color(),
       },
     }
@@ -114,13 +102,12 @@ return {
       end,
     })
 
-    vim.keymap.set('n', '_', function()
+    local function open_mini_files()
       MiniFiles.open(vim.api.nvim_buf_get_name(0))
-    end, { desc = 'Open mini.files (current file)' })
+    end
 
-    vim.keymap.set('n', '-', function()
-      MiniFiles.open(vim.api.nvim_buf_get_name(0))
-    end, { desc = 'Open mini.files (current file)' })
+    vim.keymap.set('n', '_', open_mini_files, { desc = 'Open mini.files (current file)' })
+    vim.keymap.set('n', '-', open_mini_files, { desc = 'Open mini.files (current file)' })
 
     require('mini.notify').setup {
       lsp_progress = { enable = false },
@@ -266,14 +253,11 @@ return {
       -- Rescan to pick up files created externally (e.g. by an LLM agent)
       file_picker.scan_files()
 
-      local current_buf = vim.api.nvim_get_current_buf()
-      if current_buf and vim.api.nvim_buf_is_valid(current_buf) then
-        local current_file = vim.api.nvim_buf_get_name(current_buf)
-        if current_file ~= '' and vim.fn.filereadable(current_file) == 1 then
-          fff_state.current_file_cache = vim.fs.relpath(vim.uv.cwd(), current_file)
-        else
-          fff_state.current_file_cache = nil
-        end
+      local current_file = vim.api.nvim_buf_get_name(0)
+      if current_file ~= '' and vim.fn.filereadable(current_file) == 1 then
+        fff_state.current_file_cache = vim.fs.relpath(vim.uv.cwd(), current_file)
+      else
+        fff_state.current_file_cache = nil
       end
 
       MiniPick.start {
@@ -299,7 +283,7 @@ return {
     vim.keymap.set('n', '<leader><space>', fff_pick, { desc = 'Find Files (fff)' })
     -- fff.nvim live grep picker
     local function fff_grep_find(query)
-      local grep = require 'fff.grep'
+      local grep = require 'fff.picker_ui.grep_renderer'
       query = query or ''
       if query == '' then
         return {}
@@ -378,7 +362,7 @@ return {
       -- Collect lowercase (buffer-local) and uppercase (global) marks
       for _, mark_char in ipairs(vim.split('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', '')) do
         local pos = vim.api.nvim_get_mark(mark_char, {})
-        local row, col, buf, file = pos[1], pos[2], pos[3], pos[4]
+        local row, col, _, file = pos[1], pos[2], pos[3], pos[4]
         if row ~= 0 then
           local line_text = ''
           if file ~= '' then
@@ -547,12 +531,6 @@ return {
 
     ai.setup {
       n_lines = 500,
-      -- custom_textobjects = {
-      --   f = ai.gen_spec.treesitter({ a = '@function.outer', i = '@function.inner' }, {}),
-      --   c = ai.gen_spec.treesitter({ a = '@class.outer', i = '@class.inner' }, {}),
-      --   a = ai.gen_spec.treesitter({ a = '@parameter.outer', i = '@parameter.inner' }, {}),
-      --   p = ai.gen_spec.treesitter({ a = '@parameter.list', i = '@parameter.list' }, {}),
-      -- },
     }
 
     -- Move lines

@@ -14,7 +14,25 @@ set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 -- Diagnostic keymaps
 -- For other diagnostic commands, see trouble.lua
 set('n', '<leader>dm', function()
-  vim.diagnostic.open_float { border = 'rounded' }
+  local float_bufnr, win = vim.diagnostic.open_float { border = 'rounded' }
+  if win then
+    local source_buf = vim.api.nvim_get_current_buf()
+
+    local function cleanup()
+      pcall(vim.keymap.del, 'n', '<CR>', { buffer = source_buf })
+    end
+
+    vim.keymap.set('n', '<CR>', function()
+      cleanup()
+      vim.api.nvim_set_current_win(win)
+    end, { buffer = source_buf, desc = 'Focus diagnostic float' })
+
+    vim.api.nvim_create_autocmd('WinClosed', {
+      pattern = tostring(win),
+      once = true,
+      callback = cleanup,
+    })
+  end
 end, { desc = 'Open floating [L]sp [D]iagnostic message' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier

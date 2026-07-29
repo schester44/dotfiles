@@ -9,3 +9,9 @@ Detect the OS at runtime using `uname -s` before making OS-specific decisions.
 ## User
 - Home directory: `~`
 - Default working directory: `~/Documents`
+
+## Obsidian
+- Vault path: `~/Documents/vaults/primary`
+- Use spaces in filenames (Obsidian convention), not hyphens
+- Key folders: `Work/Obie/`, `Projects/`, `daily/`, `Ideas.md`
+- Attachments go in `_attachments/`

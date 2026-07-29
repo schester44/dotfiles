@@ -19,3 +19,6 @@
 [user]
 	email = schester44@gmail.com
 	name = Steve Chester
+# Machine-local overrides (not tracked in dotfiles)
+[include]
+	path = ~/.gitconfig.local
