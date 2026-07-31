@@ -66,6 +66,8 @@ return {
       -- Merge conflict resolution: opens 3-way diff when in a merge/rebase state
       set('n', '<leader>gd', '<cmd>DiffviewOpen<CR>', { desc = 'Diffview merge conflicts' })
       set('n', '<leader>gq', '<cmd>DiffviewClose<CR>', { desc = 'Diffview close' })
+
+      set('v', '<leader>gh', ':DiffviewFileHistory %<CR>', { desc = 'File history (selection)' })
     end,
   },
   {
