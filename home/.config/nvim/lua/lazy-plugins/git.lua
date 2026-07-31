@@ -17,11 +17,6 @@ return {
 
       -- Opens a Githost link directly in Neovim, optionally switching to the branch/commit.
       set('n', '<leader>ig', gitportal.open_file_in_neovim, { desc = 'Open Github link in Neovim' })
-
-      -- Generates and copies the permalink of your current file to your clipboard.
-      -- When in visual mode, selected lines are included in the permalink.
-      set('n', '<leader>gc', gitportal.copy_link_to_clipboard, { desc = 'Copy GitHub link to clipboard' })
-      set('v', '<leader>gc', gitportal.copy_link_to_clipboard, { desc = 'Copy GitHub link to clipboard' })
     end,
   },
 
@@ -61,10 +56,21 @@ return {
         if ref ~= '' then
           vim.cmd('DiffviewOpen ' .. ref)
         end
-      end, { desc = 'Diffview' })
+      end, { desc = 'Diffview ref/range' })
+
+      -- Quick single-commit review: tries word under cursor as a ref, falls back to HEAD~1
+      set('n', '<leader>gc', function()
+        local word = vim.fn.expand('<cword>')
+        -- If it looks like a commit hash, use it; otherwise default to HEAD~1
+        local default = word:match('^%x%x%x%x%x+$') and word or 'HEAD~1'
+        local ref = vim.fn.input('Commit: ', default)
+        if ref ~= '' then
+          vim.cmd('DiffviewOpen ' .. ref .. '^!')
+        end
+      end, { desc = 'Diffview single commit' })
 
       -- Merge conflict resolution: opens 3-way diff when in a merge/rebase state
-      set('n', '<leader>gd', '<cmd>DiffviewOpen<CR>', { desc = 'Diffview merge conflicts' })
+      set('n', '<leader>gd', '<cmd>DiffviewOpen<CR>', { desc = 'Diffview working changes' })
       set('n', '<leader>gq', '<cmd>DiffviewClose<CR>', { desc = 'Diffview close' })
 
       set('v', '<leader>gh', ':DiffviewFileHistory %<CR>', { desc = 'File history (selection)' })
