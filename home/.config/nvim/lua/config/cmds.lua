@@ -1,6 +1,6 @@
 -- Find all unchecked checkboxes in markdown files
 vim.api.nvim_create_user_command('Todos', function(opts)
-  local path = opts.args ~= '' and vim.fn.expand '%:p' or '**/*.md' -- Use current file if an argument is provided
+  local path = opts.args ~= '' and opts.args or vim.fn.expand '~/Documents/vaults/primary' .. '/**/*.md'
 
   vim.fn.setqflist {} -- Clear quickfix list
 

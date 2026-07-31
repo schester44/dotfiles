@@ -28,8 +28,8 @@ return {
   {
     'NeogitOrg/neogit',
     dependencies = {
-      'nvim-lua/plenary.nvim', -- required
-      'sindrets/diffview.nvim', -- optional - Diff integration
+      'nvim-lua/plenary.nvim',           -- required
+      'dlyongemallo/diffview-plus.nvim', -- optional - Diff integration
     },
     keys = {
       { '<leader>gg', '<cmd>Neogit<cr>', desc = 'Neogit' },
@@ -37,9 +37,23 @@ return {
   },
 
   {
-    'sindrets/diffview.nvim',
+    'dlyongemallo/diffview-plus.nvim',
     cond = not vim.g.vscode,
     config = function()
+      vim.opt.diffopt = {
+        'internal',
+        'filler',
+        'closeoff',
+        'context:12',
+        'algorithm:histogram',
+        'linematch:200',
+        'indent-heuristic',
+      }
+
+      require('diffview').setup {
+        enhanced_diff_hl = true,
+      }
+
       set('n', '<leader>gh', '<cmd>:DiffviewFileHistory %<CR>', { desc = 'File history' })
 
       set('n', '<leader>gD', function()
@@ -79,12 +93,11 @@ return {
         end
       end, { desc = 'Prev hunk' })
 
-      set('n', '<leader>gs', gs.stage_hunk, { desc = 'Stage hunk' })
-      set('n', '<leader>gr', gs.reset_hunk, { desc = 'Reset hunk' })
-      set('n', '<leader>gu', gs.undo_stage_hunk, { desc = 'Undo stage hunk' })
-      set('n', '<leader>gp', gs.preview_hunk_inline, { desc = 'Preview hunk' })
-      set('n', '<leader>gP', gs.preview_hunk, { desc = 'Preview hunk inline' })
-      set('n', '<leader>xb', gs.toggle_current_line_blame, { desc = 'Toggle line blame' })
+      set('n', '<leader>hs', gs.stage_hunk, { desc = '(Un)/Stage hunk' })
+      set('n', '<leader>hr', gs.reset_hunk, { desc = 'Reset hunk' })
+      set('n', '<leader>hp', gs.preview_hunk_inline, { desc = 'Preview hunk' })
+      set('n', '<leader>hP', gs.preview_hunk, { desc = 'Preview hunk inline' })
+      set('n', '<leader>tb', gs.toggle_current_line_blame, { desc = 'Toggle line blame' })
     end,
   },
 }

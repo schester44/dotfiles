@@ -83,7 +83,7 @@ autocmd({ 'BufLeave', 'QuitPre' }, {
   pattern = '*.md',
   callback = function()
     local filepath = vim.fn.expand '%:p'
-    if filepath:find(vim.fn.expand '~/vaults/') then
+    if filepath:find(vim.fn.expand '~/Documents/vaults/') then
       vim.cmd 'silent! write'
     end
   end,

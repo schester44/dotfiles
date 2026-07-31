@@ -16,6 +16,7 @@ return {
         },
       },
     },
+    default_env = 'dev',
     global_keymaps = false,
     kulala_keymaps_prefix = '',
   },

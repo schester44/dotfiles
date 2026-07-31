@@ -15,6 +15,7 @@ set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 -- For other diagnostic commands, see trouble.lua
 set('n', '<leader>dm', function()
   local float_bufnr, win = vim.diagnostic.open_float { border = 'rounded' }
+
   if win then
     local source_buf = vim.api.nvim_get_current_buf()
 
@@ -33,7 +34,7 @@ set('n', '<leader>dm', function()
       callback = cleanup,
     })
   end
-end, { desc = 'Open floating [L]sp [D]iagnostic message' })
+end, { desc = 'Open diagnostic message' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -162,30 +163,17 @@ set({ 'n', 'v' }, '<leader>Y', '"+y', { desc = 'Yank to system clipboard' })
 
 -- Remap g< (ui2 pager: show recent messages) to <leader>xm
 -- g< is taken by vim-swap (<Plug>(swap-prev))
-set('n', '<leader>xm', 'g<', { desc = 'Show messages (ui2 pager)' })
+set('n', '<leader>dp', 'g<', { desc = 'Show messages (ui2 pager)' })
 
 -- append a comma to end of line
 set('n', ',,', 'A,<esc>', { desc = 'Append ,' })
 
-k.set_toggle_keymap {
-  keys = 'c',
-  desc = 'Copilot',
-  cmd = function()
-    local copilot = require 'copilot.command'
 
-    if not vim.g.copilot_disabled then
-      copilot.disable()
-      vim.g.copilot_disabled = true
-    else
-      copilot.enable()
-      vim.g.copilot_disabled = false
-    end
-
-    vim.defer_fn(function()
-      vim.cmd 'Copilot status'
-    end, 1000)
-  end,
-}
+set('n', '<leader>th', function()
+  local current_state = vim.lsp.inlay_hint.is_enabled()
+  vim.lsp.inlay_hint.enable(not current_state)
+  vim.notify('Inlay hints ' .. (not current_state and 'enabled' or 'disabled'))
+end, { desc = 'Toggle inlay hints' })
 
 k.set_toggle_keymap {
   keys = 'h',
