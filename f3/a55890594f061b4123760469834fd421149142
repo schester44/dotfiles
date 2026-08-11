@@ -1,0 +1,35 @@
+home/.config/nvim/lua/lazy-plugins/lsp.lua
+  s_7dd8aaf5c039d5::t_f933fd81ca7481 98,100,135
+  s_7dd8aaf5c039d5::t_55a44c7547ec70 99
+  s_7dd8aaf5c039d5::t_b2c600afdbce8d 97,101-105,107,134
+  s_7dd8aaf5c039d5::t_00737d1dab2aa2 92
+  s_390557f03a8819::t_8f2627fcd03734 115-129
+  s_7dd8aaf5c039d5::t_b9483d69a0a75a 93
+home/.config/nvim/lua/lazy-plugins/formatting.lua
+  s_7dd8aaf5c039d5::t_51b5bb65f5b6f1 46-51,56
+  s_7dd8aaf5c039d5::t_f640f623070b29 36-39,42,52-55
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "f3a55890594f061b4123760469834fd421149142",
+  "prompts": {},
+  "sessions": {
+    "s_390557f03a8819": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "019febf8-29ab-72ab-ab4c-87390be23b08",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    },
+    "s_7dd8aaf5c039d5": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "019fd747-5b79-7c06-b24f-530ad8a03dae",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
