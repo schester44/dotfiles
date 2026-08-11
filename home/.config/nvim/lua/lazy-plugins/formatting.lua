@@ -33,21 +33,27 @@ return {
     end,
     formatters_by_ft = {
       lua = { 'stylua' },
-      javascript = { 'prettier' },
-      typescript = { 'prettier' },
-      javascriptreact = { 'prettier' },
-      typescriptreact = { 'prettier' },
+      javascript = { 'oxfmt', 'prettier', stop_after_first = true },
+      typescript = { 'oxfmt', 'prettier', stop_after_first = true },
+      javascriptreact = { 'oxfmt', 'prettier', stop_after_first = true },
+      typescriptreact = { 'oxfmt', 'prettier', stop_after_first = true },
       css = { 'prettier' },
       html = { 'prettier' },
-      json = { 'prettier' },
+      json = { 'oxfmt', 'prettier', stop_after_first = true },
       yaml = { 'prettier' },
       markdown = { 'prettier' },
       graphql = { 'prettier' },
-      -- Conform can also run multiple formatters sequentially
-      -- python = { "isort", "black" },
-      --
-      -- You can use 'stop_after_first' to run the first available formatter from the list
-      -- javascript = { "prettierd", "prettier", stop_after_first = true },
+    },
+    formatters = {
+      oxfmt = {
+        command = 'npx',
+        args = { 'oxfmt', '--stdin-filepath', '$FILENAME' },
+        stdin = true,
+        -- Only available when .oxfmtrc.json exists in the project
+        condition = function(_, ctx)
+          return vim.fs.find('.oxfmtrc.json', { path = ctx.dirname, upward = true })[1] ~= nil
+        end,
+      },
     },
   },
 }

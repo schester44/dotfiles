@@ -78,7 +78,6 @@ return {
 
       ---@diagnostic disable-next-line: missing-fields
       require('mason-lspconfig').setup {
-
         ensure_installed = {
           'lua_ls',
           'eslint',
@@ -90,29 +89,50 @@ return {
           'yamlls',
           'copilot',
           'tsgo',
+          'oxlint',
+          'oxfmt',
         },
       }
 
-      local base_on_attach = vim.lsp.config.eslint.on_attach
+      -- oxc (oxlint) — only activate when .oxlintrc.json exists
+      vim.lsp.config('oxc', {
+        cmd = { 'oxlint', '--lsp' },
+        filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+        root_markers = { '.oxlintrc.json' },
+        flags = {
+          debounce_text_changes = 500,
+        },
+      })
 
+      -- eslint — only activate when eslint config exists (and no .oxlintrc.json)
       vim.lsp.config('eslint', {
         flags = {
           debounce_text_changes = 500,
         },
         on_attach = function(client, bufnr)
-          if not base_on_attach then
-            return
-          end
-
-          base_on_attach(client, bufnr)
-
           vim.api.nvim_create_autocmd('BufWritePre', {
             buffer = bufnr,
-            command = 'LspEslintFixAll',
+            callback = function()
+              local clients = vim.lsp.get_clients { bufnr = bufnr, name = 'eslint' }
+              if #clients == 0 then
+                return
+              end
+              clients[1]:request_sync('workspace/executeCommand', {
+                command = 'eslint.applyAllFixes',
+                arguments = {
+                  {
+                    uri = vim.uri_from_bufnr(bufnr),
+                    version = vim.lsp.util.buf_versions[bufnr],
+                  },
+                },
+              }, 1000, bufnr)
+            end,
           })
         end,
       })
 
+      -- Enable both — each will only attach if its root_markers are found
+      vim.lsp.enable 'oxc'
       vim.lsp.enable 'eslint'
       vim.lsp.enable 'tsgo'
       vim.lsp.enable 'prismals'
