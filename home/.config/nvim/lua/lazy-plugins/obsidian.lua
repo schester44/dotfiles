@@ -1,4 +1,4 @@
-local vault_path = '~/Documents/vaults/primary'
+local vault_path = require('lib.paths').vault
 
 vim.keymap.set('n', '<leader>on', '<cmd>Obsidian new<CR>', { desc = 'Obsidian New' })
 vim.keymap.set('n', '<leader>ot', '<cmd>Obsidian today<CR>', { desc = 'Obsidian Today' })
