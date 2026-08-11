@@ -1,0 +1,62 @@
+home/.config/zsh/aliases.zsh
+  s_26d0ed9d89fa59::t_8c20c0fe145f92 9
+home/.config/nvim/lua/config/cmds.lua
+  s_cb6c8ba0db101c::t_70d26a5ffa134c 1,3-8,10-13,15-24,26-43
+home/.config/nvim/lua/lazy-plugins/obsidian.lua
+  s_cb6c8ba0db101c::t_e55d9485efe09a 1
+home/.config/nvim/lua/config/autocmds.lua
+  s_cb6c8ba0db101c::t_fe39d5a5e485e1 86
+  s_cb6c8ba0db101c::t_75e3e64cfb577d 93
+home/.config/nvim/lua/lib/paths.lua
+  s_cb6c8ba0db101c::t_5a9fc86feeb5d3 1-3
+home/.config/nvim/lua/lazy-plugins/mini.lua
+  s_b78c48e670208e::t_ec3d52ef6ef426 538-546
+  s_b78c48e670208e::t_bf83be7bdaa286 534-537
+home/.config/zsh/aliases/git.zsh
+  s_d9ca128c17cb31::t_99986e7d701dec 35-36
+  s_26d0ed9d89fa59::t_13a83e7efc46d2 30
+  s_d9ca128c17cb31::t_2d0bae2beee222 58-60
+  s_26d0ed9d89fa59::t_93179d4da41511 27-29
+  s_d9ca128c17cb31::t_efcb6227ef2ade 37-39,55-57
+  s_d9ca128c17cb31::t_cb4d339ffebea5 61-62
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "17931d39f07027fcdf4115a0950b40b3ac76b4de",
+  "prompts": {},
+  "sessions": {
+    "s_26d0ed9d89fa59": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "019fd33b-2929-7d67-99c1-fc88190be5f6",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    },
+    "s_b78c48e670208e": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "019fd25b-f41d-76ed-8d30-b0b87454966a",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    },
+    "s_cb6c8ba0db101c": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "019ff1f3-0b80-711f-845a-b993de13b0ed",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    },
+    "s_d9ca128c17cb31": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "019fd744-7570-7829-be16-c2b9a49d6cfb",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
