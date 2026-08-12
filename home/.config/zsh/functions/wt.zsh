@@ -121,6 +121,7 @@ wt() {
     go|g)        _wt_go "$@" ;;
     delete|del|d|rm) _wt_delete "$@" ;;
     setup|s)     _wt_setup "$@" ;;
+    db)          _wt_db "$@" ;;
     help|--help|-h|"") _wt_help ;;
     *)
       _wt_error "Unknown command: $cmd"
@@ -146,6 +147,7 @@ _wt_help() {
 | `go <num\|name>` | `g` | Jump to a worktree |
 | `delete [num\|name]` | `d`, `rm` | Delete a worktree |
 | `setup` | `s` | Run setup script in current worktree |
+| `db [num\|name] [test]` | | Open worktree database in GUI |
 
 ## Examples
 
@@ -496,6 +498,102 @@ _wt_setup() {
     _wt_error "Setup script failed with exit code $?"
     return 1
   fi
+}
+
+# ─── db ───────────────────────────────────────────────────────────────────────
+
+_wt_db() {
+  local input="$1"
+  local db_type="${2:-dev}"  # "dev" or "test"
+
+  local repo_root
+  if ! repo_root="$(_wt_repo_root)"; then
+    _wt_error "Not inside a Git repository"
+    return 1
+  fi
+
+  local slots_dir="$repo_root/.agents/.worktree-slots"
+  if [[ ! -d "$slots_dir" ]] || [[ -z "$(ls -A "$slots_dir" 2>/dev/null)" ]]; then
+    _wt_error "No worktree slots found. Run setup first."
+    return 1
+  fi
+
+  local slot_file=""
+
+  if [[ -z "$input" ]]; then
+    # No arg: find slot for current directory
+    local current_dir="$(pwd)"
+    for f in "$slots_dir"/slot_*; do
+      [[ -f "$f" ]] || continue
+      local wt_path
+      wt_path=$(grep '^WORKTREE_PATH=' "$f" | cut -d= -f2-)
+      if [[ "$current_dir" == "$wt_path"* ]]; then
+        slot_file="$f"
+        break
+      fi
+    done
+    if [[ -z "$slot_file" ]]; then
+      _wt_error "Not inside a worktree. Specify a slot number or name."
+      return 1
+    fi
+  elif [[ "$input" =~ ^[0-9]+$ ]]; then
+    # Numeric: slot number
+    slot_file="$slots_dir/slot_${input}"
+    if [[ ! -f "$slot_file" ]]; then
+      _wt_error "No worktree in slot $input"
+      return 1
+    fi
+  else
+    # String: match by worktree name
+    # If input is "test" or "dev" and no second arg, treat it as db_type for current worktree
+    if [[ "$input" == "test" || "$input" == "dev" ]] && [[ -z "$2" ]]; then
+      db_type="$input"
+      local current_dir="$(pwd)"
+      for f in "$slots_dir"/slot_*; do
+        [[ -f "$f" ]] || continue
+        local wt_path
+        wt_path=$(grep '^WORKTREE_PATH=' "$f" | cut -d= -f2-)
+        if [[ "$current_dir" == "$wt_path"* ]]; then
+          slot_file="$f"
+          break
+        fi
+      done
+      if [[ -z "$slot_file" ]]; then
+        _wt_error "Not inside a worktree."
+        return 1
+      fi
+    else
+      for f in "$slots_dir"/slot_*; do
+        [[ -f "$f" ]] || continue
+        local wt_name
+        wt_name=$(grep '^WORKTREE_NAME=' "$f" | cut -d= -f2-)
+        if [[ "$wt_name" == *"$input"* ]]; then
+          slot_file="$f"
+          break
+        fi
+      done
+      if [[ -z "$slot_file" ]]; then
+        _wt_error "No worktree found matching: $input"
+        return 1
+      fi
+    fi
+  fi
+
+  local db_name
+  if [[ "$db_type" == "test" ]]; then
+    db_name=$(grep '^DB_TEST=' "$slot_file" | cut -d= -f2-)
+  else
+    db_name=$(grep '^DB_DEV=' "$slot_file" | cut -d= -f2-)
+  fi
+
+  if [[ -z "$db_name" ]]; then
+    _wt_error "No database configured in $(basename "$slot_file"). Re-run setup."
+    return 1
+  fi
+
+  local url="postgres://localhost/$db_name"
+  _wt_ok "Opening $db_name"
+  open "$url"
 }
 
 # ─── delete ───────────────────────────────────────────────────────────────────
