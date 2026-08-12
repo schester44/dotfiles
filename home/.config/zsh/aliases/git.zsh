@@ -29,7 +29,7 @@ alias gce="git commit --allow-empty -m"
 # Push / Pull
 alias gp="git pull"
 alias gpp="git push origin head"
-alias gpm="git pull --rebase origin main"
+alias gpm="git pull --no-rebase origin main"
 
 # Rebase / Merge
 alias gr="git rebase"

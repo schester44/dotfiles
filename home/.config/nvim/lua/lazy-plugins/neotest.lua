@@ -127,14 +127,27 @@ return {
         playwright = require('neotest-playwright.consumers').consumers,
       },
       adapters = {
-        require 'neotest-mocha' {
-          env = { LOG_LEVEL = 'debug' },
-          command = 'yarn test:unfiltered:fast',
-          cwd = '/Users/schester/work/risk-management/api',
-          filter_dir = function(_, rel_path)
-            return string.match(rel_path, 'api')
-          end,
-        },
+        (function()
+          local adapter = require 'neotest-mocha' {
+            env = { LOG_LEVEL = 'debug' },
+            command = 'yarn test:unfiltered',
+            cwd = function(path)
+              return path:match('(.-/api)') or vim.fn.getcwd()
+            end,
+            is_test_file = function(file_path)
+              if not file_path then
+                return false
+              end
+              -- Only match spec/test files under an api/ directory
+              return file_path:match('/api/') ~= nil
+                and file_path:match('%.[st]pec%.[tj]sx?$') ~= nil
+            end,
+          }
+          adapter.filter_dir = function(name)
+            return name ~= 'node_modules'
+          end
+          return adapter
+        end)(),
         require 'neotest-vitest' {
           vitestCommand = 'yarn test',
         },

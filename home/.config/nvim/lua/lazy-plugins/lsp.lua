@@ -102,6 +102,13 @@ return {
         flags = {
           debounce_text_changes = 500,
         },
+        root_dir = function(bufnr, on_dir)
+          local root = vim.fs.root(bufnr, '.oxlintrc.json')
+          if root then
+            on_dir(root)
+          end
+          -- returning nil / not calling on_dir prevents the server from attaching
+        end,
       })
 
       -- eslint — only activate when eslint config exists (and no .oxlintrc.json)
@@ -131,7 +138,7 @@ return {
         end,
       })
 
-      -- Enable both — each will only attach if its root_markers are found
+      -- Enable both — oxc only when .oxlintrc.json exists in the project
       vim.lsp.enable 'oxc'
       vim.lsp.enable 'eslint'
       vim.lsp.enable 'tsgo'
