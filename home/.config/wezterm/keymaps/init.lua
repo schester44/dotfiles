@@ -62,8 +62,8 @@ function M.apply(config)
 
 		-- Swap Panes
 		{
-			key = "{",
-			mods = "LEADER|SHIFT",
+			key = "m",
+			mods = "LEADER",
 			action = act.PaneSelect({ mode = "SwapWithActiveKeepFocus" }),
 		},
 
@@ -75,6 +75,20 @@ function M.apply(config)
 				SplitVertical = {
 					domain = "CurrentPaneDomain",
 				},
+			}),
+		},
+		{
+			key = "S",
+			mods = "LEADER|SHIFT",
+			action = wezterm.action.SplitPane({
+				direction = "Up",
+			}),
+		},
+		{
+			key = "V",
+			mods = "LEADER|SHIFT",
+			action = wezterm.action.SplitPane({
+				direction = "Left",
 			}),
 		},
 		{

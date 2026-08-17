@@ -17,7 +17,7 @@ return {
     vim.keymap.set('n', '<C-k>', require('smart-splits').move_cursor_up)
     vim.keymap.set('n', '<C-l>', require('smart-splits').move_cursor_right)
 
-    vim.keymap.set('n', '<leader>bsl', require('smart-splits').swap_buf_left)
+    vim.keymap.set('n', '<leader>bsh', require('smart-splits').swap_buf_left)
     vim.keymap.set('n', '<leader>bsj', require('smart-splits').swap_buf_down)
     vim.keymap.set('n', '<leader>bsk', require('smart-splits').swap_buf_up)
     vim.keymap.set('n', '<leader>bsl', require('smart-splits').swap_buf_right)
