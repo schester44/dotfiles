@@ -1,0 +1,14 @@
+platform/macos/aerospace/aerospace.toml
+  h_61d85dade50603 20,33,37,41,45,49,53
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "7891f94beda0cbf2a74fff2df204413ac5717f6d",
+  "prompts": {},
+  "humans": {
+    "h_61d85dade50603": {
+      "author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
