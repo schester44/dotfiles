@@ -17,7 +17,7 @@ exec-on-workspace-change = [
 
 [[on-window-detected]]
     if.app-id = 'com.github.wez.wezterm'
-    run = 'move-node-to-workspace 1'
+    run = ['move-node-to-workspace 1', 'workspace 1']
 
 [[on-window-detected]]
     if.app-id = 'com.google.Chrome'
@@ -30,27 +30,27 @@ exec-on-workspace-change = [
 
 [[on-window-detected]]
     if.app-id = 'com.tinyapp.TablePlus'
-    run = 'move-node-to-workspace 3'
+    run = ['move-node-to-workspace 3', 'workspace 3']
 
 [[on-window-detected]]
     if.app-id = 'com.google.Chrome'
-    run = 'move-node-to-workspace 2'
+    run = ['move-node-to-workspace 2', 'workspace 2']
 
 [[on-window-detected]]
     if.app-id = 'org.mozilla.firefox'
-    run = 'move-node-to-workspace P'
+    run = ['move-node-to-workspace P', 'workspace P']
 
 [[on-window-detected]]
     if.app-id = 'com.tinyspeck.slackmacgap'
-    run = 'move-node-to-workspace S'
+    run = ['move-node-to-workspace S', 'workspace S']
 
 [[on-window-detected]]
     if.app-id = 'com.openai.chat'
-    run = 'move-node-to-workspace 5'
+    run = ['move-node-to-workspace 5', 'workspace 5']
 
 [[on-window-detected]]
     if.app-id = 'com.apple.MobileSMS'
-    run = 'move-node-to-workspace P'
+    run = ['move-node-to-workspace P', 'workspace P']
 
 [gaps]
     inner.horizontal = 8
