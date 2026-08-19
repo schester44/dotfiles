@@ -529,6 +529,10 @@ return {
       end)
     end, { desc = 'LSP Document Symbols' })
 
+    local test_outline = require 'lib.test-outline'
+    MiniPick.registry.test_outline = test_outline.pick
+    vim.keymap.set('n', '<leader>st', test_outline.pick, { desc = 'Search Test Outline' })
+
     ai.setup {
       n_lines = 500,
       mappings = {
