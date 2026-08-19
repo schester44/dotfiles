@@ -1,0 +1,20 @@
+home/.config/wezterm/keymaps/init.lua
+  h_61d85dade50603 15-16,27-30,190-191
+home/.config/wezterm/keymaps/wezwork.lua
+  h_61d85dade50603 1-76
+home/.pi/agent/extensions/wezwork.ts
+  h_61d85dade50603 1-134
+wezwork/Makefile
+  h_61d85dade50603 12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "5816bb5b6e2a54f952075c250047cc0621530377",
+  "prompts": {},
+  "humans": {
+    "h_61d85dade50603": {
+      "author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
