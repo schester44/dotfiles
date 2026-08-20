@@ -6,10 +6,36 @@ set -euo pipefail
 
 CONFIG_DIR="$HOME/.cloudflared"
 
+usage() {
+  cat <<'EOF'
+Usage: tunnel [command] [args]
+
+Interactive Cloudflare Tunnel manager.
+
+Commands:
+  (none)                 Pick a tunnel config and run it
+  create <hostname>      Create a new tunnel + DNS route + config
+                         (e.g. tunnel create intercom.dottt.app)
+  delete [name]          Delete a tunnel, its config file, and credentials.
+                         Prompts with a picker if no name is given.
+  -h, --help             Show this help
+
+Config files live in ~/.cloudflared/*config*.yml
+EOF
+}
+
+# ── Subcommand: help ──────────────────────────────────────────────────
+case "${1:-}" in
+  -h|--help|help)
+    usage
+    exit 0
+    ;;
+esac
+
 # ── Subcommand: create ────────────────────────────────────────────────
 if [ "${1:-}" = "create" ]; then
   shift
-  HOSTNAME="${1:?Usage: tunnel create <hostname>  (e.g. intercom.dottt.app)}"
+  HOSTNAME="${1:?Usage: tunnel create <hostname>  (e.g. intercom.dottt.app). See tunnel --help}"
 
   # Derive a tunnel name from the first subdomain segment
   TUNNEL_NAME="${HOSTNAME%%.*}"
@@ -80,6 +106,107 @@ EOF
   gum style --foreground 10 "  Config written to $(basename "$CONFIG_FILE")"
   echo
   gum style --foreground 212 --bold "Done! Run 'tunnel' to start it."
+  exit 0
+fi
+
+# ── Subcommand: delete ────────────────────────────────────────────────
+if [ "${1:-}" = "delete" ]; then
+  shift
+
+  if ! command -v gum &>/dev/null; then
+    echo "Error: gum is not installed. Install with: brew install gum"
+    exit 1
+  fi
+  if ! command -v cloudflared &>/dev/null; then
+    echo "Error: cloudflared is not installed. Install with: brew install cloudflared"
+    exit 1
+  fi
+  if ! command -v jq &>/dev/null; then
+    echo "Error: jq is not installed. Install with: brew install jq"
+    exit 1
+  fi
+
+  TUNNEL_LIST=$(cloudflared tunnel list --output json 2>/dev/null)
+
+  TUNNEL_NAME="${1:-}"
+
+  if [ -z "$TUNNEL_NAME" ]; then
+    # Interactive picker from existing tunnels
+    tunnels=()
+    while IFS= read -r name; do
+      [ -n "$name" ] && tunnels+=("$name")
+    done < <(echo "$TUNNEL_LIST" | jq -r '.[].name' | sort -u)
+    if [ ${#tunnels[@]} -eq 0 ]; then
+      gum style --foreground 9 --bold "No tunnels found."
+      exit 1
+    fi
+    TUNNEL_NAME=$(printf '%s\n' "${tunnels[@]}" | gum choose --header "Select a tunnel to delete:" --cursor.foreground 212)
+    [ -n "$TUNNEL_NAME" ] || { echo "Aborted."; exit 1; }
+  fi
+
+  # Look up tunnel ID
+  TUNNEL_ID=$(echo "$TUNNEL_LIST" | jq -r --arg name "$TUNNEL_NAME" '.[] | select(.name == $name) | .id' | head -1)
+
+  # Extract hostname(s) from matching configs (for the DNS cleanup heads-up)
+  hostnames=()
+
+  # Find matching config file(s)
+  matched_configs=()
+  for f in "$CONFIG_DIR"/*config*.yml "$CONFIG_DIR"/*config*.yaml; do
+    [ -f "$f" ] || continue
+    if [ -n "$TUNNEL_ID" ] && grep -q "$TUNNEL_ID" "$f"; then
+      matched_configs+=("$f")
+    elif [ "$(basename "$f")" = "${TUNNEL_NAME}-config.yml" ]; then
+      matched_configs+=("$f")
+    fi
+  done
+
+  for f in "${matched_configs[@]:-}"; do
+    [ -n "$f" ] || continue
+    while IFS= read -r h; do
+      [ -n "$h" ] && hostnames+=("$h")
+    done < <(grep 'hostname:' "$f" | awk '{print $3}')
+  done
+
+  echo
+  gum style --foreground 212 --bold --border rounded --border-foreground 99 --padding "0 2" "Delete Cloudflare Tunnel"
+  echo
+  gum style --foreground 245 "  Name:      $TUNNEL_NAME"
+  [ -n "$TUNNEL_ID" ] && gum style --foreground 245 "  Tunnel ID: $TUNNEL_ID"
+  for f in "${matched_configs[@]:-}"; do
+    [ -n "$f" ] && gum style --foreground 245 "  Config:    $(basename "$f")"
+  done
+  echo
+
+  gum confirm "Delete this tunnel? This cannot be undone." || { echo "Aborted."; exit 1; }
+
+  echo
+  gum style --foreground 245 "Deleting tunnel…"
+  cloudflared tunnel delete -f "$TUNNEL_NAME"
+  gum style --foreground 10 "  Tunnel deleted."
+
+  # Remove credentials file
+  if [ -n "$TUNNEL_ID" ] && [ -f "$CONFIG_DIR/${TUNNEL_ID}.json" ]; then
+    rm -f "$CONFIG_DIR/${TUNNEL_ID}.json"
+    gum style --foreground 10 "  Removed credentials ${TUNNEL_ID}.json"
+  fi
+
+  # Remove config file(s)
+  for f in "${matched_configs[@]:-}"; do
+    [ -n "$f" ] || continue
+    rm -f "$f"
+    gum style --foreground 10 "  Removed config $(basename "$f")"
+  done
+
+  # Heads-up: DNS records can't be removed via cloudflared, clean up in the UI
+  echo
+  if [ ${#hostnames[@]} -gt 0 ]; then
+    gum style --foreground 214 --bold "Heads up: DNS CNAME(s) still exist for: ${hostnames[*]}"
+  else
+    gum style --foreground 214 --bold "Heads up: any DNS CNAME for this tunnel still exists."
+  fi
+  gum style --foreground 214 "Delete them in the Cloudflare dashboard → DNS → Records:"
+  gum style --foreground 214 "  https://dash.cloudflare.com"
   exit 0
 fi
 

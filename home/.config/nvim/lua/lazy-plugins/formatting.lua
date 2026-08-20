@@ -40,11 +40,17 @@ return {
       css = { 'prettier' },
       html = { 'prettier' },
       json = { 'oxfmt', 'prettier', stop_after_first = true },
+      jsonl = { 'jq_jsonl' },
       yaml = { 'prettier' },
       markdown = { 'prettier' },
       graphql = { 'prettier' },
     },
     formatters = {
+      jq_jsonl = {
+        command = 'jq',
+        args = { '.' },
+        stdin = true,
+      },
       oxfmt = {
         command = 'npx',
         args = { 'oxfmt', '--stdin-filepath', '$FILENAME' },
