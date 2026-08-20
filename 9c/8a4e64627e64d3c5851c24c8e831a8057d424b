@@ -1,0 +1,14 @@
+home/.zshrc
+  h_61d85dade50603 36,41-79,117-119
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "9c8a4e64627e64d3c5851c24c8e831a8057d424b",
+  "prompts": {},
+  "humans": {
+    "h_61d85dade50603": {
+      "author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
