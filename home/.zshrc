@@ -33,15 +33,50 @@ zstyle ':completion:*' menu select
   source /opt/homebrew/opt/fzf-tab/share/fzf-tab/fzf-tab.zsh
 
 # Key bindings
-bindkey -e
+bindkey -v
 
 # Environment
 [ -f ~/.env ] && source ~/.env
 
-# NVM
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+# JavaScript tooling — load NVM on first use
+# Keep this list centralized so every shim is removed after NVM initializes.
+typeset -ga __lazyLoadLabels=(
+  bun
+  bunx
+  corepack
+  node
+  npm
+  npx
+  nvm
+  pnpm
+  pnpx
+  turbo
+  typescript-language-server
+  yarn
+)
+
+__load-nvm() {
+  export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+
+  [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
+}
+
+__work() {
+  local label
+  for label in "${__lazyLoadLabels[@]}"; do
+    unset -f "$label"
+  done
+  unset __lazyLoadLabels
+
+  __load-nvm
+  unset -f __load-nvm __work
+}
+
+for label in "${__lazyLoadLabels[@]}"; do
+  eval "$label() { __work; $label \"\$@\"; }"
+done
+unset label
 
 # Aliases
 [ -f ~/.config/zsh/aliases.zsh ] && source ~/.config/zsh/aliases.zsh
@@ -79,3 +114,6 @@ export PATH="$DOTFILES/bin:$HOME/.local/bin:$PATH"
 # Local overrides (not committed)
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 
+
+# Added by git-ai installer on Wed Jul 29 20:01:12 EDT 2026
+export PATH="/Users/steve/.git-ai/bin:$PATH"
