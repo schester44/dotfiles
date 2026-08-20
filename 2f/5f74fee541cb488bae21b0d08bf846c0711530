@@ -1,0 +1,16 @@
+bin/tunnel
+  h_61d85dade50603 9-34,38,112-212
+home/.config/nvim/lua/lazy-plugins/formatting.lua
+  h_61d85dade50603 43,49-53
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "2f5f74fee541cb488bae21b0d08bf846c0711530",
+  "prompts": {},
+  "humans": {
+    "h_61d85dade50603": {
+      "author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
