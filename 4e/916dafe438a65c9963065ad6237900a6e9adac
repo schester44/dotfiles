@@ -1,0 +1,20 @@
+home/.config/nvim/lua/config/keymaps.lua
+  h_61d85dade50603 54,56,58,60-64
+home/.config/nvim/lua/custom/grapelean.nvim/lua/grapelean/plugins/pi-edit.lua
+  h_61d85dade50603 6
+home/.config/nvim/lua/lazy-plugins/which-key.lua
+  h_61d85dade50603 27
+home/.config/nvim/lua/lib/pi-edit.lua
+  h_61d85dade50603 9-160,163-168,170-171,174,179-217,219,236-237,241,245,256,262-277,293-295,304-305,310-313,316,318,323,333,335,337,339-341,347,351-354,367,372,389,391-392,398,467-468,503-520,526-538,548-550
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "4e916dafe438a65c9963065ad6237900a6e9adac",
+  "prompts": {},
+  "humans": {
+    "h_61d85dade50603": {
+      "author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
