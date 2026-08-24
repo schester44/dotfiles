@@ -24,6 +24,7 @@ return {
       mappings = vim.g.have_nerd_font,
     },
     spec = {
+      { '<leader>a', group = 'AI',             icon = { icon = icons.copilot, color = 'yellow' } },
       { '<leader>b', group = 'Buffer',         icon = { icon = icons.file, color = 'yellow' } },
       { '<leader>d', group = 'Trouble',        icon = { icon = icons.diagnostics, color = 'yellow' } },
       { '<leader>f', group = 'File',           icon = { icon = icons.file, color = 'yellow' } },

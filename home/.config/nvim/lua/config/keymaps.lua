@@ -51,13 +51,17 @@ set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
-set('v', '<leader>pe', function()
+set({ 'n', 'v' }, '<leader>aa', function()
   require('lib.pi-edit').edit_selection()
-end, { desc = 'Pi Edit' })
+end, { desc = 'AI Inline' })
 
-set('v', '<leader>ps', function()
+set('v', '<leader>ae', function()
   require('lib.pi-edit').send_to_pane()
-end, { desc = 'Pi Send' })
+end, { desc = 'AI Pane Edit' })
+
+set('n', '<leader>am', function()
+  require('lib.pi-edit').select_model()
+end, { desc = 'Pi Select Model' })
 
 set('n', 'grv', function()
   vim.cmd 'vsplit'
