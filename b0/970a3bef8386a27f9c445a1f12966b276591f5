@@ -1,0 +1,20 @@
+platform/macos/karabiner/karabiner.json
+  s_300759072420e6::t_3aff79a5a29b76 7-19
+  s_300759072420e6::t_a4a26bb1b2fcb4 6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "b0970a3bef8386a27f9c445a1f12966b276591f5",
+  "prompts": {},
+  "sessions": {
+    "s_300759072420e6": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a03a17-bfec-7a45-ae4e-7df5f20f6718",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
