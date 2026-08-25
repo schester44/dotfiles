@@ -3,6 +3,22 @@ start-at-login = true
 
 after-startup-command = ['exec-and-forget sketchybar']
 
+# Dwindle layout (Hyprland-style): flatten normalization must be OFF
+# because it dissolves the very container `split` makes, and `split`
+# is how split-hint sets the dwindle direction. Empty containers are
+# still reaped without it. opposite-orientation is the inverse of
+# Hyprland's preserve_split=true and stays off too.
+enable-normalization-flatten-containers = false
+enable-normalization-opposite-orientation-for-nested-containers = false
+
+# split along the monitor's longer edge for the first window
+default-root-container-orientation = 'auto'
+
+# Dwindle split hint: on every focus change, mark the focused window's
+# split direction along its longer edge, so the NEXT window lands
+# beside a wide window and below a tall one. See split-hint.swift.
+on-focus-changed = ['exec-and-forget $HOME/.local/bin/aerospace-split-hint']
+
 # Notify Sketchybar about workspace change
 exec-on-workspace-change = [
   '/bin/bash', '-c',
