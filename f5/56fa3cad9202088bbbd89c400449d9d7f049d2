@@ -1,0 +1,21 @@
+platform/macos/aerospace/aerospace.toml
+  s_300759072420e6::t_f3f7846a039883 6-21
+platform/macos/aerospace/split-hint.swift
+  s_300759072420e6::t_5775e4defb1178 1-100
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "f556fa3cad9202088bbbd89c400449d9d7f049d2",
+  "prompts": {},
+  "sessions": {
+    "s_300759072420e6": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a03a17-bfec-7a45-ae4e-7df5f20f6718",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
