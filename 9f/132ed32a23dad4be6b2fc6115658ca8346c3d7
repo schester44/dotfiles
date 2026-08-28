@@ -1,0 +1,24 @@
+home/.config/nvim/lua/config/keymaps.lua
+  s_4094d10619d695::t_de5d58c08a5c20 160
+  s_4094d10619d695::t_d2d6fe4d8a74f1 161
+home/.config/nvim/lua/lazy-plugins/lualine.lua
+  s_4094d10619d695::t_ffbaac37677f0c 81
+home/.config/nvim/lua/lazy-plugins/which-key.lua
+  s_4094d10619d695::t_2ce7dc8ae1ceb5 51-52
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "9f132ed32a23dad4be6b2fc6115658ca8346c3d7",
+  "prompts": {},
+  "sessions": {
+    "s_4094d10619d695": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a045d7-f961-702a-bcdf-0c70d2609c41",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
