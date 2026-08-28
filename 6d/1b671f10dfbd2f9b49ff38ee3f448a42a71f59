@@ -1,0 +1,26 @@
+home/.config/nvim/lua/lib/statuscolumn/init.lua
+  s_d6e9a6e9d171fa::t_578f4496d76f7f 54
+  s_d6e9a6e9d171fa::t_f58fbdf4f7b394 52-53,55-59
+  s_d6e9a6e9d171fa::t_9b8fef749d10c6 33-46
+  s_d6e9a6e9d171fa::t_b9e4e12c0b79c6 50
+  s_d6e9a6e9d171fa::t_d9106609921ed4 60-62,71-77
+  s_d6e9a6e9d171fa::t_7f359bb49a1be8 8
+  s_d6e9a6e9d171fa::t_c67f7c29bb3620 51
+  s_d6e9a6e9d171fa::t_19e9ce82f6f05e 78
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "6d1b671f10dfbd2f9b49ff38ee3f448a42a71f59",
+  "prompts": {},
+  "sessions": {
+    "s_d6e9a6e9d171fa": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a044d0-3e6a-7f0a-8a4e-116bf87df728",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
