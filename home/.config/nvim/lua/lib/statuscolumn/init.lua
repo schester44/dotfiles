@@ -5,7 +5,7 @@ local ui = require 'lib.ui'
 
 local statuscolumn = {}
 
-local theme_palette = require 'grapelean.palette'
+local theme_palette = require('grapelean.palette').palette
 
 local user_config = {
   colors = {
@@ -30,10 +30,36 @@ for i, color in ipairs(user_config.colors) do
   end
 end
 
-vim.api.nvim_set_hl(0, 'FoldClosed', { fg = theme_palette.purple })
+local function set_highlights()
+  vim.api.nvim_set_hl(0, 'FoldClosed', { fg = theme_palette.purple })
+  vim.api.nvim_set_hl(0, 'LineNrDim', { fg = theme_palette.gray_dark })
+  vim.api.nvim_set_hl(0, 'LineNrWrap', { fg = theme_palette.gray_dark })
+  vim.api.nvim_set_hl(0, 'LineNrWrapDim', { fg = theme_palette.bg_lighter })
+end
+
+set_highlights()
+
+-- colorschemes run `hi clear`, so re-apply our groups after they load
+vim.api.nvim_create_autocmd('ColorScheme', {
+  group = vim.api.nvim_create_augroup('StatusColumnHl', { clear = true }),
+  callback = set_highlights,
+})
 
 statuscolumn.number = function()
   local is_cmd_open = vim.fn.mode() == 'c'
+  local is_active = vim.g.statusline_winid == vim.api.nvim_get_current_win()
+
+  if vim.v.virtnum > 0 then
+    -- wrapped continuation line: show an arrow instead of repeating the number
+    return ui.hl_str(is_active and 'LineNrWrap' or 'LineNrWrapDim', '↳')
+  elseif vim.v.virtnum < 0 then
+    -- virtual line (e.g. diagnostics): show nothing
+    return ''
+  end
+
+  if not is_active then
+    return ui.hl_str('LineNrDim', vim.v.lnum)
+  end
 
   if vim.v.relnum == 0 then
     return ui.hl_str('CursorLineNr', vim.v.lnum)
@@ -41,6 +67,14 @@ statuscolumn.number = function()
 
   return is_cmd_open and vim.v.lnum or vim.v.relnum
 end
+
+-- redraw statuscolumn when switching windows so the dimming updates
+vim.api.nvim_create_autocmd({ 'WinEnter', 'WinLeave' }, {
+  group = vim.api.nvim_create_augroup('StatusColumnDim', { clear = true }),
+  callback = function()
+    pcall(vim.api.nvim__redraw, { statuscolumn = true })
+  end,
+})
 
 vim.o.foldnestmax = #user_config.colors
 
