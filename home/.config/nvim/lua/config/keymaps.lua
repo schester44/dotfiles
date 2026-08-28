@@ -1,16 +1,16 @@
 local set = vim.keymap.set
-local k = require 'lib.keymaps'
 
 set('n', 'gt', '<Nop>')
 set('n', 'gT', '<Nop>')
 
-set('i', 'jj', '<Esc>')
 set('i', '<C-BS>', '<C-w>', { desc = 'Delete word backward' })
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
-set('n', '<Esc>', '<cmd>nohlsearch<CR>')
-
+set('t', '<C-h>', '<C-\\><C-N><C-w>h', { desc = 'Move focus to the left window' })
+set('t', '<C-l>', '<C-\\><C-N><C-w>j', { desc = 'Move focus to the right window' })
+set('t', '<C-j>', '<C-\\><C-N><C-w>j', { desc = 'Move focus to the lower window' })
+set('t', '<C-k>', '<C-\\><C-N><C-w>l', { desc = 'Move focus to the upper window' })
 -- Diagnostic keymaps
 -- For other diagnostic commands, see trouble.lua
 set('n', '<leader>dm', function()
@@ -45,6 +45,8 @@ end, { desc = 'Open diagnostic message' })
 set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 set('n', 'U', '<C-r>', { desc = 'Redo' })
+
+set('v', 'p', '"_dP', { desc = 'Paste without overwriting register' })
 
 set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
@@ -127,20 +129,12 @@ set('n', '<leader>ba', function()
   end, 300)
 end, { desc = 'Delete All Buffers' })
 
-set('n', '<leader>w', '<cmd>:w<CR>', { desc = 'which_key_ignore' })
-set('n', '<leader>q', '<cmd>:q<CR>', { desc = 'which_key_ignore' })
+set('n', '<leader>w', '<cmd>w<CR>', { desc = 'which_key_ignore' })
+set('n', '<leader>q', '<cmd>q<CR>', { desc = 'which_key_ignore' })
 set('n', '<leader>Q', '<cmd>qa<CR>', { desc = 'which_key_ignore' })
 
 set('n', '[t', '<cmd>tabprevious<CR>', { desc = 'Previous Tab' })
 set('n', ']t', '<cmd>tabnext<CR>', { desc = 'Next Tab' })
-
-vim.keymap.set('v', '<leader>yl', function()
-  local filepath = vim.fn.expand '%'
-  local line = vim.fn.line '.'
-  local result = filepath .. ':' .. line
-  vim.fn.setreg('+', result)
-  vim.notify('Copied: ' .. result)
-end, { desc = '[Y]ank file path and [L]ine number' })
 
 set('n', '<leader>fcp', '<cmd>let @+=expand("%:p")<CR>', { desc = 'Copy file path to clipboard' })
 set('n', '<leader>fcl', function()
@@ -163,28 +157,15 @@ end, { desc = 'Copy file path with line range' })
 set('n', '<leader>fof', '<cmd>silent !open %:p:h<CR>', { desc = 'Open file in Finder' })
 
 -- Yank to system clipboard
-set({ 'n', 'v' }, '<leader>Y', '"+y', { desc = 'Yank to system clipboard' })
+set({ 'n', 'v' }, 'gy', '"+y', { desc = 'Yank to system clipboard' })
+set({ 'n', 'v' }, 'gY', '"+Y', { desc = 'Yank line to system clipboard' })
 
 -- Remap g< (ui2 pager: show recent messages) to <leader>xm
 -- g< is taken by vim-swap (<Plug>(swap-prev))
 set('n', '<leader>dp', 'g<', { desc = 'Show messages (ui2 pager)' })
-
--- append a comma to end of line
-set('n', ',,', 'A,<esc>', { desc = 'Append ,' })
-
 
 set('n', '<leader>th', function()
   local current_state = vim.lsp.inlay_hint.is_enabled()
   vim.lsp.inlay_hint.enable(not current_state)
   vim.notify('Inlay hints ' .. (not current_state and 'enabled' or 'disabled'))
 end, { desc = 'Toggle inlay hints' })
-
-k.set_toggle_keymap {
-  keys = 'h',
-  desc = 'Toggle inlay hints',
-  cmd = function()
-    local current_state = vim.lsp.inlay_hint.is_enabled()
-    vim.lsp.inlay_hint.enable(not current_state)
-    vim.notify('Inlay hints ' .. (not current_state and 'enabled' or 'disabled'))
-  end,
-}

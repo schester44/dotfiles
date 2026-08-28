@@ -41,3 +41,4 @@ end, {
 })
 
 vim.keymap.set('n', '<leader>td', '<cmd>Todo<CR>', { desc = 'Todos' })
+vim.keymap.set('n', '<leader>tD', '<cmd>Todo all<CR>', { desc = 'All Todos' })
