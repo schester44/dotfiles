@@ -1,0 +1,31 @@
+home/.config/wezterm/window.lua
+  s_f1aeb2ae9b1bb8::t_a988aa652a50e6 73-78,92-93
+home/.config/wezterm/resurrect.lua
+  s_f1aeb2ae9b1bb8::t_b93174deab3a5d 13-19,50
+  s_f1aeb2ae9b1bb8::t_78252014b6522e 1-12,20-49,51-70,75-94
+  s_51ede09655a777::t_b64c6bf813f31d 71-74
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "c4c7c7d35203468828de16a0f44431654b1cbb1d",
+  "prompts": {},
+  "sessions": {
+    "s_51ede09655a777": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a05814-0c95-7ed7-a27b-5544879cd090",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    },
+    "s_f1aeb2ae9b1bb8": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a055c8-8200-70b8-8761-9bb06e657bba",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
