@@ -70,6 +70,12 @@ M.apply = function(config)
 
 		local title = active_workspace == "default" and "" or "" .. " " .. active_workspace .. ""
 
+		-- transient flash message (e.g. "session saved" from resurrect.lua)
+		local flash = ""
+		if wezterm.GLOBAL.flash_until and wezterm.time.now():format("%s") + 0 < wezterm.GLOBAL.flash_until then
+			flash = " " .. (wezterm.GLOBAL.flash_text or "") .. " "
+		end
+
 		window:set_left_status(wezterm.format({
 			{
 				Foreground = {
@@ -83,6 +89,8 @@ M.apply = function(config)
 			{
 				Text = " " .. wezterm.nerdfonts.fa_terminal .. title .. " ",
 			},
+			{ Foreground = { Color = theme.alert } },
+			{ Text = flash },
 		}))
 	end)
 
