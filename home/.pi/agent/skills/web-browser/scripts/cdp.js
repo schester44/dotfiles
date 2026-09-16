@@ -46,6 +46,7 @@ class CDP {
     this.id = 0;
     this.callbacks = new Map();
     this.sessions = new Map();
+    this.eventHandlers = new Set();
 
     ws.on("message", (data) => {
       const msg = JSON.parse(data.toString());
@@ -57,7 +58,39 @@ class CDP {
         } else {
           resolve(msg.result);
         }
+      } else if (msg.method) {
+        for (const handler of this.eventHandlers) {
+          try {
+            handler(msg);
+          } catch {}
+        }
       }
+    });
+  }
+
+  onEvent(handler) {
+    this.eventHandlers.add(handler);
+    return () => this.eventHandlers.delete(handler);
+  }
+
+  onClose(handler) {
+    this.ws.on("close", handler);
+  }
+
+  /** Resolve when a CDP event matching method (and sessionId, if given) fires. */
+  waitForEvent(method, sessionId = null, timeout = 15000) {
+    return new Promise((resolve, reject) => {
+      const timeoutId = setTimeout(() => {
+        off();
+        reject(new Error(`Timeout waiting for ${method}`));
+      }, timeout);
+      const off = this.onEvent((msg) => {
+        if (msg.method !== method) return;
+        if (sessionId && msg.sessionId !== sessionId) return;
+        clearTimeout(timeoutId);
+        off();
+        resolve(msg.params);
+      });
     });
   }
 

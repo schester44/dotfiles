@@ -1,9 +1,6 @@
 #!/usr/bin/env node
 
-import { connect } from "./cdp.js";
-
-const DEBUG = process.env.DEBUG === "1";
-const log = DEBUG ? (...args) => console.error("[debug]", ...args) : () => {};
+import { call } from "./client.js";
 
 const code = process.argv.slice(2).join(" ");
 if (!code) {
@@ -14,33 +11,9 @@ if (!code) {
   process.exit(1);
 }
 
-// Global timeout
-const globalTimeout = setTimeout(() => {
-  console.error("✗ Global timeout exceeded (45s)");
-  process.exit(1);
-}, 45000);
-
 try {
-  log("connecting...");
-  const cdp = await connect(5000);
+  const result = await call("eval", { code });
 
-  log("getting pages...");
-  const pages = await cdp.getPages();
-  const page = pages.at(-1);
-
-  if (!page) {
-    console.error("✗ No active tab found");
-    process.exit(1);
-  }
-
-  log("attaching to page...");
-  const sessionId = await cdp.attachToPage(page.targetId);
-
-  log("evaluating...");
-  const expression = `(async () => { return (${code}); })()`;
-  const result = await cdp.evaluate(sessionId, expression);
-
-  log("formatting result...");
   if (Array.isArray(result)) {
     for (let i = 0; i < result.length; i++) {
       if (i > 0) console.log("");
@@ -55,14 +28,7 @@ try {
   } else {
     console.log(result);
   }
-
-  log("closing...");
-  cdp.close();
-  log("done");
 } catch (e) {
   console.error("✗", e.message);
   process.exit(1);
-} finally {
-  clearTimeout(globalTimeout);
-  setTimeout(() => process.exit(0), 100);
 }

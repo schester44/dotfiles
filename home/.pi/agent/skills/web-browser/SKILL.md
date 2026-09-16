@@ -8,6 +8,12 @@ license: Stolen from Mario
 
 Minimal CDP tools for collaborative site exploration.
 
+**Performance note:** `nav.js`, `eval.js`, and `screenshot.js` share a persistent
+daemon (auto-spawned on first use, socket at `$TMPDIR/web-browser-cdp.sock`) that
+holds one CDP connection — commands cost ~20–150ms instead of rebuilding the
+connection each call. The daemon exits when Chrome closes or after 60min idle.
+If it misbehaves: `pkill -f scripts/daemon.js` (it will respawn on next command).
+
 ## Start Chrome
 
 \`\`\`bash
@@ -21,10 +27,25 @@ Start Chrome on `:9222` with remote debugging.
 
 \`\`\`bash
 ./scripts/nav.js https://example.com
-./scripts/nav.js https://example.com --new
+./scripts/nav.js https://example.com --new   # open in new tab
+./scripts/nav.js https://example.com --idle  # wait for network idle instead of load
 \`\`\`
 
-Navigate current tab or open new tab.
+Navigate current tab or open new tab. Waits for the page load event (up to 15s),
+so no `sleep` needed after navigation. Use `--idle` for SPAs and pages that load
+content via XHR after the load event. Creates a tab if none exists.
+
+## Wait for Conditions (never use `sleep`)
+
+\`\`\`bash
+./scripts/wait.js '#search-results'                  # element appears
+./scripts/wait.js --gone '.loading-spinner'          # element disappears
+./scripts/wait.js --js 'document.title.includes("Order")' 30000
+\`\`\`
+
+MutationObserver-based — resolves the instant the condition is met, errors on
+timeout (default 15s). Use after clicks that trigger renders, before scraping
+JS-rendered content, or to await dialogs.
 
 ## Evaluate JavaScript
 
@@ -72,7 +93,9 @@ Automatically dismisses EU cookie consent dialogs. Supports:
 - **Klaro**
 - Generic cookie banners with common button text patterns
 
-Run after navigating to a page (with a short delay for dialogs to load):
+Run after navigating to a page:
 \`\`\`bash
-./scripts/nav.js https://example.com && sleep 2 && ./scripts/dismiss-cookies.js
+./scripts/nav.js https://example.com --idle && ./scripts/dismiss-cookies.js
 \`\`\`
+(`--idle` waits for network idle, which is when late-injected banners have arrived —
+no `sleep` needed.)

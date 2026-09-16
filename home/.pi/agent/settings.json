@@ -1,12 +1,13 @@
 {
-  "lastChangelogVersion": "0.82.1",
+  "lastChangelogVersion": "0.85.1",
   "hideThinkingBlock": false,
   "defaultProvider": "anthropic",
-  "defaultModel": "claude-opus-4-6",
+  "defaultModel": "claude-fable-5",
   "defaultThinkingLevel": "medium",
   "theme": "my-theme",
   "packages": [
     "npm:pi-subagents",
-    "npm:pi-mcp-adapter"
+    "npm:pi-mcp-adapter",
+    "npm:pi-side-chat"
   ]
 }

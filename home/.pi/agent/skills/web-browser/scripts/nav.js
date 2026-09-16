@@ -1,65 +1,26 @@
 #!/usr/bin/env node
 
-import { connect } from "./cdp.js";
-
-const DEBUG = process.env.DEBUG === "1";
-const log = DEBUG ? (...args) => console.error("[debug]", ...args) : () => {};
+import { call } from "./client.js";
 
 const url = process.argv[2];
-const newTab = process.argv[3] === "--new";
+const flags = process.argv.slice(3);
+const newTab = flags.includes("--new");
+const idle = flags.includes("--idle");
 
 if (!url) {
-  console.log("Usage: nav.js <url> [--new]");
+  console.log("Usage: nav.js <url> [--new] [--idle]");
   console.log("\nExamples:");
-  console.log("  nav.js https://example.com       # Navigate current tab");
-  console.log("  nav.js https://example.com --new # Open in new tab");
+  console.log("  nav.js https://example.com        # Navigate current tab (waits for load)");
+  console.log("  nav.js https://example.com --new  # Open in new tab");
+  console.log("  nav.js https://example.com --idle # Wait for network idle (SPAs, late banners)");
   process.exit(1);
 }
 
-// Global timeout
-const globalTimeout = setTimeout(() => {
-  console.error("✗ Global timeout exceeded (45s)");
-  process.exit(1);
-}, 45000);
-
 try {
-  log("connecting...");
-  const cdp = await connect(5000);
-
-  log("getting pages...");
-  let targetId;
-
-  if (newTab) {
-    log("creating new tab...");
-    const { targetId: newTargetId } = await cdp.send("Target.createTarget", {
-      url: "about:blank",
-    });
-    targetId = newTargetId;
-  } else {
-    const pages = await cdp.getPages();
-    const page = pages.at(-1);
-    if (!page) {
-      console.error("✗ No active tab found");
-      process.exit(1);
-    }
-    targetId = page.targetId;
-  }
-
-  log("attaching to page...");
-  const sessionId = await cdp.attachToPage(targetId);
-
-  log("navigating...");
-  await cdp.navigate(sessionId, url);
-
-  console.log(newTab ? "✓ Opened:" : "✓ Navigated to:", url);
-
-  log("closing...");
-  cdp.close();
-  log("done");
+  const result = await call("nav", { url, newTab, wait: idle ? "idle" : "load" });
+  const status = result.loaded === false ? " (wait condition not met within 15s)" : "";
+  console.log(newTab ? "✓ Opened:" : "✓ Navigated to:", url, status);
 } catch (e) {
   console.error("✗", e.message);
   process.exit(1);
-} finally {
-  clearTimeout(globalTimeout);
-  setTimeout(() => process.exit(0), 100);
 }
