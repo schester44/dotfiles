@@ -1,0 +1,22 @@
+home/.config/nvim/ftplugin/markdown.lua
+  h_61d85dade50603 1-8
+home/.config/nvim/lua/custom/grapelean.nvim/lua/grapelean/plugins/init.lua
+  h_61d85dade50603 14
+home/.config/nvim/lua/custom/grapelean.nvim/lua/grapelean/plugins/render-markdown.lua
+  h_61d85dade50603 1-47
+home/.config/nvim/lua/lazy-plugins/obsidian.lua
+  h_61d85dade50603 78-81
+home/.config/nvim/lua/lazy-plugins/render-markdown.lua
+  h_61d85dade50603 1-44
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "d14a4666095816f3438547de133b9d968862cc81",
+  "prompts": {},
+  "humans": {
+    "h_61d85dade50603": {
+      "author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
