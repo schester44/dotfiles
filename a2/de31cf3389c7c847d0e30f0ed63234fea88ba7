@@ -1,0 +1,21 @@
+home/.pi/agent/skills/web-browser/scripts/wait.js
+  s_05be3ccf7a7e5f::t_c6301ea2b2f286 1-37
+home/.pi/agent/skills/memory/SKILL.md
+  s_05be3ccf7a7e5f::t_7b01d39ced50df 1-71
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "a2de31cf3389c7c847d0e30f0ed63234fea88ba7",
+  "prompts": {},
+  "sessions": {
+    "s_05be3ccf7a7e5f": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a07202-986e-7220-acf2-d32ad40e9a65",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
