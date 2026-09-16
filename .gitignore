@@ -1,5 +1,8 @@
 # Secrets / private keys
 data/
+
+# Agent memories (personal/machine-specific, not for git)
+home/.pi/agent/memories/
 *.pem
 *.key
 
