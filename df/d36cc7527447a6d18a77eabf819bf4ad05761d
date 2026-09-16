@@ -1,0 +1,19 @@
+bin/tunnel
+  s_421e3386cf3213::t_cec1d1f6d5705d 276-281,283-286
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "dfd36cc7527447a6d18a77eabf819bf4ad05761d",
+  "prompts": {},
+  "sessions": {
+    "s_421e3386cf3213": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a05e82-372a-75ba-a6ad-ca349f99b139",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
