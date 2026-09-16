@@ -75,6 +75,10 @@ return {
       name = 'mini.pick',
     },
     completion = {},
+    checkbox = {
+      order = { ' ', '~', 'x' }, -- <CR> cycles: open -> in progress -> done
+    },
+    ui = { enable = false }, -- rendering handled by render-markdown.nvim
     daily_notes = {
       folder = 'daily',
     },
