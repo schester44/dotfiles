@@ -273,12 +273,17 @@ gum style --foreground 212 --bold --border rounded --border-foreground 99 --padd
 echo
 gum style --foreground 245 "  Config:  $(basename "$selected")"
 
-# Show all hostnames from the config
-grep 'hostname:' "$selected" 2>/dev/null | while read -r line; do
-  host=$(echo "$line" | awk '{print $3}')
-  service=$(grep -A1 "hostname: $host" "$selected" | grep 'service:' | awk '{print $2}')
+# Show all hostname → service routes from the config. Single awk pass:
+# pairs each `- hostname:` with the `service:` that follows it — robust
+# against quoted/wildcard hostnames (regex-free) and never fails under
+# `set -euo pipefail`.
+while IFS='|' read -r host service; do
+  [ -n "$host" ] || continue
   gum style --foreground 10 "  Route:   $host → ${service:-unknown}"
-done
+done < <(awk '
+  $1 == "-" && $2 == "hostname:" { h = $3; gsub(/"/, "", h); next }
+  h && $1 == "service:"          { print h "|" $2; h = "" }
+' "$selected" 2>/dev/null || true)
 
 echo
 gum style --foreground 245 "Starting tunnel…"
