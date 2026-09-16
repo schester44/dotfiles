@@ -1,0 +1,19 @@
+.gitignore
+  s_05be3ccf7a7e5f::t_4b7de8501b1644 3-5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "f340e163d6869b2f910170aba55b0d428afcca45",
+  "prompts": {},
+  "sessions": {
+    "s_05be3ccf7a7e5f": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a07202-986e-7220-acf2-d32ad40e9a65",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
