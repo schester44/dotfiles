@@ -109,6 +109,24 @@ return {
           end
           -- returning nil / not calling on_dir prevents the server from attaching
         end,
+        on_attach = function(client, bufnr)
+          vim.api.nvim_create_autocmd('BufWritePre', {
+            buffer = bufnr,
+            callback = function()
+              if #vim.lsp.get_clients { bufnr = bufnr, name = 'oxc', id = client.id } == 0 then
+                return
+              end
+              local params = vim.lsp.util.make_range_params(0, client.offset_encoding)
+              params.context = { only = { 'source.fixAll.oxc' }, diagnostics = {} }
+              local resp = client:request_sync('textDocument/codeAction', params, 1000, bufnr)
+              for _, action in ipairs(resp and resp.result or {}) do
+                if action.edit then
+                  vim.lsp.util.apply_workspace_edit(action.edit, client.offset_encoding)
+                end
+              end
+            end,
+          })
+        end,
       })
 
       -- eslint — only activate when eslint config exists (and no .oxlintrc.json)
