@@ -1,0 +1,14 @@
+home/.config/nvim/lua/lazy-plugins/lsp.lua
+  h_61d85dade50603 112-129
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "7047d71df067f70c9862fcebe79504a58fa896ae",
+  "prompts": {},
+  "humans": {
+    "h_61d85dade50603": {
+      "author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
