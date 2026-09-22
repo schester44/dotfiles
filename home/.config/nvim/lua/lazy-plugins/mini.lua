@@ -18,6 +18,15 @@ local setup_starter = function()
     footer = footer,
     items = items,
   }
+
+  vim.api.nvim_create_autocmd('User', {
+    pattern = 'MiniStarterOpened',
+    callback = function(args)
+      vim.keymap.set('n', '-', function()
+        MiniFiles.open(vim.uv.cwd())
+      end, { buffer = args.buf, desc = 'Open mini.files (cwd)' })
+    end,
+  })
 end
 
 return {
