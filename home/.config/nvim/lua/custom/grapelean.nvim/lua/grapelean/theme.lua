@@ -41,7 +41,7 @@ hl('NonText',        { fg = p.gray_muted })
 -- Controls the background color of the editor (nil for transparency)
 hl('Normal',         { fg = p.white })
 
--- Controls the background color of autocomplete popup, oil.nvim, whichkey, floating windows, etc
+-- Controls the background color of autocomplete popup, mini.files, whichkey, floating windows, etc
 hl('NormalFloat',    { fg = p.white, bg = p.bg_dark })
 hl('NormalMode',     { fg = p.black, bg = p.yellow })
 hl('NormalNC',       { fg = p.white })
