@@ -1,6 +1,6 @@
 {
-  "lastChangelogVersion": "0.85.1",
-  "hideThinkingBlock": false,
+  "lastChangelogVersion": "0.87.1",
+  "hideThinkingBlock": true,
   "defaultProvider": "anthropic",
   "defaultModel": "claude-fable-5",
   "defaultThinkingLevel": "medium",
