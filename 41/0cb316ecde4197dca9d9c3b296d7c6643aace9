@@ -1,0 +1,19 @@
+platform/macos/aerospace/aerospace.toml
+  s_d0a70a446ad530::t_cfda17443f7673 53
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "410cb316ecde4197dca9d9c3b296d7c6643aace9",
+  "prompts": {},
+  "sessions": {
+    "s_d0a70a446ad530": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a0cfb0-9394-73b1-977f-22526563943f",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
