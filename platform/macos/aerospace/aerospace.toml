@@ -50,7 +50,7 @@ exec-on-workspace-change = [
 
 [[on-window-detected]]
     if.app-id = 'com.apple.MobileSMS'
-    run = ['move-node-to-workspace P', 'workspace P']
+    run = ['layout floating']
 
 [gaps]
     inner.horizontal = 8
