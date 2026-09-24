@@ -1,0 +1,21 @@
+home/.config/nvim/after/queries/typescript/highlights.scm
+  s_5e250a7b77651f::t_87627514491c19 1-6
+home/.config/nvim/after/queries/tsx/highlights.scm
+  s_5e250a7b77651f::t_fb4d50f01ca842 1-6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "7a761e7db422790739bd625bdbbdae68794a9e7a",
+  "prompts": {},
+  "sessions": {
+    "s_5e250a7b77651f": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a0d4c2-539e-7177-bc1a-b81844e1008c",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
