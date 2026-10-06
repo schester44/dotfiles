@@ -1,0 +1,14 @@
+platform/macos/raycast/scripts/generate-token.sh
+  h_61d85dade50603 1-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "eaea6bc1a8d93d746d09301e8916064b81290d40",
+  "prompts": {},
+  "humans": {
+    "h_61d85dade50603": {
+      "author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
