@@ -1,0 +1,29 @@
+home/.config/nvim/lua/lazy-plugins/lsp.lua
+  s_d1b48a46b6e6d3::t_d81b4b7f0d1fb7 96-105,175
+  s_d1b48a46b6e6d3::t_891d7bdad1ca32 172-174
+  s_c24ba8bd5bc117::t_e9a3ca91082a50 5-9,171
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e4345a151c3d92e5ae65a4b46e218d18a1b43882",
+  "prompts": {},
+  "sessions": {
+    "s_c24ba8bd5bc117": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a1097e-ccd6-7621-b095-7b98aab47293",
+        "model": "unknown"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    },
+    "s_d1b48a46b6e6d3": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a1097a-720d-718f-a0f3-be50028e380c",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
