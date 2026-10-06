@@ -1,0 +1,19 @@
+home/.config/nvim/lua/custom/grapelean.nvim/lua/grapelean/palette.lua
+  s_c24ba8bd5bc117::t_869d0a684ee3a3 107
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "701a67b7d4a048f0a99bd36dbb003d32ca25a22e",
+  "prompts": {},
+  "sessions": {
+    "s_c24ba8bd5bc117": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a1097e-ccd6-7621-b095-7b98aab47293",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
