@@ -111,6 +111,29 @@ return {
       end,
     })
 
+    -- Propagate renames/moves to LSP servers so e.g. tsserver updates imports
+    vim.api.nvim_create_autocmd('User', {
+      pattern = { 'MiniFilesActionRename', 'MiniFilesActionMove' },
+      callback = function(args)
+        local changes = {
+          files = {
+            { oldUri = vim.uri_from_fname(args.data.from), newUri = vim.uri_from_fname(args.data.to) },
+          },
+        }
+        for _, client in ipairs(vim.lsp.get_clients()) do
+          if client:supports_method 'workspace/willRenameFiles' then
+            local resp = client:request_sync('workspace/willRenameFiles', changes, 1000, 0)
+            if resp and resp.result then
+              vim.lsp.util.apply_workspace_edit(resp.result, client.offset_encoding)
+            end
+          end
+          if client:supports_method 'workspace/didRenameFiles' then
+            client:notify('workspace/didRenameFiles', changes)
+          end
+        end
+      end,
+    })
+
     local function open_mini_files()
       MiniFiles.open(vim.api.nvim_buf_get_name(0))
     end
