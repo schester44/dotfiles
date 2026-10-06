@@ -1,0 +1,19 @@
+home/.config/nvim/lua/lazy-plugins/mini.lua
+  s_d1b48a46b6e6d3::t_b3db737995534f 114-136
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d94bf3bc76afceaa0387da4f0aa882255abd8297",
+  "prompts": {},
+  "sessions": {
+    "s_d1b48a46b6e6d3": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a1097a-720d-718f-a0f3-be50028e380c",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
