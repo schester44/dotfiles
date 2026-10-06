@@ -1,0 +1,19 @@
+home/.config/nvim/lua/lazy-plugins/package-info.lua
+  s_c24ba8bd5bc117::t_cba062287c30e7 1-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "78c450f50ebaa1bdffaef70bda71b46e7d7b09af",
+  "prompts": {},
+  "sessions": {
+    "s_c24ba8bd5bc117": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a1097e-ccd6-7621-b095-7b98aab47293",
+        "model": "unknown"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
