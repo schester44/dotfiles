@@ -2,12 +2,11 @@
 return {
 
   {
-    'Sebastian-Nielsen/better-type-hover',
-    config = function()
-      require('better-type-hover').setup {
-        openTypeDocKeymap = 'gK',
-      }
-    end,
+    'nemanjamalesija/ts-expand-hover.nvim',
+    ft = { 'typescript', 'typescriptreact' },
+    opts = {
+      keymaps = { hover = 'gK' },
+    },
   },
   { 'Bilal2453/luvit-meta', lazy = true, cond = not vim.g.vscode },
   {
@@ -94,6 +93,16 @@ return {
         },
       }
 
+      -- Advertise file-operation support so servers send workspace edits on
+      -- file rename/move (consumed by the mini.files ActionRename/Move hook)
+      vim.lsp.config('*', {
+        capabilities = {
+          workspace = {
+            fileOperations = { willRename = true, didRename = true },
+          },
+        },
+      })
+
       -- oxc (oxlint) — only activate when .oxlintrc.json exists
       vim.lsp.config('oxc', {
         cmd = { 'oxlint', '--lsp' },
@@ -159,6 +168,11 @@ return {
       -- Enable both — oxc only when .oxlintrc.json exists in the project
       vim.lsp.enable 'oxc'
       vim.lsp.enable 'eslint'
+      -- Required for ts-expand-hover.nvim expansion with the TS7 server
+      vim.lsp.config('tsgo', {
+        capabilities = { experimental = { hoverVerbosityLevel = true } },
+        settings = { ['js/ts'] = { maximumHoverLength = 5000 } },
+      })
       vim.lsp.enable 'tsgo'
       vim.lsp.enable 'prismals'
     end,
