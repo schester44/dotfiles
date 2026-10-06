@@ -14,24 +14,12 @@ set('t', '<C-k>', '<C-\\><C-N><C-w>l', { desc = 'Move focus to the upper window'
 -- Diagnostic keymaps
 -- For other diagnostic commands, see trouble.lua
 set('n', '<leader>dm', function()
-  local float_bufnr, win = vim.diagnostic.open_float { border = 'rounded' }
+  local _, win = vim.diagnostic.open_float { border = 'rounded' }
 
   if win then
-    local source_buf = vim.api.nvim_get_current_buf()
-
-    local function cleanup()
-      pcall(vim.keymap.del, 'n', '<CR>', { buffer = source_buf })
-    end
-
-    vim.keymap.set('n', '<CR>', function()
-      cleanup()
-      vim.api.nvim_set_current_win(win)
-    end, { buffer = source_buf, desc = 'Focus diagnostic float' })
-
-    vim.api.nvim_create_autocmd('WinClosed', {
-      pattern = tostring(win),
-      once = true,
-      callback = cleanup,
+    vim.api.nvim_win_set_config(win, {
+      footer = { { ' \u{2423}dm enter \u{00b7} q quit ', 'Comment' } },
+      footer_pos = 'right',
     })
   end
 end, { desc = 'Open diagnostic message' })
