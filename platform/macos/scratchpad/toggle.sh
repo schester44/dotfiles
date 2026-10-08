@@ -4,6 +4,9 @@
 #   - On current workspace → stash it (hide)
 #   - Stashed/other ws     → pull it here and focus
 
+# Raycast runs scripts with a bare PATH; aerospace/jq live in homebrew
+export PATH="/opt/homebrew/bin:$PATH"
+
 CONFIG="$HOME/.config/scratchpad/wezterm.lua"
 VAULT="$HOME/Documents/vaults/primary"
 STASH_WS="scratch-stash"
@@ -32,13 +35,15 @@ if [ -n "$WINDOW_ID" ]; then
     exit 0
 fi
 
-# Not running — launch a new instance
-/Applications/WezTerm.app/Contents/MacOS/wezterm \
+# Not running — launch a new instance.
+# Use `open` so launchd (not the caller, e.g. Raycast) is the responsible
+# process for TCC — otherwise nvim gets Permission Denied on ~/Documents.
+open -na WezTerm --args \
     --config-file "$CONFIG" \
     start --always-new-process \
     --class scratchpad \
     --cwd "$VAULT" \
-    -- nvim TODAY.md &
+    -- nvim "$VAULT/TODAY.md"
 
 # Wait for window to appear, then float it on current workspace
 (
