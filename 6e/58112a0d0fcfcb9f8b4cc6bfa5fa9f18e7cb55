@@ -1,0 +1,19 @@
+platform/macos/scratchpad/toggle.sh
+  s_1714c8dbc58c38::t_b7fffc24be3d30 7-9,38-41,46
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "6e58112a0d0fcfcb9f8b4cc6bfa5fa9f18e7cb55",
+  "prompts": {},
+  "sessions": {
+    "s_1714c8dbc58c38": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a11926-c133-77c9-8a47-66624f8ad0da",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
