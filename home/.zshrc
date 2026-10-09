@@ -36,6 +36,8 @@ zstyle ':completion:*' menu select
 bindkey -v
 
 # Environment
+# secret()/load_secrets helpers used by ~/.env (local, never committed)
+[ -f ~/.config/zsh/secrets.zsh ] && source ~/.config/zsh/secrets.zsh
 [ -f ~/.env ] && source ~/.env
 
 # JavaScript tooling — load NVM on first use
