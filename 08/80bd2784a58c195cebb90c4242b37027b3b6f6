@@ -1,0 +1,21 @@
+home/.config/zsh/secrets.zsh
+  s_9203ef78f45baf::t_6e56a6f6582347 1-23
+home/.zshrc
+  s_9203ef78f45baf::t_2161d7e46784d8 39-40
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "0880bd2784a58c195cebb90c4242b37027b3b6f6",
+  "prompts": {},
+  "sessions": {
+    "s_9203ef78f45baf": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a1218b-5064-7250-a627-c8fabd9586a3",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
