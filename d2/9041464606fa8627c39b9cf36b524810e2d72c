@@ -1,0 +1,28 @@
+platform/macos/sketchybar/items/init.lua
+  s_e4fee37791eab7::t_bafc84dfa97116 3
+platform/macos/rift/config.toml
+  s_e4fee37791eab7::t_455d9f5dc2e76f 60-61
+  s_e4fee37791eab7::t_632913adf527c7 46
+  s_e4fee37791eab7::t_7a47879cb47741 20
+  s_e4fee37791eab7::t_651d518dab6c5c 44-45
+platform/macos/sketchybar/constants.lua
+  s_e4fee37791eab7::t_df8f08d822c712 23
+platform/macos/sketchybar/items/rift_layout.lua
+  s_e4fee37791eab7::t_19ce2b95c07e4f 1-39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d29041464606fa8627c39b9cf36b524810e2d72c",
+  "prompts": {},
+  "sessions": {
+    "s_e4fee37791eab7": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a1382f-7efe-7625-9584-62bf2d4aac3b",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
