@@ -57,8 +57,7 @@ vertical = 8
 
 [virtual_workspaces]
 enabled = true
-# Alt+2 while already on 2 bounces to the previous workspace
-workspace_auto_back_and_forth = true
+workspace_auto_back_and_forth = false
 default_workspace_count = 7
 workspace_names = ["1", "2", "3", "4", "5", "P", "S"]
 default_workspace = 0
@@ -133,6 +132,13 @@ app_rules = [
 "Alt + Shift + J" = { move_node = "down" }
 "Alt + Shift + K" = { move_node = "up" }
 "Alt + Shift + L" = { move_node = "right" }
+
+# Join with neighbor into a container (then Alt+Comma to stack it, Alt+O to
+# flip orientation; Alt+Ctrl+0 unjoins). Most useful in traditional layout.
+"Alt + Ctrl + H" = { join_window = "left" }
+"Alt + Ctrl + J" = { join_window = "down" }
+"Alt + Ctrl + K" = { join_window = "up" }
+"Alt + Ctrl + L" = { join_window = "right" }
 
 # Resize (~5% steps; shift = 10%)
 "Alt + Minus" = { resize_window_shrink = "smart" }
