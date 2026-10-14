@@ -1,0 +1,65 @@
+platform/macos/aerospace/aerospace.toml
+  s_e4fee37791eab7::t_5c98c730061c26 2-4
+platform/macos/homebrew/brew.sh
+  s_e4fee37791eab7::t_6695f172f0b294 60-61
+install-mac.sh
+  s_e4fee37791eab7::t_fc3d8e45744030 123,127-128
+platform/macos/sketchybar/items/aerospace_fullscreen.lua
+  s_e4fee37791eab7::t_f8b337f97b0d1b 29,32,56-57,59-60
+platform/macos/sketchybar/constants.lua
+  s_e4fee37791eab7::t_cf7cc0b039b334 22
+platform/macos/sketchybar/items/init.lua
+  s_e4fee37791eab7::t_151d6c75e74488 2
+platform/macos/link.sh
+  s_e4fee37791eab7::t_d80103496bfceb 13-15
+platform/macos/sketchybar/items/aerospace_mode.lua
+  s_e4fee37791eab7::t_6f1bfbe966ee66 42-43,53
+platform/macos/sketchybar/items/rift_spaces.lua
+  s_e4fee37791eab7::t_01a6a92f0d4bc3 1-135
+platform/macos/rift/config.toml
+  s_e4fee37791eab7::t_5a3066094878c8 162-163
+  s_e4fee37791eab7::t_c7186d6d58a559 179-181,187-191,193-196,198-201,203-206,208-211,213-216,218
+  s_e4fee37791eab7::t_6f13e3f37f5c96 53
+  s_e4fee37791eab7::t_6585302d149917 66
+  s_e4fee37791eab7::t_66556cf5466e84 1-3,7-17,19-22,24-29,32-36,42-44,46-52,54-63,67-111,113-115,117-137,161,165-170,172-178
+  s_e4fee37791eab7::t_676a180531fba2 4,37-41,160
+  s_e4fee37791eab7::t_7a6f9d44577ee9 138-142,144-147,149-152,154-157,159
+  s_e4fee37791eab7::t_fb3a90b6d10e20 164
+  s_e4fee37791eab7::t_f0cb3fc28727aa 182-184,186
+  s_e4fee37791eab7::t_06af5c45e01e51 18
+  s_e4fee37791eab7::t_c10ba424b40400 30-31
+  s_e4fee37791eab7::t_6636bcb7688e8a 5-6
+  s_e4fee37791eab7::t_46c53b82a620e1 23
+  s_e4fee37791eab7::t_4e0f34326d93a2 45
+  s_e4fee37791eab7::t_9301aa51ec4075 64-65
+  s_e4fee37791eab7::t_3dfcc49d0150f0 112
+  s_e4fee37791eab7::t_42c027c73371b2 116
+  s_e4fee37791eab7::t_b072f6f4d6beb2 143
+  s_e4fee37791eab7::t_229c1f18cc1573 148
+  s_e4fee37791eab7::t_f2a9ec56ea56e6 153
+  s_e4fee37791eab7::t_6b7729f832bb17 158
+  s_e4fee37791eab7::t_4c105a9c4d7f23 171
+  s_e4fee37791eab7::t_c534f54118a469 185
+  s_e4fee37791eab7::t_537a2b08b48f36 192
+  s_e4fee37791eab7::t_94e29c3d0194a7 197
+  s_e4fee37791eab7::t_388548f2600ee8 202
+  s_e4fee37791eab7::t_c35182b92c3980 207
+  s_e4fee37791eab7::t_1ccd1192f394f2 212
+  s_e4fee37791eab7::t_942bd769129757 217
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d2add4eb257d6de313e13d8cf9b2812edd9cc9ab",
+  "prompts": {},
+  "sessions": {
+    "s_e4fee37791eab7": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a1382f-7efe-7625-9584-62bf2d4aac3b",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
