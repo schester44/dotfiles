@@ -2,7 +2,7 @@
 
 [settings]
 animate = true
-animation_duration = 0.05
+animation_duration = 0.1
 focus_follows_mouse = true
 mouse_follows_focus = false
 mouse_hides_on_focus = false
@@ -33,11 +33,6 @@ new_window_placement = "stack"
 [settings.layout.scrolling]
 column_width_ratio = 0.7
 preserve_window_sizes = true
-
-# Horizontal scroll gestures to slide through columns (scrolling workspaces 2-4)
-[settings.layout.scrolling.gestures]
-enabled = true
-fingers = 3
 
 # Gaps: inner 8, outer 8; top = 40 for external monitors (sketchybar).
 # Built-in display override (top = 10) is in per_display below.
@@ -109,11 +104,14 @@ app_rules = [
 "Alt + Shift + P" = { move_window_to_workspace = 5 }
 "Alt + Shift + S" = { move_window_to_workspace = 6 }
 
-# Fulscreen + sketchybar trigger (was alt-enter)
+# Fullscreen + sketchybar trigger (was alt-enter).
+# within-gaps variant: fills the tiling area only. Plain toggle-fullscreen puts
+# the window in a state rift can't re-adopt after a service restart (see memory
+# note 2026-10-13-rift-window-escapes-tiling-after-fullscreen).
 "Alt + Enter" = { exec = [
   "/bin/sh",
   "-c",
-  "rift-cli execute window toggle-fullscreen && sketchybar --trigger fullscreen",
+  "rift-cli execute window toggle-fullscreen-within-gaps && sketchybar --trigger fullscreen",
 ] }
 
 # Focus (was alt-hjkl)
