@@ -17,6 +17,7 @@ run_on_start = [
   "rift-cli subscribe cli --event workspace_changed --command sh --args -c --args 'sketchybar --trigger aerospace_workspace_changed FOCUSED_WORKSPACE=\"$RIFT_WORKSPACE_NAME\" PREV_WORKSPACE=\"\"'",
   "rift-cli subscribe cli --event windows_changed --command sh --args -c --args 'sketchybar --trigger rift_windows_changed'",
   "rift-cli subscribe cli --event workspace_changed --command /Users/steve/.config/rift/pip-follow.sh",
+  "rift-cli subscribe cli --event layout_changed --command sh --args -c --args 'sketchybar --trigger rift_layout_changed'",
 ]
 
 [settings.layout]
@@ -40,6 +41,9 @@ preserve_window_sizes = false
 # A lone column fills the full width; its stored width returns when another
 # column joins the strip.
 expand_single_column = true
+# Focused column stays centered; neighbors peek from both sides
+alignment = "center"
+focus_navigation_style = "anchored"
 
 [settings.layout.gaps.outer]
 top = 8
@@ -53,6 +57,8 @@ vertical = 8
 
 [virtual_workspaces]
 enabled = true
+# Alt+2 while already on 2 bounces to the previous workspace
+workspace_auto_back_and_forth = true
 default_workspace_count = 7
 workspace_names = ["1", "2", "3", "4", "5", "P", "S"]
 default_workspace = 0
@@ -127,12 +133,6 @@ app_rules = [
 "Alt + Shift + J" = { move_node = "down" }
 "Alt + Shift + K" = { move_node = "up" }
 "Alt + Shift + L" = { move_node = "right" }
-
-# Join with neighbor 
-"Alt + Ctrl + H" = { join_window = "left" }
-"Alt + Ctrl + J" = { join_window = "down" }
-"Alt + Ctrl + K" = { join_window = "up" }
-"Alt + Ctrl + L" = { join_window = "right" }
 
 # Resize (~5% steps; shift = 10%)
 "Alt + Minus" = { resize_window_shrink = "smart" }

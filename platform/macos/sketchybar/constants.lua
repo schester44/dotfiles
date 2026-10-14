@@ -20,6 +20,7 @@ M.events = {
 	HIDE_MODE = "hide_mode",
 	FULLSCREEN = "fullscreen",
 	RIFT_WINDOWS_CHANGED = "rift_windows_changed",
+	RIFT_LAYOUT_CHANGED = "rift_layout_changed",
 	GIT_UPDATE = "git_update",
 }
 

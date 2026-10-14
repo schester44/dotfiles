@@ -1,5 +1,6 @@
 -- Left side items
 require("items.rift_spaces")
+require("items.rift_layout")
 
 -- Right side items
 require("items.aerospace_mode")
