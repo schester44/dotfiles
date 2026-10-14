@@ -1,16 +1,21 @@
 local colors = require("config.colors")
 local icons = require("config.icons")
+local constants = require("constants")
 
--- -- Add app icons and hide if empty + unfocused
+-- Port of aerospace_spaces.lua for rift (rift-cli + jq)
+
+local QUERY = "rift-cli query workspaces"
+
+-- Add app icons and hide if empty + unfocused
 local function add_windows(space, space_name, is_focused)
-	sbar.exec("aerospace list-windows --format %{app-name} --workspace " .. space_name, function(windows)
+	local cmd = QUERY .. " | jq -r '.[] | select(.name == \"" .. space_name .. "\") | .windows[].app_name'"
+
+	sbar.exec(cmd, function(windows)
 		local icon_line = ""
 
 		for app in windows:gmatch("[^\r\n]+") do
 			local icon = icons[app] or icons["Default"]
 			icon_line = icon_line .. " " .. icon
-
-			-- Log app name to file
 		end
 
 		local label_text = icon_line == "" and "—" or icon_line
@@ -35,14 +40,19 @@ end
 
 local space_names = {}
 
-sbar.exec("aerospace list-workspaces --all", function(output)
-	-- Collect all workspace names first
+-- "name|is_active" per line, in index order
+sbar.exec(QUERY .. " | jq -r '.[] | \"\\(.name)|\\(.is_active)\"'", function(output)
 	local workspaces = {}
-	for space_name in output:gmatch("[^\r\n]+") do
-		table.insert(workspaces, space_name)
+	for line in output:gmatch("[^\r\n]+") do
+		local name, active = line:match("^(.-)|(.+)$")
+		if name then
+			table.insert(workspaces, { name = name, active = active == "true" })
+		end
 	end
 
-	for i, space_name in ipairs(workspaces) do
+	for i, ws in ipairs(workspaces) do
+		local space_name = ws.name
+		local index = i - 1 -- rift workspace indices are zero-based
 		table.insert(space_names, "space." .. space_name)
 		local is_first = i == 1
 		local is_last = i == #workspaces
@@ -52,6 +62,7 @@ sbar.exec("aerospace list-workspaces --all", function(output)
 				string = space_name,
 				color = colors.white,
 				highlight_color = colors.white,
+				highlight = ws.active,
 				padding_left = 12,
 				padding_right = 0,
 			},
@@ -60,28 +71,26 @@ sbar.exec("aerospace list-workspaces --all", function(output)
 				string = "",
 				color = 0xbbffffff,
 				highlight_color = colors.white,
+				highlight = ws.active,
 				y_offset = -1,
 				padding_right = is_last and 0 or 14,
 			},
 			background = {
-				color = 0x00000000,
+				color = ws.active and 0x60967EFB or 0x00000000,
 				corner_radius = 10,
 				height = 22,
 			},
-			click_script = "aerospace workspace " .. space_name,
+			click_script = "rift-cli execute workspace switch " .. index,
 			padding_left = is_first and 4 or 2,
 			padding_right = is_last and 4 or 2,
 			drawing = false, -- hide by default until checked
 			updates = true,
 		})
 
-		add_windows(space, space_name)
-
-		local constants = require("constants")
+		add_windows(space, space_name, ws.active)
 
 		space:subscribe(constants.events.AEROSPACE_WORKSPACE_CHANGED, function(env)
 			local selected = env.FOCUSED_WORKSPACE == space_name
-			local prev_selected = env.PREV_WORKSPACE == space_name
 
 			space:set({
 				icon = { highlight = selected },
@@ -89,15 +98,11 @@ sbar.exec("aerospace list-workspaces --all", function(output)
 				background = { color = selected and 0x60967EFB or 0x00000000 },
 			})
 
-			space:set({ drawing = selected or space:query().label.value ~= "—" })
-
-			-- update the window icons if this space was selected or was previously selected
-			if selected or prev_selected then
-				add_windows(space, space_name, selected)
-			end
+			-- rift's event doesn't carry PREV_WORKSPACE, so refresh every space
+			add_windows(space, space_name, selected)
 		end)
 
-		space:subscribe("space_windows_change", function()
+		space:subscribe(constants.events.RIFT_WINDOWS_CHANGED, function()
 			add_windows(space, space_name)
 		end)
 

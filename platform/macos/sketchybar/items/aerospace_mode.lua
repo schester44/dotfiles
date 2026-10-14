@@ -36,18 +36,11 @@ local function hideMessage()
 end
 
 local function showMessage(content, hold)
-	-- hideMessage()
-
 	mode:set({ popup = { drawing = true } })
 	messagePopup:set({ icon = { string = "󰀝" }, label = { string = content } })
 
-	if hold == false then
-		sbar.delay(5, function()
-			if hold then
-				return
-			end
-			-- hideMessage()
-		end)
+	if not hold then
+		sbar.delay(2, hideMessage)
 	end
 end
 
@@ -57,4 +50,4 @@ mode:subscribe(constants.events.SEND_MODE, function(env)
 	showMessage(content, hold)
 end)
 
--- mode:subscribe(constants.events.HIDE_MODE, hideMessage)
+mode:subscribe(constants.events.HIDE_MODE, hideMessage)

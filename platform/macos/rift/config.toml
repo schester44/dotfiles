@@ -1,0 +1,218 @@
+# rift config — mirrors the old aerospace setup (platform/macos/aerospace/aerospace.toml)
+
+[settings]
+animate = true
+animation_duration = 0.05
+focus_follows_mouse = true
+mouse_follows_focus = false
+mouse_hides_on_focus = false
+hot_reload = true
+
+# Manage every Space automatically (aerospace-like); Alt+Z toggles per Space.
+default_disable = false
+
+# Notify sketchybar on workspace change (replaces aerospace exec-on-workspace-change).
+# Reuses the existing aerospace_workspace_changed event name so the bar keeps working.
+run_on_start = [
+  "rift-cli subscribe cli --event workspace_changed --command sh --args -c --args 'sketchybar --trigger aerospace_workspace_changed FOCUSED_WORKSPACE=\"$RIFT_WORKSPACE_NAME\" PREV_WORKSPACE=\"\"'",
+  "rift-cli subscribe cli --event windows_changed --command sh --args -c --args 'sketchybar --trigger rift_windows_changed'",
+]
+
+[settings.layout]
+# aerospace 'tiles' equivalent
+mode = "bsp"
+window_insertion_point = "next_to_selection"
+
+[settings.layout.master_stack]
+master_ratio = 0.6
+master_count = 1
+master_side = "left"
+# New windows go to the stack (right side); the master window keeps its spot.
+new_window_placement = "stack"
+
+[settings.layout.scrolling]
+column_width_ratio = 0.7
+preserve_window_sizes = true
+
+# Horizontal scroll gestures to slide through columns (scrolling workspaces 2-4)
+[settings.layout.scrolling.gestures]
+enabled = true
+fingers = 3
+
+# Gaps: inner 8, outer 8; top = 40 for external monitors (sketchybar).
+# Built-in display override (top = 10) is in per_display below.
+[settings.layout.gaps.outer]
+top = 8
+left = 8
+bottom = 8
+right = 8
+
+[settings.layout.gaps.inner]
+horizontal = 8
+vertical = 8
+
+[virtual_workspaces]
+enabled = true
+default_workspace_count = 7
+workspace_names = ["1", "2", "3", "4", "5", "P", "S"]
+default_workspace = 0
+
+# Per-workspace layouts: master-stack for WezTerm, scrolling for Chrome
+workspace_rules = [
+  { workspace = "1", layout = "master_stack" },
+  { workspace = "2", layout = "scrolling" },
+  { workspace = "3", layout = "scrolling" },
+  { workspace = "4", layout = "scrolling" },
+  { workspace = "P", layout = "bsp" },
+]
+
+# App rules (replaces aerospace on-window-detected).
+# rift picks the most specific matching rule, so the scratchpad/about:blank
+# exceptions win over the general per-app rules regardless of order.
+app_rules = [
+  # WezTerm scratchpad floats; everything else goes to workspace 1
+  { app_id = "com.github.wez.wezterm", title_substring = "scratchpad", floating = true },
+  { app_id = "com.github.wez.wezterm", workspace = "1", focus = true },
+
+  # Chrome: Meet PIP (about:blank) floats; everything else to workspace 2
+  { app_id = "com.google.Chrome", title_regex = "^about:blank", floating = true },
+  { app_id = "com.google.Chrome", workspace = "2", focus = true },
+
+  { app_id = "com.dottt.app", floating = true },
+  { app_id = "com.tinyapp.TablePlus", workspace = "3", focus = true },
+  { app_id = "org.mozilla.firefox", workspace = "P", focus = true },
+  { app_id = "com.tinyspeck.slackmacgap", workspace = "S", focus = true },
+  { app_id = "com.openai.chat", workspace = "5", focus = true },
+  { app_id = "com.apple.MobileSMS", floating = true },
+]
+
+[keys]
+# Per-Space tiling toggle (rift-specific; keep this binding)
+"Alt + Z" = "toggle_space_activated"
+
+# Workspace switching (indices are zero-based: Alt+1 -> workspace "1")
+"Alt + Tab" = "switch_to_last_workspace"
+"Alt + 1" = { switch_to_workspace = 0 }
+"Alt + 2" = { switch_to_workspace = 1 }
+"Alt + 3" = { switch_to_workspace = 2 }
+"Alt + 4" = { switch_to_workspace = 3 }
+"Alt + 5" = { switch_to_workspace = 4 }
+"Alt + P" = { switch_to_workspace = 5 }
+"Alt + S" = { switch_to_workspace = 6 }
+
+# Move window to workspace
+"Alt + Shift + 1" = { move_window_to_workspace = 0 }
+"Alt + Shift + 2" = { move_window_to_workspace = 1 }
+"Alt + Shift + 3" = { move_window_to_workspace = 2 }
+"Alt + Shift + 4" = { move_window_to_workspace = 3 }
+"Alt + Shift + 5" = { move_window_to_workspace = 4 }
+"Alt + Shift + P" = { move_window_to_workspace = 5 }
+"Alt + Shift + S" = { move_window_to_workspace = 6 }
+
+# Fulscreen + sketchybar trigger (was alt-enter)
+"Alt + Enter" = { exec = [
+  "/bin/sh",
+  "-c",
+  "rift-cli execute window toggle-fullscreen && sketchybar --trigger fullscreen",
+] }
+
+# Focus (was alt-hjkl)
+"Alt + H" = { move_focus = "left" }
+"Alt + J" = { move_focus = "down" }
+"Alt + K" = { move_focus = "up" }
+"Alt + L" = { move_focus = "right" }
+
+# Move (was alt-shift-hjkl)
+"Alt + Shift + H" = { move_node = "left" }
+"Alt + Shift + J" = { move_node = "down" }
+"Alt + Shift + K" = { move_node = "up" }
+"Alt + Shift + L" = { move_node = "right" }
+
+# Join with neighbor (was alt-ctrl-hjkl join-with)
+"Alt + Ctrl + H" = { join_window = "left" }
+"Alt + Ctrl + J" = { join_window = "down" }
+"Alt + Ctrl + K" = { join_window = "up" }
+"Alt + Ctrl + L" = { join_window = "right" }
+
+# Resize (was resize smart -64/+64 and -128/+128; rift uses fractions, ~5%/10%)
+# Wrapped in exec to suppress animation during resizes only (animation stays on
+# for window moves/swaps and workspace switches).
+"Alt + Minus" = { exec = [
+  "/bin/sh",
+  "-c",
+  "rift-cli execute config set-animate false; rift-cli execute window resize-shrink --orientation smart; rift-cli execute config set-animate true",
+] }
+"Alt + Equal" = { exec = [
+  "/bin/sh",
+  "-c",
+  "rift-cli execute config set-animate false; rift-cli execute window resize-grow --orientation smart; rift-cli execute config set-animate true",
+] }
+"Alt + Shift + Minus" = { exec = [
+  "/bin/sh",
+  "-c",
+  "rift-cli execute config set-animate false; rift-cli execute window resize-by --amount -0.1; rift-cli execute config set-animate true",
+] }
+"Alt + Shift + Equal" = { exec = [
+  "/bin/sh",
+  "-c",
+  "rift-cli execute config set-animate false; rift-cli execute window resize-by --amount 0.1; rift-cli execute config set-animate true",
+] }
+
+
+# Layout toggles
+"Alt + O" = "toggle_orientation"
+"Alt + M" = "promote_to_master" # master-stack only: make focused window the master
+"Alt + Comma" = "toggle_stack"
+
+# Reload config + sketchybar (was alt-ctrl-r)
+"Alt + Ctrl + R" = { exec = [
+  "/bin/sh",
+  "-c",
+  "rift-cli execute config reload && sketchybar --reload",
+] }
+
+# Reset layout (was flatten-workspace-tree; closest rift equivalent)
+"Alt + Ctrl + 0" = "unjoin_windows"
+
+# Toggle floating/tiling (was alt-ctrl-f)
+"Alt + Ctrl + F" = "toggle_window_floating"
+
+# Layout pad: Alt+Space shows the picker in sketchybar, single letter picks a
+# layout, Escape cancels. Must stay below all [keys] entries (TOML scoping).
+"Alt + Slash" = { exec = [
+  "/bin/sh",
+  "-c",
+  "sketchybar --trigger send_mode MESSAGE='LAYOUT:  (t)raditional  (b)sp  (s)crolling  (m)aster-stack  stac(k)  [esc]' HOLD=true; rift-cli execute binding-mode layout",
+] }
+
+[binding_modes.layout]
+"T" = { exec = [
+  "/bin/sh",
+  "-c",
+  "rift-cli execute workspace set-layout traditional; rift-cli execute binding-mode default; sketchybar --trigger send_mode MESSAGE='layout: traditional' HOLD=false",
+] }
+"B" = { exec = [
+  "/bin/sh",
+  "-c",
+  "rift-cli execute workspace set-layout bsp; rift-cli execute binding-mode default; sketchybar --trigger send_mode MESSAGE='layout: bsp' HOLD=false",
+] }
+"S" = { exec = [
+  "/bin/sh",
+  "-c",
+  "rift-cli execute workspace set-layout scrolling; rift-cli execute binding-mode default; sketchybar --trigger send_mode MESSAGE='layout: scrolling' HOLD=false",
+] }
+"M" = { exec = [
+  "/bin/sh",
+  "-c",
+  "rift-cli execute workspace set-layout master_stack; rift-cli execute binding-mode default; sketchybar --trigger send_mode MESSAGE='layout: master-stack' HOLD=false",
+] }
+"K" = { exec = [
+  "/bin/sh",
+  "-c",
+  "rift-cli execute workspace set-layout stack; rift-cli execute binding-mode default; sketchybar --trigger send_mode MESSAGE='layout: stack' HOLD=false",
+] }
+"Escape" = { exec = [
+  "/bin/sh",
+  "-c",
+  "rift-cli execute binding-mode default; sketchybar --trigger hide_mode",
+] }

@@ -120,11 +120,12 @@ gum spin --spinner dot --title "Installing Dottt..." -- bash -c '
 '
 
 # -----------------------------------------------------------
-# Services (sketchybar, aerospace)
+# Services (sketchybar, rift)
 # -----------------------------------------------------------
 gum style --bold "🚀 Starting services"
 brew services start sketchybar
-open -a AeroSpace
+rift service install
+rift service start
 
 # -----------------------------------------------------------
 # Done

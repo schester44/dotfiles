@@ -1,5 +1,7 @@
 
-start-at-login = true
+# Disabled in favor of rift (see platform/macos/rift). AeroSpace remains installed;
+# set back to true and `open -a AeroSpace` to switch back.
+start-at-login = false
 
 after-startup-command = ['exec-and-forget sketchybar']
 

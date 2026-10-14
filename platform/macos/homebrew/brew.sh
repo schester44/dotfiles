@@ -57,7 +57,8 @@ brew install zsh-syntax-highlighting
 
 brew install --cask font-jetbrains-mono-nerd-font
 brew install --cask cleanshot
-brew install --cask nikitabobko/tap/aerospace
+brew install --cask nikitabobko/tap/aerospace # kept installed but not started; rift is the active WM
+brew install acsandmann/tap/rift
 brew install --cask firefox
 brew install --cask obsidian
 brew install --cask chatgpt

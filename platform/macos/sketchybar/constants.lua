@@ -19,6 +19,7 @@ M.events = {
 	SEND_MODE = "send_mode",
 	HIDE_MODE = "hide_mode",
 	FULLSCREEN = "fullscreen",
+	RIFT_WINDOWS_CHANGED = "rift_windows_changed",
 	GIT_UPDATE = "git_update",
 }
 

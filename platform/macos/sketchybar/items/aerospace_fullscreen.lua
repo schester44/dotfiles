@@ -26,24 +26,10 @@ local utils = {
 	},
 
 	get_focused_workspace = function()
-		local handle = io.popen("aerospace list-workspaces --focused")
+		local handle = io.popen("rift-cli query workspaces | jq -r '.[] | select(.is_active) | .name'")
 
 		if not handle then
-			logger.log("Failed to execute aerospace script")
-			return
-		end
-
-		local result = handle:read("*a")
-		handle:close()
-
-		return result:match("^%s*(.-)%s*$")
-	end,
-
-	get_window_info = function(prop)
-		local handle = io.popen('aerospace list-windows --focused --format "%{' .. prop .. '}"')
-
-		if not handle then
-			logger.log("Failed to execute aerospace script")
+			logger.log("Failed to execute rift-cli")
 			return
 		end
 
@@ -67,16 +53,11 @@ local screen_fullscreen_map = {}
 local focused_workspace = utils.get_focused_workspace()
 
 local function init_on_load()
-	local is_fullscreen = utils.get_window_info("window-is-fullscreen")
-
+	-- rift doesn't expose per-window fullscreen state; assume windowed on load.
+	-- State is tracked via the FULLSCREEN trigger (Alt+Enter) from then on.
 	if focused_workspace then
-		screen_fullscreen_map[focused_workspace] = is_fullscreen == "true"
-
-		if screen_fullscreen_map[focused_workspace] then
-			render.fullscreen()
-		else
-			render.windowed()
-		end
+		screen_fullscreen_map[focused_workspace] = false
+		render.windowed()
 	end
 end
 

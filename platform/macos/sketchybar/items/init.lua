@@ -1,5 +1,5 @@
 -- Left side items
-require("items.aerospace_spaces")
+require("items.rift_spaces")
 
 -- Right side items
 require("items.aerospace_mode")
