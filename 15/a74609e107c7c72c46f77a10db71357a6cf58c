@@ -1,0 +1,41 @@
+platform/macos/sketchybar/items/clock.lua
+  s_e4fee37791eab7::t_d830af6266f6c9 16
+  s_e4fee37791eab7::t_656b3ee104b46e 18-30
+  s_e4fee37791eab7::t_c58119ebe7a455 39
+  s_e4fee37791eab7::t_5aca86ca70bd67 3
+  s_e4fee37791eab7::t_17c3f814bdf35d 14
+  s_e4fee37791eab7::t_7d3976f6d48fcc 17
+platform/macos/sketchybar/items/battery.lua
+  s_e4fee37791eab7::t_0ac1ed611cfd19 1,4-9,11,13-17,19-22,24-25,32-52
+  s_e4fee37791eab7::t_0036330494ff33 2,26-30
+  s_e4fee37791eab7::t_0651d45c6ccccd 53-58
+platform/macos/sketchybar/items/rift_spaces.lua
+  s_e4fee37791eab7::t_a60367dd749039 4,81-82,131-133
+  s_e4fee37791eab7::t_9a6dc818136ecd 136-139
+platform/macos/sketchybar/items/init.lua
+  s_e4fee37791eab7::t_d627c45d1903af 9
+platform/macos/sketchybar/config/styles.lua
+  s_e4fee37791eab7::t_1f951ac2150d20 25-27
+  s_e4fee37791eab7::t_8797efbe927c7d 1-7,9-23,28-33,35-36,38-53
+  s_e4fee37791eab7::t_3f7223de677ccb 24
+  s_e4fee37791eab7::t_eecf227088874d 8
+  s_e4fee37791eab7::t_7886816eed1f4c 34,37
+platform/macos/sketchybar/bar.lua
+  s_e4fee37791eab7::t_e060fa8bf08cfc 1,4-5,7-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "15a74609e107c7c72c46f77a10db71357a6cf58c",
+  "prompts": {},
+  "sessions": {
+    "s_e4fee37791eab7": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a1382f-7efe-7625-9584-62bf2d4aac3b",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
