@@ -1,0 +1,29 @@
+platform/macos/rift/config.toml
+  s_e4fee37791eab7::t_8b23c3b79f591d 40-42
+  s_e4fee37791eab7::t_75960afadfc95b 37-39
+  s_e4fee37791eab7::t_4c96b6d62c0d3e 19,60-63,88
+  s_e4fee37791eab7::t_c9250fb26ab5d6 164
+  s_e4fee37791eab7::t_e680c77f215c11 137-141
+  s_e4fee37791eab7::t_a1943adfc500ce 35-36
+  s_e4fee37791eab7::t_2cd6e2c383ecbc 201-206
+  s_e4fee37791eab7::t_d71066d61d53a7 131
+platform/macos/rift/pip-follow.sh
+  s_e4fee37791eab7::t_121e0f2438c10a 10-13,21
+  s_e4fee37791eab7::t_eefb54127c8565 1-9,14-20,22-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a1517130394fe42258e4f83ee7d282442de1efdc",
+  "prompts": {},
+  "sessions": {
+    "s_e4fee37791eab7": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a1382f-7efe-7625-9584-62bf2d4aac3b",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
