@@ -16,6 +16,7 @@ default_disable = false
 run_on_start = [
   "rift-cli subscribe cli --event workspace_changed --command sh --args -c --args 'sketchybar --trigger aerospace_workspace_changed FOCUSED_WORKSPACE=\"$RIFT_WORKSPACE_NAME\" PREV_WORKSPACE=\"\"'",
   "rift-cli subscribe cli --event windows_changed --command sh --args -c --args 'sketchybar --trigger rift_windows_changed'",
+  "rift-cli subscribe cli --event workspace_changed --command /Users/steve/.config/rift/pip-follow.sh",
 ]
 
 [settings.layout]
@@ -31,11 +32,15 @@ master_side = "left"
 new_window_placement = "stack"
 
 [settings.layout.scrolling]
-column_width_ratio = 0.7
-preserve_window_sizes = true
+# New columns open at 60% width; manual resizes can still reach full width
+column_width_ratio = 0.6
+max_column_width_ratio = 1.0
+# Force entering windows to column_width_ratio instead of keeping their own size
+preserve_window_sizes = false
+# A lone column fills the full width; its stored width returns when another
+# column joins the strip.
+expand_single_column = true
 
-# Gaps: inner 8, outer 8; top = 40 for external monitors (sketchybar).
-# Built-in display override (top = 10) is in per_display below.
 [settings.layout.gaps.outer]
 top = 8
 left = 8
@@ -52,13 +57,16 @@ default_workspace_count = 7
 workspace_names = ["1", "2", "3", "4", "5", "P", "S"]
 default_workspace = 0
 
+# Re-check title rules when titles change (Chrome Meet PIP starts with a
+# different title before becoming about:blank)
+reapply_app_rules_on_title_change = true
+
 # Per-workspace layouts: master-stack for WezTerm, scrolling for Chrome
 workspace_rules = [
   { workspace = "1", layout = "master_stack" },
   { workspace = "2", layout = "scrolling" },
   { workspace = "3", layout = "scrolling" },
   { workspace = "4", layout = "scrolling" },
-  { workspace = "P", layout = "bsp" },
 ]
 
 # App rules (replaces aerospace on-window-detected).
@@ -77,7 +85,7 @@ app_rules = [
   { app_id = "com.tinyapp.TablePlus", workspace = "3", focus = true },
   { app_id = "org.mozilla.firefox", workspace = "P", focus = true },
   { app_id = "com.tinyspeck.slackmacgap", workspace = "S", focus = true },
-  { app_id = "com.openai.chat", workspace = "5", focus = true },
+  { app_id = "com.openai.codex", workspace = "5", focus = true }, # ChatGPT (bundle id is codex, not chat)
   { app_id = "com.apple.MobileSMS", floating = true },
 ]
 
@@ -104,57 +112,33 @@ app_rules = [
 "Alt + Shift + P" = { move_window_to_workspace = 5 }
 "Alt + Shift + S" = { move_window_to_workspace = 6 }
 
-# Fullscreen + sketchybar trigger (was alt-enter).
-# within-gaps variant: fills the tiling area only. Plain toggle-fullscreen puts
-# the window in a state rift can't re-adopt after a service restart (see memory
-# note 2026-10-13-rift-window-escapes-tiling-after-fullscreen).
 "Alt + Enter" = { exec = [
   "/bin/sh",
   "-c",
   "rift-cli execute window toggle-fullscreen-within-gaps && sketchybar --trigger fullscreen",
 ] }
 
-# Focus (was alt-hjkl)
 "Alt + H" = { move_focus = "left" }
 "Alt + J" = { move_focus = "down" }
 "Alt + K" = { move_focus = "up" }
 "Alt + L" = { move_focus = "right" }
 
-# Move (was alt-shift-hjkl)
 "Alt + Shift + H" = { move_node = "left" }
 "Alt + Shift + J" = { move_node = "down" }
 "Alt + Shift + K" = { move_node = "up" }
 "Alt + Shift + L" = { move_node = "right" }
 
-# Join with neighbor (was alt-ctrl-hjkl join-with)
+# Join with neighbor 
 "Alt + Ctrl + H" = { join_window = "left" }
 "Alt + Ctrl + J" = { join_window = "down" }
 "Alt + Ctrl + K" = { join_window = "up" }
 "Alt + Ctrl + L" = { join_window = "right" }
 
-# Resize (was resize smart -64/+64 and -128/+128; rift uses fractions, ~5%/10%)
-# Wrapped in exec to suppress animation during resizes only (animation stays on
-# for window moves/swaps and workspace switches).
-"Alt + Minus" = { exec = [
-  "/bin/sh",
-  "-c",
-  "rift-cli execute config set-animate false; rift-cli execute window resize-shrink --orientation smart; rift-cli execute config set-animate true",
-] }
-"Alt + Equal" = { exec = [
-  "/bin/sh",
-  "-c",
-  "rift-cli execute config set-animate false; rift-cli execute window resize-grow --orientation smart; rift-cli execute config set-animate true",
-] }
-"Alt + Shift + Minus" = { exec = [
-  "/bin/sh",
-  "-c",
-  "rift-cli execute config set-animate false; rift-cli execute window resize-by --amount -0.1; rift-cli execute config set-animate true",
-] }
-"Alt + Shift + Equal" = { exec = [
-  "/bin/sh",
-  "-c",
-  "rift-cli execute config set-animate false; rift-cli execute window resize-by --amount 0.1; rift-cli execute config set-animate true",
-] }
+# Resize (~5% steps; shift = 10%)
+"Alt + Minus" = { resize_window_shrink = "smart" }
+"Alt + Equal" = { resize_window_grow = "smart" }
+"Alt + Shift + Minus" = { resize_window_by = { amount = -0.1 } }
+"Alt + Shift + Equal" = { resize_window_by = { amount = 0.1 } }
 
 
 # Layout toggles
@@ -177,7 +161,7 @@ app_rules = [
 
 # Layout pad: Alt+Space shows the picker in sketchybar, single letter picks a
 # layout, Escape cancels. Must stay below all [keys] entries (TOML scoping).
-"Alt + Slash" = { exec = [
+"Alt + Ctrl + O" = { exec = [
   "/bin/sh",
   "-c",
   "sketchybar --trigger send_mode MESSAGE='LAYOUT:  (t)raditional  (b)sp  (s)crolling  (m)aster-stack  stac(k)  [esc]' HOLD=true; rift-cli execute binding-mode layout",
@@ -210,6 +194,12 @@ app_rules = [
   "rift-cli execute workspace set-layout stack; rift-cli execute binding-mode default; sketchybar --trigger send_mode MESSAGE='layout: stack' HOLD=false",
 ] }
 "Escape" = { exec = [
+  "/bin/sh",
+  "-c",
+  "rift-cli execute binding-mode default; sketchybar --trigger hide_mode",
+] }
+# Same key that opens the pad also closes it
+"Alt + Ctrl + O" = { exec = [
   "/bin/sh",
   "-c",
   "rift-cli execute binding-mode default; sketchybar --trigger hide_mode",
