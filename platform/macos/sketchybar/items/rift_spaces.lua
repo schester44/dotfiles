@@ -1,6 +1,7 @@
 local colors = require("config.colors")
 local icons = require("config.icons")
 local constants = require("constants")
+local style = require("config.styles").get()
 
 -- Port of aerospace_spaces.lua for rift (rift-cli + jq)
 
@@ -77,8 +78,8 @@ sbar.exec(QUERY .. " | jq -r '.[] | \"\\(.name)|\\(.is_active)\"'", function(out
 			},
 			background = {
 				color = ws.active and 0x60967EFB or 0x00000000,
-				corner_radius = 10,
-				height = 22,
+				corner_radius = style.space_highlight.corner_radius,
+				height = style.space_highlight.height,
 			},
 			click_script = "rift-cli execute workspace switch " .. index,
 			padding_left = is_first and 4 or 2,
@@ -127,9 +128,13 @@ sbar.exec(QUERY .. " | jq -r '.[] | \"\\(.name)|\\(.is_active)\"'", function(out
 	-- Add bracket around all spaces for pill-shaped container
 	sbar.add("bracket", "spaces_bracket", space_names, {
 		background = {
-			color = 0x20ffffff,
-			corner_radius = 12,
-			height = 28,
+			color = style.bracket.color,
+			corner_radius = style.bracket.corner_radius,
+			height = style.bracket.height,
 		},
 	})
+
+	-- Spaces are created async, so items added by later files (rift_layout) end
+	-- up left of them; reorder once the strip exists.
+	sbar.exec("sketchybar --move rift_layout after '" .. space_names[#space_names] .. "'")
 end)

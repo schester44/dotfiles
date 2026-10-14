@@ -1,5 +1,6 @@
 local constants = require("constants")
 local colors = require("config.colors")
+local style = require("config.styles").get()
 
 -- Right spacer for container padding
 sbar.add("item", "right_container_spacer", {
@@ -10,10 +11,23 @@ sbar.add("item", "right_container_spacer", {
 
 local clock = sbar.add("item", constants.items.CLOCK, {
 	position = "right",
-	-- TODO, 1 what? only need to update every minute
-	update_freq = 1,
+	update_freq = 30,
 	icon = { padding_left = 0, padding_right = 0 },
-	padding_left = 6,
+	padding_left = 0,
+})
+
+-- Right cluster pill (clock; battery joins unless the style gives it its own pill)
+local members = { constants.items.CLOCK, "right_container_spacer" }
+if not style.battery_own_pill then
+	table.insert(members, 1, "battery")
+end
+
+sbar.add("bracket", "right_container", members, {
+	background = {
+		color = style.bracket.color,
+		corner_radius = style.bracket.corner_radius,
+		height = style.bracket.height,
+	},
 })
 
 clock:subscribe({ "forced", "routine", "system_woke" }, function()
@@ -22,7 +36,7 @@ clock:subscribe({ "forced", "routine", "system_woke" }, function()
 
 	clock:set({
 		label = {
-			string = day .. os.date("%m-%d|%H:%M"),
+			string = day .. os.date("%m-%d") .. style.clock_sep .. os.date("%H:%M"),
 			color = colors.white,
 			padding_left = 8,
 			padding_right = 8,
