@@ -1,0 +1,20 @@
+platform/macos/rift/config.toml
+  s_e4fee37791eab7::t_10afff9d1292df 107-110,114
+  s_e4fee37791eab7::t_401501baf5f1d8 5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "136bd238b156bfb06559972fd167e1dc705d56c4",
+  "prompts": {},
+  "sessions": {
+    "s_e4fee37791eab7": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a1382f-7efe-7625-9584-62bf2d4aac3b",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
