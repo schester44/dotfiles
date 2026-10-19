@@ -66,7 +66,6 @@ default_workspace = 0
 # different title before becoming about:blank)
 reapply_app_rules_on_title_change = true
 
-# Per-workspace layouts: master-stack for WezTerm, scrolling for Chrome
 workspace_rules = [
   { workspace = "1", layout = "master_stack" },
   { workspace = "2", layout = "scrolling" },
@@ -78,7 +77,8 @@ workspace_rules = [
 # rift picks the most specific matching rule, so the scratchpad/about:blank
 # exceptions win over the general per-app rules regardless of order.
 app_rules = [
-  # WezTerm scratchpad floats; everything else goes to workspace 1
+  # WezTerm scratchpad floats (it's AlwaysOnTop/layer-3, so rift mostly
+  # ignores it anyway; this guards against a tiling flash at spawn)
   { app_id = "com.github.wez.wezterm", title_substring = "scratchpad", floating = true },
   { app_id = "com.github.wez.wezterm", workspace = "1", focus = true },
 

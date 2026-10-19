@@ -1,36 +1,29 @@
 #!/bin/bash
 # Toggle a floating WezTerm scratchpad with nvim + TODAY.md
-#   - Not running          → launch on current workspace
-#   - On current workspace → stash it (hide)
-#   - Stashed/other ws     → pull it here and focus
+#   - Not running → launch
+#   - Visible     → hide (app-level hide; keeps the nvim session alive)
+#   - Hidden      → unhide + focus
+#
+# The scratchpad window is AlwaysOnTop (window-server layer 3), which rift
+# does not track — so instead of moving it between virtual workspaces we
+# toggle visibility at the app level via System Events. Since the window is
+# always-on-top it follows across workspaces while shown, quake-style.
 
-# Raycast runs scripts with a bare PATH; aerospace/jq live in homebrew
+# Raycast runs scripts with a bare PATH
 export PATH="/opt/homebrew/bin:$PATH"
 
 CONFIG="$HOME/.config/scratchpad/wezterm.lua"
 VAULT="$HOME/Documents/vaults/primary"
-STASH_WS="scratch-stash"
-CURRENT_WS=$(aerospace list-workspaces --focused)
 
-find_window() {
-    aerospace list-windows "$@" --json 2>/dev/null \
-        | jq -r '[.[] | select(.["window-title"] == "scratchpad")][0] // empty | .["window-id"]' 2>/dev/null
-}
+PID=$(pgrep -f "wezterm-gui --config-file $CONFIG" | head -n1)
 
-# Check if scratchpad exists at all
-WINDOW_ID=$(find_window --all)
-
-if [ -n "$WINDOW_ID" ]; then
-    LOCAL_ID=$(find_window --workspace focused)
-
-    if [ -n "$LOCAL_ID" ]; then
-        # On this workspace — stash it
-        aerospace move-node-to-workspace --window-id "$WINDOW_ID" "$STASH_WS" 2>/dev/null
+if [ -n "$PID" ]; then
+    VISIBLE=$(osascript -e "tell application \"System Events\" to get visible of (first process whose unix id is $PID)" 2>/dev/null)
+    if [ "$VISIBLE" = "true" ]; then
+        osascript -e "tell application \"System Events\" to set visible of (first process whose unix id is $PID) to false" >/dev/null 2>&1
     else
-        # Stashed or on another workspace — pull it here
-        aerospace move-node-to-workspace --window-id "$WINDOW_ID" "$CURRENT_WS" 2>/dev/null
-        aerospace layout --window-id "$WINDOW_ID" floating 2>/dev/null
-        aerospace focus --window-id "$WINDOW_ID" 2>/dev/null
+        # frontmost=true both unhides and focuses (visible=true alone is flaky)
+        osascript -e "tell application \"System Events\" to set frontmost of (first process whose unix id is $PID) to true" >/dev/null 2>&1
     fi
     exit 0
 fi
@@ -44,18 +37,3 @@ open -na WezTerm --args \
     --class scratchpad \
     --cwd "$VAULT" \
     -- nvim "$VAULT/TODAY.md"
-
-# Wait for window to appear, then float it on current workspace
-(
-    for i in $(seq 1 30); do
-        WINDOW_ID=$(find_window --all)
-        if [ -n "$WINDOW_ID" ]; then
-            aerospace move-node-to-workspace --window-id "$WINDOW_ID" "$CURRENT_WS" 2>/dev/null
-            aerospace layout --window-id "$WINDOW_ID" floating 2>/dev/null
-            aerospace focus --window-id "$WINDOW_ID" 2>/dev/null
-            break
-        fi
-        sleep 0.1
-    done
-) &
-disown
