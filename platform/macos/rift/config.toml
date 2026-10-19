@@ -51,6 +51,13 @@ left = 8
 bottom = 8
 right = 8
 
+# LG HDR 4K: leave room for sketchybar; laptop screen uses the default top = 8
+[settings.layout.gaps.per_display."D5586ED0-666C-4F36-A21C-551A9778AA8D".outer]
+top = 40
+left = 8
+bottom = 8
+right = 8
+
 [settings.layout.gaps.inner]
 horizontal = 8
 vertical = 8
