@@ -1,0 +1,24 @@
+platform/macos/scratchpad/README.md
+  s_4fbe53e0ae5856::t_b3c0e690275dd2 12-13,21,26,41
+  s_4fbe53e0ae5856::t_8cc6007866eb1d 31
+platform/macos/scratchpad/toggle.sh
+  s_4fbe53e0ae5856::t_5556787fd2b633 3-12,18,20-23,25-26
+platform/macos/rift/config.toml
+  s_4fbe53e0ae5856::t_278ffd4ba38c77 80-81
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ceec2c0c71672c642a28ad807cdad4c8a54caea6",
+  "prompts": {},
+  "sessions": {
+    "s_4fbe53e0ae5856": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a15110-e8b6-723c-914f-d0256ea1c889",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Steve Chester <schester44@gmail.com>"
+    }
+  }
+}
