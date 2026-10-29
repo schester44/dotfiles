@@ -14,8 +14,8 @@
 # @raycast.author Stee
 # @raycast.authorURL https://github.com/schester44
 
-EMAIL_PREFIX="steve+dev"
-EMAIL_DOMAIN="@obierisk.com"
+EMAIL_PREFIX="schester44+dev"
+EMAIL_DOMAIN="@gmail.com"
 
 DATE=$(date +'%m%d%y-%H%M%S')
 
