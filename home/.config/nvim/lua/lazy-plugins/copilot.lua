@@ -2,7 +2,8 @@ return {
   {
     'zbirenbaum/copilot.lua',
     event = 'InsertEnter',
-    cond = not vim.g.vscode,
+    -- diosabled
+    cond = false,
     config = function()
       local palette = require 'grapelean.palette'
 

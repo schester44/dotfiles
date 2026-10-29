@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.87.1",
+  "lastChangelogVersion": "1.0.0",
   "hideThinkingBlock": true,
   "defaultProvider": "anthropic",
   "defaultModel": "claude-fable-5",
@@ -7,7 +7,13 @@
   "theme": "my-theme",
   "packages": [
     "npm:pi-subagents",
-    "npm:pi-mcp-adapter",
-    "npm:pi-side-chat"
-  ]
+    "npm:pi-side-chat",
+    "npm:@postman/postman-plugin"
+  ],
+  "enableInstallTelemetry": false,
+  "collapseChangelog": true,
+  "quietStartup": false,
+  "fullscreenCopyOnSelect": false,
+  "showCacheMissNotices": true,
+  "tuiMode": "regular"
 }

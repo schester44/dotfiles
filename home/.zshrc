@@ -117,5 +117,3 @@ export PATH="$DOTFILES/bin:$HOME/.local/bin:$PATH"
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 
 
-# Added by git-ai installer on Wed Jul 29 20:01:12 EDT 2026
-export PATH="/Users/steve/.git-ai/bin:$PATH"
