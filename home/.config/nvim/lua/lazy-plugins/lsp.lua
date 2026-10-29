@@ -90,6 +90,7 @@ return {
           'tsgo',
           'oxlint',
           'oxfmt',
+          'basedpyright'
         },
       }
 
@@ -175,6 +176,7 @@ return {
       })
       vim.lsp.enable 'tsgo'
       vim.lsp.enable 'prismals'
+      vim.lsp.enable 'basedpyright'
     end,
   },
 }
