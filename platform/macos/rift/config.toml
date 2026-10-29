@@ -3,7 +3,7 @@
 [settings]
 animate = true
 animation_duration = 0.1
-focus_follows_mouse = true
+focus_follows_mouse = false
 mouse_follows_focus = false
 mouse_hides_on_focus = false
 hot_reload = true
@@ -65,8 +65,8 @@ vertical = 8
 [virtual_workspaces]
 enabled = true
 workspace_auto_back_and_forth = false
-default_workspace_count = 7
-workspace_names = ["1", "2", "3", "4", "5", "P", "S"]
+default_workspace_count = 6
+workspace_names = ["1", "2", "3", "4", "5", "P"]
 default_workspace = 0
 
 # Re-check title rules when titles change (Chrome Meet PIP starts with a
@@ -96,7 +96,6 @@ app_rules = [
   { app_id = "com.dottt.app", floating = true },
   { app_id = "com.tinyapp.TablePlus", workspace = "3", focus = true },
   { app_id = "org.mozilla.firefox", workspace = "P", focus = true },
-  { app_id = "com.tinyspeck.slackmacgap", workspace = "S", focus = true },
   { app_id = "com.openai.codex", workspace = "5", focus = true }, # ChatGPT (bundle id is codex, not chat)
   { app_id = "com.apple.MobileSMS", floating = true },
 ]
@@ -113,7 +112,6 @@ app_rules = [
 "Alt + 4" = { switch_to_workspace = 3 }
 "Alt + 5" = { switch_to_workspace = 4 }
 "Alt + P" = { switch_to_workspace = 5 }
-"Alt + S" = { switch_to_workspace = 6 }
 
 # Move window to workspace
 "Alt + Shift + 1" = { move_window_to_workspace = 0 }
@@ -122,7 +120,6 @@ app_rules = [
 "Alt + Shift + 4" = { move_window_to_workspace = 3 }
 "Alt + Shift + 5" = { move_window_to_workspace = 4 }
 "Alt + Shift + P" = { move_window_to_workspace = 5 }
-"Alt + Shift + S" = { move_window_to_workspace = 6 }
 
 "Alt + Enter" = { exec = [
   "/bin/sh",
