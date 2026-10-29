@@ -26,5 +26,4 @@ Mannered prose substitutes metaphor and flourish for direct statement. Instead o
 ## Obsidian
 
 - Vault path: `~/Documents/vaults/primary`
-- Use spaces in filenames (Obsidian convention), not hyphens
 - Attachments go in `_attachments/`
