@@ -14,6 +14,7 @@ export PATH="/opt/homebrew/bin:$PATH"
 
 CONFIG="$HOME/.config/scratchpad/wezterm.lua"
 VAULT="$HOME/Documents/vaults/primary"
+DOCUMENT="Index.md"
 
 PID=$(pgrep -f "wezterm-gui --config-file $CONFIG" | head -n1)
 
@@ -36,4 +37,4 @@ open -na WezTerm --args \
     start --always-new-process \
     --class scratchpad \
     --cwd "$VAULT" \
-    -- nvim "$VAULT/TODAY.md"
+    -- nvim "$VAULT/$DOCUMENT"
