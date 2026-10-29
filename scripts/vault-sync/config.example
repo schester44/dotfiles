@@ -1,0 +1,5 @@
+# Copy to ~/.config/vault-sync/config (do not commit your local config).
+SSH_ALIAS=vault-backup
+REMOTE_PATH=/gympool/data/vaults
+SOURCE_DIR="$HOME/Documents/vaults"
+# Optional: LOG_FILE="$HOME/Library/Logs/vault-sync.log"
