@@ -8,12 +8,14 @@
   "packages": [
     "npm:pi-subagents",
     "npm:pi-side-chat",
-    "npm:@postman/postman-plugin"
+    "npm:@postman/postman-plugin",
+    "https://github.com/earendil-works/pi-claude-code"
   ],
   "enableInstallTelemetry": false,
   "collapseChangelog": true,
   "quietStartup": false,
   "fullscreenCopyOnSelect": false,
   "showCacheMissNotices": true,
-  "tuiMode": "regular"
+  "tuiMode": "regular",
+  "deviceId": "83b67ff0-302e-4404-9e7e-9578fa59c251"
 }

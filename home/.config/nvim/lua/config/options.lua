@@ -24,6 +24,7 @@ vim.opt.mouse = 'a'
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 
+
 -- Enable break indent
 vim.opt.breakindent = true
 
@@ -60,10 +61,10 @@ vim.opt.inccommand = 'split'
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
-vim.bo.expandtab = true -- Use spaces
-vim.bo.shiftwidth = 2 -- Indent by 2 spaces
-vim.bo.softtabstop = 2 -- Tab inserts 2 spaces
-vim.bo.tabstop = 2 -- Tab width is 2 spaces
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 2
+vim.opt.softtabstop = 2
+vim.opt.tabstop = 2
 
 vim.opt.conceallevel = 2 -- Conceal text
 
@@ -78,16 +79,15 @@ local diagnostics = require 'lib.diagnostics'
 local cur_border = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
 
 vim.diagnostic.config {
+  severity_sort = true,
   update_in_insert = false,
   virtual_lines = {
-    enabled = true,
     current_line = true,
     severity = {
       min = vim.diagnostic.severity.ERROR,
     },
   },
   virtual_text = {
-    enabled = true,
     current_line = true,
     severity = {
       min = vim.diagnostic.severity.HINT,
