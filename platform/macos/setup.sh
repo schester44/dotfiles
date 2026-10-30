@@ -10,6 +10,3 @@ source "$DIR/windows"
 source "$DIR/dock"
 source "$DIR/inputs"
 source "$DIR/wallpaper"
-
-# Apply keyboard shortcut changes without logging out
-/System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
