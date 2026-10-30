@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Hide the menu bar (sketchybar replaces it). Takes effect after logout.
+defaults write NSGlobalDomain _HIHideMenuBar -bool true
+
+# Clicking the desktop doesn't hide all windows
+defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
+
+# Turn off macOS window tiling (rift handles it)
+defaults write com.apple.WindowManager EnableTilingByEdgeDrag -bool false
+defaults write com.apple.WindowManager EnableTopTilingByEdgeDrag -bool false
+defaults write com.apple.WindowManager EnableTilingOptionAccelerator -bool false
+defaults write com.apple.WindowManager EnableTiledWindowMargins -bool false
+
+# Stage Manager off
+defaults write com.apple.WindowManager GloballyEnabled -bool false
+
+# Trackpad: no Mission Control / App Exposé swipes, no Launchpad / Show Desktop pinches.
+# Horizontal swipes (between Spaces and full-screen apps) are left on.
+for domain in com.apple.AppleMultitouchTrackpad com.apple.driver.AppleBluetoothMultitouch.trackpad; do
+  defaults write "$domain" TrackpadThreeFingerVertSwipeGesture -int 0
+  defaults write "$domain" TrackpadFourFingerVertSwipeGesture -int 0
+  defaults write "$domain" TrackpadFourFingerPinchGesture -int 0
+  defaults write "$domain" TrackpadFiveFingerPinchGesture -int 0
+done
+
+# Keyboard shortcuts off: Mission Control (32/34), App windows (33/35), Show Desktop (36/37)
+for id in 32 33 34 35 36 37; do
+  defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add "$id" "<dict><key>enabled</key><false/></dict>"
+done
+/System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u

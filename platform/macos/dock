@@ -1,12 +1,34 @@
 #!/bin/bash
 
-# Automatically hide and show the Dock
+# Auto-hide with no delay before it appears
 defaults write com.apple.dock autohide -bool true
+defaults write com.apple.dock autohide-delay -float 0
+
+# Icon size
+defaults write com.apple.dock tilesize -int 45
+
+# Minimize windows into their app's Dock icon
+defaults write com.apple.dock minimize-to-application -bool true
+
+# Don't show recent apps (running apps still appear)
+defaults write com.apple.dock show-recents -bool false
 
 # Remove all pinned apps. Folders on the right side (Downloads) and Trash stay.
 defaults write com.apple.dock persistent-apps -array
 
-# Group windows by app in Mission Control (keeps exposé usable with a tiling WM)
-defaults write com.apple.dock expose-group-apps -bool true
+# Don't reorder Spaces based on most recent use
+defaults write com.apple.dock mru-spaces -bool false
+
+# No hot corners (1 = no action)
+for corner in tl tr bl br; do
+  defaults write com.apple.dock "wvous-$corner-corner" -int 1
+  defaults write com.apple.dock "wvous-$corner-modifier" -int 0
+done
+
+# No Mission Control / App Exposé / Launchpad / Show Desktop trackpad gestures
+defaults write com.apple.dock showMissionControlGestureEnabled -bool false
+defaults write com.apple.dock showAppExposeGestureEnabled -bool false
+defaults write com.apple.dock showLaunchpadGestureEnabled -bool false
+defaults write com.apple.dock showDesktopGestureEnabled -bool false
 
 killall Dock
