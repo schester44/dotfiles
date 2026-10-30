@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Set the desktop picture on every display to the repo's wallpaper.jpg.
+# The first run asks for permission to control System Events.
+WALLPAPER="$(cd "$DIR/../.." && pwd)/wallpaper.jpg"
+
+if [[ -f "$WALLPAPER" ]]; then
+  osascript -e "tell application \"System Events\" to tell every desktop to set picture to POSIX file \"$WALLPAPER\"" \
+    || echo "⚠️  Could not set wallpaper (allow your terminal to control System Events, then re-run)"
+fi

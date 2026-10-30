@@ -106,7 +106,7 @@ gum spin --spinner dot --title "Installing fonts..." -- bash -c '
 '
 
 # -----------------------------------------------------------
-# macOS defaults (Finder, Dock, inputs, etc.)
+# macOS defaults (Finder, Dock, inputs, wallpaper, etc.)
 # -----------------------------------------------------------
 gum style --bold "🍎 Applying macOS defaults"
 "$MAC/setup.sh"
