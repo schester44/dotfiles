@@ -1,5 +1,5 @@
 -- Grapelean theme colors for sketchybar
--- Loads from ~/.dotfiles/colors/grapelean.json (single source of truth)
+-- Loads from ~/.dotfiles/system/colors/grapelean.json (single source of truth)
 -- Format: 0xAARRGGBB (AA = alpha)
 
 local json_path = os.getenv("HOME") .. "/.dotfiles/system/colors/grapelean.json"

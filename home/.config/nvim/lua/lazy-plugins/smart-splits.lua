@@ -6,7 +6,7 @@ return {
     -- these keymaps will also accept a range,
     -- for example `10<A-h>` will `resize_left` by `(10 * config.default_amount)`
 
-    -- FIXME: - These conflict with Aerospace focus
+    -- NOTE: Ctrl+Arrow may conflict with macOS Mission Control shortcuts
     vim.keymap.set('n', '<C-Down>', require('smart-splits').resize_down)
     vim.keymap.set('n', '<C-Up>', require('smart-splits').resize_up)
     vim.keymap.set('n', '<C-Left>', require('smart-splits').resize_left)

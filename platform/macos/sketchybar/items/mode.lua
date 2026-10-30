@@ -1,7 +1,7 @@
 local constants = require("constants")
 local colors = require("config.colors")
 
-local mode = sbar.add("item", constants.items.AEROSPACE_MODE, {
+local mode = sbar.add("item", constants.items.MODE, {
 	width = 0,
 	position = "center",
 	popup = { align = "center" },

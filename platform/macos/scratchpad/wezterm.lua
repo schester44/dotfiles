@@ -32,7 +32,7 @@ config.window_close_confirmation = "NeverPrompt"
 config.initial_cols = 80
 config.initial_rows = 40
 
--- Force window title so aerospace can match it
+-- Force window title so the rift app rule can match it
 wezterm.on("format-window-title", function()
 	return "scratchpad"
 end)

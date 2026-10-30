@@ -55,7 +55,10 @@ M.apply = function(config)
 			})
 		end
 
-		table.insert(elements, { Text = " " .. wezterm.nerdfonts["md_numeric_" .. tab.tab_index + 1 .. "_box"] .. " " })
+		-- Nerd Fonts only has numbered box icons for 1-9; use plain digits after that
+		local n = tab.tab_index + 1
+		local num = n <= 9 and wezterm.nerdfonts["md_numeric_" .. n .. "_box"] or tostring(n)
+		table.insert(elements, { Text = " " .. num .. " " })
 		table.insert(elements, { Text = title })
 
 		return elements

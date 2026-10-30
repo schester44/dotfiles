@@ -1,95 +1,46 @@
 # dotfiles
 
-My Arch Linux dotfiles — Hyprland, Neovim, WezTerm, and more.
+My config for macOS (daily driver) and Arch Linux.
 
 ![Neovim](images/nvim-screenshot.png)
 
-## What's included
+## macOS
 
-- **Window Manager** — [Hyprland](https://hyprland.org/) (modular config in `home/.config/hypr/conf/`)
-- **Editor** — [Neovim](https://neovim.io/) with lazy.nvim, custom themes, LSP, and more
-- **Terminal** — [WezTerm](https://wezfurlong.org/wezterm/)
-- **Shell** — Zsh with aliases, zoxide, eza, and git worktree management (`wt`)
-- **Bar** — [Waybar](https://github.com/Alexays/Waybar)
-- **Launcher** — [Walker](https://github.com/abenz1267/walker)
-- **Fonts** — Operator Mono Lig, JetBrains Mono Nerd Font
-
-## Structure
-
-```
-~/.dotfiles/
-├── install.sh              # Main install script
-├── install/                # Install subscripts
-├── bin/                    # Custom commands (sc)
-├── home/                   # Dotfiles linked to ~
-│   ├── .config/
-│   │   ├── hypr/           # Hyprland config
-│   │   ├── nvim/           # Neovim config
-│   │   ├── wezterm/        # WezTerm config
-│   │   └── zsh/            # Zsh aliases & functions
-│   └── .zshrc
-├── platform/               # OS-specific setup
-│   └── macos/              # macOS (Aerospace, Homebrew, Raycast, etc.)
-├── system/
-│   ├── packages/           # pacman.txt, npm.txt
-│   └── fonts/              # fonts.zip
-├── scripts/                # Utility scripts
-└── images/                 # Screenshots
-```
-
-## Install
+- **Window manager:** [rift](https://github.com/acsandmann/rift), with tiling and 5 virtual workspaces on Alt+1…5
+- **Bar:** [SketchyBar](https://github.com/FelixKratz/SketchyBar), configured in Lua
+- **Terminal:** WezTerm (nightly), plus a floating scratchpad window for notes on ⌥N
+- **Keyboard:** Karabiner. Caps Lock is Control when held and Escape when tapped; Right Option is Hyper
+- **Launcher:** Raycast (settings in `platform/macos/config.rayconfig`)
+- **Secrets:** Bitwarden app, plus the `rbw` CLI for loading environment variables
 
 ```bash
-git clone https://github.com/<user>/dotfiles.git ~/.dotfiles
-cd ~/.dotfiles
-./install.sh
+git clone git@github.com:schester44/dotfiles.git ~/.dotfiles
+~/.dotfiles/install-mac.sh
 ```
 
-The installer will:
-1. Prompt for git `user.name` and `user.email`
-2. Symlink dotfiles to `~`
-3. Install packages and services
-4. Install fonts
-5. Configure services
+The script installs Homebrew packages, symlinks configs, installs Node through nvm, installs fonts, applies macOS defaults (Dock, Finder, key repeat), and starts SketchyBar and rift. It prints the remaining manual steps when it finishes.
 
-## Key packages
+## Arch Linux
 
-| Category | Packages |
-|----------|----------|
-| Desktop | hyprland, waybar, xdg-desktop-portal-hyprland |
-| Apps | firefox, neovim, wezterm |
-| Dev | git, github-cli, lazygit, nodejs, npm, base-devel |
-| CLI | ripgrep, fzf, eza, zoxide |
-| Fonts | ttf-jetbrains-mono, ttf-jetbrains-mono-nerd, Operator Mono Lig |
-| Other | vaultwarden, zsh, wl-clipboard, cliphist |
+Hyprland, Waybar, Walker. Install with `./install.sh`.
 
-## Custom commands
+## Shared
 
-All commands are accessed through the `sc` dispatcher. See [docs/sc.md](docs/sc.md).
+- **Neovim:** `home/.config/nvim`
+- **Zsh:** `home/.zshrc`, `home/.config/zsh` (aliases, functions, `wt` for git worktrees)
+- **Git:** `home/.gitconfig` (delta pager). Machine-specific settings go in `~/.gitconfig.local`
+- **Other configs:** tmux, starship, lazygit, pi agent (`home/.pi/agent`)
 
-```bash
-sc theme grapelean  # Switch color palette, regenerate all themed configs
-sc pkg install      # fzf TUI for picking packages to install
-sc pkg add <pkg>    # Install packages if missing
-sc pkg missing      # Check if packages are installed
-sc show done        # Done spinner
+Local, uncommitted files: `~/.env` (secrets), `~/.zshrc.local`, `~/.gitconfig.local`.
+
+## Layout
+
 ```
-
-## Theming
-
-A template-based system that generates app configs (Walker, Waybar, etc.) from a single color palette. See [docs/theming.md](docs/theming.md).
-
-```bash
-sc theme              # list palettes with swatches
-sc theme cobalt44     # switch — all configs regenerate
-```
-
-## Git worktree management
-
-```bash
-wt new <name>       # Create a new worktree
-wt list             # List worktrees
-wt go <name|num>    # Switch to a worktree
-wt delete [name]    # Remove a worktree
-wt setup            # Run setup script
+home/            symlinked into ~
+platform/macos/  rift, sketchybar, karabiner, raycast, scratchpad, brew.sh, defaults
+install/         Linux install scripts
+bin/             scripts on PATH (sc, tunnel, kport)
+system/          colors, theme templates, package lists, fonts
+scripts/         vault-sync
+wezwork/         WezTerm agent switcher (Go)
 ```

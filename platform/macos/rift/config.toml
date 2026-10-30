@@ -1,4 +1,4 @@
-# rift config — mirrors the old aerospace setup (platform/macos/aerospace/aerospace.toml)
+# rift config
 
 [settings]
 animate = true
@@ -8,20 +8,17 @@ mouse_follows_focus = false
 mouse_hides_on_focus = false
 hot_reload = true
 
-# Manage every Space automatically (aerospace-like); Alt+Z toggles per Space.
+# Manage every Space automatically; Alt+Z toggles per Space.
 default_disable = false
 
-# Notify sketchybar on workspace change (replaces aerospace exec-on-workspace-change).
-# Reuses the existing aerospace_workspace_changed event name so the bar keeps working.
+# Notify sketchybar on workspace/window/layout changes.
 run_on_start = [
-  "rift-cli subscribe cli --event workspace_changed --command sh --args -c --args 'sketchybar --trigger aerospace_workspace_changed FOCUSED_WORKSPACE=\"$RIFT_WORKSPACE_NAME\" PREV_WORKSPACE=\"\"'",
+  "rift-cli subscribe cli --event workspace_changed --command sh --args -c --args 'sketchybar --trigger rift_workspace_changed FOCUSED_WORKSPACE=\"$RIFT_WORKSPACE_NAME\" PREV_WORKSPACE=\"\"'",
   "rift-cli subscribe cli --event windows_changed --command sh --args -c --args 'sketchybar --trigger rift_windows_changed'",
-  "rift-cli subscribe cli --event workspace_changed --command /Users/steve/.config/rift/pip-follow.sh",
   "rift-cli subscribe cli --event layout_changed --command sh --args -c --args 'sketchybar --trigger rift_layout_changed'",
 ]
 
 [settings.layout]
-# aerospace 'tiles' equivalent
 mode = "bsp"
 window_insertion_point = "next_to_selection"
 
@@ -69,8 +66,8 @@ default_workspace_count = 5
 workspace_names = ["1", "2", "3", "4", "5"]
 default_workspace = 0
 
-# Re-check title rules when titles change (Chrome Meet PIP starts with a
-# different title before becoming about:blank)
+# Re-check title rules when a window title changes, so the scratchpad title
+# rule still applies if WezTerm sets the title after the window opens
 reapply_app_rules_on_title_change = true
 
 workspace_rules = [
@@ -80,18 +77,14 @@ workspace_rules = [
   { workspace = "4", layout = "scrolling" },
 ]
 
-# App rules (replaces aerospace on-window-detected).
-# rift picks the most specific matching rule, so the scratchpad/about:blank
-# exceptions win over the general per-app rules regardless of order.
+# App rules.
+# rift picks the most specific matching rule, so the scratchpad exception
+# wins over the general WezTerm rule regardless of order.
 app_rules = [
   # WezTerm scratchpad floats (it's AlwaysOnTop/layer-3, so rift mostly
   # ignores it anyway; this guards against a tiling flash at spawn)
   { app_id = "com.github.wez.wezterm", title_substring = "scratchpad", floating = true },
   { app_id = "com.github.wez.wezterm", workspace = "1", focus = true },
-
-  # Chrome: Meet PIP (about:blank) floats; everything else to workspace 2
-  { app_id = "com.google.Chrome", title_regex = "^about:blank", floating = true },
-  { app_id = "com.google.Chrome", workspace = "2", focus = true },
 
   { app_id = "com.dottt.app", floating = true },
   { app_id = "com.tinyapp.TablePlus", workspace = "3", focus = true },
@@ -122,7 +115,7 @@ app_rules = [
 "Alt + Enter" = { exec = [
   "/bin/sh",
   "-c",
-  "rift-cli execute window toggle-fullscreen-within-gaps && sketchybar --trigger fullscreen",
+  "rift-cli execute window toggle-fullscreen-within-gaps",
 ] }
 
 "Alt + H" = { move_focus = "left" }
@@ -154,17 +147,17 @@ app_rules = [
 "Alt + M" = "promote_to_master" # master-stack only: make focused window the master
 "Alt + Comma" = "toggle_stack"
 
-# Reload config + sketchybar (was alt-ctrl-r)
+# Reload config + sketchybar
 "Alt + Ctrl + R" = { exec = [
   "/bin/sh",
   "-c",
   "rift-cli execute config reload && sketchybar --reload",
 ] }
 
-# Reset layout (was flatten-workspace-tree; closest rift equivalent)
+# Reset layout
 "Alt + Ctrl + 0" = "unjoin_windows"
 
-# Toggle floating/tiling (was alt-ctrl-f)
+# Toggle floating/tiling
 "Alt + Ctrl + F" = "toggle_window_floating"
 
 # Layout pad: Alt+Space shows the picker in sketchybar, single letter picks a

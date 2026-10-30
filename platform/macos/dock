@@ -3,5 +3,10 @@
 # Automatically hide and show the Dock
 defaults write com.apple.dock autohide -bool true
 
-# Aerospace, helps display Mission Control windows correctly https://nikitabobko.github.io/AeroSpace/guide#emulation-of-virtual-workspaces
-defaults write com.apple.dock expose-group-apps -bool true && killall Dock
+# Remove all pinned apps. Folders on the right side (Downloads) and Trash stay.
+defaults write com.apple.dock persistent-apps -array
+
+# Group windows by app in Mission Control (keeps exposé usable with a tiling WM)
+defaults write com.apple.dock expose-group-apps -bool true
+
+killall Dock

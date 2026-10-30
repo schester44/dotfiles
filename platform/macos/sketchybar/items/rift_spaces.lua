@@ -3,7 +3,7 @@ local icons = require("config.icons")
 local constants = require("constants")
 local style = require("config.styles").get()
 
--- Port of aerospace_spaces.lua for rift (rift-cli + jq)
+-- Workspace indicators for rift (rift-cli + jq)
 
 local QUERY = "rift-cli query workspaces"
 
@@ -90,7 +90,7 @@ sbar.exec(QUERY .. " | jq -r '.[] | \"\\(.name)|\\(.is_active)\"'", function(out
 
 		add_windows(space, space_name, ws.active)
 
-		space:subscribe(constants.events.AEROSPACE_WORKSPACE_CHANGED, function(env)
+		space:subscribe(constants.events.WORKSPACE_CHANGED, function(env)
 			local selected = env.FOCUSED_WORKSPACE == space_name
 
 			space:set({

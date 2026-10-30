@@ -14,12 +14,16 @@ if ! command -v brew &>/dev/null; then
   echo "Installing Homebrew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
+# Fresh installs don't put brew on PATH for this shell
+eval "$(/opt/homebrew/bin/brew shellenv)"
 brew install gum 2>/dev/null
 
 # -----------------------------------------------------------
 # Homebrew packages
 # -----------------------------------------------------------
-# gum spin --spinner dot --title "Installing Homebrew packages..." -- bash -c "source '$MAC/homebrew/brew.sh'"
+# Not wrapped in gum spin: some casks prompt for a sudo password
+gum style --bold "🍺 Installing Homebrew packages"
+bash "$MAC/homebrew/brew.sh"
 
 # -----------------------------------------------------------
 # Shared symlinks (cross-platform configs)
@@ -32,32 +36,32 @@ CONFIG_DEST="$HOME/.config"
 
 mkdir -p "$CONFIG_DEST"
 
-ln -sf "$HOME_SOURCE/.gitconfig" "$HOME/.gitconfig"
-ln -sf "$HOME_SOURCE/.zshrc" "$HOME/.zshrc"
-ln -sf "$CONFIG_SOURCE/nvim" "$CONFIG_DEST/nvim"
-ln -sf "$CONFIG_SOURCE/zsh" "$CONFIG_DEST/zsh"
+ln -sfn "$HOME_SOURCE/.gitconfig" "$HOME/.gitconfig"
+ln -sfn "$HOME_SOURCE/.zshrc" "$HOME/.zshrc"
+ln -sfn "$CONFIG_SOURCE/nvim" "$CONFIG_DEST/nvim"
+ln -sfn "$CONFIG_SOURCE/zsh" "$CONFIG_DEST/zsh"
 
 # Wezterm
-ln -sf "$HOME_SOURCE/.wezterm.lua" "$HOME/.wezterm.lua"
-ln -sf "$CONFIG_SOURCE/wezterm" "$CONFIG_DEST/wezterm"
+ln -sfn "$HOME_SOURCE/.wezterm.lua" "$HOME/.wezterm.lua"
+ln -sfn "$CONFIG_SOURCE/wezterm" "$CONFIG_DEST/wezterm"
 
 # Tmux
-ln -sf "$CONFIG_SOURCE/tmux" "$CONFIG_DEST/tmux"
+ln -sfn "$CONFIG_SOURCE/tmux" "$CONFIG_DEST/tmux"
 
 # Starship
-ln -sf "$CONFIG_SOURCE/starship.toml" "$CONFIG_DEST/starship.toml"
+ln -sfn "$CONFIG_SOURCE/starship.toml" "$CONFIG_DEST/starship.toml"
 
 # Lazygit
-ln -sf "$CONFIG_SOURCE/lazygit" "$CONFIG_DEST/lazygit"
+ln -sfn "$CONFIG_SOURCE/lazygit" "$CONFIG_DEST/lazygit"
 
 # Pi (LLM agent)
 mkdir -p "$HOME/.pi/agent"
 for item in "$HOME_SOURCE/.pi/agent"/*; do
-  [ -e "$item" ] && ln -sf "$item" "$HOME/.pi/agent/$(basename "$item")"
+  [ -e "$item" ] && ln -sfn "$item" "$HOME/.pi/agent/$(basename "$item")"
 done
 
 # -----------------------------------------------------------
-# macOS-specific symlinks (aerospace, sketchybar, karabiner)
+# macOS-specific symlinks (rift, sketchybar, karabiner)
 # -----------------------------------------------------------
 gum style --bold "🔗 Linking macOS configs"
 "$MAC/link.sh"
@@ -84,11 +88,11 @@ gum spin --spinner dot --title "Installing Node via nvm..." -- bash -c '
 # -----------------------------------------------------------
 # npm global packages
 # -----------------------------------------------------------
-if command -v npm &>/dev/null; then
-  gum spin --spinner dot --title "Installing global npm packages..." -- bash -c "xargs < '$DOTFILES/system/packages/npm.txt' npm install -g"
-else
-  gum style --foreground 208 "⚠️  npm not found, skipping global packages"
-fi
+gum spin --spinner dot --title "Installing global npm packages..." -- bash -c "
+  export NVM_DIR=\"\$HOME/.nvm\"
+  source \"\$(brew --prefix nvm)/nvm.sh\"
+  xargs < '$DOTFILES/system/packages/npm.txt' npm install -g
+"
 
 # -----------------------------------------------------------
 # Fonts
@@ -140,10 +144,15 @@ gum style \
   "" \
   "Manual steps:" \
   "" \
-  "  1. Remap Caps Lock → Control" \
-  "     System Settings → Keyboard → Keyboard Shortcuts → Modifier Keys" \
+  "  1. Grant Accessibility / Input Monitoring permissions" \
+  "     rift, Karabiner-Elements, sketchybar, Raycast" \
   "" \
-  "  2. Sign into apps" \
-  "     1Password, Raycast, Spotify, Firefox, Chrome, Obsidian" \
+  "  2. Import Raycast settings" \
+  "     platform/macos/config.rayconfig" \
   "" \
-  "  3. Restart your terminal (or run 'exec zsh')"
+  "  3. Sign into apps" \
+  "     1Password, Raycast, Spotify, Firefox, Obsidian" \
+  "" \
+  "  4. Secrets: rbw config set email/base_url, rbw login, create ~/.env" \
+  "" \
+  "  5. Restart your terminal (or run 'exec zsh')"

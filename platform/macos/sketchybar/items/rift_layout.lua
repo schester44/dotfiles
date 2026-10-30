@@ -36,4 +36,4 @@ end
 refresh()
 
 layout:subscribe(constants.events.RIFT_LAYOUT_CHANGED, refresh)
-layout:subscribe(constants.events.AEROSPACE_WORKSPACE_CHANGED, refresh)
+layout:subscribe(constants.events.WORKSPACE_CHANGED, refresh)

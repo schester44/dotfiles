@@ -6,7 +6,7 @@ macOS-specific system preferences and defaults.
 
 - **Accessories** — screenshots saved to `~/Pictures/Screenshots`
 - **Finder** — show hidden files, show extensions, list view by default
-- **Dock** — auto-hide, Aerospace-compatible expose grouping
+- **Dock** — auto-hide, group windows by app in Mission Control
 - **Inputs** — fast key repeat, disable press-and-hold in VSCode
 
 ## Setup
