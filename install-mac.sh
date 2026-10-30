@@ -132,6 +132,24 @@ rift service install
 rift service start
 
 # -----------------------------------------------------------
+# Raycast + Karabiner
+# -----------------------------------------------------------
+# macOS doesn't let scripts grant Accessibility / Input Monitoring, so launch
+# the apps (they request permissions on first run) and open the settings panes.
+gum style --bold "⌨️  Setting up Raycast and Karabiner"
+
+# Raycast on Cmd+Space (Spotlight's shortcut is disabled in platform/macos/inputs).
+# Must be written before Raycast first launches.
+defaults write com.raycast.macos raycastGlobalHotkey -string "Command-49"
+osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/Raycast.app", hidden:true}' >/dev/null 2>&1 || true
+open -a Raycast
+
+# Karabiner's background services start themselves at login once approved
+open -a "Karabiner-Elements"
+open "x-apple.systempreferences:com.apple.preference.security?Privacy_ListenEvent"
+open "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"
+
+# -----------------------------------------------------------
 # Done
 # -----------------------------------------------------------
 gum style \
@@ -144,8 +162,11 @@ gum style \
   "" \
   "Manual steps:" \
   "" \
-  "  1. Grant Accessibility / Input Monitoring permissions" \
-  "     rift, Karabiner-Elements, sketchybar, Raycast" \
+  "  1. Grant permissions (the settings panes are already open)" \
+  "     Accessibility: rift, Raycast, sketchybar" \
+  "     Input Monitoring: karabiner_grabber, Karabiner-Core-Service" \
+  "     Karabiner also asks to approve its driver extension:" \
+  "     System Settings → General → Login Items & Extensions → Driver Extensions" \
   "" \
   "  2. Import Raycast settings" \
   "     platform/macos/config.rayconfig" \

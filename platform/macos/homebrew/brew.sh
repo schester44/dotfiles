@@ -2,6 +2,8 @@
 
 brew analytics off
 
+# Third-party taps must be trusted before Homebrew will install from them
+brew trust --tap felixkratz/formulae acsandmann/tap
 brew tap FelixKratz/formulae
 
 # Shell & CLI

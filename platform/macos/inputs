@@ -14,3 +14,8 @@ defaults write -g KeyRepeat -int 1         # repeat interval; UI minimum is 2 (3
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+
+# Free Cmd+Space for Raycast: turn off Spotlight search (64) and Finder search (65) shortcuts
+for id in 64 65; do
+  defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add "$id" "<dict><key>enabled</key><false/></dict>"
+done

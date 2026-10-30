@@ -1,7 +1,9 @@
 #!/bin/bash
 
-# Hide the menu bar (sketchybar replaces it). Takes effect after logout.
+# Auto-hide the menu bar everywhere, including full screen (sketchybar replaces it).
+# It still slides down when the pointer touches the top edge. Takes effect after logout.
 defaults write NSGlobalDomain _HIHideMenuBar -bool true
+defaults write NSGlobalDomain AppleMenuBarVisibleInFullscreen -bool false
 
 # Clicking the desktop doesn't hide all windows
 defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
@@ -28,4 +30,3 @@ done
 for id in 32 33 34 35 36 37; do
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add "$id" "<dict><key>enabled</key><false/></dict>"
 done
-/System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
