@@ -59,7 +59,6 @@ brew install --cask 1password
 brew install --cask bitwarden
 brew install --cask raycast
 brew install --cask karabiner-elements
-brew install --cask hazeover
 brew install --cask jordanbaird-ice
 brew install --cask firefox
 brew install --cask obsidian

@@ -166,6 +166,7 @@ gum style \
   "" \
   "  3. Sign into apps" \
   "     1Password, Raycast, Spotify, Firefox, Obsidian" \
+  "     App Store: install HazeOver (Purchased)" \
   "" \
   "  4. Secrets: rbw config set email/base_url, rbw login, create ~/.env" \
   "" \
