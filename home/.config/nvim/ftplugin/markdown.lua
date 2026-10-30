@@ -6,3 +6,8 @@ vim.opt_local.spell = false
 -- Navigate by display lines when wrapped
 vim.keymap.set({ 'n', 'v' }, 'j', 'gj', { buffer = true })
 vim.keymap.set({ 'n', 'v' }, 'k', 'gk', { buffer = true })
+
+-- Let render-markdown repeat the quote bar on wrapped lines without covering text
+vim.opt_local.breakindent = true
+vim.opt_local.breakindentopt = ''
+vim.opt_local.showbreak = '  '

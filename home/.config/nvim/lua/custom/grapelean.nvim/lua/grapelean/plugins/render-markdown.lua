@@ -45,3 +45,11 @@ hl('RenderMarkdownInProgress', { fg = p.purple })
 -- Raw-text (cursor line / insert mode) checkbox brackets: match the rendered colors
 hl('@markup.list.unchecked.markdown', { link = 'RenderMarkdownUnchecked' })
 hl('@markup.list.checked.markdown',   { link = 'RenderMarkdownChecked' })
+
+-- Colored block quotes (`> [red] ...`, see lazy-plugins/render-markdown.lua)
+hl('MdQuoteRed',    { fg = p.red })
+hl('MdQuoteYellow', { fg = p.yellow })
+hl('MdQuoteGreen',  { fg = p.green })
+hl('MdQuoteBlue',   { fg = p.blue })
+hl('MdQuotePurple', { fg = p.purple })
+hl('MdQuoteGray',   { fg = p.gray })

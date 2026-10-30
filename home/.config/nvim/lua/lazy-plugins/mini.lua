@@ -50,13 +50,35 @@ return {
 
     local hipatterns = require 'mini.hipatterns'
 
+    -- Markdown-only highlights: { lua pattern, highlight group }
+    local md_patterns = {
+      alert = { '!!!+', 'MdAlert' },
+    }
+    local function set_md_hl()
+      local err = vim.api.nvim_get_hl(0, { name = 'DiagnosticError', link = false })
+      vim.api.nvim_set_hl(0, 'MdAlert', { fg = err.fg or 'Red', bold = true })
+    end
+    set_md_hl()
+    vim.api.nvim_create_autocmd('ColorScheme', { callback = set_md_hl })
+
+    local md_highlighters = {}
+    for name, spec in pairs(md_patterns) do
+      md_highlighters['md_' .. name] = {
+        pattern = function(buf_id)
+          if vim.bo[buf_id].filetype ~= 'markdown' then return nil end
+          return spec[1]
+        end,
+        group = spec[2],
+      }
+    end
+
     hipatterns.setup {
-      highlighters = {
+      highlighters = vim.tbl_extend('force', md_highlighters, {
         fixme = { pattern = '%f[%w]()[Ff][Ii][Xx][Mm][Ee]()%f[%W]', group = 'MiniHipatternsFixme' },
         todo = { pattern = '%f[%w]()[Tt][Oo][Dd][Oo]()%f[%W]', group = 'MiniHipatternsTodo' },
         note = { pattern = '%f[%w]()[Nn][Oo][Tt][Ee]()%f[%W]', group = 'MiniHipatternsNote' },
         hex_color = hipatterns.gen_highlighter.hex_color(),
-      },
+      }),
     }
 
     -- Better Around/Inside textobjects
