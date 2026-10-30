@@ -14,7 +14,15 @@ export PATH="/opt/homebrew/bin:$PATH"
 
 CONFIG="$HOME/.config/scratchpad/wezterm.lua"
 VAULT="$HOME/Documents/vaults/primary"
-DOCUMENT="Index.md"
+DEFAULT_DOCUMENT="$VAULT/Index.md"
+# Written by nvim (see lazy-plugins/obsidian.lua) when SCRATCHPAD=1
+STATE_FILE="$HOME/.local/state/scratchpad/last-file"
+
+DOCUMENT="$DEFAULT_DOCUMENT"
+if [ -f "$STATE_FILE" ]; then
+    LAST=$(head -n1 "$STATE_FILE")
+    [ -n "$LAST" ] && [ -f "$LAST" ] && DOCUMENT="$LAST"
+fi
 
 PID=$(pgrep -f "wezterm-gui --config-file $CONFIG" | head -n1)
 
@@ -37,4 +45,4 @@ open -na WezTerm --args \
     start --always-new-process \
     --class scratchpad \
     --cwd "$VAULT" \
-    -- nvim "$VAULT/$DOCUMENT"
+    -- env SCRATCHPAD=1 nvim "$DOCUMENT"

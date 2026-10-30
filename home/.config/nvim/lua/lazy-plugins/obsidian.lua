@@ -2,7 +2,28 @@ local vault_path = require('lib.paths').vault
 
 vim.keymap.set('n', '<leader>on', '<cmd>Obsidian new<CR>', { desc = 'Obsidian New' })
 vim.keymap.set('n', '<leader>ot', '<cmd>Obsidian today<CR>', { desc = 'Obsidian Today' })
-vim.keymap.set('n', '<leader>ox', '<cmd>e ~/Documents/Obsidian/Vault/TODAY.md<CR>', { desc = 'Obsidian Scratch' })
+
+vim.keymap.set('n', '<leader>oi', function()
+  vim.cmd.edit(vim.fn.expand(vault_path) .. '/Index.md')
+end, { desc = 'Obsidian Index' })
+
+-- Scratchpad only (launched by platform/macos/scratchpad/toggle.sh with
+-- SCRATCHPAD=1): remember the last opened vault file so it can be reopened.
+if vim.env.SCRATCHPAD == '1' then
+  local state_file = vim.fn.expand '~/.local/state/scratchpad/last-file'
+  vim.fn.mkdir(vim.fn.fnamemodify(state_file, ':h'), 'p')
+  vim.api.nvim_create_autocmd('BufEnter', {
+    callback = function(ev)
+      if vim.bo[ev.buf].buftype ~= '' then
+        return
+      end
+      local name = vim.api.nvim_buf_get_name(ev.buf)
+      if name ~= '' and vim.startswith(name, vim.fn.expand(vault_path) .. '/') then
+        vim.fn.writefile({ name }, state_file)
+      end
+    end,
+  })
+end
 
 -- Buffer-local keymaps for obsidian notes only
 vim.api.nvim_create_autocmd('User', {
