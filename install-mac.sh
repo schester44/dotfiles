@@ -132,19 +132,12 @@ rift service install
 rift service start
 
 # -----------------------------------------------------------
-# Raycast + Karabiner
+# Karabiner
 # -----------------------------------------------------------
-# macOS doesn't let scripts grant Accessibility / Input Monitoring, so launch
-# the apps (they request permissions on first run) and open the settings panes.
-gum style --bold "⌨️  Setting up Raycast and Karabiner"
-
-# Raycast on Cmd+Space (Spotlight's shortcut is disabled in platform/macos/inputs).
-# Must be written before Raycast first launches.
-defaults write com.raycast.macos raycastGlobalHotkey -string "Command-49"
-osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/Raycast.app", hidden:true}' >/dev/null 2>&1 || true
-open -a Raycast
-
-# Karabiner's background services start themselves at login once approved
+# macOS doesn't let scripts grant Input Monitoring / Accessibility, so launch
+# Karabiner (it requests permissions on first run) and open the settings panes.
+# Its background services start themselves at login once approved.
+gum style --bold "⌨️  Setting up Karabiner"
 open -a "Karabiner-Elements"
 open "x-apple.systempreferences:com.apple.preference.security?Privacy_ListenEvent"
 open "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"
