@@ -24,4 +24,12 @@ defaults write com.apple.finder _FXSortFoldersFirst -bool true
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
+# Don't show drives on the desktop: internal, external, removable media
+# (mounted installer DMGs, USB sticks), or network servers. They still
+# appear in the Finder sidebar.
+defaults write com.apple.finder ShowHardDrivesOnDesktop -bool false
+defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool false
+defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool false
+defaults write com.apple.finder ShowMountedServersOnDesktop -bool false
+
 killall Finder
