@@ -12,4 +12,4 @@
 # Documentation:
 # @raycast.description Toggle a floating nvim scratchpad (TODAY.md)
 
-bash "$HOME/.config/scratchpad/toggle.sh" >/dev/null 2>&1
+bash "$HOME/.dotfiles/platform/macos/scratchpad/toggle.sh" >/dev/null 2>&1

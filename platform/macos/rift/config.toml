@@ -81,9 +81,10 @@ workspace_rules = [
 # rift picks the most specific matching rule, so the scratchpad exception
 # wins over the general WezTerm rule regardless of order.
 app_rules = [
-  # WezTerm scratchpad floats (it's AlwaysOnTop/layer-3, so rift mostly
-  # ignores it anyway; this guards against a tiling flash at spawn)
-  { app_id = "com.github.wez.wezterm", title_substring = "scratchpad", floating = true },
+  # WezTerm scratchpad is unmanaged: wezterm.lua positions it and makes it
+  # AlwaysOnTop (layer 3, which rift can't track anyway). Unmanaged means rift
+  # never tiles/animates it at spawn, which caused a flash.
+  { app_id = "com.github.wez.wezterm", title_substring = "scratchpad", manage = false },
   { app_id = "com.github.wez.wezterm", workspace = "1", focus = true },
 
   { app_id = "com.dottt.app", floating = true },

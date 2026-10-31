@@ -28,6 +28,20 @@ config.enable_tab_bar = false
 -- Skip "are you sure?" on close
 config.window_close_confirmation = "NeverPrompt"
 
+-- Quitting hides instead: the window and nvim stay alive so the next toggle
+-- is instant. session.sh restarts nvim after :q and asks to be hidden via the
+-- `scratchpad` user var. `:cq` in nvim is the way to really quit.
+config.keys = config.keys or {}
+for _, key in ipairs({ "q", "w" }) do
+	table.insert(config.keys, { key = key, mods = "CMD", action = wezterm.action.HideApplication })
+end
+
+wezterm.on("user-var-changed", function(window, _, name)
+	if name == "scratchpad" then
+		window:perform_action(wezterm.action.HideApplication, window:active_pane())
+	end
+end)
+
 -- Initial size (columns x rows)
 config.initial_cols = 80
 config.initial_rows = 40
@@ -61,20 +75,67 @@ wezterm.on("window-focus-changed", function(window)
 end)
 
 -- Position window on startup: right side of screen, always on top
+--
+-- The window is created at its final position (spawn_window's `position`)
+-- rather than moved after it appears, which showed it centered for a frame.
+-- Right-aligning needs the window's width, which isn't known until it exists,
+-- so the width from the previous launch is cached. The first launch (or a
+-- launch on a screen with a different DPI) uses the fallback and is corrected
+-- with set_position.
+--
+-- WezTerm on macOS divides the spawn position by the display scale twice
+-- (once in new_window, again in screen_point_to_cartesian), so on a Retina
+-- screen the requested coordinates are multiplied by the scale to compensate.
+-- set_position runs unconditionally afterwards, so if that bug is fixed
+-- upstream the window is still moved to the right place.
+local WIDTH_CACHE = os.getenv("HOME") .. "/.local/state/scratchpad/window-width"
+local FALLBACK_WIDTH = 760
+local PADDING = 16
+local TOP_OFFSET = 40 -- menu bar / sketchybar
+
+local function read_cached_width()
+	local file = io.open(WIDTH_CACHE, "r")
+	if not file then
+		return nil
+	end
+	local width = tonumber(file:read("*l"))
+	file:close()
+	return width
+end
+
+local function write_cached_width(width)
+	local file = io.open(WIDTH_CACHE, "w")
+	if not file then
+		-- First run: the state dir doesn't exist yet
+		os.execute("mkdir -p " .. wezterm.shell_quote_arg(WIDTH_CACHE:match("(.*)/")))
+		file = io.open(WIDTH_CACHE, "w")
+	end
+	if not file then
+		return
+	end
+	file:write(tostring(width))
+	file:close()
+end
+
+local function top_right(screen, width)
+	return screen.x + screen.width - width - PADDING, screen.y + PADDING + TOP_OFFSET
+end
+
 wezterm.on("gui-startup", function(cmd)
-	local tab, pane, window = wezterm.mux.spawn_window(cmd or {})
+	local screen = wezterm.gui.screens().active
+	local estimated_x, y = top_right(screen, read_cached_width() or FALLBACK_WIDTH)
+
+	local spawn = cmd or {}
+	local scale = (screen.effective_dpi or 72) / 72
+	spawn.position = { x = estimated_x * scale, y = y * scale, origin = "ScreenCoordinateSystem" }
+	local _, pane, window = wezterm.mux.spawn_window(spawn)
 	local gui_win = window:gui_window()
 
-	-- Always on top
 	gui_win:perform_action(wezterm.action.SetWindowLevel("AlwaysOnTop"), pane)
 
-	-- Right side of screen with padding
-	local screen = wezterm.gui.screens().active
-	local dims = gui_win:get_dimensions()
-	local padding = 16
-	local x = screen.x + screen.width - dims.pixel_width - padding
-	local y = screen.y + padding + 40 -- menu bar / sketchybar
-	gui_win:set_position(x, y)
+	local width = gui_win:get_dimensions().pixel_width
+	write_cached_width(width)
+	gui_win:set_position(top_right(screen, width), y)
 end)
 
 return config

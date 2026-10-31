@@ -18,17 +18,20 @@ Bound to **⌥N** (Option + N) via [Raycast](https://www.raycast.com/) as a scri
 
 ## Files
 
-- **`toggle.sh`** — The toggle script. Toggles app visibility via System Events — the window is AlwaysOnTop (window-server layer 3), which rift does not track, so the WM can't move or hide it.
+- **`toggle.sh`** — The toggle script. Toggles app visibility — the window is AlwaysOnTop (window-server layer 3), which rift does not track, so the WM can't move or hide it. Hide/unhide goes through `NSRunningApplication` in one JXA call (much faster than System Events).
+- **`session.sh`** — Runs inside the window. Restarts nvim (on the last opened file) whenever it exits and hides the window, so quitting nvim never kills the scratchpad.
 - **`wezterm.lua`** — Dedicated WezTerm config for the scratchpad window.
 
 ## Stash, Don't Kill
+
+Quitting never kills it either: **Cmd+Q** and **Cmd+W** hide the app, and exiting nvim (`:q`, `:wq`, `ZZ`) hides the window while `session.sh` restarts nvim in the background. To really quit, use **`:cq`** in nvim.
 
 Dismissing the scratchpad doesn't close the process — it hides the app (Cmd+H style). The next toggle just pulls it back instantly, skipping the WezTerm + nvim startup entirely. The window is only launched fresh on the very first invocation (or if the process was manually closed).
 
 ## Window Behavior
 
 - **Always on top** — stays visible over other windows
-- **Floating layout** — not affected by rift tiling (app rule matches the `scratchpad` title)
+- **Unmanaged by rift** — `manage = false` app rule matches the `scratchpad` title, so rift never tiles it
 - **Positioned top-right** — anchored to the right edge of the screen with padding
 - **Semi-transparent** with macOS background blur
 - **No tab bar** or close confirmation — single-purpose, fast to dismiss
@@ -38,6 +41,6 @@ Dismissing the scratchpad doesn't close the process — it hides the app (Cmd+H 
 ## Dependencies
 
 - [WezTerm](https://wezfurlong.org/wezterm/)
-- [Raycast](https://www.raycast.com/) (hotkey trigger; needs Automation permission for System Events)
+- [Raycast](https://www.raycast.com/) (hotkey trigger)
 - Neovim
 - A shared WezTerm `theme.lua` at `~/.config/wezterm/theme.lua`

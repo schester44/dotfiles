@@ -12,28 +12,35 @@
 # Raycast runs scripts with a bare PATH
 export PATH="/opt/homebrew/bin:$PATH"
 
-CONFIG="$HOME/.config/scratchpad/wezterm.lua"
-VAULT="$HOME/Documents/vaults/primary"
-DEFAULT_DOCUMENT="$VAULT/Index.md"
-# Written by nvim (see lazy-plugins/obsidian.lua) when SCRATCHPAD=1
-STATE_FILE="$HOME/.local/state/scratchpad/last-file"
+# nvim is launched directly (not via zsh), so .zshrc's nvm PATH setup never
+# runs. Add the newest nvm node so node-based LSPs (copilot, oxfmt) can start.
+NODE_BIN=$(ls -d "$HOME"/.nvm/versions/node/*/bin 2>/dev/null | sort -V | tail -n1)
+[ -n "$NODE_BIN" ] && PATH="$NODE_BIN:$PATH"
+NVIM_PATH="$HOME/.local/bin:$PATH"
 
-DOCUMENT="$DEFAULT_DOCUMENT"
-if [ -f "$STATE_FILE" ]; then
-    LAST=$(head -n1 "$STATE_FILE")
-    [ -n "$LAST" ] && [ -f "$LAST" ] && DOCUMENT="$LAST"
-fi
+CONFIG="$HOME/.dotfiles/platform/macos/scratchpad/wezterm.lua"
+SESSION="$HOME/.dotfiles/platform/macos/scratchpad/session.sh"
+VAULT="$HOME/Documents/vaults/primary"
 
 PID=$(pgrep -f "wezterm-gui --config-file $CONFIG" | head -n1)
 
+# Hide/unhide via NSRunningApplication in a single JXA call. This is ~4x
+# faster than going through System Events (one osascript call instead of two,
+# and no Apple Event round trip to the System Events process).
+TOGGLE_JS='
+function run(argv) {
+    ObjC.import("AppKit")
+    const app = $.NSRunningApplication.runningApplicationWithProcessIdentifier(Number(argv[0]))
+    if (app.isHidden) {
+        app.unhide
+        app.activateWithOptions($.NSApplicationActivateIgnoringOtherApps)
+    } else {
+        app.hide
+    }
+}'
+
 if [ -n "$PID" ]; then
-    VISIBLE=$(osascript -e "tell application \"System Events\" to get visible of (first process whose unix id is $PID)" 2>/dev/null)
-    if [ "$VISIBLE" = "true" ]; then
-        osascript -e "tell application \"System Events\" to set visible of (first process whose unix id is $PID) to false" >/dev/null 2>&1
-    else
-        # frontmost=true both unhides and focuses (visible=true alone is flaky)
-        osascript -e "tell application \"System Events\" to set frontmost of (first process whose unix id is $PID) to true" >/dev/null 2>&1
-    fi
+    osascript -l JavaScript -e "$TOGGLE_JS" "$PID" >/dev/null 2>&1
     exit 0
 fi
 
@@ -45,4 +52,4 @@ open -na WezTerm --args \
     start --always-new-process \
     --class scratchpad \
     --cwd "$VAULT" \
-    -- env SCRATCHPAD=1 nvim "$DOCUMENT"
+    -- env PATH="$NVIM_PATH" bash "$SESSION"
