@@ -1,7 +1,10 @@
 return {
   'mrjones2014/smart-splits.nvim',
+  dependencies = { 'smart-splits-nvim/backend-wezterm' },
   config = function()
-    require('smart-splits').setup()
+    require('smart-splits').setup({
+      mux = { backend = 'smart-splits-backend-wezterm' },
+    })
 
     -- these keymaps will also accept a range,
     -- for example `10<A-h>` will `resize_left` by `(10 * config.default_amount)`

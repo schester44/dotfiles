@@ -84,7 +84,7 @@ app_rules = [
   # WezTerm scratchpad is unmanaged: wezterm.lua positions it and makes it
   # AlwaysOnTop (layer 3, which rift can't track anyway). Unmanaged means rift
   # never tiles/animates it at spawn, which caused a flash.
-  { app_id = "com.github.wez.wezterm", title_substring = "scratchpad", manage = false },
+  { app_id = "com.github.wez.wezterm", title_substring = "scratchpad" },
   { app_id = "com.github.wez.wezterm", workspace = "1", focus = true },
 
   { app_id = "com.dottt.app", floating = true },

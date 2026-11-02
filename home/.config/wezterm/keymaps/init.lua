@@ -4,7 +4,6 @@ local theme = require("theme").theme
 function M.apply(config)
 	local wezterm = require("wezterm")
 	local act = wezterm.action
-	local split_nav = require("keymaps.utils").split_nav
 
 	local resize_mode = require("keymaps.resize")
 
@@ -174,16 +173,6 @@ function M.apply(config)
 			mods = "LEADER",
 			action = act.ActivateTabRelative(1),
 		},
-		-- move between split panes
-		split_nav("move", "h"),
-		split_nav("move", "j"),
-		split_nav("move", "k"),
-		split_nav("move", "l"),
-		-- resize panes
-		split_nav("resize", "h"),
-		split_nav("resize", "j"),
-		split_nav("resize", "k"),
-		split_nav("resize", "l"),
 		-- enter copy mode
 		{ key = "c", mods = "LEADER", action = act.ActivateCopyMode },
 		-- scroll half page up/down
@@ -205,6 +194,10 @@ function M.apply(config)
 			action = wezterm.action.MoveTab(i - 1),
 		})
 	end
+
+	-- CTRL+hjkl move / META+hjkl resize, aware of Neovim (needs backend-wezterm in nvim)
+	local smart_splits = wezterm.plugin.require("https://github.com/smart-splits-nvim/backend-wezterm")
+	smart_splits.apply_to_config(config)
 
 	return config
 end
