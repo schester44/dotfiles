@@ -10,6 +10,7 @@ macOS-specific system preferences and defaults.
 - **Windows** — hide menu bar, turn off macOS tiling, Stage Manager, Mission Control gestures and shortcuts, and click-desktop-to-show-desktop; don't reorder Spaces
 - **Wallpaper** — sets `wallpaper.jpg` from the repo root on every display
 - **Inputs** — fast key repeat, press-and-hold off (held keys repeat), tap to click
+- **Editor** — builds `~/Applications/Neovim.app` (opens files in Neovim in WezTerm) and makes it the default for text/code files via `duti`
 
 ## Setup
 

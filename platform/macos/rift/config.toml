@@ -90,8 +90,7 @@ app_rules = [
   { app_id = "com.dottt.app", floating = true },
   { app_id = "com.tinyapp.TablePlus", workspace = "3", focus = true },
   { app_id = "org.mozilla.firefox", workspace = "2", focus = true },
-  { app_id = "com.openai.codex", workspace = "5", focus = true }, # ChatGPT (bundle id is codex, not chat)
-  { app_id = "com.apple.MobileSMS", floating = true },
+  { app_id = "com.openai.codex", workspace = "3", focus = true }, # ChatGPT (bundle id is codex, not chat)
 ]
 
 [keys]

@@ -31,6 +31,7 @@ brew install gogcli
 # Editor
 brew install neovim
 brew install neovim-remote
+brew install duti
 brew install tree-sitter-cli
 
 # Dev

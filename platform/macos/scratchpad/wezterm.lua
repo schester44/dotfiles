@@ -7,7 +7,7 @@ local theme = require("theme")
 theme.apply(config)
 
 -- Window settings - floating scratchpad style
-config.window_decorations = "RESIZE"
+config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
 config.window_background_opacity = 0.95
 config.macos_window_background_blur = 20
 
@@ -35,6 +35,18 @@ config.keys = config.keys or {}
 for _, key in ipairs({ "q", "w" }) do
 	table.insert(config.keys, { key = key, mods = "CMD", action = wezterm.action.HideApplication })
 end
+
+-- Cmd+Shift+D toggles the title strip (needed to drag the window) on/off
+table.insert(config.keys, {
+	key = "d",
+	mods = "CMD|SHIFT",
+	action = wezterm.action_callback(function(window)
+		local overrides = window:get_config_overrides() or {}
+		local current = overrides.window_decorations or config.window_decorations
+		overrides.window_decorations = current == "RESIZE" and "INTEGRATED_BUTTONS|RESIZE" or "RESIZE"
+		window:set_config_overrides(overrides)
+	end),
+})
 
 wezterm.on("user-var-changed", function(window, _, name)
 	if name == "scratchpad" then

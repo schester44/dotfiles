@@ -9,7 +9,6 @@ test:
 install:
 	go install .
 	go run . install
-	mv "$$(go env GOPATH)/bin/wezwork" /usr/local/bin/wezwork
 
 uninstall:
 	-go run . uninstall

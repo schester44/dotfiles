@@ -1,0 +1,90 @@
+#!/bin/bash
+
+# Open text/code files in Neovim inside WezTerm instead of TextEdit/Xcode.
+#
+# LaunchServices can only hand files to an .app bundle, so build a tiny
+# AppleScript wrapper ("Neovim.app") that opens `nvim <file>` in a new tab of
+# the running WezTerm (or a new WezTerm window if it isn't running), then point file types at it with duti (brew install duti).
+
+NVIM_APP="$HOME/Applications/Neovim.app"
+NVIM_APP_ID="com.steve.neovim-wezterm"
+
+mkdir -p "$HOME/Applications"
+rm -rf "$NVIM_APP"
+
+# Files launched from Finder get a bare PATH, so run nvim through an
+# interactive login zsh to pick up the normal PATH (nvm node, LSPs, etc).
+osacompile -o "$NVIM_APP" <<'APPLESCRIPT'
+property wezterm : "/opt/homebrew/bin/wezterm"
+
+-- If WezTerm is already running, open a new tab in its current window and
+-- bring it to the front; otherwise start WezTerm with a new window.
+on launchNvim(cwd, args)
+	set cmd to " --cwd " & quoted form of cwd & " -- /bin/zsh -lic 'exec nvim \"$@\"' nvim " & args
+	do shell script "if " & wezterm & " cli --no-auto-start spawn" & cmd & " > /dev/null 2>&1; then " & ¬
+		"open -a WezTerm; else " & ¬
+		wezterm & " start" & cmd & " > /dev/null 2>&1 & fi"
+end launchNvim
+
+on open theFiles
+	repeat with f in theFiles
+		set p to POSIX path of f
+		set d to do shell script "dirname " & quoted form of p
+		launchNvim(d, quoted form of p)
+	end repeat
+end open
+
+on run
+	launchNvim(POSIX path of (path to home folder), "")
+end run
+APPLESCRIPT
+
+# Give it a stable bundle id and declare that it can open any text/data file,
+# so Finder's "Open With" lists it and duti can assign it.
+plist="$NVIM_APP/Contents/Info.plist"
+/usr/libexec/PlistBuddy -c "Delete :CFBundleDocumentTypes" "$plist" >/dev/null 2>&1 || true
+/usr/libexec/PlistBuddy \
+  -c "Add :CFBundleIdentifier string $NVIM_APP_ID" \
+  -c "Set :CFBundleName Neovim" \
+  -c "Add :CFBundleDocumentTypes array" \
+  -c "Add :CFBundleDocumentTypes:0 dict" \
+  -c "Add :CFBundleDocumentTypes:0:CFBundleTypeRole string Editor" \
+  -c "Add :CFBundleDocumentTypes:0:LSItemContentTypes array" \
+  -c "Add :CFBundleDocumentTypes:0:LSItemContentTypes:0 string public.text" \
+  -c "Add :CFBundleDocumentTypes:0:LSItemContentTypes:1 string public.data" \
+  "$plist"
+
+# Extensions macOS has no type for (they resolve to dyn.* and can't be
+# assigned a default app). Declare a plain-text type for each one.
+IMPORTED_EXTS="jsonc mdx conf env fish lua vim go rs cjs jsx scss graphql gql kt gitignore editorconfig"
+json=""
+for ext in $IMPORTED_EXTS; do
+  json+="${json:+,}{\"UTTypeIdentifier\":\"$NVIM_APP_ID.$ext\",\"UTTypeDescription\":\".$ext file\","
+  json+="\"UTTypeConformsTo\":[\"public.plain-text\"],"
+  json+="\"UTTypeTagSpecification\":{\"public.filename-extension\":[\"$ext\"]}}"
+done
+plutil -remove UTImportedTypeDeclarations "$plist" >/dev/null 2>&1 || true
+plutil -insert UTImportedTypeDeclarations -json "[$json]" "$plist"
+
+# Editing Info.plist invalidates the signature; re-sign ad hoc.
+codesign --force --deep --sign - "$NVIM_APP" >/dev/null 2>&1
+/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "$NVIM_APP"
+
+if ! command -v duti >/dev/null 2>&1; then
+  echo "editor: duti not installed (brew install duti); skipping file associations" >&2
+  return 0 2>/dev/null || exit 0
+fi
+
+# Content types
+for uti in public.plain-text public.json public.yaml public.xml \
+  public.source-code public.shell-script public.python-script \
+  net.daringfireball.markdown; do
+  duti -s "$NVIM_APP_ID" "$uti" all
+done
+
+# Extensions (covers ones without a proper system UTI)
+for ext in txt json jsonc md mdx yaml yml toml ini conf cfg env log csv \
+  sh bash zsh fish lua vim py rb go rs js mjs cjs ts tsx jsx css scss \
+  sql graphql gql c h cpp hpp swift kt java gitignore editorconfig; do
+  duti -s "$NVIM_APP_ID" ".$ext" all
+done

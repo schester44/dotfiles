@@ -90,6 +90,7 @@ fi
 # Path
 export PATH="$DOTFILES/bin:$HOME/.local/bin:$PATH"
 
+export SSH_AUTH_SOCK=/Users/steve/.bitwarden-ssh-agent.sock
 
 # Local overrides (not committed)
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
