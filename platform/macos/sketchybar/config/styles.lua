@@ -10,8 +10,10 @@ M.current = "float"
 M.styles = {
 	float = {
 		bar = {
-			height = 30,
-			y_offset = 5,
+			-- starts at the screen top (for the notch extension); pills still
+			-- sit 6px down, as with the old height 30 / y_offset 5
+			height = 40,
+			y_offset = 0,
 			color = 0x00000000,
 			margin = 0,
 			x_padding = 10,
@@ -45,6 +47,10 @@ M.styles = {
 		battery_pill = { color = 0x26ffffff, corner_radius = 5, height = 18 },
 	},
 }
+
+-- Built-in display notch, in points (NSScreen auxiliaryTopLeft/RightArea and
+-- safeAreaInsets.top). Spotify hangs off its right edge as an extension.
+M.notch = { width = 185, height = 33, radius = 10 }
 
 function M.get()
 	return M.styles[M.current]

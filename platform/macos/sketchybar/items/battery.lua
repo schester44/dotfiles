@@ -30,6 +30,8 @@ local battery = sbar.add("item", "battery", {
 	} or { drawing = false },
 })
 
+require("utils.bar_visibility").slide("battery")
+
 local function check()
 	sbar.exec("pmset -g batt", function(out)
 		local pct = tonumber(out:match("(%d+)%%"))
@@ -50,9 +52,3 @@ end
 
 battery:subscribe({ "routine", "forced", "system_woke", "power_source_change" }, check)
 check()
-
--- A standalone battery pill must sit left of (outside) the clock pill's span,
--- or the bracket draws around it (pill in a pill)
-if style.battery_own_pill then
-	sbar.exec("sketchybar --move battery after clock")
-end

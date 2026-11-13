@@ -30,6 +30,8 @@ sbar.add("bracket", "right_container", members, {
 	},
 })
 
+require("utils.bar_visibility").slide(constants.items.CLOCK, "right_container_spacer", "right_container")
+
 clock:subscribe({ "forced", "routine", "system_woke" }, function()
 	---@diagnostic disable-next-line: param-type-mismatch
 	local day = string.sub(os.date("%a"), 1, 1)

@@ -1,6 +1,7 @@
 local colors = require("config.colors")
 local icons = require("config.icons")
 local constants = require("constants")
+local visibility = require("utils.bar_visibility")
 local style = require("config.styles").get()
 
 -- Workspace indicators for rift (rift-cli + jq)
@@ -55,6 +56,7 @@ sbar.exec(QUERY .. " | jq -r '.[] | \"\\(.name)|\\(.is_active)\"'", function(out
 		local space_name = ws.name
 		local index = i - 1 -- rift workspace indices are zero-based
 		table.insert(space_names, "space." .. space_name)
+		visibility.slide("space." .. space_name)
 		local is_first = i == 1
 		local is_last = i == #workspaces
 
@@ -133,6 +135,8 @@ sbar.exec(QUERY .. " | jq -r '.[] | \"\\(.name)|\\(.is_active)\"'", function(out
 			height = style.bracket.height,
 		},
 	})
+
+	visibility.slide("spaces_bracket")
 
 	-- Spaces are created async, so items added by later files (rift_layout) end
 	-- up left of them; reorder once the strip exists.

@@ -1,7 +1,10 @@
 local colors = require("config.colors")
-local style = require("config.styles").get()
+local notch_chip = require("utils.notch_chip")
 
--- Now playing (Spotify desktop). Visible while a track is loaded (playing or paused); paused is dimmed.
+-- Now playing (Spotify desktop). Visible while a track is loaded, icon-only
+-- until hovered (the name slides out of the notch). Paused dims the icon;
+-- click to play/pause.
+-- Right of the notch on notched displays, a pill by the clock elsewhere (utils/notch_chip.lua).
 
 local MAX_LEN = 40
 local DIM = 0x99ffffff
@@ -9,29 +12,11 @@ local EVENT = "spotify_change"
 
 sbar.add("event", EVENT, "com.spotify.client.PlaybackStateChanged")
 
-local spotify = sbar.add("item", "spotify", {
-	position = "right",
+local spotify = notch_chip.new("spotify", {
+	side = "right",
 	update_freq = 10,
-	padding_left = 6,
-	padding_right = 4,
-	drawing = false,
-	updates = true,
-	icon = {
-		string = "󰓇",
-		color = colors.green,
-		padding_left = 14,
-		padding_right = 6,
-	},
-	label = {
-		color = colors.white,
-		padding_left = 0,
-		padding_right = 14,
-	},
-	background = style.battery_own_pill and {
-		color = style.battery_pill.color,
-		corner_radius = style.battery_pill.corner_radius,
-		height = style.battery_pill.height,
-	} or { drawing = false },
+	icon = { string = "󰓇", color = colors.green },
+	label = { color = colors.white },
 })
 
 -- Only query Spotify if it is already running (tell would otherwise launch it)
@@ -53,7 +38,7 @@ local function update()
 			spotify:set({
 				drawing = true,
 				icon = { color = playing and colors.green or DIM },
-				label = { string = truncate(track), color = playing and colors.white or DIM },
+				label = { string = truncate(track) },
 			})
 		else
 			spotify:set({ drawing = false })
@@ -62,14 +47,15 @@ local function update()
 end
 
 spotify:subscribe({ EVENT, "routine", "forced", "system_woke" }, update)
+spotify:on_hover(function()
+	spotify:set_collapsed(false)
+end, function()
+	spotify:set_collapsed(true)
+end)
+spotify:set_collapsed(true)
 
-spotify:subscribe("mouse.clicked", function()
+spotify:on_click(function()
 	sbar.exec([[osascript -e 'tell application "Spotify" to playpause']], update)
 end)
 
 update()
-
--- Sit just left of the clock pill, outside its bracket span
-if style.battery_own_pill then
-	sbar.exec("sketchybar --move spotify after clock")
-end

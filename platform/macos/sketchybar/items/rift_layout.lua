@@ -26,6 +26,8 @@ local layout = sbar.add("item", "rift_layout", {
 	updates = true,
 })
 
+require("utils.bar_visibility").slide("rift_layout")
+
 local function refresh()
 	sbar.exec("rift-cli query workspaces | jq -r '.[] | select(.is_active) | .layout_mode'", function(mode)
 		mode = mode:match("^%s*(.-)%s*$")

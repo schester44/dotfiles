@@ -1,4 +1,5 @@
-local style = require("config.styles").get()
+local styles = require("config.styles")
+local style = styles.get()
 
 sbar.bar({
 	height = style.bar.height,
@@ -10,4 +11,5 @@ sbar.bar({
 	margin = style.bar.margin,
 	blur_radius = style.bar.blur_radius,
 	topmost = "window",
+	notch_width = styles.notch.width,
 })
