@@ -55,6 +55,13 @@ left = 8
 bottom = 8
 right = 8
 
+# Second LG HDR 4K (same model, different UUID): same sketchybar clearance
+[settings.layout.gaps.per_display."C66F27AC-2D11-487C-8DE5-7F6C049B2953".outer]
+top = 40
+left = 8
+bottom = 8
+right = 8
+
 [settings.layout.gaps.inner]
 horizontal = 8
 vertical = 8
@@ -86,6 +93,7 @@ app_rules = [
   # never tiles/animates it at spawn, which caused a flash.
   { app_id = "com.github.wez.wezterm", title_substring = "scratchpad" },
   { app_id = "com.github.wez.wezterm", workspace = "1", focus = true },
+  { app_id = "dev.wezzy.app", workspace = "1", focus = true },
 
   { app_id = "com.dottt.app", floating = true },
   { app_id = "com.tinyapp.TablePlus", workspace = "3", focus = true },
@@ -165,7 +173,7 @@ app_rules = [
 "Alt + Ctrl + O" = { exec = [
   "/bin/sh",
   "-c",
-  "sketchybar --trigger send_mode MESSAGE='LAYOUT:  (t)raditional  (b)sp  (s)crolling  (m)aster-stack  stac(k)  [esc]' HOLD=true; rift-cli execute binding-mode layout",
+  "sketchybar --trigger send_mode TITLE='Layout' HINTS='t=traditional b=bsp s=scrolling m=master-stack k=stack' HOLD=true; rift-cli execute binding-mode layout",
 ] }
 
 [binding_modes.layout]

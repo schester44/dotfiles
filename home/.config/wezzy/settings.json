@@ -1,0 +1,17 @@
+{
+  "close_confirmation": "never",
+  "agent_layout": "bsp",
+  "default_harness": "claude",
+  "editor": null,
+  "show_sidebar": false,
+  "sidebar": [
+    "agents",
+    "servers",
+    "actions"
+  ],
+  "sound": "Hero",
+  "auto_update": true,
+  "notifications": true,
+  "pane_cards": true,
+  "recipes": null
+}

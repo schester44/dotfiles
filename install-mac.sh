@@ -45,6 +45,9 @@ ln -sfn "$CONFIG_SOURCE/zsh" "$CONFIG_DEST/zsh"
 ln -sfn "$HOME_SOURCE/.wezterm.lua" "$HOME/.wezterm.lua"
 ln -sfn "$CONFIG_SOURCE/wezterm" "$CONFIG_DEST/wezterm"
 
+# Wezzy
+ln -sfn "$CONFIG_SOURCE/wezzy" "$CONFIG_DEST/wezzy"
+
 # Tmux
 ln -sfn "$CONFIG_SOURCE/tmux" "$CONFIG_DEST/tmux"
 
@@ -53,6 +56,9 @@ ln -sfn "$CONFIG_SOURCE/starship.toml" "$CONFIG_DEST/starship.toml"
 
 # Lazygit
 ln -sfn "$CONFIG_SOURCE/lazygit" "$CONFIG_DEST/lazygit"
+
+# btop
+ln -sfn "$CONFIG_SOURCE/btop" "$CONFIG_DEST/btop"
 
 # Pi (LLM agent)
 mkdir -p "$HOME/.pi/agent"
@@ -122,6 +128,11 @@ gum spin --spinner dot --title "Installing Dottt..." -- bash -c '
   hdiutil detach "/Volumes/dottt-app-0.12.0" -quiet 2>/dev/null || true
   rm -f "$DOTTT_DMG"
 '
+
+# -----------------------------------------------------------
+# SketchyBar Toggle fork (cancellable hide delay)
+# -----------------------------------------------------------
+bash "$MAC/sketchybar/install-toggle.sh"
 
 # -----------------------------------------------------------
 # Services (sketchybar, rift)

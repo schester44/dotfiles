@@ -11,8 +11,6 @@ function M.apply(config)
 
 	resize_mode.apply(config, "resize_pane")
 
-	local toggle_wezwork = require("keymaps.wezwork").toggle()
-
 	config.keys = {
 		-- activate resize pane
 		{
@@ -24,9 +22,6 @@ function M.apply(config)
 			}),
 		},
 		{ key = "d", mods = "LEADER",      action = wezterm.action.ShowDebugOverlay },
-		-- Toggle the wezwork agent switcher on the left side of the current tab.
-		{ key = "a", mods = "LEADER",      action = toggle_wezwork },
-		{ key = "a", mods = "LEADER|CTRL", action = toggle_wezwork },
 		-- Create a new workspace with a random name and switch to it
 		{
 			key = "n",

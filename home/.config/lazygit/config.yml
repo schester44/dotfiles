@@ -1,8 +1,6 @@
 os:
   edit: 'nvim --server $NVIM_PIPE --remote-tab "{{filename}}"'
 gui:
-  authorColors: {}
-  branchColors: {}
   scrollHeight: 2
   scrollPastBottom: true
   scrollOffMargin: 2
@@ -47,6 +45,8 @@ gui:
       - "#E57373"
     defaultFgColor:
       - default
+    authorColors: {}
+    branchColorPatterns: {}
   commitLength:
     show: true
   showListFooter: true
@@ -202,6 +202,7 @@ keybinding:
     increaseRenameSimilarityThreshold: )
     decreaseRenameSimilarityThreshold: (
     openDiffTool: <c-t>
+    newWorktree: w
   status:
     checkForUpdate: u
     recentRepos: <enter>
@@ -239,8 +240,6 @@ keybinding:
     setUpstream: u
     fetchRemote: f
     sortOrder: s
-  worktrees:
-    viewWorktreeOptions: w
   commits:
     squashDown: s
     renameCommit: r
