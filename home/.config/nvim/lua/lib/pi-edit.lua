@@ -1,22 +1,47 @@
--- pi-edit: Send visual selection + instructions to pi via RPC mode
--- Pi edits files directly via its tools, then we reload affected buffers.
+-- pi-edit: select text → give instructions → pi works in the background.
+--
+-- The selected region is tracked with an extmark and locked while pi works.
+-- Pi never writes the current file: it returns the new text for the region in
+-- <replacement> tags and we splice it into the buffer, so edits you make
+-- elsewhere in the buffer meanwhile are preserved. Pi may still create/edit
+-- *other* files (research notes, adjacent docs, etc.) with its tools.
 
 local M = {}
 
--- Track active pi jobs
-M._active_jobs = {}
-
--- Configuration
 M.config = {
-  model = 'anthropic/claude-opus-4-6',
+  -- openai/* runs on the ChatGPT subscription (pi's openai login), claude-code/*
+  -- on the Claude Code subscription. Only some OpenAI models are allowed on a
+  -- ChatGPT account (e.g. gpt-5.5 / *-codex are rejected).
+  model = 'openai/gpt-6-luna',
   models = {
-    'anthropic/claude-opus-4-6',
-    'anthropic/claude-sonnet-4-6',
-    'anthropic/claude-sonnet-4-5',
-    'anthropic/claude-haiku-4-5',
-    'anthropic/claude-opus-4-5',
+    'openai/gpt-6-luna', -- fast
+    'openai/gpt-6.1-terra', -- balanced
+    'openai/gpt-6.1-sol', -- strongest, slower
+    'claude-code/claude-haiku-5-5',
+    'claude-code/claude-sonnet-5-5',
+    'claude-code/claude-opus-5-5',
   },
+  context_lines = 30, -- lines of surrounding context sent with the selection
+  linger_ms = 2500, -- how long finished jobs stay in the status float
 }
+
+---@type table<integer, table> active jobs keyed by job id
+M._jobs = {}
+local next_id = 0
+
+local ns = vim.api.nvim_create_namespace 'pi_edit'
+local flash_ns = vim.api.nvim_create_namespace 'pi_edit_flash'
+local lock_group = vim.api.nvim_create_augroup('PiEditLock', { clear = true })
+
+-- Fallback highlight groups (themes can override these)
+vim.api.nvim_set_hl(0, 'PiEditActive', { default = true, link = 'Visual' })
+vim.api.nvim_set_hl(0, 'PiEditFlash', { default = true, link = 'DiffAdd' })
+
+local function notify(msg, level)
+  vim.schedule(function()
+    vim.notify(msg, level or vim.log.levels.INFO, { title = 'π' })
+  end)
+end
 
 --- Pick the model used for pi edits via vim.ui.select
 function M.select_model()
@@ -42,70 +67,53 @@ function M.select_model()
   end)
 end
 
--- ─── Floating status window ────────────────────────────────────────────────
+-- ─── Status float (one float, one entry per job) ───────────────────────────
 
 local spinner_frames = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' }
+local status = { entries = {}, frame = 1 }
 
-local Status = {}
-Status.__index = Status
-
-function Status.new(model)
-  local self = setmetatable({}, Status)
-  self.model = model
-  self.start_time = vim.uv.now()
-  self.frame = 1
-  self.lines = {} -- activity log (most recent last)
-  self.max_log = 5
-  self.done = false
-  self.buf = vim.api.nvim_create_buf(false, true)
-  vim.bo[self.buf].bufhidden = 'wipe'
-  self.timer = vim.uv.new_timer()
-  self.timer:start(0, 100, vim.schedule_wrap(function()
-    self.frame = (self.frame % #spinner_frames) + 1
-    self:render()
-  end))
-  return self
+local function status_close()
+  if status.timer then
+    status.timer:stop()
+    status.timer:close()
+    status.timer = nil
+  end
+  if status.win and vim.api.nvim_win_is_valid(status.win) then
+    vim.api.nvim_win_close(status.win, true)
+  end
+  if status.buf and vim.api.nvim_buf_is_valid(status.buf) then
+    vim.api.nvim_buf_delete(status.buf, { force = true })
+  end
+  status.win, status.buf = nil, nil
 end
 
-function Status:log(msg)
-  if self.lines[#self.lines] == msg then
-    return
-  end
-  table.insert(self.lines, msg)
-  if #self.lines > self.max_log then
-    table.remove(self.lines, 1)
-  end
-  vim.schedule(function()
-    self:render()
-  end)
-end
-
-function Status:render()
-  if not (self.buf and vim.api.nvim_buf_is_valid(self.buf)) then
+local function status_render()
+  if #status.entries == 0 then
+    status_close()
     return
   end
 
-  local elapsed = math.floor((vim.uv.now() - self.start_time) / 1000)
-  local header
-  if self.done then
-    header = string.format('✓ π done · %ds · %s', elapsed, self.model)
-  else
-    header = string.format('%s π working · %ds · %s', spinner_frames[self.frame], elapsed, self.model)
+  local lines = {}
+  for _, job in ipairs(status.entries) do
+    local elapsed = math.floor(((job.end_time or vim.uv.now()) - job.start_time) / 1000)
+    local icon = job.done and (job.ok and '✓' or '✗') or spinner_frames[status.frame]
+    table.insert(lines, string.format('%s π %s · %ds · %s', icon, job.label, elapsed, job.model_short))
+    if job.activity then
+      table.insert(lines, '   ' .. job.activity)
+    end
   end
 
-  local lines = { header }
-  for _, l in ipairs(self.lines) do
-    table.insert(lines, '  ' .. l)
+  if not (status.buf and vim.api.nvim_buf_is_valid(status.buf)) then
+    status.buf = vim.api.nvim_create_buf(false, true)
+    vim.bo[status.buf].bufhidden = 'wipe'
   end
+  vim.api.nvim_buf_set_lines(status.buf, 0, -1, false, lines)
 
   local width = 0
   for _, l in ipairs(lines) do
     width = math.max(width, vim.fn.strdisplaywidth(l))
   end
   width = math.min(math.max(width + 2, 30), math.floor(vim.o.columns * 0.6))
-  local height = #lines
-
-  vim.api.nvim_buf_set_lines(self.buf, 0, -1, false, lines)
 
   local win_config = {
     relative = 'editor',
@@ -113,73 +121,192 @@ function Status:render()
     row = vim.o.lines - vim.o.cmdheight - 1,
     col = vim.o.columns - 1,
     width = width,
-    height = height,
+    height = #lines,
     style = 'minimal',
     border = 'rounded',
     focusable = false,
     zindex = 60,
   }
-
-  if self.win and vim.api.nvim_win_is_valid(self.win) then
-    vim.api.nvim_win_set_config(self.win, win_config)
+  if status.win and vim.api.nvim_win_is_valid(status.win) then
+    vim.api.nvim_win_set_config(status.win, win_config)
   else
-    self.win = vim.api.nvim_open_win(self.buf, false, win_config)
-    vim.wo[self.win].winhighlight = 'NormalFloat:Normal,FloatBorder:Comment'
+    status.win = vim.api.nvim_open_win(status.buf, false, win_config)
+    vim.wo[status.win].winhighlight = 'NormalFloat:Normal,FloatBorder:Comment'
   end
 end
 
-function Status:finish(msg)
-  self.done = true
-  if msg then
-    self:log(msg)
+local function status_add(job)
+  table.insert(status.entries, job)
+  if not status.timer then
+    status.timer = vim.uv.new_timer()
+    status.timer:start(0, 100, vim.schedule_wrap(function()
+      status.frame = (status.frame % #spinner_frames) + 1
+      status_render()
+    end))
   end
-  vim.schedule(function()
-    self:render()
-  end)
-  -- Auto-close shortly after finishing
-  vim.defer_fn(function()
-    self:close()
-  end, 2500)
 end
 
-function Status:close()
-  if self.timer then
-    self.timer:stop()
-    self.timer:close()
-    self.timer = nil
-  end
-  if self.win and vim.api.nvim_win_is_valid(self.win) then
-    vim.api.nvim_win_close(self.win, true)
-  end
-  self.win = nil
-  if self.buf and vim.api.nvim_buf_is_valid(self.buf) then
-    vim.api.nvim_buf_delete(self.buf, { force = true })
-  end
-  self.buf = nil
-end
-
--- Namespace for selection highlights
-local ns = vim.api.nvim_create_namespace 'pi_edit'
--- Namespace for change flashes
-local flash_ns = vim.api.nvim_create_namespace 'pi_edit_flash'
-
--- Fallback highlight groups (themes can override these)
-vim.api.nvim_set_hl(0, 'PiEditActive', { default = true, link = 'Visual' })
-vim.api.nvim_set_hl(0, 'PiEditFlash', { default = true, link = 'DiffAdd' })
-
---- Add highlight to the selected range, returns a cleanup function.
---- The highlight persists for the whole pi run; cleanup() clears it.
-local function highlight_selection(bufnr, start_line, end_line)
-  for line = start_line - 1, end_line - 1 do
-    vim.api.nvim_buf_set_extmark(bufnr, ns, line, 0, { line_hl_group = 'PiEditActive' })
-  end
-
-  -- Return cleanup function
-  return function()
-    if vim.api.nvim_buf_is_valid(bufnr) then
-      vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
+local function status_remove(job)
+  for i, j in ipairs(status.entries) do
+    if j == job then
+      table.remove(status.entries, i)
+      break
     end
   end
+  status_render()
+end
+
+local function set_activity(job, msg)
+  job.activity = msg
+end
+
+-- ─── Region tracking & locking ─────────────────────────────────────────────
+
+--- (Re)place the region extmark so it covers `lines` starting at (sr, sc).
+--- Start gravity right / end gravity left: text typed exactly at either
+--- boundary lands *outside* the region.
+local function region_mark(job, sr, sc, lines)
+  if job.mark then
+    pcall(vim.api.nvim_buf_del_extmark, job.buf, ns, job.mark)
+  end
+  local er = sr + #lines - 1
+  local ec = (#lines == 1 and sc or 0) + #lines[#lines]
+  local zero_width = er == sr and ec == sc
+  job.mark = vim.api.nvim_buf_set_extmark(job.buf, ns, sr, sc, {
+    end_row = er,
+    end_col = ec,
+    hl_group = 'PiEditActive',
+    hl_eol = true,
+    -- a zero-width region would invert with outward gravity; keep it closed
+    right_gravity = not zero_width,
+    end_right_gravity = zero_width,
+    priority = 200,
+  })
+end
+
+--- Region bounds, normalized so start <= end. `inverted` is true when the
+--- extmark flipped (the whole region was deleted and replaced in one change);
+--- the span between the flipped ends is then the text now in the region.
+--- @return integer|nil sr, integer sc, integer er, integer ec, boolean inverted
+local function region_get(job)
+  if not vim.api.nvim_buf_is_valid(job.buf) then
+    return nil
+  end
+  local m = vim.api.nvim_buf_get_extmark_by_id(job.buf, ns, job.mark, { details = true })
+  if not m or #m == 0 then
+    return nil
+  end
+  local sr, sc, er, ec = m[1], m[2], m[3].end_row, m[3].end_col
+  if er < sr or (er == sr and ec < sc) then
+    return er, ec, sr, sc, true
+  end
+  return sr, sc, er, ec, false
+end
+
+local function region_text(job)
+  local sr, sc, er, ec = region_get(job)
+  if not sr then
+    return nil
+  end
+  local ok, text = pcall(vim.api.nvim_buf_get_text, job.buf, sr, sc, er, ec, {})
+  return ok and text or nil
+end
+
+local function region_clear(job)
+  if job.mark and vim.api.nvim_buf_is_valid(job.buf) then
+    pcall(vim.api.nvim_buf_del_extmark, job.buf, ns, job.mark)
+  end
+  job.mark = nil
+end
+
+local last_lock_notice = 0
+
+--- Undo any edit that touched a locked region.
+local function enforce_locks(buf)
+  for _, job in pairs(M._jobs) do
+    if job.buf == buf and job.mark and not job.lost then
+      local cur = region_text(job)
+      if not vim.deep_equal(cur, job.original) then
+        local sr, sc, er, ec, inverted = region_get(job)
+        local restore = job.original
+        if inverted and er > sr and ec == 0 then
+          -- A whole-line replace leaves the line's newline inside the span; keep it
+          restore = vim.list_extend(vim.deepcopy(job.original), { '' })
+        end
+        local ok = sr ~= nil
+          and pcall(function()
+            pcall(vim.cmd, 'undojoin')
+            vim.api.nvim_buf_set_text(buf, sr, sc, er, ec, restore)
+            region_mark(job, sr, sc, job.original)
+          end)
+        if not ok then
+          -- Couldn't restore (region mangled); result will open in a scratch split.
+          job.lost = true
+          region_clear(job)
+        end
+        local now = vim.uv.now()
+        if now - last_lock_notice > 2000 then
+          last_lock_notice = now
+          notify('Region is locked while π works on it (<leader>ax to cancel)', vim.log.levels.WARN)
+        end
+      end
+    end
+  end
+end
+
+local function jobs_in_buf(buf)
+  local n = 0
+  for _, job in pairs(M._jobs) do
+    if job.buf == buf then
+      n = n + 1
+    end
+  end
+  return n
+end
+
+local function lock_buffer(buf)
+  if #vim.api.nvim_get_autocmds { group = lock_group, buffer = buf } > 0 then
+    return
+  end
+  vim.api.nvim_create_autocmd({ 'TextChanged', 'TextChangedI' }, {
+    group = lock_group,
+    buffer = buf,
+    callback = function()
+      vim.schedule(function()
+        enforce_locks(buf)
+      end)
+    end,
+  })
+  vim.api.nvim_create_autocmd('BufUnload', {
+    group = lock_group,
+    buffer = buf,
+    callback = function()
+      for _, job in pairs(M._jobs) do
+        if job.buf == buf then
+          M.cancel_job(job, 'buffer closed')
+        end
+      end
+    end,
+  })
+end
+
+local function unlock_buffer_if_idle(buf)
+  if jobs_in_buf(buf) == 0 and vim.api.nvim_buf_is_valid(buf) then
+    vim.api.nvim_clear_autocmds { group = lock_group, buffer = buf }
+  end
+end
+
+-- ─── Applying results ──────────────────────────────────────────────────────
+
+local function flash_rows(buf, first, last)
+  for row = first, last do
+    pcall(vim.api.nvim_buf_set_extmark, buf, flash_ns, row, 0, { line_hl_group = 'PiEditFlash' })
+  end
+  vim.defer_fn(function()
+    if vim.api.nvim_buf_is_valid(buf) then
+      vim.api.nvim_buf_clear_namespace(buf, flash_ns, 0, -1)
+    end
+  end, 1800)
 end
 
 --- Flash lines that changed between old_lines and the buffer's current content
@@ -188,56 +315,32 @@ local function flash_changes(buf, old_lines)
   local old_text = table.concat(old_lines, '\n') .. '\n'
   local new_text = table.concat(new_lines, '\n') .. '\n'
   if old_text == new_text then
-    return false
+    return
   end
-
   local diff_fn = (vim.text and vim.text.diff) or vim.diff
   local ok, hunks = pcall(diff_fn, old_text, new_text, { result_type = 'indices' })
   if not ok or type(hunks) ~= 'table' then
-    return false
+    return
   end
-
-  local flashed = false
   for _, h in ipairs(hunks) do
     local start_b, count_b = h[3], h[4]
-    -- Pure deletion (count_b == 0): flash the line at the deletion point
-    local first = math.max(count_b == 0 and start_b or start_b, 1)
+    local first = math.max(start_b, 1)
     local last = count_b == 0 and first or (start_b + count_b - 1)
-    for line = first - 1, math.min(last, #new_lines) - 1 do
-      pcall(vim.api.nvim_buf_set_extmark, buf, flash_ns, line, 0, { line_hl_group = 'PiEditFlash' })
-      flashed = true
-    end
+    flash_rows(buf, first - 1, math.min(last, #new_lines) - 1)
   end
-
-  if flashed then
-    vim.defer_fn(function()
-      if vim.api.nvim_buf_is_valid(buf) then
-        vim.api.nvim_buf_clear_namespace(buf, flash_ns, 0, -1)
-      end
-    end, 1800)
-  end
-  return flashed
 end
 
---- Build the prompt message from selection context + user instructions
-local function build_prompt(filepath, start_line, end_line, filetype, selected_text, instructions)
-  local range_str = start_line == end_line and ('line ' .. start_line) or ('lines ' .. start_line .. '-' .. end_line)
-  return string.format(
-    '%s\n\nIn `%s` (%s, %s):\n\n```%s\n%s\n```',
-    instructions,
-    filepath,
-    range_str,
-    filetype,
-    filetype,
-    selected_text
-  )
-end
-
---- Reload any open buffers whose files may have been modified,
---- flashing lines that changed on reload.
-local function reload_modified_buffers()
+--- Reload other open buffers pi may have modified on disk.
+--- Skips the job's own buffer and any buffer with unsaved changes.
+local function reload_other_buffers(skip_buf)
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-    if vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buflisted and vim.api.nvim_buf_get_name(buf) ~= '' then
+    if
+      buf ~= skip_buf
+      and vim.api.nvim_buf_is_valid(buf)
+      and vim.bo[buf].buflisted
+      and not vim.bo[buf].modified
+      and vim.api.nvim_buf_get_name(buf) ~= ''
+    then
       local old_lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
       vim.api.nvim_buf_call(buf, function()
         vim.cmd 'silent! checktime'
@@ -247,22 +350,172 @@ local function reload_modified_buffers()
   end
 end
 
+--- Extract the last <replacement>…</replacement> block from pi's reply.
+local function parse_replacement(text, original)
+  if not text then
+    return nil
+  end
+  local found
+  for s in text:gmatch '<replacement>(.-)</replacement>' do
+    found = s
+  end
+  if not found then
+    return nil
+  end
+  found = found:gsub('^\n', ''):gsub('\n$', '')
+  -- Strip a code fence the model added around the text (unless the selection had one)
+  if not (original[1] or ''):match '^%s*```' then
+    local inner = found:match '^```[^\n]*\n(.*)\n```$'
+    if inner then
+      found = inner
+    end
+  end
+  return vim.split(found, '\n', { plain = true })
+end
+
+local function open_scratch(job, lines, why)
+  vim.cmd 'botright vnew'
+  local buf = vim.api.nvim_get_current_buf()
+  vim.bo[buf].buftype = 'nofile'
+  vim.bo[buf].bufhidden = 'wipe'
+  vim.bo[buf].filetype = job.filetype
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+  notify(why .. ' — π result opened in a scratch split', vim.log.levels.WARN)
+end
+
+--- Splice the replacement into the tracked region. Returns true if applied.
+local function apply_replacement(job, new_lines)
+  local cur = not job.lost and region_text(job) or nil
+  if not vim.deep_equal(cur, job.original) then
+    open_scratch(job, new_lines, 'Region changed or was removed')
+    return false
+  end
+  local sr, sc, er, ec = region_get(job)
+  vim.api.nvim_buf_set_text(job.buf, sr, sc, er, ec, new_lines)
+  flash_rows(job.buf, sr, sr + #new_lines - 1)
+  return true
+end
+
+local function finish_job(job, reply, err)
+  if job.done then
+    return
+  end
+  job.done = true
+  job.end_time = vim.uv.now()
+  M._jobs[job.id] = nil
+  if job.chan and job.chan > 0 then
+    pcall(vim.fn.jobstop, job.chan)
+  end
+
+  vim.schedule(function()
+    if err then
+      job.ok = false
+      set_activity(job, err)
+      if err ~= 'cancelled' then
+        local detail = #job.stderr > 0 and ('\n' .. table.concat(job.stderr, '\n')) or ''
+        notify('π failed: ' .. err .. detail, vim.log.levels.ERROR)
+      end
+    else
+      job.ok = true
+      local replacement = parse_replacement(reply, job.original)
+      local summary = {}
+      if replacement then
+        if apply_replacement(job, replacement) then
+          table.insert(summary, 'replaced ' .. #replacement .. ' line(s)')
+        end
+      end
+
+      reload_other_buffers(job.buf)
+
+      local touched = vim.tbl_keys(job.touched)
+      if #touched > 0 then
+        table.sort(touched)
+        local rel = vim.tbl_map(function(p)
+          return vim.fn.fnamemodify(p, ':~:.')
+        end, touched)
+        table.insert(summary, 'wrote ' .. table.concat(rel, ', '))
+        if job.touched[job.filepath] then
+          notify('π modified ' .. job.filepath .. ' on disk despite instructions; buffer not reloaded', vim.log.levels.WARN)
+        end
+      end
+
+      if #summary == 0 then
+        -- Nothing changed: pi probably answered or asked something
+        local msg = vim.trim((reply or ''):gsub('<replacement>.-</replacement>', ''))
+        table.insert(summary, 'no changes')
+        if msg ~= '' then
+          notify(msg)
+        end
+      end
+      set_activity(job, table.concat(summary, ' · '))
+    end
+
+    region_clear(job)
+    unlock_buffer_if_idle(job.buf)
+    vim.defer_fn(function()
+      status_remove(job)
+    end, M.config.linger_ms)
+  end)
+end
+
+function M.cancel_job(job, reason)
+  finish_job(job, nil, reason or 'cancelled')
+end
+
+-- ─── Running pi ────────────────────────────────────────────────────────────
+
+local PROMPT = [[
+You are editing a region of a file the user has open in Neovim. The user keeps working on the rest of the file while you work, and the buffer may contain unsaved changes, so the excerpt below is the source of truth for the region (not the file on disk).
+
+File: %s (%s), %s at the time of the request.
+
+<context_before>
+%s
+</context_before>
+<selection>
+%s
+</selection>
+<context_after>
+%s
+</context_after>
+
+Instructions:
+%s
+
+Rules:
+- NEVER modify %s with edit/write/bash. The editor applies your change to the selection itself.
+- If the selection should change, end your reply with the complete new text for the selection inside <replacement></replacement> tags: raw text, no code fences, matching the file's existing style and indentation. It replaces the selection exactly; never include context_before/context_after text.
+- If the task involves other files (research, notes, new documents), use your tools to create or edit them, preferring paths next to %s. Include <replacement> only if the selection itself should also change (e.g. adding links to what you created).
+- If the selection should not change, omit <replacement> and briefly say what you did.
+- Keep any prose outside the tags short.]]
+
+local function build_prompt(job, before, after, instructions)
+  local range = job.start_line == job.end_line and ('line ' .. job.start_line)
+    or ('lines ' .. job.start_line .. '-' .. job.end_line)
+  return string.format(
+    PROMPT,
+    job.filepath,
+    job.filetype,
+    range,
+    table.concat(before, '\n'),
+    table.concat(job.original, '\n'),
+    table.concat(after, '\n'),
+    instructions,
+    job.filepath,
+    job.filepath
+  )
+end
+
 --- Parse a JSONL line safely
 local function parse_json(line)
   if not line or line == '' then
     return nil
   end
   local ok, data = pcall(vim.json.decode, line)
-  if ok and type(data) == 'table' then
-    return data
-  end
-  return nil
+  return ok and type(data) == 'table' and data or nil
 end
 
---- Create a stateful line reader for unbuffered job stdout.
---- Neovim delivers partial lines: data[1] continues the previous chunk's
---- last element, and data[#data] may be incomplete. This joins them so
---- callers always receive complete lines.
+--- Neovim delivers partial lines on unbuffered stdout; join them.
 local function make_line_reader()
   local partial = ''
   return function(data)
@@ -275,295 +528,188 @@ local function make_line_reader()
   end
 end
 
---- Send a JSON command to the pi RPC process
-local function rpc_send(job_id, cmd)
-  local json_line = vim.json.encode(cmd) .. '\n'
-  vim.fn.chansend(job_id, json_line)
+--- Text (or error) of the last assistant message in an agent_end event
+--- @return string|nil text, string|nil err
+local function final_text(event)
+  for i = #(event.messages or {}), 1, -1 do
+    local msg = event.messages[i]
+    if msg.role == 'assistant' and msg.stopReason == 'error' then
+      return nil, msg.errorMessage or 'model error'
+    end
+    if msg.role == 'assistant' and type(msg.content) == 'table' then
+      local parts = {}
+      for _, c in ipairs(msg.content) do
+        if c.type == 'text' and c.text then
+          table.insert(parts, c.text)
+        end
+      end
+      return table.concat(parts)
+    end
+  end
 end
 
---- Run pi in RPC mode with the given prompt
---- @param prompt string
---- @param cwd string
---- @param cleanup function|nil  Called on completion/error to clear highlights
-function M.run(prompt, cwd, cleanup)
-  local job_id
-  local tool_name = nil
-  local tool_args = nil
-  local text_chunks = {}
+local function handle_event(job, event)
+  if event.type == 'tool_execution_start' then
+    local name, args = event.toolName, event.args or {}
+    if (name == 'edit' or name == 'write') and args.path then
+      local abs = vim.fn.fnamemodify(args.path, ':p')
+      job.touched[abs] = true
+      set_activity(job, name .. '  ' .. vim.fn.fnamemodify(abs, ':~:.'))
+    elseif name == 'read' and args.path then
+      set_activity(job, 'read  ' .. vim.fn.fnamemodify(args.path, ':~:.'))
+    elseif name == 'bash' and args.command then
+      set_activity(job, 'bash  ' .. args.command:sub(1, 50))
+    elseif name then
+      set_activity(job, name)
+    end
+  elseif event.type == 'tool_execution_end' and event.isError then
+    set_activity(job, '⚠ tool error: ' .. (event.toolName or '?'))
+  elseif event.type == 'message_start' and event.message and event.message.role == 'assistant' then
+    set_activity(job, 'thinking…')
+  elseif event.type == 'agent_end' then
+    local text, err = final_text(event)
+    finish_job(job, text, err)
+  elseif event.type == 'response' and event.command == 'prompt' and not event.success then
+    finish_job(job, nil, event.error or 'prompt rejected')
+  end
+end
+
+--- Start a job for rows [sr, er] (0-indexed, inclusive) of buf.
+local function start_job(buf, sr, er, instructions)
+  for _, other in pairs(M._jobs) do
+    if other.buf == buf then
+      local osr, _, oer = region_get(other)
+      if osr and not (er < osr or sr > oer) then
+        vim.notify('π is already working on part of that selection', vim.log.levels.WARN)
+        return
+      end
+    end
+  end
+
+  next_id = next_id + 1
+  local filepath = vim.api.nvim_buf_get_name(buf)
+  local job = {
+    id = next_id,
+    buf = buf,
+    filepath = filepath,
+    filetype = vim.bo[buf].filetype,
+    start_line = sr + 1,
+    end_line = er + 1,
+    original = vim.api.nvim_buf_get_lines(buf, sr, er + 1, false),
+    model = M.config.model,
+    model_short = M.config.model:gsub('^.-/', ''),
+    start_time = vim.uv.now(),
+    touched = {},
+    stderr = {},
+    activity = 'starting…',
+  }
+  job.label = string.format('%s:%d-%d', vim.fn.fnamemodify(filepath, ':t'), job.start_line, job.end_line)
+
+  local ctx = M.config.context_lines
+  local before = vim.api.nvim_buf_get_lines(buf, math.max(0, sr - ctx), sr, false)
+  local after = vim.api.nvim_buf_get_lines(buf, er + 1, er + 1 + ctx, false)
+
+  region_mark(job, sr, 0, job.original)
+  lock_buffer(buf)
+  M._jobs[job.id] = job
+  status_add(job)
+
   local read_lines = make_line_reader()
-
-  local status = Status.new(M.config.model)
-
-  local function notify(msg, level)
-    level = level or vim.log.levels.INFO
-    vim.schedule(function()
-      vim.notify(msg, level)
-    end)
-  end
-
-  local finished = false
-  local function finish(final_msg)
-    if cleanup then
-      vim.schedule(cleanup)
-      cleanup = nil -- only call once
-    end
-    if not finished then
-      finished = true
-      status:finish(final_msg)
-    end
-  end
-
-  status:log 'starting pi…'
-
-  job_id = vim.fn.jobstart({ 'pi', '--mode', 'rpc', '--no-session', '--model', M.config.model }, {
-    cwd = cwd,
+  job.chan = vim.fn.jobstart({ 'pi', '--mode', 'rpc', '--no-session', '--model', job.model }, {
+    cwd = vim.fn.getcwd(),
     stdin = 'pipe',
-    stdout_buffered = false,
-    on_stdout = function(_, data, _)
+    on_stdout = function(_, data)
       for _, line in ipairs(read_lines(data)) do
         local event = parse_json(line)
-        if not event then
-          goto continue
+        if event then
+          handle_event(job, event)
         end
-
-        if event.type == 'tool_execution_start' then
-          tool_name = event.toolName
-          tool_args = event.args
-          if tool_name == 'edit' and tool_args and tool_args.path then
-            status:log('edit  ' .. vim.fn.fnamemodify(tool_args.path, ':~:.'))
-          elseif tool_name == 'write' and tool_args and tool_args.path then
-            status:log('write ' .. vim.fn.fnamemodify(tool_args.path, ':~:.'))
-          elseif tool_name == 'bash' and tool_args and tool_args.command then
-            status:log('bash  ' .. tool_args.command:sub(1, 50))
-          elseif tool_name == 'read' and tool_args and tool_args.path then
-            status:log('read  ' .. vim.fn.fnamemodify(tool_args.path, ':~:.'))
-          elseif tool_name then
-            status:log(tool_name)
-          end
-        end
-
-        if event.type == 'tool_execution_end' then
-          if event.isError then
-            status:log('⚠ tool error: ' .. (event.toolName or '?'))
-          end
-        end
-
-        if event.type == 'message_start' then
-          status:log 'thinking…'
-        end
-
-        if event.type == 'message_update' then
-          local delta = event.assistantMessageEvent
-          if delta and delta.type == 'text_delta' then
-            table.insert(text_chunks, delta.delta)
-          end
-        end
-
-        if event.type == 'agent_end' then
-          vim.schedule(function()
-            reload_modified_buffers()
-            -- reload_modified_buffers triggers FileChangedShellPost which clears highlights
-            -- but call finish() as a safety net
-            finish 'done'
-          end)
-        end
-
-        if event.type == 'response' and event.command == 'prompt' and not event.success then
-          finish('✗ ' .. (event.error or 'unknown error'))
-          notify('π Error: ' .. (event.error or 'unknown'), vim.log.levels.ERROR)
-        end
-
-        ::continue::
       end
     end,
-    on_stderr = function(_, data, _)
+    on_stderr = function(_, data)
       for _, line in ipairs(data) do
-        if line and line ~= '' then
-          notify('π stderr: ' .. line, vim.log.levels.WARN)
+        if line ~= '' then
+          table.insert(job.stderr, line)
         end
       end
     end,
-    on_exit = function(_, exit_code, _)
-      M._active_jobs[job_id] = nil
-      if exit_code ~= 0 then
-        finish('✗ exited with code ' .. exit_code)
-        notify('π Process exited with code ' .. exit_code, vim.log.levels.WARN)
-      else
-        finish()
-      end
+    on_exit = function(_, code)
+      finish_job(job, nil, 'pi exited with code ' .. code)
     end,
   })
 
-  if job_id <= 0 then
-    finish '✗ failed to start pi'
-    notify('π Failed to start pi process', vim.log.levels.ERROR)
+  if job.chan <= 0 then
+    finish_job(job, nil, 'failed to start pi')
     return
   end
 
-  M._active_jobs[job_id] = true
-
-  vim.defer_fn(function()
-    rpc_send(job_id, {
-      type = 'prompt',
-      message = prompt,
-    })
-  end, 500)
+  vim.fn.chansend(job.chan, vim.json.encode {
+    type = 'prompt',
+    message = build_prompt(job, before, after, instructions),
+  } .. '\n')
 end
 
---- Send selection to pi running in a sibling wezterm pane
-function M.send_to_pane()
-  -- Get selected lines
-  local start_line = vim.fn.line 'v'
-  local end_line = vim.fn.line '.'
-  if start_line > end_line then
-    start_line, end_line = end_line, start_line
-  end
-  local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
-  local selected_text = table.concat(lines, '\n')
+-- ─── Public entry points ───────────────────────────────────────────────────
 
-  -- File info
-  local filepath = vim.fn.expand '%:p'
-  local filetype = vim.bo.filetype
-
-  -- Find pi pane in same tab
-  local my_pane = os.getenv 'WEZTERM_PANE'
-  if not my_pane then
-    vim.notify('WEZTERM_PANE not set — not running in wezterm?', vim.log.levels.ERROR)
-    return
-  end
-
-  local json_str = vim.fn.system 'wezterm cli list --format json'
-  local ok, panes = pcall(vim.json.decode, json_str)
-  if not ok then
-    vim.notify('Failed to parse wezterm pane list', vim.log.levels.ERROR)
-    return
-  end
-
-  -- Find our tab_id
-  local my_tab_id = nil
-  for _, p in ipairs(panes) do
-    if tostring(p.pane_id) == my_pane then
-      my_tab_id = p.tab_id
-      break
-    end
-  end
-
-  if not my_tab_id then
-    vim.notify('Could not find our pane in wezterm list', vim.log.levels.ERROR)
-    return
-  end
-
-  -- Find pi pane in same tab (title starts with π)
-  local pi_pane_id = nil
-  for _, p in ipairs(panes) do
-    if p.tab_id == my_tab_id and tostring(p.pane_id) ~= my_pane and p.title:match '^π' then
-      pi_pane_id = p.pane_id
-      break
-    end
-  end
-
-  -- Build message
-  local range_str = start_line == end_line and ('line ' .. start_line) or ('lines ' .. start_line .. '-' .. end_line)
-  local msg = string.format('In `%s` (%s, %s):\n\n```%s\n%s\n```\n', filepath, range_str, filetype, filetype,
-    selected_text)
-
-  -- Helper to send message and activate pane
-  local function send_msg_to_pane(pane_id)
-    -- Clear existing editor content first (Ctrl+C = app.clear in pi)
-    local clear_cmd = string.format('wezterm cli send-text --pane-id %d --no-paste', pane_id)
-    vim.fn.system(clear_cmd, '\x03')
-
-    -- Send to pi pane (no trailing newline — let user review before pressing enter)
-    local cmd = string.format('wezterm cli send-text --pane-id %d --no-paste', pane_id)
-    vim.fn.system(cmd, msg)
-
-    -- Activate the pi pane
-    vim.fn.system(string.format('wezterm cli activate-pane --pane-id %d', pane_id))
-  end
-
-  -- Exit visual mode
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'n', false)
-
-  if pi_pane_id then
-    send_msg_to_pane(pi_pane_id)
-    vim.notify('Sent to pi pane ' .. pi_pane_id)
-  else
-    -- No pi pane found — spawn one in a right split
-    local cwd = vim.fn.getcwd()
-    local new_pane_id = vim.fn.system(string.format(
-      'wezterm cli split-pane --right --percent 50 --cwd %s -- pi',
-      vim.fn.shellescape(cwd)
-    ))
-    new_pane_id = vim.trim(new_pane_id)
-    local pane_num = tonumber(new_pane_id)
-    if not pane_num then
-      vim.notify('Failed to spawn pi pane', vim.log.levels.ERROR)
-      return
-    end
-    -- Poll until pi is ready, then send the message
-    local attempts = 0
-    local max_attempts = 40 -- 40 x 100ms = 4s max
-    local function try_send()
-      attempts = attempts + 1
-      local text = vim.fn.system(string.format('wezterm cli get-text --pane-id %d', pane_num))
-      if text:find('pi>') or text:find('❯') then
-        send_msg_to_pane(pane_num)
-        vim.notify('Spawned pi pane ' .. pane_num .. ' and sent message')
-      elseif attempts < max_attempts then
-        vim.defer_fn(try_send, 100)
-      else
-        -- Timeout — send anyway as a fallback
-        send_msg_to_pane(pane_num)
-        vim.notify('Spawned pi pane ' .. pane_num .. ' (sent after timeout)', vim.log.levels.WARN)
-      end
-    end
-    vim.defer_fn(try_send, 200)
-  end
-end
-
---- Entry point: capture selection, prompt for instructions, run pi
+--- Capture selection (or current line), prompt for instructions, run pi
 function M.edit_selection()
   local in_visual = vim.fn.mode():match '^[vV\22]' ~= nil
-
-  -- Capture selection bounds: visual selection, or current line in normal mode
-  local start_line, end_line
+  local start_line, end_line = vim.fn.line '.', vim.fn.line '.'
   if in_visual then
     start_line = vim.fn.line 'v'
-    end_line = vim.fn.line '.'
     if start_line > end_line then
       start_line, end_line = end_line, start_line
     end
-  else
-    start_line = vim.fn.line '.'
-    end_line = start_line
-  end
-  local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
-  local selected_text = table.concat(lines, '\n')
-  local filepath = vim.fn.expand '%:p'
-  local filetype = vim.bo.filetype
-  local cwd = vim.fn.getcwd()
-  local bufnr = vim.api.nvim_get_current_buf()
-
-  -- Exit visual mode synchronously
-  if in_visual then
     vim.cmd 'normal! \27'
   end
+  local buf = vim.api.nvim_get_current_buf()
 
-  -- Defer the input prompt to next event loop tick so the mode switch settles
   vim.schedule(function()
     vim.ui.input({ prompt = 'π Instructions: ' }, function(instructions)
-      if not instructions or instructions == '' then
-        vim.notify('π Cancelled', vim.log.levels.WARN)
+      if not instructions or vim.trim(instructions) == '' then
         return
       end
-
-      -- Highlight the selection while pi works
-      local cleanup = highlight_selection(bufnr, start_line, end_line)
-
-      local prompt = build_prompt(filepath, start_line, end_line, filetype, selected_text, instructions)
-      M.run(prompt, cwd, cleanup)
+      start_job(buf, start_line - 1, end_line - 1, instructions)
     end)
   end)
 end
+
+--- Cancel the job under the cursor, the only running job, or pick one
+function M.cancel()
+  local jobs = vim.tbl_values(M._jobs)
+  if #jobs == 0 then
+    vim.notify('π: nothing running')
+    return
+  end
+  local buf, row = vim.api.nvim_get_current_buf(), vim.fn.line '.' - 1
+  for _, job in ipairs(jobs) do
+    local sr, _, er = region_get(job)
+    if job.buf == buf and sr and row >= sr and row <= er then
+      return M.cancel_job(job)
+    end
+  end
+  if #jobs == 1 then
+    return M.cancel_job(jobs[1])
+  end
+  vim.ui.select(jobs, {
+    prompt = 'π Cancel which job?',
+    format_item = function(job)
+      return job.label .. ' · ' .. (job.activity or '')
+    end,
+  }, function(job)
+    if job then
+      M.cancel_job(job)
+    end
+  end)
+end
+
+vim.api.nvim_create_autocmd('VimLeavePre', {
+  group = vim.api.nvim_create_augroup('PiEditCleanup', { clear = true }),
+  callback = function()
+    for _, job in pairs(M._jobs) do
+      pcall(vim.fn.jobstop, job.chan)
+    end
+  end,
+})
 
 return M

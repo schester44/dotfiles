@@ -8,9 +8,9 @@ set('i', '<C-BS>', '<C-w>', { desc = 'Delete word backward' })
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 set('t', '<C-h>', '<C-\\><C-N><C-w>h', { desc = 'Move focus to the left window' })
-set('t', '<C-l>', '<C-\\><C-N><C-w>j', { desc = 'Move focus to the right window' })
+set('t', '<C-l>', '<C-\\><C-N><C-w>l', { desc = 'Move focus to the right window' })
 set('t', '<C-j>', '<C-\\><C-N><C-w>j', { desc = 'Move focus to the lower window' })
-set('t', '<C-k>', '<C-\\><C-N><C-w>l', { desc = 'Move focus to the upper window' })
+set('t', '<C-k>', '<C-\\><C-N><C-w>k', { desc = 'Move focus to the upper window' })
 -- Diagnostic keymaps
 -- For other diagnostic commands, see trouble.lua
 set('n', '<leader>dm', function()
@@ -45,9 +45,9 @@ set({ 'n', 'v' }, '<leader>aa', function()
   require('lib.pi-edit').edit_selection()
 end, { desc = 'AI Inline' })
 
-set('v', '<leader>ae', function()
-  require('lib.pi-edit').send_to_pane()
-end, { desc = 'AI Pane Edit' })
+set('n', '<leader>ax', function()
+  require('lib.pi-edit').cancel()
+end, { desc = 'AI Cancel' })
 
 set('n', '<leader>am', function()
   require('lib.pi-edit').select_model()
