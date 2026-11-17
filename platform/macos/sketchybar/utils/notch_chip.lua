@@ -7,14 +7,11 @@
 --   chip:on_click(fn)                                         -- clicks on either variant
 --   chip:on_hover(enter_fn, exit_fn)                          -- mouse enter/leave on either variant
 --   chip:set_collapsed(true)                                  -- animate the label away
---   chip:set({ trailing = { string = "in 6h" } })              -- optional persistent suffix
 --
 -- When the bar hides (utils/bar_visibility.lua) the notch variant shrinks into
 -- the notch and the pill slides up with the rest of the bar.
 --
 -- Items per chip: <name> (pill, top right), <name>.notch and <name>.notch.corner.
--- Left-side chips with opts.trailing also create .trailing/.notch.trailing items
--- and .background/.notch.background brackets spanning the title and suffix.
 -- Which displays get which variant is re-detected on display_change.
 --
 -- SketchyBar geometry the notch variant relies on (v2.24 source):
@@ -61,8 +58,10 @@ local TEXT_PAD = 12
 -- Label widths when collapsed to just the icon, past the icon's 6pt right
 -- padding: the pill keeps 14pt; right of the notch the black ends R short of the
 -- item; left of it the item runs OVERLAP under the notch
-local COLLAPSED_W = { pill = 14 - 6, right = TEXT_PAD - 6 + R, left = TEXT_PAD - 6 + OVERLAP, trailing = 2 }
+local COLLAPSED_W = { pill = 14 - 6, right = TEXT_PAD - 6 + R, left = TEXT_PAD - 6 + OVERLAP }
 local COLLAPSE_CURVE, COLLAPSE_FRAMES = "tanh", 10
+-- The notch fill: wider than the notch by GROW, moved right by SHIFT
+local FILL_GROW, FILL_SHIFT = 0, 1
 
 local CACHE_DIR = os.getenv("HOME") .. "/.cache/sketchybar"
 local CORNER_SCRIPT = os.getenv("CONFIG_DIR") .. "/helpers/notch_corner.py"
@@ -201,28 +200,18 @@ function Chip:apply_displays()
 	self.pill:set(pill)
 	self.notch:set(notch)
 	self.corner:set(notch)
-	if self.trailing then
-		self.trailing:set(pill)
-		self.notch_trailing:set(notch)
-		self.pill_background:set(pill)
-		self.notch_background:set(notch)
-	end
 end
 
 -- props: item properties for both variants; `drawing` is the chip's visibility
 function Chip:set(props)
 	local content = {}
 	for k, v in pairs(props) do
-		if k ~= "drawing" and k ~= "trailing" then
+		if k ~= "drawing" then
 			content[k] = v
 		end
 	end
 	if props.icon and type(props.icon.color) == "number" then
 		self.icon_alpha = alpha_of(props.icon.color)
-	end
-	if props.trailing and self.trailing then
-		self.trailing:set({ label = props.trailing })
-		self.notch_trailing:set({ label = props.trailing })
 	end
 	if next(content) then
 		self.pill:set(content)
@@ -246,10 +235,8 @@ function Chip:set_collapsed(collapsed)
 	local first = self.collapsed == nil
 	self.collapsed = collapsed
 	local alpha = collapsed and 0 or 1
-	-- With a trailing suffix the label sits between the icon and the suffix,
-	-- so collapse it to a sliver and let the icon's padding be the gap.
-	local pill_w = self.trailing and COLLAPSED_W.trailing or COLLAPSED_W.pill
-	local notch_w = self.trailing and COLLAPSED_W.trailing or COLLAPSED_W[self.side]
+	local pill_w = COLLAPSED_W.pill
+	local notch_w = COLLAPSED_W[self.side]
 	local function go()
 		self.pill:set({ label = { width = collapsed and pill_w or "dynamic", color = { alpha = alpha } } })
 		-- while tucked the label stays at nothing; untucking applies this state
@@ -274,13 +261,10 @@ function Chip:set_tucked(tucked)
 	if tucked then
 		local gone = { width = 0, padding_left = 0, padding_right = 0, color = { alpha = 0 } }
 		self.notch:set({ icon = gone, label = gone })
-		if self.trailing then
-			self.notch_trailing:set({ label = gone })
-		end
 		return
 	end
 	local collapsed = self.collapsed
-	local collapsed_w = self.trailing and COLLAPSED_W.trailing or COLLAPSED_W[self.side]
+	local collapsed_w = COLLAPSED_W[self.side]
 	self.notch:set({
 		icon = {
 			width = "dynamic",
@@ -295,16 +279,6 @@ function Chip:set_tucked(tucked)
 			color = { alpha = collapsed and 0 or 1 },
 		},
 	})
-	if self.trailing then
-		self.notch_trailing:set({
-			label = {
-				width = "dynamic",
-				padding_left = rest.trailing.padding_left,
-				padding_right = rest.trailing.padding_right,
-				color = { alpha = 1 },
-			},
-		})
-	end
 end
 
 function Chip:subscribe(events, fn)
@@ -314,45 +288,16 @@ end
 function Chip:on_click(fn)
 	self.pill:subscribe("mouse.clicked", fn)
 	self.notch:subscribe("mouse.clicked", fn)
-	if self.trailing then
-		self.trailing:subscribe("mouse.clicked", fn)
-		self.notch_trailing:subscribe("mouse.clicked", fn)
-	end
 end
 
 function Chip:on_hover(enter, exit)
-	if not self.trailing then
-		for _, item in ipairs({ self.pill, self.notch }) do
-			item:subscribe("mouse.entered", enter)
-			item:subscribe("mouse.exited", exit)
-		end
-		return
-	end
-
-	-- Treat adjacent title/countdown windows as one hover target. Defer exit
-	-- briefly so crossing their boundary doesn't collapse and re-expand it.
-	local generation = 0
-	for _, item in ipairs({ self.pill, self.notch, self.trailing, self.notch_trailing }) do
-		item:subscribe("mouse.entered", function(env)
-			generation = generation + 1
-			enter(env)
-		end)
-		item:subscribe("mouse.exited", function(env)
-			generation = generation + 1
-			local pending = generation
-			sbar.exec("sleep 0.05", function()
-				if generation == pending then
-					exit(env)
-				end
-			end)
-		end)
+	for _, item in ipairs({ self.pill, self.notch }) do
+		item:subscribe("mouse.entered", enter)
+		item:subscribe("mouse.exited", exit)
 	end
 end
 
 -- opts: side ("left" | "right" of the notch), icon, label, update_freq
--- Optional trailing = {...} adds a persistent countdown after the animated label.
--- Currently supported on the left of the notch (and its plain-display pill).
--- notch_overlap optionally adjusts how far a trailing chip extends under the notch.
 function M.new(name, opts)
 	local content = { icon = opts.icon or {}, label = opts.label or {} }
 
@@ -365,68 +310,46 @@ function M.new(name, opts)
 
 	local chip = setmetatable({ name = name, side = opts.side, visible = false }, Chip)
 	chip.icon_alpha = type(content.icon.color) == "number" and alpha_of(content.icon.color) or 1
-	if opts.trailing then
-		assert(opts.side == "left", "trailing text requires a left-side chip")
-		-- Right/q items are laid out right-to-left: add the countdown first so
-		-- it stays nearest the notch/clock, then the icon + expandable title.
-		chip.trailing = sbar.add("item", name .. ".trailing", {
-			position = "right", drawing = false,
-			padding_left = 0, padding_right = pill.padding_right,
-			icon = { drawing = false },
-			label = merge({ padding_left = 0, padding_right = 14 }, opts.trailing),
-			background = { drawing = false },
-		})
-		chip.notch_trailing = sbar.add("item", name .. ".notch.trailing", {
-			position = "q", drawing = false, y_offset = LIFT,
-			padding_left = 0, padding_right = -(opts.notch_overlap or OVERLAP),
-			icon = { drawing = false },
-			label = merge({ padding_left = 0, padding_right = TEXT_PAD + (opts.notch_overlap or OVERLAP), y_offset = -LIFT }, opts.trailing),
-			background = { drawing = false },
-		})
-		pill.padding_right = 0
-		notch.padding_right = 0
-		pill.label.padding_right = 0
-		notch.label.padding_right = 0
-		pill.background = { drawing = false }
-		notch.background = { drawing = false }
-		-- The bracket's black ends at the members' span (which stops at the notch's
-		-- left edge, after the negative padding) + its x_offset, so the overlap alone
-		-- never reaches under the notch. Shift the black notch-ward by EXTEND and widen
-		-- the icon's inset by the same amount so its outer edge stays put.
-		visibility.slide(name .. ".trailing", name .. ".background")
-		chip.notch_extend = math.max(0, (opts.notch_overlap or OVERLAP) - R)
-		notch.icon.padding_left = notch.icon.padding_left + chip.notch_extend
-	end
 	chip.pill = sbar.add("item", name, merge(pill, content))
 	chip.notch = sbar.add("item", name .. ".notch", merge(notch, content))
 	-- the notch variant's text insets when shown, for untucking
 	chip.rest = {
 		icon = { padding_left = notch.icon.padding_left, padding_right = notch.icon.padding_right },
 		label = { padding_left = notch.label.padding_left, padding_right = notch.label.padding_right },
-		trailing = { padding_left = 0, padding_right = TEXT_PAD + (opts.notch_overlap or OVERLAP) },
 	}
 	visibility.slide(name)
 	-- added after the chip, so it sits on the chip's outer side
-	local corner = corner_props(opts.side)
-	if chip.notch_extend then
-		-- the item's outer edge moved out by notch_extend; the black's didn't
-		corner.padding_right = corner.padding_right - chip.notch_extend
-	end
-	chip.corner = sbar.add("item", name .. ".notch.corner", corner)
-	if opts.trailing then
-		-- One continuous background follows the combined animated width.
-		chip.pill_background = sbar.add("bracket", name .. ".background", { name, name .. ".trailing" }, {
-			drawing = false, background = pill_props(opts).background,
-		})
-		chip.notch_background = sbar.add("bracket", name .. ".notch.background", { name .. ".notch", name .. ".notch.trailing" }, {
-			drawing = false, y_offset = LIFT,
-			background = merge(notch_props(opts.side).background, { x_offset = R + chip.notch_extend }),
-		})
-	end
-
+	chip.corner = sbar.add("item", name .. ".notch.corner", corner_props(opts.side))
 	table.insert(chips, chip)
 	return chip
 end
+
+-- Solid black over the notch itself, down to the chips' bottom edge. The
+-- hardware hides it, but screenshots and screen sharing capture that area, where
+-- the chips would otherwise float apart. Its bottom corners are rounded like the
+-- notch's; a chip's black overlaps them on its side. Created before any chip so
+-- it is the first "e" item, then pulled back over the notch by its own width.
+-- The width comes from an empty fixed-width label: an item with a fixed width
+-- of its own advances the next item by that width whatever its padding.
+local FILL_W = NOTCH.width + FILL_GROW
+local fill = sbar.add("item", "notch_chip.fill", {
+	position = "e",
+	drawing = false,
+	padding_left = -FILL_W + FILL_SHIFT,
+	padding_right = -FILL_SHIFT,
+	y_offset = LIFT,
+	icon = { drawing = false },
+	label = { string = "", width = FILL_W, padding_left = 0, padding_right = 0 },
+	background = {
+		drawing = true,
+		color = 0xff000000,
+		corner_radius = R,
+		border_width = 1,
+		border_color = 0x00000000,
+		height = BAR_H + 2 * LIFT,
+		y_offset = BAR_H - BOTTOM,
+	},
+})
 
 -- Display detection: notch screens via NSScreen (helpers/notch_displays.js),
 -- mapped to SketchyBar arrangement ids through `sketchybar --query displays`.
@@ -450,6 +373,11 @@ local function detect()
 			end
 			displays.notch = table.concat(notch_ids, ",")
 			displays.plain = table.concat(plain_ids, ",")
+			if displays.notch ~= "" then
+				fill:set({ drawing = true, display = displays.notch })
+			else
+				fill:set({ drawing = false })
+			end
 			for _, chip in ipairs(chips) do
 				chip:apply_displays()
 			end

@@ -15,8 +15,7 @@ It also passes `--hide-event` / `--show-event`, so the toggle only triggers
 SketchyBar events and `utils/bar_visibility.lua` does the hiding: the left and
 right items slide up, the notch chips shrink into the notch, then the bar is
 hidden. Showing reverses it. Register anything else that should slide with
-`visibility.slide(name)`. These flags need the fork's `feat/visibility-events`
-branch; the `REVISION` pinned in `install-toggle.sh` must include it.
+`visibility.slide(name)`.
 
 This does not detect actual native menu bar visibility. Tune the delay if the
 bars overlap on your system.
@@ -28,8 +27,8 @@ bash ~/.dotfiles/platform/macos/sketchybar/install-toggle.sh
 sketchybar --reload
 ```
 
-The installer clones the fork into a temporary directory, checks out the pinned
-revision, runs tests, builds a release binary, and installs it in `~/.local/bin`.
+The installer clones the fork into a temporary directory, checks out its `main`,
+runs tests, builds a release binary, and installs it in `~/.local/bin`.
 It is also called by `install-mac.sh`. Homebrew's original binary is left intact
 and is not used by this config.
 
@@ -37,8 +36,8 @@ and is not used by this config.
 
 Do development on `feat/hide-delay` while the PR is open; commits pushed there
 update the PR. Run `swift test` and `swift build -c release` before pushing.
-Fast-forward the fork's `main` to tested changes when appropriate, then update
-`REVISION` in `install-toggle.sh` to the desired commit and reinstall.
+Fast-forward the fork's `main` to tested changes when appropriate, then
+reinstall; the installer builds whatever `main` is at that time.
 
 To incorporate upstream updates without dropping the patch:
 

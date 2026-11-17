@@ -8,13 +8,13 @@ if [[ "$(uname -s)" != Darwin ]]; then
 fi
 
 SOURCE_URL=https://github.com/schester44/sketchybar-toggle.git
-# Pin the tested fork revision. Update this when adopting further fork changes.
-REVISION=4ea5023
+# Builds whatever the fork's main is at install time.
+BRANCH=main
 BUILD_DIR=$(mktemp -d "${TMPDIR:-/tmp}/sketchybar-toggle.XXXXXX")
 trap 'rm -rf "$BUILD_DIR"' EXIT
 
-git clone --quiet "$SOURCE_URL" "$BUILD_DIR/source"
-git -C "$BUILD_DIR/source" checkout --quiet "$REVISION"
+git clone --quiet --depth 1 --branch "$BRANCH" "$SOURCE_URL" "$BUILD_DIR/source"
+REVISION=$(git -C "$BUILD_DIR/source" rev-parse --short HEAD)
 (
   cd "$BUILD_DIR/source"
   swift test
