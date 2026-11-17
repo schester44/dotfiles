@@ -15,8 +15,11 @@ _wt_dim() {
 
 # ─── repo helpers ─────────────────────────────────────────────────────────────
 
+# Main checkout, even when run from inside a worktree.
 _wt_repo_root() {
-  git -C . rev-parse --show-toplevel 2>/dev/null
+  local common_dir
+  common_dir="$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null)" || return 1
+  dirname "$common_dir"
 }
 
 _wt_repo_name() {
@@ -45,6 +48,8 @@ _wt_open_wezterm() {
   local session_name="$2"
 
   command -v wezterm &>/dev/null || return 0
+  # Agents (Claude, pi) run wt without a TTY; don't spawn tabs for them.
+  [[ -t 1 && -z "$WT_NO_OPEN" ]] || return 0
 
   local current_pane="$WEZTERM_PANE"
   local reuse_tab=false
@@ -652,23 +657,14 @@ _wt_delete() {
       choice=$(printf '%s\n' "${options[@]}" | gum filter --header "Delete which worktree?:" --height 15)
       [[ -z "$choice" ]] && return 0
 
-      for idx in "${!options[@]}"; do
+      local idx
+      for idx in {1..${#options[@]}}; do
         if [[ "${options[$idx]}" == "$choice" ]]; then
           worktree_path="${paths[$idx]}"
           task_name="$(basename "$worktree_path")"
           break
         fi
       done
-      # zsh 1-indexed fallback
-      if [[ -z "$worktree_path" ]]; then
-        for idx in {1..${#options[@]}}; do
-          if [[ "${options[$idx]}" == "$choice" ]]; then
-            worktree_path="${paths[$idx]}"
-            task_name="$(basename "$worktree_path")"
-            break
-          fi
-        done
-      fi
 
       if [[ -z "$worktree_path" ]]; then
         _wt_error "Could not resolve selection"

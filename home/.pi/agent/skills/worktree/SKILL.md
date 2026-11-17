@@ -1,27 +1,22 @@
 ---
 name: worktree
-description: "Manage git worktrees using the `wt` shell function. Use when the user asks to create, list, switch to, or delete worktrees, or when working on isolated branches."
+description: "Create, list, switch and delete git worktrees with the `wt` shell function. Use whenever you need a worktree or an isolated branch: always `wt new`, never raw `git worktree add`."
 ---
 
 # Git Worktree Skill (`wt`)
 
 The `wt` command is a zsh function (defined in `~/.config/zsh/functions/wt.zsh`) that wraps `git worktree` with ergonomic defaults, WezTerm integration, and per-repo setup/teardown scripts.
 
-## Important: `wt` is a shell function, not available via `bash`
+## Use `wt`, not raw `git worktree`
 
-Since `wt` is a zsh function, you **cannot** call it directly from the `bash` tool. Instead, use the underlying `git worktree` commands directly when operating programmatically:
+Always create and list worktrees with `wt`, so the branch, path, fetch and `.agents/worktree-setup.sh` run the same way every time.
 
-```bash
-# Instead of: wt new my-feature
-git worktree add -b my-feature ~/worktrees/<repo>/my-feature origin/main
+- **Claude Code:** `wt` works in the Bash tool (it runs zsh with the user's functions loaded). Call it directly: `wt new my-feature`.
+- **pi / plain `bash`:** run it through zsh: `zsh -ic 'wt new my-feature'`.
 
-# Instead of: wt list
-git worktree list
+When there's no TTY (any agent), `wt` skips opening WezTerm tabs. `wt delete` asks for confirmation, so an agent can't run it: ask the user to run `wt delete <name>`, or use the git equivalent below only when told to clean up.
 
-# Instead of: wt delete my-feature
-git worktree remove ~/worktrees/<repo>/my-feature --force
-git branch -D my-feature
-```
+The `git worktree` snippets below show what each command does. Fall back to them only if `wt` fails.
 
 ## Worktree Layout
 
@@ -166,7 +161,7 @@ When run interactively, `wt new` and `wt checkout` automatically:
 3. Open the editor (`e`) in the left pane
 4. Start `pi` in a right split pane
 
-This only applies to interactive use — when the agent creates worktrees programmatically, use `git worktree` commands directly without the WezTerm integration.
+This only happens in an interactive terminal. Set `WT_NO_OPEN=1` to skip it there too.
 
 ## Common Workflows
 
