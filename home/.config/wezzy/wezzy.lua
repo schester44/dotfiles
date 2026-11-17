@@ -2,7 +2,6 @@ local wezzy = require("wezzy")
 
 local config = wezzy.setup({
 	window = {
-		padding = { left = 10, right = 10, top = 10, bottom = 10 },
 		opacity = 0.8,
 	},
 
@@ -14,28 +13,135 @@ local config = wezzy.setup({
 
 	plugins = { "https://github.com/smart-splits-nvim/backend-wezterm" },
 
-	keys = {
-		{ "cmd+shift+a", wezzy.action.FindAgent },
-	},
-
 	workspaces = {
 		{ name = "neverwait", cwd = "~/work/neverwait" },
+		{ name = "wezzy",     cwd = "~/work/wezzy" },
 	},
 })
 
--- Cmd-d: Diffview in a new tab, working tree (incl. uncommitted) vs the merge
--- base with the upstream branch; falls back to origin's default branch when
--- there's no upstream, and to plain uncommitted changes outside of either.
-wezzy.bind("cmd+d", function(window, pane)
-	local cwd = pane:get_current_working_dir()
+wezzy.bind("cmd+shift+a", wezzy.action.FindAgent)
+
+wezzy.bind("cmd+option+v", function(window, pane)
 	window:perform_action(
-		wezzy.action.SpawnCommandInNewTab({
-			cwd = cwd and cwd.file_path or nil,
+		wezzy.action.SpawnCommandInNewPane({
+			cwd = os.getenv("HOME") .. "/Documents/vaults/primary",
 			args = {
 				os.getenv("SHELL") or "/bin/zsh",
 				"-lc",
-				[[base=$(git merge-base HEAD @{upstream} 2>/dev/null || git merge-base HEAD origin/HEAD 2>/dev/null); exec nvim -c "DiffviewOpen $base"]],
+				"exec nvim",
 			},
+		}),
+		pane
+	)
+end)
+
+-- Cmd-d: Diffview in a new tab. Asks which worktree (skipped when there's only
+-- one), then what to compare against. Diffview runs inside the picked worktree,
+-- so its uncommitted changes show and edits land there.
+local function git(dir, ...)
+	local ok, out = wezzy.wezterm.run_child_process({ "git", "-C", dir, ... })
+	return ok and out:gsub("%s+$", "") or nil
+end
+
+local function shell_quote(s)
+	return "'" .. s:gsub("'", [['\'']]) .. "'"
+end
+
+local function open_diff(window, pane, dir, cmd)
+	window:perform_action(
+		wezzy.action.SpawnCommandInNewTab({
+			cwd = dir,
+			args = { os.getenv("SHELL") or "/bin/zsh", "-lc", cmd },
+		}),
+		pane
+	)
+end
+
+-- step 2: what to compare the worktree against
+local function pick_base(window, pane, dir)
+	local branch = git(dir, "branch", "--show-current") or ""
+	local origin_default = git(dir, "rev-parse", "--abbrev-ref", "origin/HEAD") -- "origin/main"
+	local default = origin_default and origin_default:gsub("^origin/", "") or "main"
+	local upstream = git(dir, "rev-parse", "--abbrev-ref", "@{upstream}")
+
+	local choices = {}
+	local seen = {}
+	local function vs(ref)
+		if ref and not seen[ref] and ref ~= branch and git(dir, "rev-parse", "--verify", "--quiet", ref) then
+			seen[ref] = true
+			table.insert(choices, { id = "base:" .. ref, label = "Changes vs " .. ref })
+		end
+	end
+	vs(default)
+	vs(origin_default)
+	vs(upstream)
+	table.insert(choices, { id = "uncommitted", label = "Uncommitted changes" })
+	if #choices > 1 then
+		local ref = choices[1].id:gsub("^base:", "")
+		table.insert(choices, { id = "history:" .. ref, label = "Commits since " .. ref })
+	end
+
+	window:perform_action(
+		wezzy.action.InputSelector({
+			title = branch ~= "" and ("Diff " .. branch) or "Diff",
+			choices = choices,
+			action = wezzy.action_callback(function(window, pane, id)
+				if not id then
+					return
+				end
+				local kind, ref = id:match("^(%w+):?(.*)$")
+				local cmd
+				if kind == "base" then
+					cmd = "base=$(git merge-base HEAD " .. shell_quote(ref) .. ') && exec nvim -c "DiffviewOpen $base"'
+				elseif kind == "history" then
+					cmd = "base=$(git merge-base HEAD " .. shell_quote(ref) .. ') && exec nvim -c "DiffviewFileHistory --range=$base..HEAD"'
+				else
+					cmd = 'exec nvim -c "DiffviewOpen"'
+				end
+				open_diff(window, pane, dir, cmd)
+			end),
+		}),
+		pane
+	)
+end
+
+wezzy.bind("cmd+d", function(window, pane)
+	local cwd = pane:get_current_working_dir()
+	local here = cwd and cwd.file_path or wezzy.wezterm.home_dir
+	local top = git(here, "rev-parse", "--show-toplevel")
+	if not top then
+		return open_diff(window, pane, here, 'exec nvim -c "DiffviewOpen"')
+	end
+
+	-- step 1: which worktree (this one first)
+	local home = wezzy.wezterm.home_dir
+	local choices = {}
+	local path
+	for line in (git(top, "worktree", "list", "--porcelain") or ""):gmatch("[^\n]+") do
+		local p = line:match("^worktree (.+)")
+		if p then
+			path = p
+		end
+		local b = line:match("^branch refs/heads/(.+)")
+		local detached = line == "detached"
+		if path and (b or detached) then
+			local entry = { id = path, label = (b or "detached") .. "\t" .. path:gsub("^" .. home:gsub("%p", "%%%0"), "~") }
+			table.insert(choices, path == top and 1 or #choices + 1, entry)
+			path = nil
+		end
+	end
+	if #choices <= 1 then
+		return pick_base(window, pane, top)
+	end
+	window:perform_action(
+		wezzy.action.InputSelector({
+			title = "Worktree",
+			choices = choices,
+			action = wezzy.action_callback(function(window, pane, id)
+				if id then
+					pick_base(window, pane, id)
+				end
+			end),
 		}),
 		pane
 	)
