@@ -1,8 +1,8 @@
 {
-  "lastChangelogVersion": "1.0.0",
+  "lastChangelogVersion": "1.5.1",
   "hideThinkingBlock": true,
-  "defaultProvider": "anthropic",
-  "defaultModel": "claude-fable-5",
+  "defaultProvider": "openai",
+  "defaultModel": "gpt-6.1-sol",
   "defaultThinkingLevel": "medium",
   "theme": "my-theme",
   "packages": [
@@ -17,5 +17,11 @@
   "fullscreenCopyOnSelect": false,
   "showCacheMissNotices": true,
   "tuiMode": "regular",
-  "deviceId": "83b67ff0-302e-4404-9e7e-9578fa59c251"
+  "deviceId": "83b67ff0-302e-4404-9e7e-9578fa59c251",
+  "defaultProjectTrust": "always",
+  "steeringMode": "one-at-a-time",
+  "extensionChangelogVersions": {
+    "{\"source\":\"npm:pi-subagents\",\"scope\":\"user\"}": "0.87.0",
+    "{\"source\":\"npm:pi-side-chat\",\"scope\":\"user\"}": "0.4.0"
+  }
 }

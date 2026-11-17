@@ -37,3 +37,7 @@ mkdir -p "$HOME/.pi/agent"
 for item in "$HOME_SOURCE/.pi/agent"/*; do
   ln -sf "$item" "$HOME/.pi/agent/$(basename "$item")"
 done
+
+# Claude Code reads skills from ~/.claude/skills
+mkdir -p "$HOME/.claude/skills"
+ln -sfn "$HOME_SOURCE/.pi/agent/skills/worktree" "$HOME/.claude/skills/worktree"
