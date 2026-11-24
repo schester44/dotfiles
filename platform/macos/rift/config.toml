@@ -42,6 +42,21 @@ expand_single_column = true
 alignment = "center"
 focus_navigation_style = "anchored"
 
+# Three-finger swipe moves between columns; swiping past the last column
+# carries on to the next workspace.
+[settings.layout.scrolling.gestures]
+enabled = true
+fingers = 3
+propagate_to_workspace_swipe = true
+
+# Three-finger horizontal swipe switches workspaces (takes over the macOS
+# Spaces swipe).
+[settings.gestures]
+enabled = true
+fingers = 3
+consume_dock_swipe = true
+skip_empty = true
+
 [settings.layout.gaps.outer]
 top = 8
 left = 8
@@ -152,6 +167,8 @@ app_rules = [
 
 # Layout toggles
 "Alt + O" = "toggle_orientation"
+"Alt + Slash" = "toggle_orientation"
+"Alt + Backquote" = "next_window"
 "Alt + M" = "promote_to_master" # master-stack only: make focused window the master
 "Alt + Comma" = "toggle_stack"
 
