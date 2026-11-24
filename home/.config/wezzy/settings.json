@@ -1,17 +1,46 @@
 {
-  "close_confirmation": "never",
-  "agent_layout": "bsp",
+  "close_confirmation": "smart",
+  "pane_layout": "bsp",
   "default_harness": "claude",
   "editor": null,
   "show_sidebar": false,
   "sidebar": [
     "agents",
-    "servers",
-    "actions"
+    "servers"
   ],
   "sound": "Hero",
   "auto_update": true,
   "notifications": true,
   "pane_cards": true,
-  "recipes": null
+  "cursor_trail": true,
+  "pane_animations": "fade",
+  "keybinds": {
+    "find-agent": [
+      "cmd+shift+a"
+    ],
+    "new-terminal": [
+      "cmd+enter"
+    ],
+    "new-workspace": [
+      "cmd+shift+k"
+    ],
+    "split-down": [
+      "ctrl+cmd+j"
+    ],
+    "split-left": [
+      "ctrl+cmd+h"
+    ],
+    "split-right": [
+      "ctrl+cmd+l"
+    ],
+    "split-up": [
+      "ctrl+cmd+k"
+    ],
+    "swap-panes": [
+      "leader+s"
+    ],
+    "zoom-pane": [
+      "ctrl+enter"
+    ]
+  }
 }

@@ -19,9 +19,18 @@ local config = wezzy.setup({
 	},
 })
 
-wezzy.bind("cmd+shift+a", wezzy.action.FindAgent)
+-- smart-splits' keys, named for Settings → Shortcuts
+for key, dir in pairs({ h = "left", j = "down", k = "up", l = "right" }) do
+	wezzy.name("ctrl+" .. key, "Move " .. dir)
+	wezzy.name("alt+" .. key, "Resize " .. dir)
+end
 
-wezzy.bind("cmd+option+v", function(window, pane)
+-- Leader 1..9: go to that window (the numbered chips in the top bar)
+for i = 1, 9 do
+	wezzy.bind("leader+" .. i, wezzy.action.ActivateWindow(i - 1))
+end
+
+wezzy.bind("cmd+shift+m", function(window, pane)
 	window:perform_action(
 		wezzy.action.SpawnCommandInNewPane({
 			cwd = os.getenv("HOME") .. "/Documents/vaults/primary",
@@ -33,7 +42,7 @@ wezzy.bind("cmd+option+v", function(window, pane)
 		}),
 		pane
 	)
-end)
+end, "Notes vault")
 
 -- Cmd-d: Diffview in a new tab. Asks which worktree (skipped when there's only
 -- one), then what to compare against. Diffview runs inside the picked worktree,
@@ -94,7 +103,8 @@ local function pick_base(window, pane, dir)
 				if kind == "base" then
 					cmd = "base=$(git merge-base HEAD " .. shell_quote(ref) .. ') && exec nvim -c "DiffviewOpen $base"'
 				elseif kind == "history" then
-					cmd = "base=$(git merge-base HEAD " .. shell_quote(ref) .. ') && exec nvim -c "DiffviewFileHistory --range=$base..HEAD"'
+					cmd = "base=$(git merge-base HEAD " ..
+							shell_quote(ref) .. ') && exec nvim -c "DiffviewFileHistory --range=$base..HEAD"'
 				else
 					cmd = 'exec nvim -c "DiffviewOpen"'
 				end
@@ -145,6 +155,6 @@ wezzy.bind("cmd+d", function(window, pane)
 		}),
 		pane
 	)
-end)
+end, "Diffview")
 
 return config

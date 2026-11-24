@@ -42,5 +42,4 @@ install/         Linux install scripts
 bin/             scripts on PATH (sc, tunnel, kport)
 system/          colors, theme templates, package lists, fonts
 scripts/         vault-sync
-wezwork/         WezTerm agent switcher (Go)
 ```
