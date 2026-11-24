@@ -126,6 +126,9 @@ return {
     },
     -- Repeat the quote bar on wrapped lines (needs showbreak/breakindent, see ftplugin/markdown.lua)
     quote = { repeat_linebreak = true },
+    -- Wrapped table rows become tall stacks of virtual lines, and wheel-up
+    -- stalls on them (nvim 0.12.6)
+    pipe_table = { wrap = false },
     custom_handlers = {
       markdown = { extends = true, parse = color_quotes },
     },
