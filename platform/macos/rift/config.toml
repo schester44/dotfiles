@@ -57,6 +57,15 @@ fingers = 3
 consume_dock_swipe = true
 skip_empty = true
 
+[settings.ui]
+
+[settings.ui.mission_control]
+enabled = false
+
+[settings.ui.stack_line]
+spacing = 8.3
+enabled = true
+
 [settings.layout.gaps.outer]
 top = 8
 left = 8
@@ -163,6 +172,7 @@ app_rules = [
 "Alt + Equal" = { resize_window_grow = "smart" }
 "Alt + Shift + Minus" = { resize_window_by = { amount = -0.1 } }
 "Alt + Shift + Equal" = { resize_window_by = { amount = 0.1 } }
+"Alt + Ctrl + Equal" = "balance" # even out splits (bsp/traditional only)
 
 
 # Layout toggles
@@ -183,7 +193,7 @@ app_rules = [
 "Alt + Ctrl + 0" = "unjoin_windows"
 
 # Toggle floating/tiling
-"Alt + Ctrl + F" = "toggle_window_floating"
+"Alt + F" = "toggle_window_floating"
 
 # Layout pad: Alt+Space shows the picker in sketchybar, single letter picks a
 # layout, Escape cancels. Must stay below all [keys] entries (TOML scoping).

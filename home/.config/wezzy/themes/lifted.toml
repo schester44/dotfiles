@@ -1,0 +1,20 @@
+# Lifted: surfaces a step lighter than the terminal, with soft edges.
+# See midnight.toml for how colors are written.
+
+backdrop = "black / 0.22"
+divider  = "foreground / 0.08"
+
+[surface]
+background = "background + 0.07"
+border     = "foreground / 0.12"
+highlight  = "white / 0.09"
+radius     = 12
+shadow     = 0.4
+
+[field]
+background = "black / 0.22"
+border     = "foreground / 0.10"
+
+[row]
+hover    = "foreground / 0.05"
+selected = "foreground / 0.07"
