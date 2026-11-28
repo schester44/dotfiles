@@ -4,18 +4,18 @@
 -- Highlight groups (MdQuote*) are defined in grapelean/plugins/render-markdown.lua.
 local quote_colors = {
   -- tag      = { highlight group, icon }
-  red         = { 'MdQuoteRed', '󰀪' },
-  alert       = { 'MdQuoteRed', '󰀪' },
-  error       = { 'MdQuoteRed', '󱐌' },
-  yellow      = { 'MdQuoteYellow', '󰀪' },
-  warn        = { 'MdQuoteYellow', '󰀪' },
-  green       = { 'MdQuoteGreen', '󰄬' },
-  ok          = { 'MdQuoteGreen', '󰄬' },
-  blue        = { 'MdQuoteBlue', '󰋽' },
-  info        = { 'MdQuoteBlue', '󰋽' },
-  purple      = { 'MdQuotePurple', '󰌶' },
-  gray        = { 'MdQuoteGray', '󰘥' },
-  dim         = { 'MdQuoteGray', '󰘥' },
+  red    = { 'MdQuoteRed', '󰀪' },
+  alert  = { 'MdQuoteRed', '󰀪' },
+  error  = { 'MdQuoteRed', '󱐌' },
+  yellow = { 'MdQuoteYellow', '󰀪' },
+  warn   = { 'MdQuoteYellow', '󰀪' },
+  green  = { 'MdQuoteGreen', '󰄬' },
+  ok     = { 'MdQuoteGreen', '󰄬' },
+  blue   = { 'MdQuoteBlue', '󰋽' },
+  info   = { 'MdQuoteBlue', '󰋽' },
+  purple = { 'MdQuotePurple', '󰌶' },
+  gray   = { 'MdQuoteGray', '󰘥' },
+  dim    = { 'MdQuoteGray', '󰘥' },
 }
 
 -- Custom handler for quotes whose first line starts with `!tag`:
@@ -104,8 +104,8 @@ return {
       icons = { '# ', '## ', '### ', '#### ', '##### ', '###### ' },
       position = 'inline',
       width = { 'full', 'full', 'block' }, -- bg band: full-width H1/H2, snug H3+
-      border = true, -- half-block border above/below all heading levels
-      border_virtual = true, -- draw via virtual lines; no blank lines required
+      border = false,                      -- half-block border above/below all heading levels
+      border_virtual = true,               -- draw via virtual lines; no blank lines required
     },
     -- Links: default icons + styled text (colors come from the grapelean theme)
     link = {
